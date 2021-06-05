@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuthHub.BLL\AuthHub.BLL.csproj" />
+    <ProjectReference Include="..\AuthHub.Extensions\AuthHub.Extensions.csproj" />
+    <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
+    <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
+    <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Api\CommonCore.Api.csproj" />
+  </ItemGroup>
+
+</Project>
