@@ -52,6 +52,13 @@ namespace AuthHub
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthHub v1"));
             }
 
+            app.UseCors(p =>
+            {
+                p.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -1,0 +1,39 @@
+﻿@page "/organization_signup"
+
+@inject HttpClient httpClient;
+
+@using AuthHub.Models.Organizations
+@using Microsoft.Extensions.Configuration;
+@inject IConfiguration configuration;
+
+<h3>Organization SignUp</h3>
+
+<div>
+    <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+        <label>
+            Name:
+            <InputText @bind-Value="model.Name" DisplayName="Name"></InputText>
+        </label>
+        <button type="submit">Sign Up!</button>
+    </EditForm>
+</div>
+
+@code {
+    CreateOrganizationRequest model = new CreateOrganizationRequest();
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+
+            var url = configuration.GetValue<string>("AppSettings:ApiUrl") + "/api/create_organization";
+            var section = configuration.GetSection("AppSettings");
+
+            await httpClient.PostAsJsonAsync(url, model);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+}
