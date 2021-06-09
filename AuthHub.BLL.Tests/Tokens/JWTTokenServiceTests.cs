@@ -32,10 +32,11 @@ namespace AuthHub.BLL.Tests.Tokens
         public async Task CreateTokenTest()
         {
             var organizationId = Guid.Parse("98fe8d38-c783-494a-b6db-b62945530a1f");
-            var userId = Guid.Parse("a0af6040-c9a1-4bea-87ed-ecf1a7dce147");
+            string settingsName = "first";
 
             var organizationSettings = new OrganizationSettings()
             {
+                Name = settingsName,
                 ExpirationMinutes = 120,
                 HashLength = 8,
                 Key = "this is my custom Secret key for authnetication",
@@ -50,7 +51,8 @@ namespace AuthHub.BLL.Tests.Tokens
             {
                 UserName = "username",
                 OrganizationID = organizationId,
-                Password = "testpassword"
+                Password = "testpassword",
+                SettingsName = settingsName
             };
 
             var user = new User()
@@ -63,7 +65,7 @@ namespace AuthHub.BLL.Tests.Tokens
             {
                 ID = organizationId,
                 Name = "Test Organization",
-                Settings = organizationSettings,
+                Settings = new List<OrganizationSettings>() { organizationSettings },
                 Users = new List<User>()
                 {
                     user

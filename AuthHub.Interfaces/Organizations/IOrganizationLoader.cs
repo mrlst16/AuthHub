@@ -8,6 +8,7 @@ namespace AuthHub.Interfaces.Organizations
     {
         Task Create(Organization request);
         Task<Organization> Get(Guid id);
+        Task<OrganizationSettings> GetSettings(Guid organizationId, string name);
         Task<(bool, Organization)> Update(Organization request);
         Task<(bool, OrganizationSettings)> UpdateSettings(Guid organizationId, OrganizationSettings request);
     }

@@ -1,4 +1,5 @@
-﻿using AuthHub.Interfaces.Organizations;
+﻿using AuthHub.Extensions;
+using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
@@ -31,7 +32,7 @@ namespace AuthHub.BLL.Tokens
                                     .Users
                                     .FirstOrDefault(x => string.Equals(x.UserName, request.UserName, StringComparison.InvariantCultureIgnoreCase))
                                     ?.Password ?? null;
-            var organizationSettings = organization.Settings;
+            var organizationSettings = organization.GetSettings(request.SettingsName);
 
             if (!Authenticate(request, passwordRecord))
                 throw new Exception($"Username and Password are not a match for user {request.UserName} in organization {organization.ID}");
@@ -95,8 +96,9 @@ namespace AuthHub.BLL.Tokens
 
         public async Task<(byte[], byte[])> GetHash(PasswordRequest passwordRequest, Organization organization)
         {
-            var salt = GenerateSalt(organization.Settings.SaltLength);
-            return (GenerateHash(passwordRequest.Password, salt, organization.Settings.HashLength, organization.Settings.Iterations), salt);
+            var settings = organization.GetSettings(passwordRequest.SettingsName);
+            var salt = GenerateSalt(settings.SaltLength);
+            return (GenerateHash(passwordRequest.Password, salt, settings.HashLength, settings.Iterations), salt);
         }
     }
 }

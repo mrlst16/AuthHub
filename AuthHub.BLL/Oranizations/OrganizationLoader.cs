@@ -3,6 +3,7 @@ using AuthHub.Models.Organizations;
 using CommonCore.Interfaces.Repository;
 using CommonCore2.Repository.MongoDb;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Oranizations
@@ -28,6 +29,12 @@ namespace AuthHub.BLL.Oranizations
                         .Get<Organization>()
                         .First(x => x.ID == id);
 
+        public async Task<OrganizationSettings> GetSettings(Guid organizationId, string name)
+        {
+            var org = await Get(organizationId);
+            return org.Settings.FirstOrDefault(x => string.Equals(x.Name, name));
+        }
+
         public async Task<(bool, Organization)> Update(Organization request)
             => await _crudRepositoryFactory
                         .Get<Organization>()
@@ -37,9 +44,13 @@ namespace AuthHub.BLL.Oranizations
         {
             var repo = _crudRepositoryFactory.Get<Organization>();
             var org = await repo.First(x => x.ID == organizationId);
-            org.Settings = request;
+            var settings = org.Settings.FirstOrDefault(x => string.Equals(x.Name, request.Name, StringComparison.InvariantCultureIgnoreCase));
+            if (org.Settings == null)
+                return (false, request);
+
+            settings = request;
             var (success, updatedOrg) = await repo.Update(org, x => x.ID == organizationId);
-            return (success, updatedOrg.Settings);
+            return (success, settings);
         }
     }
 }

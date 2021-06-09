@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AuthHub.Extensions\AuthHub.Extensions.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="D:\Repos\CommonCore\CommonCore2\CommonCore2.csproj" />
   </ItemGroup>

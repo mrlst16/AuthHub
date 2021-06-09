@@ -9,7 +9,7 @@ namespace AuthHub.Models.Organizations
     {
         public Guid ID { get; set; }
         public string Name { get; set; }
-        public OrganizationSettings Settings { get; set; }
+        public List<OrganizationSettings> Settings { get; set; } = new List<OrganizationSettings>();
         public List<User> Users { get; set; } = new List<User>();
     }
 }

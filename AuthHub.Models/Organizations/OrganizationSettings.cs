@@ -6,6 +6,7 @@ namespace AuthHub.Models.Organizations
 {
     public class OrganizationSettings : EntityBase
     {
+        public string Name { get; set; }
         public Guid OrganizationID { get; set; }
         public TokenTypeEnum TokenType { get; set; }
         public int SaltLength { get; set; }
