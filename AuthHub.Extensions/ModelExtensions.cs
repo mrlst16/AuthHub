@@ -9,7 +9,7 @@ namespace AuthHub.Extensions
 {
     public static class ModelExtensions
     {
-        public static OrganizationSettings GetSettings(this Organization organization, string settingsName)
+        public static AuthSettings GetSettings(this Organization organization, string settingsName)
             => organization.Settings?.FirstOrDefault(x => string.Equals(x.Name, settingsName, StringComparison.InvariantCultureIgnoreCase));
     }
 }

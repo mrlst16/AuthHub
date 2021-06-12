@@ -55,19 +55,69 @@ namespace AuthHub.Controllers
             return new OkObjectResult(response);
         }
 
-        [HttpPost("update_organization_settings")]
-        public async Task<IActionResult> UpdateOrganizationSettiings(
-            [FromBody] OrganizationSettings request,
+        [HttpPost("merge_auth_settings")]
+        public async Task<IActionResult> MergeAuthSettings(
+            [FromBody] AuthSettings request,
             [FromQuery] Guid organizationId
             )
         {
-            _validatorFactory.ValidateAndThrow<OrganizationSettings>(request);
+            _validatorFactory.ValidateAndThrow<AuthSettings>(request);
             var result = await _service.UpdateSettings(organizationId, request);
-            var response = new ApiResponse<OrganizationSettings>()
+            var response = new ApiResponse<AuthSettings>()
             {
                 Data = result.Item2,
                 Sucess = result.Item1,
                 SuccessMessage = "Successfully updated organization settings"
+            };
+            return new OkObjectResult(response);
+        }
+
+        [HttpGet("get_organization")]
+        public async Task<IActionResult> GetOrganization(
+           [FromQuery] Guid organizationId
+           )
+        {
+            if (organizationId == Guid.Empty)
+                new BadRequestObjectResult(new ApiResponse<bool>()
+                {
+                    Data = false,
+                    Sucess = false,
+                    FailureMessage = "No organizationId was passed"
+                });
+
+            var result = await _service.Get(organizationId);
+
+            var response = new ApiResponse<Organization>()
+            {
+                Data = result,
+                Sucess = true,
+                SuccessMessage = "Successfully retrieved organization"
+            };
+            return new OkObjectResult(response);
+        }
+
+
+        [HttpGet("get_auth_settings")]
+        public async Task<IActionResult> GetAuthSettings(
+           [FromQuery] Guid organizationId,
+           [FromQuery] string name
+           )
+        {
+            if (organizationId == Guid.Empty || string.IsNullOrWhiteSpace(name))
+                new BadRequestObjectResult(new ApiResponse<bool>()
+                {
+                    Data = false,
+                    Sucess = false,
+                    FailureMessage = "No organizationId and/or name was passed"
+                });
+
+            var result = await _service.GetSettings(organizationId, name);
+
+            var response = new ApiResponse<AuthSettings>()
+            {
+                Data = result,
+                Sucess = true,
+                SuccessMessage = "Successfully retrieved organization"
             };
             return new OkObjectResult(response);
         }

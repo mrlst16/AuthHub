@@ -29,7 +29,7 @@ namespace AuthHub.BLL.Oranizations
                         .Get<Organization>()
                         .First(x => x.ID == id);
 
-        public async Task<OrganizationSettings> GetSettings(Guid organizationId, string name)
+        public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
         {
             var org = await Get(organizationId);
             return org.Settings.FirstOrDefault(x => string.Equals(x.Name, name));
@@ -40,7 +40,7 @@ namespace AuthHub.BLL.Oranizations
                         .Get<Organization>()
                         .Update(request, x => x.ID == request.ID);
 
-        public async Task<(bool, OrganizationSettings)> UpdateSettings(Guid organizationId, OrganizationSettings request)
+        public async Task<(bool, AuthSettings)> UpdateSettings(Guid organizationId, AuthSettings request)
         {
             var repo = _crudRepositoryFactory.Get<Organization>();
             var org = await repo.First(x => x.ID == organizationId);

@@ -34,7 +34,7 @@ namespace AuthHub.BLL.Tests.Tokens
             var organizationId = Guid.Parse("98fe8d38-c783-494a-b6db-b62945530a1f");
             string settingsName = "first";
 
-            var organizationSettings = new OrganizationSettings()
+            var organizationSettings = new AuthSettings()
             {
                 Name = settingsName,
                 ExpirationMinutes = 120,
@@ -42,7 +42,7 @@ namespace AuthHub.BLL.Tests.Tokens
                 Key = "this is my custom Secret key for authnetication",
                 Issuer = "testissuer",
                 OrganizationID = organizationId,
-                TokenType = Models.Enums.TokenTypeEnum.JWT,
+                AuthScheme = Models.Enums.AuthSchemeEnum.JWT,
                 Iterations = 10,
                 SaltLength = 8
             };
@@ -65,7 +65,7 @@ namespace AuthHub.BLL.Tests.Tokens
             {
                 ID = organizationId,
                 Name = "Test Organization",
-                Settings = new List<OrganizationSettings>() { organizationSettings },
+                Settings = new List<AuthSettings>() { organizationSettings },
                 Users = new List<User>()
                 {
                     user

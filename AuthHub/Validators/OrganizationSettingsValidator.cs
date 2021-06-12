@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace AuthHub.Validators
 {
-    public class OrganizationSettingsValidator : AbstractValidator<OrganizationSettings>
+    public class OrganizationSettingsValidator : AbstractValidator<AuthSettings>
     {
         public OrganizationSettingsValidator()
         {

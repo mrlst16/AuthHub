@@ -1,10 +1,7 @@
 ﻿@page "/organization_signup"
-
-@inject HttpClient httpClient;
-
+@using AuthHub.WebUI.Connectors
 @using AuthHub.Models.Organizations
-@using Microsoft.Extensions.Configuration;
-@inject IConfiguration configuration;
+@inject IOrganizationConnector _connector
 
 <h3>Organization SignUp</h3>
 
@@ -14,6 +11,18 @@
             Name:
             <InputText @bind-Value="model.Name" DisplayName="Name"></InputText>
         </label>
+        <label>
+            Email:
+            <InputText @bind-Value="model.Email" DisplayName="Email"></InputText>
+        </label>
+        <label>
+            Password:
+            <InputText @bind-Value="model.Password" DisplayName="Passsword"></InputText>
+        </label>
+        <label>
+            ConfirmPassword:
+            <InputText @bind-Value="model.ConfirmPassword" DisplayName="ConfirmPassword"></InputText>
+        </label>
         <button type="submit">Sign Up!</button>
     </EditForm>
 </div>
@@ -22,18 +31,5 @@
     CreateOrganizationRequest model = new CreateOrganizationRequest();
 
     private async Task HandleValidSubmit()
-    {
-        try
-        {
-
-            var url = configuration.GetValue<string>("AppSettings:ApiUrl") + "/api/create_organization";
-            var section = configuration.GetSection("AppSettings");
-
-            await httpClient.PostAsJsonAsync(url, model);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-    }
+        => await _connector.CreateOrganization(model);
 }

@@ -1,0 +1,27 @@
+﻿@using AuthHub.Models.Organizations
+@using AuthHub.WebUI.Connectors
+
+<h1>@model.Name</h1>
+
+<h3>Settings</h3>
+<ul>
+    @foreach (var settings in model?.Settings)
+    {
+        <li>
+            <a href="/organizationSettings?organizationId=@model.ID&name=@settings.Name">@settings.Name</a>
+            <span>@settings.AuthScheme.ToString()</span>
+        </li>
+    }
+</ul>
+
+
+
+@code {
+
+    private Organization model = null;
+
+    [Parameter]
+    public Guid OrganizationID { get; set; }
+
+
+}

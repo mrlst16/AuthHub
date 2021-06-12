@@ -1,6 +1,6 @@
 ﻿namespace AuthHub.Models.Enums
 {
-    public enum TokenTypeEnum
+    public enum AuthSchemeEnum
     {
         JWT = 1
     }

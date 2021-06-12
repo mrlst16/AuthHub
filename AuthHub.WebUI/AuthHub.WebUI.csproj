@@ -14,11 +14,6 @@
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Connectors\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

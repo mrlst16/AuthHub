@@ -54,7 +54,7 @@ namespace AuthHub.ServiceRegistrations
                     return (IValidator<T>)new UserRequestValidator();
                 case (Type t, int v) when t == typeof(CreateOrganizationRequest) && v == 1:
                     return (IValidator<T>)new CreateOrganizationRequestValidator(_organizationService);
-                case (Type t, int v) when t == typeof(OrganizationSettings) && v == 1:
+                case (Type t, int v) when t == typeof(AuthSettings) && v == 1:
                     return (IValidator<T>)new OrganizationSettingsValidator();
                 case (Type t, int v) when t == typeof(PasswordRequest) && v == 1:
                     return (IValidator<T>)new PasswordRequestValidator();
