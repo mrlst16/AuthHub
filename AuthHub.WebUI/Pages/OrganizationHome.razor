@@ -1,9 +1,10 @@
 ﻿@using AuthHub.Models.Organizations
 @using AuthHub.WebUI.Connectors
+@inject IOrganizationConnector _connector
 
 <h1>@model.Name</h1>
 
-<h3>Settings</h3>
+<h3>Auth Settings</h3>
 <ul>
     @foreach (var settings in model?.Settings)
     {
@@ -23,5 +24,8 @@
     [Parameter]
     public Guid OrganizationID { get; set; }
 
-
+    protected override async Task OnInitializedAsync()
+    {
+        model = await _connector.GetOrganization(OrganizationID);
+    }
 }

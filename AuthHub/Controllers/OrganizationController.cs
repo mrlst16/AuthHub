@@ -3,6 +3,7 @@ using AuthHub.Models.Organizations;
 using AuthHub.ServiceRegistrations;
 using CommonCore.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
@@ -14,14 +15,17 @@ namespace AuthHub.Controllers
     {
         private readonly IValidatorFactory _validatorFactory;
         private readonly IOrganizationService _service;
+        private readonly IConfiguration _configuration;
 
         public OrganizationController(
             IValidatorFactory validatorFactory,
-            IOrganizationService service
+            IOrganizationService service,
+            IConfiguration configuration
             )
         {
             _validatorFactory = validatorFactory;
             _service = service;
+            _configuration = configuration;
         }
 
         [HttpPost("create_organization")]

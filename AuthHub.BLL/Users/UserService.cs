@@ -23,7 +23,7 @@ namespace AuthHub.BLL.Users
                 UserName = request.UserName,
 
             };
-            return await _loader.Create(request.OrganizationID, user);
+            return await _loader.Create(request.OrganizationID, request.SettingsName, user);
         }
     }
 }

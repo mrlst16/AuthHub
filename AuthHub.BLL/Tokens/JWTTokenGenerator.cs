@@ -29,9 +29,10 @@ namespace AuthHub.BLL.Tokens
         public async Task<string> GetToken(PasswordRequest request, Organization organization)
         {
             var passwordRecord = organization
-                                    .Users
-                                    .FirstOrDefault(x => string.Equals(x.UserName, request.UserName, StringComparison.InvariantCultureIgnoreCase))
-                                    ?.Password ?? null;
+                                    .GetSettings(request.SettingsName)
+                                    ?.Users.FirstOrDefault(x => string.Equals(x.UserName, request.UserName))
+                                    ?.Password
+                                        ?? null;
             var organizationSettings = organization.GetSettings(request.SettingsName);
 
             if (!Authenticate(request, passwordRecord))

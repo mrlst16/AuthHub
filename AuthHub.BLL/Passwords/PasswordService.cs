@@ -32,14 +32,14 @@ namespace AuthHub.BLL.Passwords
             _tokenGeneratoryFactory = tokenGeneratoryFactory;
         }
 
-        public async Task<Password> Get(Guid organizationId, string username)
-            => await _loader.Get(organizationId, username);
+        public async Task<Password> Get(Guid organizationId, string authSettingsName, string username)
+            => await _loader.Get(organizationId, authSettingsName, username);
 
         public async Task<(bool, Password)> Set<T>(PasswordRequest request)
             where T : ITokenGenerator
         {
             var result = await GeneratePasswordRecord<T>(request);
-            return await _loader.Set(request.OrganizationID, result);
+            return await _loader.Set(request.OrganizationID, request.SettingsName, result);
         }
 
         private async Task<Password> GeneratePasswordRecord<T>(PasswordRequest request)

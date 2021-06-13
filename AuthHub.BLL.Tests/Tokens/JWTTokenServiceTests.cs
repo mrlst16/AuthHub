@@ -33,6 +33,13 @@ namespace AuthHub.BLL.Tests.Tokens
         {
             var organizationId = Guid.Parse("98fe8d38-c783-494a-b6db-b62945530a1f");
             string settingsName = "first";
+            string username = "username";
+
+            var user = new User()
+            {
+                Email = "tesemail@gmail.com",
+                UserName = username
+            };
 
             var organizationSettings = new AuthSettings()
             {
@@ -44,32 +51,28 @@ namespace AuthHub.BLL.Tests.Tokens
                 OrganizationID = organizationId,
                 AuthScheme = Models.Enums.AuthSchemeEnum.JWT,
                 Iterations = 10,
-                SaltLength = 8
+                SaltLength = 8,
+                Users = new List<User>()
+                {
+                    user
+                }
             };
 
             var passwordRequest = new PasswordRequest()
             {
-                UserName = "username",
+                UserName = username,
                 OrganizationID = organizationId,
                 Password = "testpassword",
                 SettingsName = settingsName
             };
 
-            var user = new User()
-            {
-                Email = "tesemail@gmail.com",
-                UserName = passwordRequest.UserName,
-            };
-
+            
             var organization = new Organization()
             {
                 ID = organizationId,
                 Name = "Test Organization",
                 Settings = new List<AuthSettings>() { organizationSettings },
-                Users = new List<User>()
-                {
-                    user
-                }
+                
             };
 
             var hashResult = await _service.GetHash(passwordRequest, organization);
@@ -80,7 +83,7 @@ namespace AuthHub.BLL.Tests.Tokens
                 {
                     new System.Security.Claims.Claim("str", "val")
                 },
-                UserName = user.UserName,
+                UserName = username,
                 Salt = hashResult.Item2,
                 PasswordHash = hashResult.Item1,
                 HashLength = organizationSettings.HashLength,

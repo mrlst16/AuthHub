@@ -1,7 +1,9 @@
-﻿using AuthHub.Interfaces.Users;
+﻿using AuthHub.Extensions;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Users;
 using CommonCore.Interfaces.Repository;
+using MongoDB.Driver;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,30 +13,27 @@ namespace AuthHub.BLL.Users
     public class UserLoader : IUserLoader
     {
         private readonly ICrudRepositoryFactory _crudRepositoryFactory;
+        private readonly IMongoDatabase _mongoDatabase;
+
         public UserLoader(
-            ICrudRepositoryFactory crudRepositoryFactory
+            ICrudRepositoryFactory crudRepositoryFactory,
+            IMongoDatabase mongoDatabase
             )
         {
             _crudRepositoryFactory = crudRepositoryFactory;
+            _mongoDatabase = mongoDatabase;
         }
 
-        public async Task<User> Get(Guid organizationId, string username)
-        {
-            var org = await _crudRepositoryFactory
-                .Get<Organization>()
-                .First(x => x.ID == organizationId);
-            return org.Users.FirstOrDefault(x => string.Equals(x.UserName, username, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        public async Task<User> Create(Guid organizationId, User user)
+        public async Task<User> Create(Guid organizationId, string authUserName, User user)
         {
             var repo = _crudRepositoryFactory.Get<Organization>();
             var org = await repo.First(x => x.ID == organizationId);
-            var existingUser = org.Users.FirstOrDefault(x => string.Equals(x.UserName, user.UserName, StringComparison.InvariantCultureIgnoreCase));
+            var existingUser = org.GetSettings(authUserName)                
+                .Users.FirstOrDefault(x => string.Equals(x.UserName, user.UserName, StringComparison.InvariantCultureIgnoreCase));
             if (existingUser != null)
                 throw new Exception($"User {user.UserName} already exists in organization {organizationId}");
 
-            org.Users.Add(user);
+            org.GetSettings(authUserName).Users.Add(user);
             var (success, organization) = await repo.Update(org, x => x.ID == organizationId);
 
             if (!success)
@@ -43,11 +42,13 @@ namespace AuthHub.BLL.Users
             return user;
         }
 
-        public async Task<User> Update(Guid organizationId, User user)
+        public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
         {
             var repo = _crudRepositoryFactory.Get<Organization>();
             var org = await repo.First(x => x.ID == organizationId);
-            var existingUser = org.Users.FirstOrDefault(x => string.Equals(x.UserName, user.UserName, StringComparison.InvariantCultureIgnoreCase));
+            var existingUser = org.GetSettings(authSettingsName)
+                .Users
+                .FirstOrDefault(x => string.Equals(x.UserName, user.UserName, StringComparison.InvariantCultureIgnoreCase));
             if (existingUser == null)
                 throw new Exception($"User {user.UserName} does not exists in organization {organizationId}");
             var (success, organization) = await repo.Update(org, x => x.ID == organizationId);
@@ -55,6 +56,15 @@ namespace AuthHub.BLL.Users
                 throw new Exception($"Unsuccessful Update");
 
             return user;
+        }
+
+        public async Task<User> Get(Guid organizationId, string authSettingsName, string username)
+        {
+            var org = await _crudRepositoryFactory
+                .Get<Organization>()
+                .First(x => x.ID == organizationId);
+            return org.GetSettings(authSettingsName)
+                .Users.FirstOrDefault(x => string.Equals(x.UserName, username, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

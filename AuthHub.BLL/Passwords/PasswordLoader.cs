@@ -1,4 +1,5 @@
-﻿using AuthHub.Interfaces.Passwords;
+﻿using AuthHub.Extensions;
+using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using CommonCore.Interfaces.Repository;
@@ -19,21 +20,23 @@ namespace AuthHub.BLL.Passwords
             _crudRepositoryFactory = crudRepositoryFactory;
         }
 
-        public async Task<(bool, Password)> Set(Guid organizationId, Password request)
+        public async Task<(bool, Password)> Set(Guid organizationId, string authSettingsname, Password request)
         {
             var repo = _crudRepositoryFactory.Get<Organization>();
             var organization = await repo.First(x => x.ID == organizationId);
-            var user = organization.Users.First(x => string.Equals(x.UserName, request.UserName));
+            var settings = organization.GetSettings(authSettingsname);
+            var user = settings.Users.First(x => string.Equals(x.UserName, request.UserName));
             user.Password = request;
             var (success, updatedOrg) = await repo.Update(organization, x => x.ID == organizationId);
             return (success, user.Password);
         }
 
-        public async Task<Password> Get(Guid organizationId, string username)
+        public async Task<Password> Get(Guid organizationId, string authSettingsname, string username)
         {
             var repo = _crudRepositoryFactory.Get<Organization>();
             var organization = await repo.First(x => x.ID == organizationId);
-            var user = organization.Users.First(x => string.Equals(x.UserName, username));
+            var settings = organization.GetSettings(authSettingsname);
+            var user = settings.Users.First(x => string.Equals(x.UserName, username));
             return user.Password;
         }
     }
