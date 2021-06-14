@@ -1,7 +1,6 @@
 ﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Organizations;
 using FluentValidation;
-using System;
 
 namespace AuthHub.Validators
 {

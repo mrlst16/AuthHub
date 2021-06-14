@@ -3,7 +3,6 @@ using AuthHub.Extensions;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Passwords;
-using AuthHub.Models.Users;
 using AuthHub.ServiceRegistrations;
 using CommonCore.Models.Responses;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,6 @@
 ﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Organizations;
 using CommonCore.Interfaces.Repository;
-using CommonCore2.Repository.MongoDb;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

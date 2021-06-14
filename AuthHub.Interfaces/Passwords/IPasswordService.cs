@@ -9,6 +9,6 @@ namespace AuthHub.Interfaces.Passwords
     {
         Task<(bool, Password)> Set<T>(PasswordRequest request)
             where T : ITokenGenerator;
-        Task<Password> Get(Guid organizationId,  string authSettingsName, string username);
+        Task<Password> Get(Guid organizationId, string authSettingsName, string username);
     }
 }

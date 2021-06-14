@@ -1,6 +1,5 @@
 ﻿using AuthHub.BLL.Tokens;
 using AuthHub.Interfaces.Organizations;
-using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
@@ -66,13 +65,12 @@ namespace AuthHub.BLL.Tests.Tokens
                 SettingsName = settingsName
             };
 
-            
+
             var organization = new Organization()
             {
                 ID = organizationId,
                 Name = "Test Organization",
                 Settings = new List<AuthSettings>() { organizationSettings },
-                
             };
 
             var hashResult = await _service.GetHash(passwordRequest, organization);

@@ -1,16 +1,9 @@
-﻿using AuthHub.BLL.Tokens;
-using AuthHub.Extensions;
+﻿using AuthHub.Extensions;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
-using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
-using AuthHub.Models.Users;
-using CommonCore2.Extensions;
 using System;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Passwords

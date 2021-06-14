@@ -1,6 +1,13 @@
-﻿using AuthHub.Interfaces.Organizations;
+﻿using AuthHub.BLL.Tokens;
+using AuthHub.Interfaces.Organizations;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
+using AuthHub.Models.Passwords;
+using AuthHub.Models.Users;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Oranizations
@@ -8,12 +15,18 @@ namespace AuthHub.BLL.Oranizations
     public class OrganizationService : IOrganizationService
     {
         private readonly IOrganizationLoader _organizationLoader;
+        private readonly IUserLoader _userLoader;
+        private readonly IAuthHubOrganizationLoader _authHubOrganizationLoader;
 
         public OrganizationService(
-            IOrganizationLoader organizationLoader
+            IOrganizationLoader organizationLoader,
+            IUserLoader userLoader,
+            IAuthHubOrganizationLoader authHubOrganizationLoader
             )
         {
             _organizationLoader = organizationLoader;
+            _userLoader = userLoader;
+            _authHubOrganizationLoader = authHubOrganizationLoader;
         }
 
         public async Task<Organization> Create(CreateOrganizationRequest request)
@@ -25,6 +38,41 @@ namespace AuthHub.BLL.Oranizations
                 Email = request.Email
             };
             await _organizationLoader.Create(org);
+            var authHubOrg = await _authHubOrganizationLoader.CreateOrGetAuthHubOrganization();
+
+            var passwordRequest = new PasswordRequest()
+            {
+                UserName = request.Name,
+                OrganizationID = authHubOrg.ID,
+                Password = request.Password,
+                SettingsName = "audder_clients"
+            };
+            var user = new User()
+            {
+                Email = request.Email,
+                Password = new Models.Passwords.Password()
+                {
+                    UserName = request.Name,
+                    HashLength = 8,
+                    Iterations = 10,
+                    Claims = new List<Claim>()
+                    {
+                        new Claim("role", "admin")
+                    }
+                },
+                UserName = request.Name
+            };
+
+            user = await _userLoader.Create(authHubOrg.ID, passwordRequest.SettingsName, user);
+
+            JWTTokenGenerator tokenGenerator = new JWTTokenGenerator();
+
+            var (passwordHash, salt) = await tokenGenerator.GetHash(passwordRequest, authHubOrg);
+            user.Password.PasswordHash = passwordHash;
+            user.Password.Salt = salt;
+
+            await _userLoader.Update(authHubOrg.ID, passwordRequest.SettingsName, user);
+
             return org;
         }
 

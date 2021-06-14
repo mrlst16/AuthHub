@@ -1,6 +1,4 @@
-﻿using AuthHub.Models.Users;
-using CommonCore.Repo.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace AuthHub.Models.Organizations

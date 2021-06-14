@@ -28,7 +28,7 @@ namespace AuthHub.BLL.Users
         {
             var repo = _crudRepositoryFactory.Get<Organization>();
             var org = await repo.First(x => x.ID == organizationId);
-            var existingUser = org.GetSettings(authUserName)                
+            var existingUser = org.GetSettings(authUserName)
                 .Users.FirstOrDefault(x => string.Equals(x.UserName, user.UserName, StringComparison.InvariantCultureIgnoreCase));
             if (existingUser != null)
                 throw new Exception($"User {user.UserName} already exists in organization {organizationId}");

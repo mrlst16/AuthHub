@@ -1,7 +1,5 @@
 ﻿using AuthHub.Models.Organizations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuthHub.WebUI.Connectors
