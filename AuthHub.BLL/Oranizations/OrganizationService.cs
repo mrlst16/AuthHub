@@ -63,7 +63,6 @@ namespace AuthHub.BLL.Oranizations
                 UserName = request.Name
             };
 
-            user = await _userLoader.Create(authHubOrg.ID, passwordRequest.SettingsName, user);
 
             JWTTokenGenerator tokenGenerator = new JWTTokenGenerator();
 
@@ -71,7 +70,7 @@ namespace AuthHub.BLL.Oranizations
             user.Password.PasswordHash = passwordHash;
             user.Password.Salt = salt;
 
-            await _userLoader.Update(authHubOrg.ID, passwordRequest.SettingsName, user);
+            user = await _userLoader.Create(authHubOrg.ID, passwordRequest.SettingsName, user);
 
             return org;
         }

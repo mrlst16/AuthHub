@@ -13,15 +13,12 @@ namespace AuthHub.BLL.Users
     public class UserLoader : IUserLoader
     {
         private readonly ICrudRepositoryFactory _crudRepositoryFactory;
-        private readonly IMongoDatabase _mongoDatabase;
 
         public UserLoader(
-            ICrudRepositoryFactory crudRepositoryFactory,
-            IMongoDatabase mongoDatabase
+            ICrudRepositoryFactory crudRepositoryFactory
             )
         {
             _crudRepositoryFactory = crudRepositoryFactory;
-            _mongoDatabase = mongoDatabase;
         }
 
         public async Task<User> Create(Guid organizationId, string authUserName, User user)
@@ -49,6 +46,7 @@ namespace AuthHub.BLL.Users
             var existingUser = org.GetSettings(authSettingsName)
                 .Users
                 .FirstOrDefault(x => string.Equals(x.UserName, user.UserName, StringComparison.InvariantCultureIgnoreCase));
+            existingUser = user;
             if (existingUser == null)
                 throw new Exception($"User {user.UserName} does not exists in organization {organizationId}");
             var (success, organization) = await repo.Update(org, x => x.ID == organizationId);

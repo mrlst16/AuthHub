@@ -15,6 +15,7 @@ namespace AuthHub.ServiceRegistrations
             services.AddTransient<IUserLoader, UserLoader>();
             services.AddTransient<IPasswordLoader, PasswordLoader>();
             services.AddTransient<IOrganizationLoader, OrganizationLoader>();
+            services.AddTransient<IAuthHubOrganizationLoader, AuthHubOrganizationLoader>();
             return services;
         }
     }
