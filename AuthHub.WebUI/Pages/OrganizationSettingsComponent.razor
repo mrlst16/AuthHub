@@ -1,4 +1,6 @@
-﻿@page  "/organizationSettings/{organizationId}/{name}"
+﻿@page  "/organizationSettings/{name}"
+@page  "/organizationSettings"
+
 @using AuthHub.Models.Organizations
 @using AuthHub.Models.Enums
 @using AuthHub.WebUI.Connectors
@@ -27,22 +29,27 @@
                 }
             </InputSelect>
         </label>
+        <br />
         <label>
             Salt Length:
             <InputNumber @bind-Value="model.SaltLength"></InputNumber>
         </label>
+        <br />
         <label>
             Hash Length:
             <InputNumber @bind-Value="model.HashLength"></InputNumber>
         </label>
+        <br />
         <label>
             Iterations:
             <InputNumber @bind-Value="model.Iterations"></InputNumber>
         </label>
+        <br />
         <label>
             Key:
             <InputText @bind-Value="model.Key"></InputText>
         </label>
+        <br />
         <label>
             Expiration in Minutes:
             <InputNumber @bind-Value="model.ExpirationMinutes"></InputNumber>
@@ -70,12 +77,10 @@
 
 @code {
 
-    AuthSettings model = null;
-    [Parameter]
-    public Guid OrganizationID { get; set; }
+    AuthSettings model = new AuthSettings();
 
     [Parameter]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     private string NewKey { get; set; }
 
@@ -83,7 +88,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        model = await _connector.GetAuthSettings(OrganizationID, Name) ?? new AuthSettings();
+        model = await _connector.GetAuthSettings(Name) ?? new AuthSettings();
 
     }
 

@@ -9,7 +9,7 @@ namespace AuthHub.Extensions
 {
     public static class StartupExtensions
     {
-        public static IServiceCollection UseAuthHubJWTAuthorization(IServiceCollection services, string key, string issuer)
+        public static IServiceCollection AddAuthHubJWTAuthentication(this IServiceCollection services, string key, string issuer)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

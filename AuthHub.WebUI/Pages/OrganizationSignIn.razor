@@ -1,0 +1,30 @@
+﻿@page "/organization_signin"
+@using AuthHub.Models.Tokens
+@using AuthHub.WebUI.Connectors
+
+@inject ITokenConnector _connector;
+
+<h3>Organization SignIn</h3>
+
+<EditForm Model="model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label>
+        Username
+        <InputText @bind-Value="model.UserName" DisplayName="UserName"></InputText>
+    </label>
+    <br />
+    <label>
+        Password
+        <InputText @bind-Value="model.Password" DisplayName="Password"></InputText>
+    </label>
+    <br />
+    <button type="submit">Sign In</button>
+</EditForm>
+@code {
+    private SignInRequest model = new SignInRequest();
+
+    private async Task HandleValidSubmit()
+        => await _connector.SignIn(model.UserName, model.Password);
+}

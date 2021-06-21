@@ -7,22 +7,29 @@
 
 <div>
     <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
         <label>
             Name:
             <InputText @bind-Value="model.Name" DisplayName="Name"></InputText>
         </label>
+        <br />
         <label>
             Email:
             <InputText @bind-Value="model.Email" DisplayName="Email"></InputText>
         </label>
+        <br />
         <label>
             Password:
             <InputText @bind-Value="model.Password" DisplayName="Passsword"></InputText>
         </label>
+        <br />
         <label>
             ConfirmPassword:
             <InputText @bind-Value="model.ConfirmPassword" DisplayName="ConfirmPassword"></InputText>
         </label>
+        <br />
         <button type="submit">Sign Up!</button>
     </EditForm>
 </div>

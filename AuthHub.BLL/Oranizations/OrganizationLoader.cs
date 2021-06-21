@@ -28,6 +28,11 @@ namespace AuthHub.BLL.Oranizations
                         .Get<Organization>()
                         .First(x => x.ID == id);
 
+        public async Task<Organization> Get(string name)
+            => await _crudRepositoryFactory
+                .Get<Organization>()
+                .First(x => x.Name == name);
+
         public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
         {
             var org = await Get(organizationId);

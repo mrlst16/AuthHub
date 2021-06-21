@@ -3,7 +3,6 @@ using AuthHub.Models.Organizations;
 using AuthHub.ServiceRegistrations;
 using CommonCore.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
@@ -15,17 +14,14 @@ namespace AuthHub.Controllers
     {
         private readonly IValidatorFactory _validatorFactory;
         private readonly IOrganizationService _service;
-        private readonly IConfiguration _configuration;
 
         public OrganizationController(
             IValidatorFactory validatorFactory,
-            IOrganizationService service,
-            IConfiguration configuration
+            IOrganizationService service
             )
         {
             _validatorFactory = validatorFactory;
             _service = service;
-            _configuration = configuration;
         }
 
         [HttpPost("create_organization")]
@@ -82,7 +78,7 @@ namespace AuthHub.Controllers
            )
         {
             if (organizationId == Guid.Empty)
-                new BadRequestObjectResult(new ApiResponse<bool>()
+                return new BadRequestObjectResult(new ApiResponse<bool>()
                 {
                     Data = false,
                     Sucess = false,
@@ -106,6 +102,31 @@ namespace AuthHub.Controllers
            [FromQuery] Guid organizationId,
            [FromQuery] string name
            )
+        {
+            if (organizationId == Guid.Empty || string.IsNullOrWhiteSpace(name))
+                new BadRequestObjectResult(new ApiResponse<bool>()
+                {
+                    Data = false,
+                    Sucess = false,
+                    FailureMessage = "No organizationId and/or name was passed"
+                });
+
+            var result = await _service.GetSettings(organizationId, name);
+
+            var response = new ApiResponse<AuthSettings>()
+            {
+                Data = result,
+                Sucess = true,
+                SuccessMessage = "Successfully retrieved organization"
+            };
+            return new OkObjectResult(response);
+        }
+
+        [HttpGet("organization_sign_in")]
+        public async Task<IActionResult> OrganizationSignIp(
+          [FromQuery] Guid organizationId,
+          [FromQuery] string name
+          )
         {
             if (organizationId == Guid.Empty || string.IsNullOrWhiteSpace(name))
                 new BadRequestObjectResult(new ApiResponse<bool>()

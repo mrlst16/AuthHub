@@ -1,5 +1,10 @@
+using AuthHub.BLL.Extensions;
+using AuthHub.Extensions;
+using AuthHub.Middleware;
 using AuthHub.Models.Organizations;
 using AuthHub.ServiceRegistrations;
+using CommonCore.Api.Handlers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -40,6 +45,17 @@ namespace AuthHub
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthHub", Version = "v1" });
             });
+
+            services.AddAuthHubJWTAuthentication(Configuration.AuthHubKey(), Configuration.AuthHubIssuer());
+
+            services.AddAuthorization(x =>
+            {
+                x.AddPolicy(JwtBearerDefaults.AuthenticationScheme, y =>
+                {
+                    y.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+                    y.AddRequirements(new JWTAuthorizationRequirement());
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +75,12 @@ namespace AuthHub
                 .AllowAnyHeader();
             });
 
+            app.Use(async (context, next) =>
+            {
+                ErrorHandlingMiddleware errorHandler = new ErrorHandlingMiddleware();
+                await errorHandler.Handle(context, next);
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -69,6 +91,7 @@ namespace AuthHub
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

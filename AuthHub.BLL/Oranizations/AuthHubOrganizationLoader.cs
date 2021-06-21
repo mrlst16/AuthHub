@@ -1,10 +1,10 @@
-﻿using AuthHub.Interfaces.Organizations;
+﻿using AuthHub.BLL.Extensions;
+using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Users;
 using CommonCore.Interfaces.Repository;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -28,9 +28,7 @@ namespace AuthHub.BLL.Oranizations
             Organization result = null;
 
             var repo = _crudRepositoryFactory.Get<Organization>();
-            var authHubOrgId = _configuration.GetValue<Guid>("AppSettings:AuthHubOrganiztionID");
-            var authHubIssuer = _configuration.GetValue<string>("AppSettings:AuthHubIssuer");
-            var authHubKey = _configuration.GetValue<string>("AppSettings:AuthHubKey");
+            var (authHubOrgId, authHubIssuer, authHubKey) = _configuration.AuthHubAuthInfo();
             result = await repo.First(x => x.ID == authHubOrgId);
             if (result != null)
                 return result;
@@ -39,7 +37,7 @@ namespace AuthHub.BLL.Oranizations
                 Email = "mrlst16@mail.rmu.edu",
                 Name = "audder",
                 ID = authHubOrgId,
-                Settings = new System.Collections.Generic.List<AuthSettings>()
+                Settings = new List<AuthSettings>()
                     {
                         new AuthSettings()
                         {

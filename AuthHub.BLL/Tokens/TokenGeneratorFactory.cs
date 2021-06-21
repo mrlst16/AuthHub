@@ -6,13 +6,13 @@ using System;
 
 namespace AuthHub.BLL.Tokens
 {
-    public class TokenServiceFactory : ITokenGeneratoryFactory
+    public class TokenGeneratorFactory : ITokenGeneratoryFactory
     {
         private readonly IPasswordLoader _passwordLoader;
         private readonly IOrganizationLoader _organizationLoader;
         private readonly IUserLoader _userLoader;
 
-        public TokenServiceFactory(
+        public TokenGeneratorFactory(
             IPasswordLoader passwordLoader,
             IOrganizationLoader organizationLoader,
             IUserLoader userLoader

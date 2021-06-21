@@ -17,6 +17,8 @@ namespace AuthHub.WebUI
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddTransient<IApiConnector, ApiConnector>();
             builder.Services.AddTransient<IOrganizationConnector, OrganizationConnector>();
+            builder.Services.AddTransient<ITokenConnector, JWTTokenConnector>();
+            builder.Services.AddTransient<ILocalStorageProvider, LocalStorageProvider>();
             await builder.Build().RunAsync();
         }
     }

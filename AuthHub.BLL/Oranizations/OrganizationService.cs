@@ -4,7 +4,6 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -63,20 +62,22 @@ namespace AuthHub.BLL.Oranizations
                 UserName = request.Name
             };
 
-
             JWTTokenGenerator tokenGenerator = new JWTTokenGenerator();
 
             var (passwordHash, salt) = await tokenGenerator.GetHash(passwordRequest, authHubOrg);
             user.Password.PasswordHash = passwordHash;
             user.Password.Salt = salt;
 
-            user = await _userLoader.Create(authHubOrg.ID, passwordRequest.SettingsName, user);
+            await _userLoader.Create(authHubOrg.ID, passwordRequest.SettingsName, user);
 
             return org;
         }
 
         public async Task<Organization> Get(Guid organizationId)
             => await _organizationLoader.Get(organizationId);
+
+        public async Task<Organization> Get(string name)
+            => await _organizationLoader.Get(name);
 
         public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
             => await _organizationLoader.GetSettings(organizationId, name);

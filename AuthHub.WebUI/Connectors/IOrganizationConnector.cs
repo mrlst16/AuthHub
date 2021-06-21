@@ -1,5 +1,4 @@
 ﻿using AuthHub.Models.Organizations;
-using System;
 using System.Threading.Tasks;
 
 namespace AuthHub.WebUI.Connectors
@@ -8,7 +7,7 @@ namespace AuthHub.WebUI.Connectors
     {
         Task<Organization> CreateOrganization(CreateOrganizationRequest request);
         Task<AuthSettings> MergeAuthSettings(AuthSettings request);
-        Task<Organization> GetOrganization(Guid organizationId);
-        Task<AuthSettings> GetAuthSettings(Guid organizationId, string name);
+        Task<Organization> GetOrganization();
+        Task<AuthSettings> GetAuthSettings(string name);
     }
 }

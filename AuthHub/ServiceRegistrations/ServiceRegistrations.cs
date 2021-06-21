@@ -17,7 +17,7 @@ namespace AuthHub.ServiceRegistrations
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IOrganizationService, OrganizationService>();
             services.AddTransient<IPasswordService, PasswordService>();
-            services.AddTransient<ITokenGeneratoryFactory, TokenServiceFactory>();
+            services.AddTransient<ITokenGeneratoryFactory, TokenGeneratorFactory>();
             return services;
         }
     }
