@@ -17,14 +17,16 @@ namespace AuthHub.BLL.Tests.Tokens
         private IOrganizationLoader _organizationLoader;
         private IUserLoader _userLoader;
 
-        private readonly JWTTokenGenerator _service;
+        private readonly JWTTokenGenerator _generator;
 
         public JWTTokenServiceTests()
         {
             _organizationLoader = Substitute.For<IOrganizationLoader>();
             _userLoader = Substitute.For<IUserLoader>();
 
-            _service = new JWTTokenGenerator();
+            _generator = new JWTTokenGenerator(
+                _organizationLoader
+                );
         }
 
         [Fact]
@@ -73,13 +75,13 @@ namespace AuthHub.BLL.Tests.Tokens
                 Settings = new List<AuthSettings>() { organizationSettings },
             };
 
-            var hashResult = await _service.GetHash(passwordRequest, organization);
+            var hashResult = await _generator.GetHash(passwordRequest, organization);
 
             var password = new Password()
             {
-                Claims = new List<System.Security.Claims.Claim>()
+                Claims = new List<SerializableClaim>()
                 {
-                    new System.Security.Claims.Claim("str", "val")
+                    new SerializableClaim("str", "val")
                 },
                 UserName = username,
                 Salt = hashResult.Item2,
@@ -93,7 +95,7 @@ namespace AuthHub.BLL.Tests.Tokens
             _organizationLoader
                 .Get(organizationId)
                 .Returns(organization);
-            var actual = await _service.GetToken(passwordRequest, organization);
+            var actual = await _generator.GetToken(passwordRequest, organization);
         }
     }
 }

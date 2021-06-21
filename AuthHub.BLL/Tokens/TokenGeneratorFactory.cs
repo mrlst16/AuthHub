@@ -28,7 +28,7 @@ namespace AuthHub.BLL.Tokens
             switch (typeof(T))
             {
                 case Type t when typeof(T) == typeof(JWTTokenGenerator):
-                    return (ITokenGenerator)new JWTTokenGenerator();
+                    return (ITokenGenerator)new JWTTokenGenerator(_organizationLoader);
                 default:
                     throw new Exception($"No service found for type {typeof(T)}");
             }

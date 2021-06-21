@@ -43,7 +43,7 @@ namespace AuthHub.WebUI.Connectors
                 var url = Url(endpoint);
 
                 if (queryParams != null)
-                    endpoint += "?" + queryParams.Select(x => $"{x.Key}={x.Value}").Aggregate((x, y) => $"{x}&{y}");
+                    url += "?" + queryParams.Select(x => $"{x.Key}={x.Value}").Aggregate((x, y) => $"{x}&{y}");
 
                 var request = new HttpRequestMessage(HttpMethod.Get, url);
 

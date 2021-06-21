@@ -80,7 +80,7 @@ namespace AuthHub.Controllers
 
             var response = new ApiResponse<Token>()
             {
-                Data = await service.GetToken(request, org),
+                Data = await service.GetToken(request, org, true),
                 SuccessMessage = "Successfully get token",
                 Sucess = true
             };

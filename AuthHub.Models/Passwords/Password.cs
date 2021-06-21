@@ -10,6 +10,16 @@ namespace AuthHub.Models.Passwords
         public byte[] Salt { get; set; }
         public int Iterations { get; set; }
         public int HashLength { get; set; }
-        public List<Claim> Claims { get; set; } = new List<Claim>();
+        public List<SerializableClaim> Claims { get; set; } = new List<SerializableClaim>();
+
+        public List<Claim> GetClaims()
+        {
+            List<Claim> result = new List<Claim>();
+            foreach (var serializableClaim in Claims)
+            {
+                result.Add(serializableClaim);
+            }
+            return result;
+        }
     }
 }

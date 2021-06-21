@@ -8,10 +8,14 @@ namespace AuthHub.Models.Tokens
         public DateTime ExpirationDate { get; set; } = DateTime.MaxValue;
         public Guid EnitityID { get; set; }
 
+        public Token()
+        {
+        }
+
         public Token(
             string value,
             Guid entityId
-            )
+            ) : this()
         {
             Value = value;
             EnitityID = entityId;

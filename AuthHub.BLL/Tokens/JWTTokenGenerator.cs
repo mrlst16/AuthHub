@@ -1,4 +1,5 @@
 ﻿using AuthHub.Extensions;
+using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
@@ -18,12 +19,15 @@ namespace AuthHub.BLL.Tokens
 {
     public class JWTTokenGenerator : ITokenGenerator
     {
+        private readonly IOrganizationLoader _organizationLoader;
         public JWTTokenGenerator(
+            IOrganizationLoader organizationLoader
             )
         {
+            _organizationLoader = organizationLoader;
         }
 
-        public async Task<Token> GetToken(PasswordRequest request, Organization organization)
+        public async Task<Token> GetToken(PasswordRequest request, Organization organization, bool forAudderClients = false)
         {
             try
             {
@@ -38,11 +42,11 @@ namespace AuthHub.BLL.Tokens
                     throw new Exception($"Username and Password are not a match for user {request.UserName} in organization {organization.ID}");
 
                 if (passwordRecord.Claims == null)
-                    passwordRecord.Claims = new List<Claim>();
-                if (passwordRecord.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name) == null)
-                    passwordRecord.Claims.Add(new Claim(ClaimTypes.Name, passwordRecord.UserName));
+                    passwordRecord.Claims = new List<SerializableClaim>();
+                if (passwordRecord.Claims.FirstOrDefault(x => x.Key == ClaimTypes.Name) == null)
+                    passwordRecord.Claims.Add(new SerializableClaim(ClaimTypes.Name, passwordRecord.UserName));
 
-                passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Type)).ToList();
+                passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.Key));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -50,13 +54,20 @@ namespace AuthHub.BLL.Tokens
                 var token = new JwtSecurityToken(
                     issuer: authSettings.Issuer,
                     audience: authSettings.Issuer,
-                    claims: passwordRecord.Claims,
+                    claims: passwordRecord.GetClaims(),
                     expires: DateTime.Now.AddMinutes(authSettings.ExpirationMinutes),
                     signingCredentials: credentials
                     );
 
+                var orgId = organization.ID;
+                if(forAudderClients)
+                {
+                    var userOrg = await _organizationLoader.Get(passwordRecord.UserName);
+                    orgId = userOrg.ID;
+                }
+
                 var val = new JwtSecurityTokenHandler().WriteToken(token);
-                return new Token(val, token.ValidTo, organization.ID);
+                return new Token(val, token.ValidTo, orgId);
             }
             catch (Exception e)
             {

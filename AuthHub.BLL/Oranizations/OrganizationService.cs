@@ -54,15 +54,15 @@ namespace AuthHub.BLL.Oranizations
                     UserName = request.Name,
                     HashLength = 8,
                     Iterations = 10,
-                    Claims = new List<Claim>()
+                    Claims = new List<SerializableClaim>()
                     {
-                        new Claim("role", "admin")
+                        new SerializableClaim("role", "admin")
                     }
                 },
                 UserName = request.Name
             };
 
-            JWTTokenGenerator tokenGenerator = new JWTTokenGenerator();
+            JWTTokenGenerator tokenGenerator = new JWTTokenGenerator(_organizationLoader);
 
             var (passwordHash, salt) = await tokenGenerator.GetHash(passwordRequest, authHubOrg);
             user.Password.PasswordHash = passwordHash;
