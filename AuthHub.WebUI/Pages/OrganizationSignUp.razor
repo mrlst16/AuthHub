@@ -9,7 +9,6 @@
     <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
-
         <label>
             Name:
             <InputText @bind-Value="model.Name" DisplayName="Name"></InputText>

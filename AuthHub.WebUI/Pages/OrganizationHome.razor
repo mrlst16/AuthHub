@@ -10,7 +10,7 @@
     @foreach (var settings in model?.Settings)
     {
         <li>
-            <a href="/organizationSettings?organizationId=@model.ID&name=@settings.Name">@settings.Name</a>
+            <a href="/organizationSettings?name=@settings.Name">@settings.Name</a>
             <span>@settings.AuthScheme.ToString()</span>
         </li>
     }
@@ -21,9 +21,6 @@
 @code {
 
     private Organization model = new Organization();
-
-    [Parameter]
-    public Guid OrganizationID { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

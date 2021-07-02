@@ -96,7 +96,6 @@ namespace AuthHub.Controllers
             return new OkObjectResult(response);
         }
 
-
         [HttpGet("get_auth_settings")]
         public async Task<IActionResult> GetAuthSettings(
            [FromQuery] Guid organizationId,
