@@ -17,7 +17,6 @@
             <InputSelect @bind-Value="model.AuthScheme">
                 @foreach (var scheme in AuthSchemes)
                 {
-                    int vale = (int)scheme;
                     if (model.AuthScheme == scheme)
                     {
                         <option selected="selected" value="@scheme.ToString()">@scheme.ToString()</option>
@@ -89,7 +88,6 @@
     protected override async Task OnInitializedAsync()
     {
         model = await _connector.GetAuthSettings(Name) ?? new AuthSettings();
-
     }
 
     protected EventCallback OnRemoveClaimsKeyClick(string key)

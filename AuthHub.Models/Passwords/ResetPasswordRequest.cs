@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 
 namespace AuthHub.Models.Passwords
 {
-    public class RequestPasswordResetRequest
+    public class ResetPasswordRequest
     {
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        public Guid OrganizationId { get; set; }
+        public string AuthSettingsName { get; set; }
+        public string UserName { get; set; }
     }
 }

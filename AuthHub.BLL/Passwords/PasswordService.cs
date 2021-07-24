@@ -3,6 +3,7 @@ using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.Users;
 using System;
 using System.Threading.Tasks;
 
@@ -27,6 +28,20 @@ namespace AuthHub.BLL.Passwords
 
         public async Task<Password> Get(Guid organizationId, string authSettingsName, string username)
             => await _loader.Get(organizationId, authSettingsName, username);
+
+        public async Task RequestOrganizationPasswordReset(UserPointer userPointer)
+        {
+            
+        }
+
+        public async Task ResetOrganizationPassword(UserPointer userPointer)
+        {
+        }
+
+        public Task ResetOrganizationPassword(UserPointer userPointer, Guid privateToken)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<(bool, Password)> Set<T>(PasswordRequest request)
             where T : ITokenGenerator
