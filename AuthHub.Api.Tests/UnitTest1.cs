@@ -10,7 +10,7 @@ namespace AuthHub.Api.Tests
         public void Test1()
         {
             UserPointer userPointer = (Guid.NewGuid(), "", "");
-            
+
         }
     }
 }

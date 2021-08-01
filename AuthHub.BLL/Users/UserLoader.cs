@@ -64,5 +64,8 @@ namespace AuthHub.BLL.Users
             return org.GetSettings(authSettingsName)
                 .Users.FirstOrDefault(x => string.Equals(x.UserName, username, StringComparison.InvariantCultureIgnoreCase));
         }
+
+        public async Task<User> Get(UserPointer userPointer)
+            => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
     }
 }

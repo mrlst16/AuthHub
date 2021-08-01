@@ -60,7 +60,7 @@ namespace AuthHub.BLL.Tokens
                     );
 
                 var orgId = organization.ID;
-                if(forAudderClients)
+                if (forAudderClients)
                 {
                     var userOrg = await _organizationLoader.Get(passwordRecord.UserName);
                     orgId = userOrg.ID;

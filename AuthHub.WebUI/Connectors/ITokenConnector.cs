@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using AuthHub.Models.Passwords;
+using System.Threading.Tasks;
 using AuthHubToken = AuthHub.Models.Tokens.Token;
 
 namespace AuthHub.WebUI.Connectors
@@ -8,5 +9,6 @@ namespace AuthHub.WebUI.Connectors
         Task<AuthHubToken> GetTokenFromLocalStorage();
         Task<AuthHubToken> GetOrganizationToken(string username, string password);
         Task<AuthHubToken> SignIn(string username, string password);
+        Task RequestPasswordReset(ResetPasswordRequest request);
     }
 }

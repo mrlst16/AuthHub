@@ -47,6 +47,7 @@ namespace AuthHub.BLL.Passwords
             var organizationsRepo = _crudRepositoryFactory.Get<Organization>();
             var organization = await organizationsRepo.First(x => x.ID == userPointer.OrganizationID);
             var authSettings = organization.GetSettings(userPointer.AuthSettingsName);
+            var user = authSettings.Users.FirstOrDefault(x => string.Equals(x.UserName, userPointer.UserName, StringComparison.InvariantCultureIgnoreCase));
 
             var result = new PasswordResetToken()
             {
@@ -54,8 +55,10 @@ namespace AuthHub.BLL.Passwords
                 OrganizationID = userPointer.OrganizationID,
                 Token = Guid.NewGuid(),
                 UserName = userPointer.UserName,
+                Email = user.Email,
                 ExpirationDate = DateTime.UtcNow.AddMinutes(authSettings.PasswordResetTokenExpirationMinutes)
             };
+
             await repo.Create(result);
             return result;
         }

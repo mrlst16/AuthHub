@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AuthHub.Controllers
 {
-    [Route("api")]
+    [Route("api/organization")]
     [ApiController]
     public class OrganizationController : Controller
     {
@@ -96,6 +96,7 @@ namespace AuthHub.Controllers
             return new OkObjectResult(response);
         }
 
+
         [HttpGet("get_auth_settings")]
         public async Task<IActionResult> GetAuthSettings(
            [FromQuery] Guid organizationId,
@@ -145,5 +146,7 @@ namespace AuthHub.Controllers
             };
             return new OkObjectResult(response);
         }
+
+
     }
 }

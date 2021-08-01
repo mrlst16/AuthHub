@@ -1,7 +1,9 @@
 ﻿using AuthHub.Extensions;
+using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using System;
@@ -14,16 +16,22 @@ namespace AuthHub.BLL.Passwords
         private readonly IPasswordLoader _loader;
         private readonly IOrganizationLoader _organizationLoader;
         private readonly ITokenGeneratoryFactory _tokenGeneratoryFactory;
+        private readonly IUserLoader _userLoader;
+        private readonly IAuthHubEmailLoader _authHubEmailLoader;
 
         public PasswordService(
             IPasswordLoader loader,
             IOrganizationLoader organizationLoader,
-            ITokenGeneratoryFactory tokenGeneratoryFactory
+            ITokenGeneratoryFactory tokenGeneratoryFactory,
+            IUserLoader userLoader,
+            IAuthHubEmailLoader authHubEmailLoader
             )
         {
             _loader = loader;
             _organizationLoader = organizationLoader;
             _tokenGeneratoryFactory = tokenGeneratoryFactory;
+            _userLoader = userLoader;
+            _authHubEmailLoader = authHubEmailLoader;
         }
 
         public async Task<Password> Get(Guid organizationId, string authSettingsName, string username)
@@ -31,16 +39,12 @@ namespace AuthHub.BLL.Passwords
 
         public async Task RequestOrganizationPasswordReset(UserPointer userPointer)
         {
-            
+            PasswordResetToken token = await _loader.GeneratePasswordResetToken(userPointer);
+            await _authHubEmailLoader.SendPasswordResetEmail(token);
         }
 
-        public async Task ResetOrganizationPassword(UserPointer userPointer)
+        public async Task ResetOrganizationPassword(UserPointer userPointer, Guid privateToken)
         {
-        }
-
-        public Task ResetOrganizationPassword(UserPointer userPointer, Guid privateToken)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<(bool, Password)> Set<T>(PasswordRequest request)

@@ -1,4 +1,5 @@
-﻿using AuthHub.Models.Tokens;
+﻿using AuthHub.Models.Passwords;
+using AuthHub.Models.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -42,7 +43,7 @@ namespace AuthHub.WebUI.Connectors
 
         public async Task<Token> SignIn(string username, string password)
         {
-            var response = await _apiConnector.Get<Token>("get_org_jwt_token", headers: new Dictionary<string, string>()
+            var response = await _apiConnector.Get<Token>("organizations/get_org_jwt_token", headers: new Dictionary<string, string>()
             {
                 {Models.Constants.AuthHubHeaders.Username , username},
                 {Models.Constants.AuthHubHeaders.Password , password}
@@ -50,6 +51,11 @@ namespace AuthHub.WebUI.Connectors
 
             await _localStorageProvider.SetItem<Token>(JWTTokenKey, response);
             return response;
+        }
+
+        public async Task RequestPasswordReset(ResetPasswordRequest request)
+        {
+            await _apiConnector.Post<ResetPasswordRequest, object>("password/request_reset", request);
         }
     }
 }

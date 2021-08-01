@@ -8,6 +8,7 @@ namespace AuthHub.Interfaces.Users
     {
         Task<User> Create(Guid organizationId, string authSettingsName, User user);
         Task<User> Get(Guid organizationId, string authSettingsName, string username);
+        Task<User> Get(UserPointer userPointer);
         Task<User> Update(Guid organizationId, string authSettingsName, User user);
     }
 }

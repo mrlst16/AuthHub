@@ -1,5 +1,6 @@
 ﻿using AuthHub.BLL.Tokens;
 using AuthHub.Interfaces.Passwords;
+using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.ServiceRegistrations;
 using CommonCore.Models.Responses;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AuthHub.Controllers
 {
-    [Route("api")]
+    [Route("api/password/")]
     public class PasswordController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;
@@ -23,7 +24,7 @@ namespace AuthHub.Controllers
             _service = service;
         }
 
-        [HttpPost("set_password")]
+        [HttpPost("set")]
         public async Task<IActionResult> SetPassword(
             [FromBody] PasswordRequest request
             )
@@ -35,6 +36,20 @@ namespace AuthHub.Controllers
                 Data = success,
                 Sucess = success,
                 SuccessMessage = "Successfully set password"
+            };
+            return new OkObjectResult(response);
+        }
+
+        [HttpPost("request_reset")]
+        public async Task<IActionResult> RequestPasswordReset(
+          [FromBody] ResetPasswordRequest request
+          )
+        {
+            await _service.RequestOrganizationPasswordReset((request.OrganizationId, request.AuthSettingsName, request.UserName));
+            var response = new ApiResponse<AuthSettings>()
+            {
+                Sucess = true,
+                SuccessMessage = "Successfully requested a password reset token to be sent to your email"
             };
             return new OkObjectResult(response);
         }
