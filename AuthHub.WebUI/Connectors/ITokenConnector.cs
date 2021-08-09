@@ -9,6 +9,6 @@ namespace AuthHub.WebUI.Connectors
         Task<AuthHubToken> GetTokenFromLocalStorage();
         Task<AuthHubToken> GetOrganizationToken(string username, string password);
         Task<AuthHubToken> SignIn(string username, string password);
-        Task RequestPasswordReset(ResetPasswordRequest request);
+        Task RequestPasswordReset(RequestPasswordResetRequest request);
     }
 }

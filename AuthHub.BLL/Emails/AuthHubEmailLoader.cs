@@ -3,6 +3,7 @@ using AuthHub.Models.Passwords;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Emails
@@ -41,7 +42,16 @@ namespace AuthHub.BLL.Emails
                     $"&organizationId={token.OrganizationID}" +
                     $"&authSettingsName={token.AuthSettingsName}";
                 var link = $"<a href=\"{url}\">Reset Password</a>";
-                client.Send(_fromEmail, token.Email, "Audder: Reset Password", link);
+
+                var message = new MailMessage(_fromEmail, token.Email)
+                {
+                    Subject = "Audder: Reset Password",
+                    Body = link
+                };
+
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+                await client.SendMailAsync(message, cancellationTokenSource.Token);
             }
         }
     }

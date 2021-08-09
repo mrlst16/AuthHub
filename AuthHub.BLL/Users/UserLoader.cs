@@ -67,5 +67,8 @@ namespace AuthHub.BLL.Users
 
         public async Task<User> Get(UserPointer userPointer)
             => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
+
+        public async Task<User> Update(UserPointer pointer, User user)
+            => await Update(pointer.OrganizationID, pointer.AuthSettingsName, user);
     }
 }

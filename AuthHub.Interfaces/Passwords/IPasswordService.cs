@@ -11,7 +11,7 @@ namespace AuthHub.Interfaces.Passwords
         Task<(bool, Password)> Set<T>(PasswordRequest request)
             where T : ITokenGenerator;
         Task<Password> Get(Guid organizationId, string authSettingsName, string username);
-        Task ResetOrganizationPassword(UserPointer userPointer, Guid privateToken);
+        Task ResetOrganizationPassword(ResetPasswordRequest request);
         Task RequestOrganizationPasswordReset(UserPointer userPointer);
     }
 }

@@ -38,7 +38,8 @@ namespace AuthHub
                 .RegisterContexts(Configuration)
                 .RegisterLoaders()
                 .RegisterServices()
-                .RegisterValidatorFactory();
+                .RegisterValidatorFactory()
+                .RegisterOthers();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

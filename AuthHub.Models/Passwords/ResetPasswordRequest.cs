@@ -1,16 +1,13 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AuthHub.Models.Passwords
 {
-    public class ResetPasswordRequest
+    public class ResetPasswordRequest : PasswordResetToken
     {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        public Guid OrganizationId { get; set; }
-        public string AuthSettingsName { get; set; }
-        [Required]
-        public string UserName { get; set; }
+        public string NewPassword { get; set; }
     }
 }

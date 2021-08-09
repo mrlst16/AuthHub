@@ -102,12 +102,6 @@ namespace AuthHub.BLL.Tokens
         private byte[] GenerateHash(string password, byte[] salt, int length, int iterations = 100)
             => GenerateHash(UTF8Encoding.UTF8.GetBytes(password), salt, length, iterations);
 
-        private (byte[], byte[]) GenerateHash(string password, int saltLength, int hashLength, int iterations = 100)
-        {
-            var salt = GenerateSalt(saltLength);
-            return (GenerateHash(password, salt, hashLength, iterations), salt);
-        }
-
         public bool Authenticate(PasswordRequest request, Password password)
         {
             var requestHash = GenerateHash(request.Password, password.Salt, password.HashLength, password.Iterations);

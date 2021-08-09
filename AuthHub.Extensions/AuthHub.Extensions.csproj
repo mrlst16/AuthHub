@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
+    <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Interfaces\CommonCore.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

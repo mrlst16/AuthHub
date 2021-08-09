@@ -53,9 +53,9 @@ namespace AuthHub.WebUI.Connectors
             return response;
         }
 
-        public async Task RequestPasswordReset(ResetPasswordRequest request)
+        public async Task RequestPasswordReset(RequestPasswordResetRequest request)
         {
-            await _apiConnector.Post<ResetPasswordRequest, object>("password/request_reset", request);
+            await _apiConnector.Post<RequestPasswordResetRequest, object>("password/request_reset", request);
         }
     }
 }

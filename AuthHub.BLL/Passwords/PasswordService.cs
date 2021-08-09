@@ -6,6 +6,7 @@ using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
+using CommonCore.Interfaces.Helpers;
 using System;
 using System.Threading.Tasks;
 
@@ -18,13 +19,15 @@ namespace AuthHub.BLL.Passwords
         private readonly ITokenGeneratoryFactory _tokenGeneratoryFactory;
         private readonly IUserLoader _userLoader;
         private readonly IAuthHubEmailLoader _authHubEmailLoader;
+        private readonly IApplicationHelper _applicationHelper;
 
         public PasswordService(
             IPasswordLoader loader,
             IOrganizationLoader organizationLoader,
             ITokenGeneratoryFactory tokenGeneratoryFactory,
             IUserLoader userLoader,
-            IAuthHubEmailLoader authHubEmailLoader
+            IAuthHubEmailLoader authHubEmailLoader,
+            IApplicationHelper applicationHelper
             )
         {
             _loader = loader;
@@ -32,6 +35,7 @@ namespace AuthHub.BLL.Passwords
             _tokenGeneratoryFactory = tokenGeneratoryFactory;
             _userLoader = userLoader;
             _authHubEmailLoader = authHubEmailLoader;
+            _applicationHelper = applicationHelper;
         }
 
         public async Task<Password> Get(Guid organizationId, string authSettingsName, string username)
@@ -43,8 +47,13 @@ namespace AuthHub.BLL.Passwords
             await _authHubEmailLoader.SendPasswordResetEmail(token);
         }
 
-        public async Task ResetOrganizationPassword(UserPointer userPointer, Guid privateToken)
+        public async Task ResetOrganizationPassword(ResetPasswordRequest request)
         {
+            await _loader.AuthenticateAndUpdateToken(request);
+            var user = await _userLoader.Get((request.OrganizationID, request.AuthSettingsName, request.UserName));
+            var newBytes = _applicationHelper.GetBytes(request.NewPassword);
+            user.Password.PasswordHash = newBytes;
+            await _userLoader.Update(request.OrganizationID, request.AuthSettingsName, user);
         }
 
         public async Task<(bool, Password)> Set<T>(PasswordRequest request)

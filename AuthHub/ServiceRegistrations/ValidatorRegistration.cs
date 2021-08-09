@@ -13,9 +13,10 @@ namespace AuthHub.ServiceRegistrations
 
     public static class ValidatorRegistrations
     {
-        public static void RegisterValidatorFactory(this IServiceCollection services)
+        public static IServiceCollection RegisterValidatorFactory(this IServiceCollection services)
         {
             services.AddTransient<IValidatorFactory, ValidatorFactory>();
+            return services;
         }
     }
 
