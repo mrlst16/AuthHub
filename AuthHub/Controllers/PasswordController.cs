@@ -64,7 +64,7 @@ namespace AuthHub.Controllers
             [FromBody] ResetPasswordRequest request
           )
         {
-            
+            await _service.ResetOrganizationPassword(request);
             var response = new ApiResponse<bool>()
             {
                 Data = true,

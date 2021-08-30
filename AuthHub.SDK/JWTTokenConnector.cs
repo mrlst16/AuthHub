@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AuthHub.WebUI.Connectors
+namespace AuthHub.SDK
 {
     public class JWTTokenConnector : ITokenConnector
     {
@@ -43,16 +43,13 @@ namespace AuthHub.WebUI.Connectors
 
         public async Task<Token> SignIn(string username, string password)
         {
-            var response = await _apiConnector.Get<Token>("token/get_org_jwt_token", headers: new Dictionary<string, string>()
+            var response = await _apiConnector.Get<Token>("organizations/get_org_jwt_token", headers: new Dictionary<string, string>()
             {
                 {Models.Constants.AuthHubHeaders.Username , username},
                 {Models.Constants.AuthHubHeaders.Password , password}
             });
-            if (!string.IsNullOrWhiteSpace(response?.Value))
-                await _localStorageProvider.SetItem<Token>(JWTTokenKey, response);
-            else
-                return null;
 
+            await _localStorageProvider.SetItem<Token>(JWTTokenKey, response);
             return response;
         }
 

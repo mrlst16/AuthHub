@@ -1,4 +1,5 @@
-﻿using AuthHub.Extensions;
+﻿using AuthHub.BLL.Extensions;
+using AuthHub.Extensions;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
@@ -7,6 +8,7 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using CommonCore.Interfaces.Helpers;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
@@ -20,6 +22,7 @@ namespace AuthHub.BLL.Passwords
         private readonly IUserLoader _userLoader;
         private readonly IAuthHubEmailLoader _authHubEmailLoader;
         private readonly IApplicationHelper _applicationHelper;
+        private readonly IConfiguration _configuration;
 
         public PasswordService(
             IPasswordLoader loader,
@@ -27,7 +30,8 @@ namespace AuthHub.BLL.Passwords
             ITokenGeneratoryFactory tokenGeneratoryFactory,
             IUserLoader userLoader,
             IAuthHubEmailLoader authHubEmailLoader,
-            IApplicationHelper applicationHelper
+            IApplicationHelper applicationHelper,
+            IConfiguration configuration
             )
         {
             _loader = loader;
@@ -36,6 +40,7 @@ namespace AuthHub.BLL.Passwords
             _userLoader = userLoader;
             _authHubEmailLoader = authHubEmailLoader;
             _applicationHelper = applicationHelper;
+            _configuration = configuration;
         }
 
         public async Task<Password> Get(Guid organizationId, string authSettingsName, string username)
@@ -43,6 +48,9 @@ namespace AuthHub.BLL.Passwords
 
         public async Task RequestOrganizationPasswordReset(UserPointer userPointer)
         {
+            var orgId = _configuration.AuthHubOrganizationId();
+            userPointer = (orgId, "audder_clients", userPointer.UserName);
+
             PasswordResetToken token = await _loader.GeneratePasswordResetToken(userPointer);
             await _authHubEmailLoader.SendPasswordResetEmail(token);
         }

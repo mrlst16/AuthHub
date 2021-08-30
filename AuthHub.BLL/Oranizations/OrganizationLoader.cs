@@ -36,7 +36,8 @@ namespace AuthHub.BLL.Oranizations
         public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
         {
             var org = await Get(organizationId);
-            return org.Settings.FirstOrDefault(x => string.Equals(x.Name, name));
+            return org.Settings
+                ?.FirstOrDefault(x => string.Equals(x?.Name, name)) ?? null;
         }
 
         public async Task<(bool, Organization)> Update(Organization request)

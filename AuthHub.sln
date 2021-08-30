@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCore.Extensions", "D:
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.WebUI", "AuthHub.WebUI\AuthHub.WebUI.csproj", "{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.SDK", "AuthHub.SDK\AuthHub.SDK.csproj", "{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

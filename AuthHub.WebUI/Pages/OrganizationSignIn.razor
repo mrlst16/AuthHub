@@ -9,7 +9,6 @@
 <EditForm Model="model" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
     <label>
         Username
         <InputText @bind-Value="model.UserName" DisplayName="UserName"></InputText>
@@ -20,13 +19,28 @@
         <InputText @bind-Value="model.Password" DisplayName="Password"></InputText>
     </label>
     <br />
+    <span hidden="@Hidden">
+        Failed to log in with the given username and password
+    </span>
+    <br />
+    @if (ShowError)
+    {
+        <span>Issue logging in</span>
+    }
     <button type="submit">Sign In</button>
 </EditForm>
 <a href="/organization_password_reset">Forgot Password</a>
 
 @code {
     private SignInRequest model = new SignInRequest();
+    private string Hidden { get; set; } = "hidden";
+    private bool ShowError { get; set; } = false;
 
     private async Task HandleValidSubmit()
-        => await _connector.SignIn(model.UserName, model.Password);
+    {
+
+        var signInResult = await _connector.SignIn(model.UserName, model.Password);
+        ShowError = signInResult == null;
+        Hidden = signInResult == null ? "hidden": "show";
+    }
 }

@@ -129,7 +129,7 @@ namespace AuthHub.Controllers
           )
         {
             if (organizationId == Guid.Empty || string.IsNullOrWhiteSpace(name))
-                new BadRequestObjectResult(new ApiResponse<bool>()
+                return new BadRequestObjectResult(new ApiResponse<bool>()
                 {
                     Data = false,
                     Sucess = false,

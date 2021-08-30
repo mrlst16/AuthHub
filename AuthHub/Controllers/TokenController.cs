@@ -13,7 +13,7 @@ using System;
 using System.Threading.Tasks;
 namespace AuthHub.Controllers
 {
-    [Route("api")]
+    [Route("api/token")]
     public class TokenController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;

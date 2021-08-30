@@ -29,9 +29,14 @@ namespace AuthHub.Extensions
             return (organization, authSettings, user);
         }
 
-        public static async Task SaveUser(this ICrudRepository<Organization> repo, UserPointer pointer, User user)
+        public static async Task<(bool, Organization)> SaveUser(this ICrudRepository<Organization> repo, UserPointer pointer, User user)
         {
             var (org, authSettings, userFromDatabase) = await repo.GetOrganizationAuthSettingsAndUser(pointer);
+            userFromDatabase = user;
+            return await repo.Update(org, x => x.ID == pointer.OrganizationID);
         }
+
+        public static async Task<(bool, Organization)> SaveUser(this ICrudRepositoryFactory factory, UserPointer pointer, User user)
+            => await SaveUser(factory.Get<Organization>(), pointer, user);
     }
 }
