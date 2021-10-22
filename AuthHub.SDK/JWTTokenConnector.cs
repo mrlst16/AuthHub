@@ -6,32 +6,22 @@ using System.Threading.Tasks;
 
 namespace AuthHub.SDK
 {
-    public class JWTTokenConnector : ITokenConnector
+    public abstract class JWTTokenConnector : ITokenConnector
     {
         private readonly IApiConnector _apiConnector;
-        private readonly ILocalStorageProvider _localStorageProvider;
 
         private const string JWTTokenKey = "audder_jwt_token";
 
-        public JWTTokenConnector(
-            IApiConnector apiConnector,
-            ILocalStorageProvider localStorageProvider
+        protected JWTTokenConnector(
+            IApiConnector apiConnector
             )
         {
             _apiConnector = apiConnector;
-            _localStorageProvider = localStorageProvider;
         }
 
-        public async Task<Token> GetTokenFromLocalStorage()
-        {
-            var token = await _localStorageProvider.GetItem<Token>(JWTTokenKey);
-            if (token?.ExpirationDate > DateTime.UtcNow
-                && token.EnitityID != Guid.Empty
-                )
-                return token;
-            else
-                return null;
-        }
+        public abstract Task<Token> GetFromStorage(string key);
+
+        protected abstract Task<Token> GetTokenFromLocalStorage();
 
         public async Task<Token> GetOrganizationToken(string username, string password)
         {
@@ -48,8 +38,6 @@ namespace AuthHub.SDK
                 {Models.Constants.AuthHubHeaders.Username , username},
                 {Models.Constants.AuthHubHeaders.Password , password}
             });
-
-            await _localStorageProvider.SetItem<Token>(JWTTokenKey, response);
             return response;
         }
 

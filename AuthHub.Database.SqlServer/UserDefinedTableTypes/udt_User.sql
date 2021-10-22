@@ -1,0 +1,9 @@
+﻿CREATE TYPE [dbo].[udt_User] AS TABLE
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [AuthSettingsId] UNIQUEIDENTIFIER NOT NULL, 
+    [FirstName] NVARCHAR(200) NOT NULL, 
+    [LastName] NVARCHAR(200) NULL, 
+    [Email] NVARCHAR(300) NOT NULL, 
+    [Username] NCHAR(100) NOT NULL
+)

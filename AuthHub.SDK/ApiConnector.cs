@@ -1,5 +1,4 @@
 ﻿using CommonCore.Models.Responses;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -18,19 +17,16 @@ namespace AuthHub.SDK
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly ILogger<ApiConnector> _logger;
-        private readonly NavigationManager _navigationManager;
 
         public ApiConnector(
             HttpClient httpClient,
             IConfiguration configuration,
-            ILogger<ApiConnector> logger,
-            NavigationManager navigationManager
+            ILogger<ApiConnector> logger
             )
         {
             _httpClient = httpClient;
             _configuration = configuration;
             _logger = logger;
-            _navigationManager = navigationManager;
         }
 
         public async Task<T> Get<T>(
@@ -71,7 +67,6 @@ namespace AuthHub.SDK
             catch (Exception e)
             {
                 _logger.LogError(e.Message, e);
-                _navigationManager.NavigateTo("/error");
             }
             return default(T);
         }
@@ -93,7 +88,8 @@ namespace AuthHub.SDK
                 }
                 else
                 {
-                    _navigationManager.NavigateTo("/error");
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"{response.StatusCode}{System.Environment.NewLine}{message}");
                 }
             }
             catch (Exception e)

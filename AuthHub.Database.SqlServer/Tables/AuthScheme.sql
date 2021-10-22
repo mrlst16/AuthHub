@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[AuthScheme]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Name] NVARCHAR(50) NOT NULL, 
+    [Value] INT NOT NULL
+)

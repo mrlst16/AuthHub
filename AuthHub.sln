@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31229.75
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub", "AuthHub\AuthHub.csproj", "{768599CD-717E-4926-8716-6748E1EA1091}"
 EndProject
@@ -33,7 +33,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCore.Extensions", "D:
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.WebUI", "AuthHub.WebUI\AuthHub.WebUI.csproj", "{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.SDK", "AuthHub.SDK\AuthHub.SDK.csproj", "{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.SDK", "AuthHub.SDK\AuthHub.SDK.csproj", "{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AuthHub.Database.SqlServer", "AuthHub.Database.SqlServer\AuthHub.Database.SqlServer.sqlproj", "{D740E6C7-BCE8-493E-9A83-F2DDC9577BBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.Database.SqlServer.Tests", "AuthHub.Database.SqlServer.Tests\AuthHub.Database.SqlServer.Tests.csproj", "{B24CEEC9-0E51-4EB5-BAB1-547E41429657}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.BLL.Sql", "AuthHub.BLL.Sql\AuthHub.BLL.Sql.csproj", "{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +107,20 @@ Global
 		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D740E6C7-BCE8-493E-9A83-F2DDC9577BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D740E6C7-BCE8-493E-9A83-F2DDC9577BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D740E6C7-BCE8-493E-9A83-F2DDC9577BBA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D740E6C7-BCE8-493E-9A83-F2DDC9577BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D740E6C7-BCE8-493E-9A83-F2DDC9577BBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D740E6C7-BCE8-493E-9A83-F2DDC9577BBA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B24CEEC9-0E51-4EB5-BAB1-547E41429657}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B24CEEC9-0E51-4EB5-BAB1-547E41429657}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B24CEEC9-0E51-4EB5-BAB1-547E41429657}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B24CEEC9-0E51-4EB5-BAB1-547E41429657}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
