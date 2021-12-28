@@ -1,4 +1,4 @@
-﻿using AuthHub.Extensions;
+﻿using AuthHub.Common.Extensions;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
@@ -6,7 +6,6 @@ using AuthHub.Models.Users;
 using CommonCore.Extensions;
 using CommonCore.Interfaces.Repository;
 using CommonCore.Models.Exceptions;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Security.Cryptography;

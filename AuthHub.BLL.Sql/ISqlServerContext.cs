@@ -11,6 +11,5 @@ namespace AuthHub.BLL.Sql
     public interface ISqlServerContext
     {
         Task<DataSet> ReadAsync(string sproc, SqlParameter[] parameters);  
-        Task<bool> ExecuteNonQuery(string sproc, SqlParameter[] parameters);
     }
 }

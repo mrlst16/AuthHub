@@ -1,5 +1,5 @@
-﻿using AuthHub.BLL.Extensions;
-using AuthHub.Extensions;
+﻿using AuthHub.BLL.Common.Extensions;
+using AuthHub.Common.Extensions;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;

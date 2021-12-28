@@ -1,5 +1,5 @@
-using AuthHub.BLL.Extensions;
-using AuthHub.Extensions;
+using AuthHub.BLL.Common.Extensions;
+using AuthHub.Common.Extensions;
 using AuthHub.Middleware;
 using AuthHub.Models.Organizations;
 using AuthHub.ServiceRegistrations;

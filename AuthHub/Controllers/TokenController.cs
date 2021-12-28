@@ -1,6 +1,5 @@
-﻿using AuthHub.BLL.Extensions;
-using AuthHub.BLL.Tokens;
-using AuthHub.Extensions;
+﻿using AuthHub.BLL.Tokens;
+using AuthHub.BLL.Common.Extensions;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Passwords;
@@ -11,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
+using AuthHub.Common.Extensions;
+
 namespace AuthHub.Controllers
 {
     [Route("api/token")]
@@ -18,19 +19,19 @@ namespace AuthHub.Controllers
     {
         private readonly IValidatorFactory _validatorFactory;
         private readonly ITokenGeneratoryFactory _tokenServiceFactory;
-        private readonly IOrganizationLoader _organizationLoader;
+        private readonly IOrganizationService _service;
         private readonly IConfiguration _configuration;
 
         public TokenController(
             IValidatorFactory validatorFactory,
             ITokenGeneratoryFactory tokenServiceFactory,
-            IOrganizationLoader organizationLoader,
+            IOrganizationService service,
             IConfiguration configuration
             )
         {
             _validatorFactory = validatorFactory;
             _tokenServiceFactory = tokenServiceFactory;
-            _organizationLoader = organizationLoader;
+            _service = service;
             _configuration = configuration;
         }
 
@@ -47,7 +48,7 @@ namespace AuthHub.Controllers
                 UserName = username,
                 Password = password
             };
-            var org = await _organizationLoader.Get(organizationId);
+            var org = await _service.Get(organizationId);
             var service = _tokenServiceFactory.Get<JWTTokenGenerator>();
 
             _validatorFactory.ValidateAndThrow<PasswordRequest>(request);
@@ -73,7 +74,7 @@ namespace AuthHub.Controllers
                 Password = password,
                 SettingsName = "audder_clients"
             };
-            var org = await _organizationLoader.Get(organizationId);
+            var org = await _service.Get(organizationId);
             var service = _tokenServiceFactory.Get<JWTTokenGenerator>();
 
             _validatorFactory.ValidateAndThrow<PasswordRequest>(request);

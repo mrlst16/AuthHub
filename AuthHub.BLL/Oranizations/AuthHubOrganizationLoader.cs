@@ -1,4 +1,4 @@
-﻿using AuthHub.BLL.Extensions;
+﻿using AuthHub.BLL.Common.Extensions;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;

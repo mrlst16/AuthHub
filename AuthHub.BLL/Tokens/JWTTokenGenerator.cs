@@ -1,4 +1,4 @@
-﻿using AuthHub.Extensions;
+﻿using AuthHub.Common.Extensions;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Organizations;
