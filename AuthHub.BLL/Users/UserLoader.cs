@@ -1,74 +1,35 @@
-﻿using AuthHub.Common.Extensions;
-using AuthHub.Interfaces.Users;
-using AuthHub.Models.Organizations;
+﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
-using CommonCore.Interfaces.Repository;
-using MongoDB.Driver;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Users
 {
     public class UserLoader : IUserLoader
     {
-        private readonly ICrudRepositoryFactory _crudRepositoryFactory;
+
+        private readonly IUserContext _userContext;
 
         public UserLoader(
-            ICrudRepositoryFactory crudRepositoryFactory
+            IUserContext userContext
             )
         {
-            _crudRepositoryFactory = crudRepositoryFactory;
+            _userContext = userContext;
         }
 
-        public async Task<User> Create(Guid organizationId, string authUserName, User user)
-        {
-            var repo = _crudRepositoryFactory.Get<Organization>();
-            var org = await repo.First(x => x.ID == organizationId);
-            var existingUser = org.GetSettings(authUserName)
-                .Users.FirstOrDefault(x => string.Equals(x.UserName, user.UserName, StringComparison.InvariantCultureIgnoreCase));
-            if (existingUser != null)
-                throw new Exception($"User {user.UserName} already exists in organization {organizationId}");
-
-            org.GetSettings(authUserName).Users.Add(user);
-            var (success, organization) = await repo.Update(org, x => x.ID == organizationId);
-
-            if (!success)
-                throw new Exception($"Unsuccessful Update");
-
-            return user;
-        }
-
-        public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
-        {
-            var repo = _crudRepositoryFactory.Get<Organization>();
-            var org = await repo.First(x => x.ID == organizationId);
-            var existingUser = org.GetSettings(authSettingsName)
-                .Users
-                .FirstOrDefault(x => string.Equals(x.UserName, user.UserName, StringComparison.InvariantCultureIgnoreCase));
-            existingUser = user;
-            if (existingUser == null)
-                throw new Exception($"User {user.UserName} does not exists in organization {organizationId}");
-            var (success, organization) = await repo.Update(org, x => x.ID == organizationId);
-            if (!success)
-                throw new Exception($"Unsuccessful Update");
-
-            return user;
-        }
+        public async Task<User> Create(Guid organizationId, string authSettingsName, User user)
+            => await _userContext.Create(organizationId, authSettingsName, user);
 
         public async Task<User> Get(Guid organizationId, string authSettingsName, string username)
-        {
-            var org = await _crudRepositoryFactory
-                .Get<Organization>()
-                .First(x => x.ID == organizationId);
-            return org.GetSettings(authSettingsName)
-                .Users.FirstOrDefault(x => string.Equals(x.UserName, username, StringComparison.InvariantCultureIgnoreCase));
-        }
+            => await _userContext.Get(organizationId, authSettingsName, username);
 
         public async Task<User> Get(UserPointer userPointer)
-            => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
+            => await _userContext.Get(userPointer);
+
+        public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
+            => await _userContext.Update(organizationId, authSettingsName, user);
 
         public async Task<User> Update(UserPointer pointer, User user)
-            => await Update(pointer.OrganizationID, pointer.AuthSettingsName, user);
+            => await _userContext.Update(pointer, user);
     }
 }

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuthHub.BLL.Common\AuthHub.BLL.Common.csproj" />
+    <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
+    <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Extensions\CommonCore.Extensions.csproj" />
+    <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Interfaces\CommonCore.Interfaces.csproj" />
+    <ProjectReference Include="D:\Repos\CommonCore\CommonCore2\CommonCore2.csproj" />
+  </ItemGroup>
+
+</Project>

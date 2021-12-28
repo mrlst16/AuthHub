@@ -5,10 +5,8 @@ using AuthHub.Models.Organizations;
 using AuthHub.Models.Users;
 using CommonCore.Interfaces.Repository;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace AuthHub.BLL.Oranizations
+namespace AuthHub.BLL.Common.Oranizations
 {
     public class AuthHubOrganizationLoader : IAuthHubOrganizationLoader
     {

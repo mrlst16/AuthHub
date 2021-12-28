@@ -37,9 +37,11 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AuthHub.Database.SqlServer"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.Database.SqlServer.Tests", "AuthHub.Database.SqlServer.Tests\AuthHub.Database.SqlServer.Tests.csproj", "{B24CEEC9-0E51-4EB5-BAB1-547E41429657}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.BLL.Sql", "AuthHub.BLL.Sql\AuthHub.BLL.Sql.csproj", "{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.BLL.Common", "AuthHub.BLL.Common\AuthHub.BLL.Common.csproj", "{88B6F130-398F-420A-A298-33DFADF0C779}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.DAL.Mongo", "AuthHub.DAL.Mongo\AuthHub.DAL.Mongo.csproj", "{4C3C3899-31FB-407D-BDD2-422563ADBC7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.DAL.Sql", "AuthHub.DAL.Sql\AuthHub.DAL.Sql.csproj", "{B9E11168-A397-468D-9D3A-45F5A7EF427E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,14 +115,18 @@ Global
 		{B24CEEC9-0E51-4EB5-BAB1-547E41429657}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B24CEEC9-0E51-4EB5-BAB1-547E41429657}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B24CEEC9-0E51-4EB5-BAB1-547E41429657}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67A4FB10-41C8-4933-BA7C-EC69E5166A4E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{88B6F130-398F-420A-A298-33DFADF0C779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88B6F130-398F-420A-A298-33DFADF0C779}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88B6F130-398F-420A-A298-33DFADF0C779}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88B6F130-398F-420A-A298-33DFADF0C779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C3C3899-31FB-407D-BDD2-422563ADBC7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C3C3899-31FB-407D-BDD2-422563ADBC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C3C3899-31FB-407D-BDD2-422563ADBC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C3C3899-31FB-407D-BDD2-422563ADBC7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9E11168-A397-468D-9D3A-45F5A7EF427E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9E11168-A397-468D-9D3A-45F5A7EF427E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9E11168-A397-468D-9D3A-45F5A7EF427E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9E11168-A397-468D-9D3A-45F5A7EF427E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

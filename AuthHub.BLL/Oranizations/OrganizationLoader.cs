@@ -1,61 +1,37 @@
 ﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Organizations;
-using CommonCore.Interfaces.Repository;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Oranizations
 {
     public class OrganizationLoader : IOrganizationLoader
     {
-        private readonly ICrudRepositoryFactory _crudRepositoryFactory;
+        private readonly IOrganizationContext _organizationContext;
 
         public OrganizationLoader(
-            ICrudRepositoryFactory crudRepositoryFactory
+            IOrganizationContext organizationContext
             )
         {
-            _crudRepositoryFactory = crudRepositoryFactory;
+            _organizationContext = organizationContext;
         }
 
         public async Task Create(Organization request)
-            => await _crudRepositoryFactory
-                        .Get<Organization>()
-                        .Create(request);
+            => await _organizationContext.Create(request);
 
         public async Task<Organization> Get(Guid id)
-            => await _crudRepositoryFactory
-                        .Get<Organization>()
-                        .First(x => x.ID == id);
+            => await _organizationContext.Get(id);
 
         public async Task<Organization> Get(string name)
-            => await _crudRepositoryFactory
-                .Get<Organization>()
-                .First(x => x.Name == name);
+            => await _organizationContext.Get(name);
 
         public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
-        {
-            var org = await Get(organizationId);
-            return org.Settings
-                ?.FirstOrDefault(x => string.Equals(x?.Name, name)) ?? null;
-        }
+            => await _organizationContext.GetSettings(organizationId, name);
 
         public async Task<(bool, Organization)> Update(Organization request)
-            => await _crudRepositoryFactory
-                        .Get<Organization>()
-                        .Update(request, x => x.ID == request.ID);
+            => await _organizationContext.Update(request);
 
         public async Task<(bool, AuthSettings)> UpdateSettings(Guid organizationId, AuthSettings request)
-        {
-            var repo = _crudRepositoryFactory.Get<Organization>();
-            var org = await repo.First(x => x.ID == organizationId);
-            var settings = org.Settings.FirstOrDefault(x => string.Equals(x.Name, request.Name, StringComparison.InvariantCultureIgnoreCase));
-            if (org.Settings == null)
-                return (false, request);
-
-            settings = request;
-            var (success, updatedOrg) = await repo.Update(org, x => x.ID == organizationId);
-            return (success, settings);
-        }
+            => await _organizationContext.UpdateSettings(organizationId, request);
     }
 }

@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace AuthHub.BLL.Sql
+namespace AuthHub.DAL.Sql
 {
     public class SqlServerContext : ISqlServerContext
     {
@@ -26,7 +26,6 @@ namespace AuthHub.BLL.Sql
                 await connection.OpenAsync();
                 SqlCommand command = new SqlCommand(sproc, connection);
                 sqlDataAdapter.SelectCommand = command;
-
                 sqlDataAdapter.Fill(result);
             }
             return result;
