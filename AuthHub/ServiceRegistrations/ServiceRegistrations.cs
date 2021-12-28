@@ -1,6 +1,6 @@
-﻿using AuthHub.BLL.Oranizations;
+﻿using AuthHub.BLL.Common.Tokens;
+using AuthHub.BLL.Oranizations;
 using AuthHub.BLL.Passwords;
-using AuthHub.BLL.Tokens;
 using AuthHub.BLL.Users;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;

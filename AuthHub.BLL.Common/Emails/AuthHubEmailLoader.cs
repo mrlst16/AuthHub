@@ -4,10 +4,8 @@ using CommonCore.Interfaces.Helpers;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace AuthHub.BLL.Emails
+namespace AuthHub.BLL.Common.Emails
 {
     public class AuthHubEmailLoader : IAuthHubEmailLoader
     {

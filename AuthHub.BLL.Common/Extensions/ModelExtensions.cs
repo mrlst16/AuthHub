@@ -1,6 +1,4 @@
 ﻿using AuthHub.Models.Organizations;
-using System;
-using System.Linq;
 
 namespace AuthHub.Common.Extensions
 {

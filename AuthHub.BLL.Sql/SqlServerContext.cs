@@ -26,7 +26,7 @@ namespace AuthHub.BLL.Sql
                 await connection.OpenAsync();
                 SqlCommand command = new SqlCommand(sproc, connection);
                 sqlDataAdapter.SelectCommand = command;
-                
+
                 sqlDataAdapter.Fill(result);
             }
             return result;

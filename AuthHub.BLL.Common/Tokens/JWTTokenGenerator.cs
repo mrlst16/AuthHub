@@ -6,16 +6,12 @@ using AuthHub.Models.Passwords;
 using AuthHub.Models.Tokens;
 using CommonCore2.Extensions;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AuthHub.BLL.Tokens
+namespace AuthHub.BLL.Common.Tokens
 {
     public class JWTTokenGenerator : ITokenGenerator
     {

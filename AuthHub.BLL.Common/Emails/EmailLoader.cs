@@ -1,8 +1,7 @@
 ﻿using AuthHub.Interfaces.Emails;
 using System.Net.Mail;
-using System.Threading.Tasks;
 
-namespace AuthHub.BLL.Emails
+namespace AuthHub.BLL.Common.Emails
 {
     public class EmailLoader : IEmailLoader
     {

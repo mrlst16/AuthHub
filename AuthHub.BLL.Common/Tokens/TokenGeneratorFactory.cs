@@ -2,9 +2,8 @@
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
-using System;
 
-namespace AuthHub.BLL.Tokens
+namespace AuthHub.BLL.Common.Tokens
 {
     public class TokenGeneratorFactory : ITokenGeneratoryFactory
     {

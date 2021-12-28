@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -16,8 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
     <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Interfaces\CommonCore.Interfaces.csproj" />
+    <ProjectReference Include="D:\Repos\CommonCore\CommonCore2\CommonCore2.csproj" />
   </ItemGroup>
 
 </Project>

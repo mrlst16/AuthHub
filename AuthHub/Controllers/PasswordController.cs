@@ -1,7 +1,5 @@
-﻿using AuthHub.BLL.Tokens;
+﻿using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Passwords;
-using AuthHub.Models.Constants;
-using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.ServiceRegistrations;
 using CommonCore.Models.Responses;

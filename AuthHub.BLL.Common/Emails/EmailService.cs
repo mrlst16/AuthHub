@@ -1,8 +1,7 @@
 ﻿using AuthHub.Interfaces.Emails;
 using AuthHub.Models.Users;
-using System.Threading.Tasks;
 
-namespace AuthHub.BLL.Emails
+namespace AuthHub.BLL.Common.Emails
 {
     public class EmailService : IEmailService
     {

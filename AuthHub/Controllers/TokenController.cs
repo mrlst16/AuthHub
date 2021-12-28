@@ -1,5 +1,6 @@
-﻿using AuthHub.BLL.Tokens;
-using AuthHub.BLL.Common.Extensions;
+﻿using AuthHub.BLL.Common.Extensions;
+using AuthHub.BLL.Common.Tokens;
+using AuthHub.Common.Extensions;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Passwords;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
-using AuthHub.Common.Extensions;
 
 namespace AuthHub.Controllers
 {
