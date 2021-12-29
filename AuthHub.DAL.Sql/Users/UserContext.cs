@@ -2,6 +2,8 @@
 using AuthHub.Models.Users;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,29 +12,90 @@ namespace AuthHub.DAL.Sql.Users
 {
     public class UserContext : IUserContext
     {
-        public Task<User> Create(Guid organizationId, string authSettingsName, User user)
+        private readonly ISqlServerContext _context;
+
+        public UserContext(
+            ISqlServerContext context
+            )
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<User> Get(Guid organizationId, string authSettingsName, string username)
+        public async Task<User> Create(Guid organizationId, string authSettingsName, User user)
+            => await Update(organizationId, authSettingsName, user);
+
+        public async Task<User> Get(Guid organizationId, string authSettingsName, string username)
         {
-            throw new NotImplementedException();
+            SqlParameter[] parameters = new SqlParameter[] { };
+            var dataSet = await _context.ExecuteSproc(SprocNames.GetUser, parameters);
+            return MapUser(dataSet);
         }
 
-        public Task<User> Get(UserPointer userPointer)
+        public async Task<User> Get(UserPointer userPointer)
+            => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
+
+        public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
         {
-            throw new NotImplementedException();
+            SqlParameter[] parameters = new SqlParameter[] {
+                CreateUdtUser(organizationId, authSettingsName, user)
+            };
+
+            var dataSet = await _context.ExecuteSproc(SprocNames.SaveUser, parameters);
+            if(dataSet.HasDataForTable(0, out DataTable table))
+            {
+                var row = table.Rows[0];
+                user.ID = row.Field<Guid>("Id");
+            }
+            return user;
         }
 
-        public Task<User> Update(Guid organizationId, string authSettingsName, User user)
+        public async Task<User> Update(UserPointer pointer, User user)
+            => await Update(pointer.OrganizationID, pointer.AuthSettingsName, user);
+        #region Mappings
+        private SqlParameter CreateUdtUser(Guid organizationId, string authSettingsName, User user)
         {
-            throw new NotImplementedException();
+            DataTable val = new();
+            val.Columns.Add("Id", typeof(Guid));
+            val.Columns.Add("AuthSettingsId", typeof(string));
+            val.Columns.Add("FirstName", typeof(string));
+            val.Columns.Add("LastName", typeof(string));
+            val.Columns.Add("Email", typeof(string));
+            val.Columns.Add("Username", typeof(string));
+
+            var row = val.NewRow();
+            row["Id"] = user.ID;
+            row["AuthSettingsId"] = authSettingsName;
+            row["FirstName"] = user.FirstName;
+            row["LastName"] = user.LastName;
+            row["Username"] = user.UserName;
+
+            val.Rows.Add(row);
+
+            return new SqlParameter("@request", SqlDbType.Structured)
+            {
+                TypeName = "udt_User",
+                Value = val
+            };
         }
 
-        public Task<User> Update(UserPointer pointer, User user)
+        private User MapUser(DataSet dataSet)
         {
-            throw new NotImplementedException();
+            User result = null;
+            if (dataSet.HasDataForTable(0, out DataTable table))
+            {
+                var row = table.Rows[0];
+                result = new User()
+                {
+                    ID = row.Field<Guid>("ID"),
+                    FirstName = row.Field<string>("FirstName"),
+                    LastName = row.Field<string>("LastName"),
+                    Email = row.Field<string>("Email"),
+                    UserName = row.Field<string>("UserName")
+                };
+            }
+            return result;
         }
+
+        #endregion
     }
 }

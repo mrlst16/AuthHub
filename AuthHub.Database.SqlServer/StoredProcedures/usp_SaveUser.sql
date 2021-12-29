@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[usp_SaveUser]
-	@request udt_User readonly
+	@request udt_User readonly,
+	@organizationId uniqueidentifier
 AS
 Begin Transaction
 Begin Try

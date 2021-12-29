@@ -16,7 +16,7 @@ namespace AuthHub.DAL.Sql
             _config = config;
         }
 
-        public async Task<DataSet> ReadAsync(string sproc, SqlParameter[] parameters)
+        public async Task<DataSet> ExecuteSproc(string sproc, SqlParameter[] parameters)
         {
             DataSet result = new();
             string connectionString = _config.GetConnectionString("sql");

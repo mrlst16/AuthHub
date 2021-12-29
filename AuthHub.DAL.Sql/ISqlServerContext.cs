@@ -5,6 +5,6 @@ namespace AuthHub.DAL.Sql
 {
     public interface ISqlServerContext
     {
-        Task<DataSet> ReadAsync(string sproc, SqlParameter[] parameters);
+        Task<DataSet> ExecuteSproc(string sproc, SqlParameter[] parameters);
     }
 }

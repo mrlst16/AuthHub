@@ -20,8 +20,7 @@ namespace AuthHub.BLL.Users
             var user = new User()
             {
                 Email = request.Email,
-                UserName = request.UserName,
-
+                UserName = request.UserName
             };
             return await _loader.Create(request.OrganizationID, request.SettingsName, user);
         }
