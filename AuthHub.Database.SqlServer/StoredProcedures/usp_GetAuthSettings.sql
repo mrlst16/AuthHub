@@ -3,6 +3,7 @@
 	@OrganizationId uniqueidentifier,
 	@Name nvarchar(200)
 AS
+Begin Transaction
 Begin Try
 
 	select top 1 *
@@ -14,6 +15,7 @@ Begin Try
 	order by CreatedUTC
 End Try
 Begin Catch
+	Rollback Transaction
 	SELECT
 		ERROR_NUMBER() AS ErrorNumber,
 		ERROR_STATE() AS ErrorState,
@@ -22,3 +24,4 @@ Begin Catch
 		ERROR_LINE() AS ErrorLine,
 		ERROR_MESSAGE() AS ErrorMessage;
 End Catch
+Commit Transaction

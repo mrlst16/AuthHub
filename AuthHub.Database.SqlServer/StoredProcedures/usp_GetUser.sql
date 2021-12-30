@@ -1,10 +1,38 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetUser]
-	@Id uniqueidentifier
+	@Id uniqueidentifier,
+	@organizationId uniqueidentifier,
+	@authSettingsName nvarchar(200),
+	@userName nvarchar(200)
 AS
 	Begin Try
-	select * from [User](nolock)
+
+	declare @authSettingsId uniqueidentifier
+	if @Id is null
+	Begin
+		select
+			@authSettingsId = ID
+		from AuthSettings (nolock)
+		where FK_Organization = @organizationId
+		and Name = @authSettingsName
+		and DeletedUTC is null
+
+		select 
+			@Id = ID
+		from [User](nolock)
+		where FK_AuthSettings = @authSettingsId
+		and Username = @userName
+		and DeletedUTC is null
+	End
+	
+	select * 
+	from [User](nolock)
 	where Id = @Id
-	and DeletedUTC is not null
+	and DeletedUTC is null
+
+	select *
+	from [Password] (nolock) p
+	where p.FK_User = @Id
+	and DeletedUTC is null
 
 	End Try
 	Begin Catch

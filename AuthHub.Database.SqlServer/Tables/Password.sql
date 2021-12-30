@@ -6,6 +6,7 @@
     [PasswordHash] VARBINARY(MAX) NOT NULL, 
     [Salt] VARBINARY(MAX) NOT NULL, 
     [HashLength] INT NOT NULL, 
+    [Iterations] INT NOT NULL default 0, 
     [CreatedUTC] DATETIME NOT NULL default getutcdate(), 
     [ModifiedUTC] DATETIME NOT NULL default getutcdate(), 
     [DeletedUTC] DATETIME NULL, 

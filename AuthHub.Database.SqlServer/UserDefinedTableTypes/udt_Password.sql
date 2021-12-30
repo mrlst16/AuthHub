@@ -5,5 +5,6 @@
     [UserName] NCHAR(200) NOT NULL, 
     [PasswordHash] VARBINARY(MAX) NOT NULL, 
     [Salt] VARBINARY(MAX) NOT NULL, 
-    [HashLength] INT NOT NULL
+    [HashLength] INT NOT NULL,
+    [Iterations] INT NOT NULL default 0
 )

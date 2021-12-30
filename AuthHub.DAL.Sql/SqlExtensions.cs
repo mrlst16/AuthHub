@@ -9,7 +9,7 @@ namespace AuthHub.DAL.Sql
 {
     internal static class SqlExtensions
     {
-        internal static bool HasDataForTable(this DataSet dataSet, int index, out DataTable dataTable)
+        internal static bool HasDataForTable(this DataSet dataSet, int index, out DataTable? dataTable)
         {
             if (dataSet != null
                 && dataSet.Tables != null
@@ -21,18 +21,24 @@ namespace AuthHub.DAL.Sql
                 return true;
             }
 
-            dataTable = new DataTable();
+            dataTable = null;
             return false;
         }
 
-        internal static bool HasDataForTable(this DataSet dataSet, int index, out DataRow row, int rowIndex = 0)
+        internal static bool HasDataForRow(this DataTable table, int index, out DataRow? dataRow)
         {
-            if(dataSet.HasDataForTable(index, out DataTable table))
+            if (table != null
+                && table.Rows != null
+                && table.Rows.Count > 0
+                && table.Rows.Count < index
+                && table.Rows[index] != null
+                )
             {
-                row = table.Rows[rowIndex];
+                dataRow = table.Rows[index];
+                return true;
             }
-            row = null;
+            dataRow = null;
             return false;
         }
     }
-}
+} 

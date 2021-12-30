@@ -1,4 +1,5 @@
-﻿using AuthHub.Interfaces.Users;
+﻿using AuthHub.DAL.Sql.Mappers;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,15 @@ namespace AuthHub.DAL.Sql.Users
     public class UserContext : IUserContext
     {
         private readonly ISqlServerContext _context;
+        private readonly IDataSetMapper _mapper;
 
         public UserContext(
-            ISqlServerContext context
+            ISqlServerContext context,
+            IDataSetMapper mapper
             )
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<User> Create(Guid organizationId, string authSettingsName, User user)
@@ -26,9 +30,18 @@ namespace AuthHub.DAL.Sql.Users
 
         public async Task<User> Get(Guid organizationId, string authSettingsName, string username)
         {
-            SqlParameter[] parameters = new SqlParameter[] { };
+            var result = new User();
+            SqlParameter[] parameters = new SqlParameter[] {
+                new SqlParameter("@organizationId", organizationId),
+                new SqlParameter("@authSettingsName", authSettingsName),
+                new SqlParameter("@userName", username)
+            };
             var dataSet = await _context.ExecuteSproc(SprocNames.GetUser, parameters);
-            return MapUser(dataSet);
+            if (dataSet.HasDataForTable(0, out DataTable? table))
+            {
+                result = _mapper.MapUser(table);
+            }
+            return result;
         }
 
         public async Task<User> Get(UserPointer userPointer)
@@ -41,7 +54,7 @@ namespace AuthHub.DAL.Sql.Users
             };
 
             var dataSet = await _context.ExecuteSproc(SprocNames.SaveUser, parameters);
-            if(dataSet.HasDataForTable(0, out DataTable table))
+            if (dataSet.HasDataForTable(0, out DataTable table))
             {
                 var row = table.Rows[0];
                 user.ID = row.Field<Guid>("Id");
@@ -78,23 +91,6 @@ namespace AuthHub.DAL.Sql.Users
             };
         }
 
-        private User MapUser(DataSet dataSet)
-        {
-            User result = null;
-            if (dataSet.HasDataForTable(0, out DataTable table))
-            {
-                var row = table.Rows[0];
-                result = new User()
-                {
-                    ID = row.Field<Guid>("ID"),
-                    FirstName = row.Field<string>("FirstName"),
-                    LastName = row.Field<string>("LastName"),
-                    Email = row.Field<string>("Email"),
-                    UserName = row.Field<string>("UserName")
-                };
-            }
-            return result;
-        }
 
         #endregion
     }

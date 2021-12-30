@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetOrganization]
 	@id uniqueidentifier
 AS
-
+Begin Transaction
 Begin Try
 	select *
 	from Organization(nolock)
@@ -9,6 +9,7 @@ Begin Try
 	and DeletedUTC is null
 End Try
 Begin Catch
+	Rollback Transaction
 	SELECT
 		ERROR_NUMBER() AS ErrorNumber,
 		ERROR_STATE() AS ErrorState,
@@ -17,3 +18,4 @@ Begin Catch
 		ERROR_LINE() AS ErrorLine,
 		ERROR_MESSAGE() AS ErrorMessage;
 End Catch
+Commit Transaction
