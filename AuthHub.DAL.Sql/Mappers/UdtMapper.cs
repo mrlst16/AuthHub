@@ -1,4 +1,6 @@
-﻿using AuthHub.Models.Passwords;
+﻿using AuthHub.Models.Enums;
+using AuthHub.Models.Organizations;
+using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using System.Data;
 using System.Data.SqlClient;
@@ -71,6 +73,43 @@ namespace AuthHub.DAL.Sql.Mappers
             };
         }
 
+        public SqlParameter MapUdtAuthSettings(AuthSettings authSettings)
+        {
+            DataTable val = new();
+            val.Columns.Add("Id", typeof(Guid));
+            val.Columns.Add("Issuer", typeof(string));
+            val.Columns.Add("HashLength", typeof(int));
+            val.Columns.Add("AuthScheme", typeof(AuthSchemeEnum));
+            val.Columns.Add("ExpirationMinutes", typeof(int));
+            val.Columns.Add("OrganizationID", typeof(Guid));
+            val.Columns.Add("Iterations", typeof(int));
+            val.Columns.Add("Key", typeof(string));
+            val.Columns.Add("Name", typeof(string));
+            val.Columns.Add("PasswordResetTokenExpirationMinutes", typeof(int));
+            val.Columns.Add("SaltLength", typeof(string));
+
+            var row = val.NewRow();
+            row["Id"] = authSettings.ID;
+            row["Issuer"] = authSettings.Issuer;
+            row["HashLength"] = authSettings.HashLength;
+            row["AuthScheme"] = authSettings.AuthScheme;
+            row["ExpirationMinutes"] = authSettings.ExpirationMinutes;
+            row["OrganizationID"] = authSettings.OrganizationID;
+            row["Iterations"] = authSettings.Iterations;
+            row["Key"] = authSettings.Key;
+            row["Name"] = authSettings.Name;
+            row["PasswordResetTokenExpirationMinutes"] = authSettings.PasswordResetTokenExpirationMinutes;
+            row["SaltLength"] = authSettings.SaltLength;
+
+            val.Rows.Add(row);
+
+            return new SqlParameter("@request", SqlDbType.Structured)
+            {
+                TypeName = "udt_PasswordResetToken",
+                Value = val
+            };
+        }
+
         public SqlParameter MapUdtClaim(Guid passwordId, IEnumerable<SerializableClaim> claims)
         {
             DataTable val = new();
@@ -95,11 +134,32 @@ namespace AuthHub.DAL.Sql.Mappers
             };
         }
 
+        public SqlParameter MapUdtOrganization(Organization organization)
+        {
+            DataTable val = new();
+            val.Columns.Add("Id", typeof(Guid));
+            val.Columns.Add("Name", typeof(string));
+            val.Columns.Add("Email", typeof(string));
+
+            var row = val.NewRow();
+            row["Id"] = organization.ID;
+            row["Name"] = organization.Name;
+            row["Email"] = organization.Email;
+
+            val.Rows.Add(row);
+
+            return new SqlParameter("@request", SqlDbType.Structured)
+            {
+                TypeName = "udt_Organization",
+                Value = val
+            };
+        }
+
         public SqlParameter MapUdtUser(Guid organizationId, string authSettingsName, User user)
         {
             DataTable val = new();
             val.Columns.Add("Id", typeof(Guid));
-            val.Columns.Add("AuthSettingsId", typeof(string));
+            val.Columns.Add("FK_AuthSettings", typeof(string));
             val.Columns.Add("FirstName", typeof(string));
             val.Columns.Add("LastName", typeof(string));
             val.Columns.Add("Email", typeof(string));

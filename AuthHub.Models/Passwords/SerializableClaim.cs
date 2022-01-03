@@ -21,4 +21,5 @@ namespace AuthHub.Models.Passwords
         public static implicit operator Claim(SerializableClaim serializableClaim)
             => new Claim(serializableClaim.Key, serializableClaim.Value);
     }
+
 }

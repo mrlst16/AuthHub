@@ -1,12 +1,46 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetOrganization]
-	@id uniqueidentifier
+	@id uniqueidentifier = null,
+	@name nvarchar(200) = null
 AS
 Begin Transaction
 Begin Try
+
+	if @id is null
+	Begin
+		set @id = (select Id from Organization where Name = @name)
+	End
+
 	select *
-	from Organization(nolock)
-	where Id = @id
+	into #organizations
+	from Organization(nolock) 
+	where (
+		Id = @id
+		or Name = @name
+		)
 	and DeletedUTC is null
+
+	select *
+	into #authSettings
+	from AuthSettings(nolock)
+	where FK_Organization = @id
+	and DeletedUTC is null
+
+	select *
+	into #users
+	from [User](nolock)
+	where FK_AuthSettings in(
+		select Id from #authSettings
+	)
+	and DeletedUTC is null
+
+	select *
+	into #password 
+	from Password(nolock)
+	where FK_User in (
+		select Id from #users
+	)
+	and DeletedUTC is null
+
 End Try
 Begin Catch
 	Rollback Transaction

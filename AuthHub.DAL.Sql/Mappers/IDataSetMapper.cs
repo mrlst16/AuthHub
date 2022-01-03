@@ -1,4 +1,5 @@
-﻿using AuthHub.Models.Passwords;
+﻿using AuthHub.Models.Organizations;
+using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using System.Data;
 
@@ -10,5 +11,8 @@ namespace AuthHub.DAL.Sql.Mappers
         Password MapPassword(DataTable? table);
         List<SerializableClaim> MapClaims(DataTable? table);
         PasswordResetToken MapPasswordResetToken(DataTable? table);
+        Organization MapOrganization(DataSet? dataSet);
+        Organization MapOrganization(DataTable? table);
+        AuthSettings MapAuthSettings(DataTable? table);
     }
 }
