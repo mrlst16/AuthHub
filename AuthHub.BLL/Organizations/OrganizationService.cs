@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AuthHub.BLL.Oranizations
+namespace AuthHub.BLL.Organizations
 {
     public class OrganizationService : IOrganizationService
     {

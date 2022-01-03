@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using CommonCore.Repo.Entities;
+using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace AuthHub.Models.Passwords
 {
-    public class Password
+    public class Password : EntityBase
     {
+        public Guid UserId { get; set; }
         public string UserName { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] Salt { get; set; }

@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[usp_SavePassword]
-	@request udt_Password readonly
+	@request udt_Password readonly,
+	@claims udt_Claim readonly
 AS
 Begin Transaction
 Begin Try
@@ -21,6 +22,22 @@ Begin Try
 	values
 	(newid(), Source.FK_User, Source.Username, Source.PasswordHash,Source.Salt, Source.HashLength)
 	Output inserted.Id;
+
+	merge Claim as Target
+	using @claims as Source
+	on (
+		Target.FK_Password = Source.FK_Password
+		and Target.[Key] = Source.[Key]
+	)
+	when matched
+	then update set
+		Target.Value = Source.Value
+	when not matched
+	then insert 
+	(Id, FK_Password, [Key], Value)
+	values
+	(newid(), Source.FK_Password, Source.[Key], Soure.Value);
+
 Commit Transaction
 End Try
 Begin Catch

@@ -90,6 +90,10 @@
     <Build Include="UserDefinedTableTypes\udt_Claim.sql" />
     <Build Include="UserDefinedTableTypes\udt_ClaimsKey.sql" />
     <Build Include="StoredProcedures\usp_GetPassword.sql" />
+    <Build Include="Tables\PasswordResetToken.sql" />
+    <Build Include="UserDefinedTableTypes\udt_PasswordResetToken.sql" />
+    <Build Include="StoredProcedures\usp_GetPasswordResetToken.sql" />
+    <Build Include="StoredProcedures\usp_SavePasswordResetToken.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AuthHub.Database.SqlServer.refactorlog" />

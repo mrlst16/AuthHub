@@ -1,10 +1,24 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetPassword]
-	@UserId uniqueidentifier
+	@userId uniqueidentifier = null,
+	@passwordId uniqueidentifier = null
 AS
 	Begin Try
-	select * from [Password](nolock)
-	where FK_User = @UserId
-	and DeletedUTC is null
+	If @passwordId is null
+	Begin
+		select 
+			@passwordId = Id
+			from Password(nolock)
+			where FK_User = @userId
+			and DeletedUTC is null
+	End
+
+	select * 
+	from [Password](nolock)
+	where Id = @passwordId
+	
+	select *
+	from Claim(nolock)
+	where FK_Password = @passwordId
 
 	End Try
 	Begin Catch

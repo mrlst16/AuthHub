@@ -15,14 +15,17 @@ namespace AuthHub.DAL.Sql.Users
     {
         private readonly ISqlServerContext _context;
         private readonly IDataSetMapper _mapper;
+        private readonly IUdtMapper _udtMapper;
 
         public UserContext(
             ISqlServerContext context,
-            IDataSetMapper mapper
+            IDataSetMapper mapper,
+            IUdtMapper udtMapper
             )
         {
             _context = context;
             _mapper = mapper;
+            _udtMapper = udtMapper;
         }
 
         public async Task<User> Create(Guid organizationId, string authSettingsName, User user)
@@ -40,6 +43,14 @@ namespace AuthHub.DAL.Sql.Users
             if (dataSet.HasDataForTable(0, out DataTable? table))
             {
                 result = _mapper.MapUser(table);
+                if (dataSet.HasDataForTable(1, out DataTable? table2))
+                {
+                    result.Password = _mapper.MapPassword(table2);
+                    if (dataSet.HasDataForTable(2, out DataTable? table3))
+                    {
+                        result.Password.Claims = _mapper.MapClaims(table3).ToList();
+                    }
+                }
             }
             return result;
         }
@@ -50,48 +61,19 @@ namespace AuthHub.DAL.Sql.Users
         public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
         {
             SqlParameter[] parameters = new SqlParameter[] {
-                CreateUdtUser(organizationId, authSettingsName, user)
+                _udtMapper.MapUdtUser(organizationId, authSettingsName, user)
             };
 
             var dataSet = await _context.ExecuteSproc(SprocNames.SaveUser, parameters);
-            if (dataSet.HasDataForTable(0, out DataTable table))
+            if (dataSet.HasDataForTable(0, out DataTable? table))
             {
-                var row = table.Rows[0];
-                user.ID = row.Field<Guid>("Id");
+                var row = table?.Rows[0];
+                user.ID = row?.Field<Guid>("Id") ?? Guid.Empty;
             }
             return user;
         }
 
         public async Task<User> Update(UserPointer pointer, User user)
             => await Update(pointer.OrganizationID, pointer.AuthSettingsName, user);
-        #region Mappings
-        private SqlParameter CreateUdtUser(Guid organizationId, string authSettingsName, User user)
-        {
-            DataTable val = new();
-            val.Columns.Add("Id", typeof(Guid));
-            val.Columns.Add("AuthSettingsId", typeof(string));
-            val.Columns.Add("FirstName", typeof(string));
-            val.Columns.Add("LastName", typeof(string));
-            val.Columns.Add("Email", typeof(string));
-            val.Columns.Add("Username", typeof(string));
-
-            var row = val.NewRow();
-            row["Id"] = user.ID;
-            row["AuthSettingsId"] = authSettingsName;
-            row["FirstName"] = user.FirstName;
-            row["LastName"] = user.LastName;
-            row["Username"] = user.UserName;
-
-            val.Rows.Add(row);
-
-            return new SqlParameter("@request", SqlDbType.Structured)
-            {
-                TypeName = "udt_User",
-                Value = val
-            };
-        }
-
-
-        #endregion
     }
 }

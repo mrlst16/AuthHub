@@ -6,6 +6,8 @@
 AS
 	Begin Try
 
+	declare @passwordId uniqueidentifier;
+
 	declare @authSettingsId uniqueidentifier
 	if @Id is null
 	Begin
@@ -24,14 +26,24 @@ AS
 		and DeletedUTC is null
 	End
 	
-	select * 
+	select top 1 * 
 	from [User](nolock)
 	where Id = @Id
 	and DeletedUTC is null
-
-	select *
+	
+	select top 1 
+	@passwordId = Id
 	from [Password] (nolock) p
 	where p.FK_User = @Id
+	and DeletedUTC is null
+
+	select *
+	from Password(nolock)
+	where Id = @passwordId
+
+	select *
+	from Claim (nolock) c
+	where c.FK_Password = @passwordId
 	and DeletedUTC is null
 
 	End Try

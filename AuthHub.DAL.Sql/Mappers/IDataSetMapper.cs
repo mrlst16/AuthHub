@@ -1,11 +1,6 @@
 ﻿using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AuthHub.DAL.Sql.Mappers
 {
@@ -13,5 +8,7 @@ namespace AuthHub.DAL.Sql.Mappers
     {
         User MapUser(DataTable? table);
         Password MapPassword(DataTable? table);
+        List<SerializableClaim> MapClaims(DataTable? table);
+        PasswordResetToken MapPasswordResetToken(DataTable? table);
     }
 }

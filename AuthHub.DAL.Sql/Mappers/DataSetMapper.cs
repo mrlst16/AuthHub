@@ -1,11 +1,6 @@
 ﻿using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AuthHub.DAL.Sql.Mappers
 {
@@ -18,28 +13,15 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 return new Password()
                 {
-                    Iterations = row.Field<int>(""),
-                    HashLength = row.Field<int>("HasLength")
-                    
+                    Iterations = row.Field<int>("Iterations"),
+                    HashLength = row.Field<int>("HasLength"),
+                    PasswordHash = row.Field<byte[]>("PasswordHash"),
+                    Salt = row.Field<byte[]>("Salt"),
+                    UserName = row.Field<string>("UserName")
                 };
             }
             return result;
         }
-//        CREATE TABLE[dbo].[Password]
-//        (
-
-//   [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
-//    [FK_User] UNIQUEIDENTIFIER NOT NULL, 
-//    [UserName] NCHAR(200) NOT NULL,
-//    [PasswordHash] VARBINARY(MAX) NOT NULL,
-//    [Salt] VARBINARY(MAX) NOT NULL,
-//    [HashLength] INT NOT NULL, 
-//    [CreatedUTC] DATETIME NOT NULL default getutcdate(), 
-//    [ModifiedUTC] DATETIME NOT NULL default getutcdate(), 
-//    [DeletedUTC]
-//        DATETIME NULL,
-//    CONSTRAINT[FK_Password_ToUser] FOREIGN KEY(FK_User) REFERENCES[User] (Id)
-//)
 
         public User MapUser(DataTable? table)
         {
@@ -52,6 +34,50 @@ namespace AuthHub.DAL.Sql.Mappers
                     FirstName = row.Field<string>("FirstName"),
                     LastName = row.Field<string>("LastName"),
                     Email = row.Field<string>("Email"),
+                    UserName = row.Field<string>("UserName")
+                };
+            }
+            return result;
+        }
+
+        public List<SerializableClaim> MapClaims(DataTable? table)
+        {
+            List<SerializableClaim> result = new List<SerializableClaim>();
+            if (table == null
+                || table.Rows == null
+                || table.Rows.Count == 0)
+                return result;
+
+            foreach (DataRow row in table.Rows)
+            {
+                var item = new SerializableClaim()
+                {
+                    Key = row.Field<string>("Key"),
+                    Value = row.Field<string>("Value")
+                };
+                result.Add(item);
+            }
+
+            return result;
+        }
+
+        public PasswordResetToken MapPasswordResetToken(DataTable? table)
+        {
+            PasswordResetToken result = null;
+
+            if (table?.HasDataForRow(0, out DataRow? row) ?? false)
+            {
+                result = new PasswordResetToken()
+                {
+                    ID = row.Field<Guid>("ID"),
+                    AuthSettingsName = row.Field<string>("AuthSettingsName"),
+                    Email = row.Field<string>("Email"),
+                    ExpirationDate = row.Field<DateTime>("ExpirationDate"),
+                    IsActive = row.Field<bool>("IsActive"),
+                    OrganizationID = row.Field<Guid>("OrganizationID"),
+                    Salt = row.Field<byte[]>("Salt"),
+                    Password = row.Field<byte[]>("Password"),
+                    Token = row.Field<byte[]>("Token"),
                     UserName = row.Field<string>("UserName")
                 };
             }

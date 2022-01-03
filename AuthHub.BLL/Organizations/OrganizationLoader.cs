@@ -3,7 +3,7 @@ using AuthHub.Models.Organizations;
 using System;
 using System.Threading.Tasks;
 
-namespace AuthHub.BLL.Oranizations
+namespace AuthHub.BLL.Organizations
 {
     public class OrganizationLoader : IOrganizationLoader
     {
