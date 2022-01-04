@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthHub.BLL\AuthHub.BLL.csproj" />
-    <ProjectReference Include="..\AuthHub.DAL.Mongo\AuthHub.DAL.Mongo.csproj" />
+    <ProjectReference Include="..\AuthHub.DAL.Sql\AuthHub.DAL.Sql.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
     <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Api\CommonCore.Api.csproj" />

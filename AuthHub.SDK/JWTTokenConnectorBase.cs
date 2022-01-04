@@ -5,22 +5,18 @@ using System.Threading.Tasks;
 
 namespace AuthHub.SDK
 {
-    public abstract class JWTTokenConnector : ITokenConnector
+    public abstract class JWTTokenConnectorBase : ITokenConnector
     {
-        private readonly IApiConnector _apiConnector;
+        protected readonly IApiConnector _apiConnector;
 
-        private const string JWTTokenKey = "audder_jwt_token";
+        protected const string JWTTokenKey = "audder_jwt_token";
 
-        protected JWTTokenConnector(
+        protected JWTTokenConnectorBase(
             IApiConnector apiConnector
             )
         {
             _apiConnector = apiConnector;
         }
-
-        public abstract Task<Token> GetFromStorage(string key);
-
-        protected abstract Task<Token> GetTokenFromLocalStorage();
 
         public async Task<Token> GetOrganizationToken(string username, string password)
         {
@@ -44,5 +40,7 @@ namespace AuthHub.SDK
         {
             await _apiConnector.Post<RequestPasswordResetRequest, object>("password/request_reset", request);
         }
+
+        public abstract Task<Token> GetTokenFromLocalStorage();
     }
 }

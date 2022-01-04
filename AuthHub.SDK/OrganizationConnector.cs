@@ -42,7 +42,7 @@ namespace AuthHub.SDK
 
         public async Task<AuthSettings> GetAuthSettings(string name, Action ifNoTokenPresent)
         {
-            var token = await _tokenConnector.GetTokenFromLocalStorage();
+            var token = await _tokenConnector.GetOrganizationToken(name, "");
             if (token == null)
             {
                 ifNoTokenPresent();

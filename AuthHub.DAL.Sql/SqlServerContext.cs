@@ -7,20 +7,20 @@ namespace AuthHub.DAL.Sql
     public class SqlServerContext : ISqlServerContext
     {
 
-        private readonly IConfiguration _config;
+        private readonly Func<int, IConnectionString> _connectionString;
 
         public SqlServerContext(
-            IConfiguration config
+            Func<int, IConnectionString> connectionString
             )
         {
-            _config = config;
+            _connectionString = connectionString;
         }
 
         public async Task<DataSet> ExecuteSproc(string sproc, SqlParameter[] parameters)
         {
             DataSet result = new();
-            string connectionString = _config.GetConnectionString("sql");
-            using (SqlConnection connection = new SqlConnection(connectionString))
+
+            using (SqlConnection connection = new SqlConnection(_connectionString(1).Value))
             using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter())
             {
                 await connection.OpenAsync();
