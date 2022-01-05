@@ -7,7 +7,7 @@
     [SaltLength] INT NOT NULL, 
     [HashLength] INT NOT NULL, 
     [Iterations] INT NOT NULL, 
-    [Key] NVARCHAR(100) NOT NULL, 
+    [AuthKey] NVARCHAR(100) NOT NULL, 
     [Issuer] NCHAR(10) NOT NULL, 
     [PasswordResetTokenExpirationMinutes] INT NOT NULL, 
     [CreatedUTC] DATETIME NOT NULL default getutcdate(), 

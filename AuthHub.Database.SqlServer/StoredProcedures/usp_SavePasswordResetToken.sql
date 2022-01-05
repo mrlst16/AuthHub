@@ -1,9 +1,20 @@
 ﻿CREATE PROCEDURE [dbo].[usp_SavePasswordResetToken]
+	@organizationId uniqueidentifier,
+	@authSettingsName nvarchar(200),
 	@request udt_PasswordResetToken readonly,
 	@claims udt_Claim readonly
 AS
 Begin Transaction
 Begin Try
+
+	
+	select
+	t.Email, count(*) as count
+	into #counts
+	from PasswordResetToken(nolock) t
+	where t.OrganizationID = @organizationId
+	and t.AuthSettingsName = @authSettingsName
+	group by t.Email
 
 	merge PasswordResetToken as Target
 	using @request as Source
@@ -23,11 +34,12 @@ Begin Try
 		Target.Password = Source.Password
 	when not matched 
 	then insert
-	(UserName, Email, OrganizationID, AuthSettingsName, ExpirationDate, Salt, Token, IsActive, Password)
+	(UserName, Email, OrganizationID, Count, AuthSettingsName, ExpirationDate, Salt, Token, IsActive, Password)
 	values (
 		Source.UserName,
 		Source.Email,
-		row_number() over (Partition by Target.OrganizationId, Target.AuthSettingsName, Target.Email),
+		Source.Organization,
+		(select top 1 count from #counts where Email = Source.Email),
 		Source.AuthSettingsName,
 		Source.ExpirationDate,
 		Source.Salt,

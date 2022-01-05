@@ -8,10 +8,8 @@ Begin Try
 
 select * from 
 (select top 1 *
-from PasswordResetToken(nolock)
-where Email = @email
-and OrganizationID = @organizationId
-and AuthSettingsName = @authSettingsName
+	from PasswordResetToken(nolock)
+	where Email = @email
 ) query
 order by Count
 

@@ -5,7 +5,7 @@
     [FirstName] NVARCHAR(200) NOT NULL, 
     [LastName] NVARCHAR(200) NULL, 
     [Email] NVARCHAR(300) NOT NULL, 
-    [Username] NCHAR(100) NOT NULL, 
+    [Username] NCHAR(200) NOT NULL, 
     [CreatedUTC] DATETIME NOT NULL default getutcdate(), 
     [ModifiedUTC] DATETIME NOT NULL default getutcdate(), 
     [DeletedUTC] DATETIME NULL, 

@@ -6,7 +6,8 @@ Begin Transaction
 Begin Try
 	merge [User] as Target
 	using @request as Source
-	on (Target.AuthSettingsId = Source.AuthSettingsId
+	on (
+		Target.FK_AuthSettings = Source.FK_AuthSettings
 		and Target.Email = Source.Email
 		and Target.DeletedUTC is not null
 		)
@@ -15,13 +16,12 @@ Begin Try
 		Target.Username = Source.Username,
 		Target.FK_AuthSettings = Source.FK_AuthSettings,
 		Target.Email = Source.Email,
-		Target.Username = Source.Username,
 		Target.ModifiedUTC = getutcdate()
 	when not matched
 	then insert
 	(Id, FK_AuthSettings, Username, Email)
 	values
-	(newid(), Source.AuthSettingsId, Source.Username, Source.Email)
+	(newid(), Source.FK_AuthSettings, Source.Username, Source.Email)
 	output inserted.Id;
 Commit Transaction
 End Try

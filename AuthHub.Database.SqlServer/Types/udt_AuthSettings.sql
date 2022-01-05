@@ -3,11 +3,11 @@
 	Id uniqueidentifier,
 	FK_Organization uniqueidentifier,
 	Name nvarchar(200),
-	FK_AuthScheme int,
+	FK_AuthScheme uniqueidentifier,
 	SaltLength int,
 	HashLength int,
 	Iterations int,
-	[Key] nvarchar(max),
+	AuthKey nvarchar(100),
 	Issuer nvarchar(max),
 	PasswordResetTokenExpirationMinutes int
 )

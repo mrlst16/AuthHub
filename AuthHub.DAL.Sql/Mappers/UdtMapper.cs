@@ -42,6 +42,7 @@ namespace AuthHub.DAL.Sql.Mappers
         {
             DataTable val = new();
             val.Columns.Add("Id", typeof(Guid));
+            val.Columns.Add("FK_User", typeof(Guid));
             val.Columns.Add("UserName", typeof(string));
             val.Columns.Add("Email", typeof(string));
             val.Columns.Add("OrganizationID", typeof(Guid));
@@ -56,6 +57,7 @@ namespace AuthHub.DAL.Sql.Mappers
             var row = val.NewRow();
             row["Id"] = token.ID;
             row["UserName"] = token.UserName;
+            row["FK_User"] = token.UserId;
             row["Email"] = token.Email;
             row["OrganizationID"] = token.OrganizationID;
             row["AuthSettingsName"] = token.AuthSettingsName;
@@ -167,7 +169,7 @@ namespace AuthHub.DAL.Sql.Mappers
 
             var row = val.NewRow();
             row["Id"] = user.ID;
-            row["AuthSettingsId"] = authSettingsName;
+            row["FK_AuthSettings"] = authSettingsName;
             row["FirstName"] = user.FirstName;
             row["LastName"] = user.LastName;
             row["Username"] = user.UserName;

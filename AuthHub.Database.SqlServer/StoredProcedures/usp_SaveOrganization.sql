@@ -12,7 +12,7 @@ Begin Try
 		)
 	when matched
 	then update set
-		Target.Name = Source.Username,
+		Target.Name = Source.Name,
 		Target.Email = Source.Email,
 		Target.ModifiedUTC = getutcdate()
 	when not matched

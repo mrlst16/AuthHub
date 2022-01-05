@@ -1,6 +1,7 @@
 ﻿CREATE TYPE [dbo].[udt_PasswordResetToken] AS TABLE
 (
 	[Id] INT NOT NULL PRIMARY KEY,
+	[FK_User] INT NOT NULL,
     [Count] int not null,
 	[UserName] nvarchar(200) NOT NULL, 
     [Email] NCHAR(200) NOT NULL, 

@@ -36,7 +36,7 @@ Begin Try
 	then insert 
 	(Id, FK_Password, [Key], Value)
 	values
-	(newid(), Source.FK_Password, Source.[Key], Soure.Value);
+	(newid(), Source.FK_Password, Source.[Key], Source.Value);
 
 Commit Transaction
 End Try
