@@ -12,7 +12,7 @@ Begin Try
 				Target.FK_Organization = Source.FK_Organization
 					and Target.Name = Source.Name
 			)
-		and Target.DeletedUTC is not null
+		and Target.DeletedUTC is null
 		)
 	when matched
 	then update set

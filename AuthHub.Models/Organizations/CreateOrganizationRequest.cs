@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AuthHub.Models.Organizations
 {
@@ -15,5 +16,13 @@ namespace AuthHub.Models.Organizations
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        public static implicit operator Organization(CreateOrganizationRequest request)
+            => new Organization()
+            {
+                Name = request.Name,
+                Email = request.Email
+            };
+        
     }
 }

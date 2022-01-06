@@ -29,7 +29,8 @@ namespace AuthHub.Controllers
             [FromBody] CreateOrganizationRequest request
             )
         {
-            _validatorFactory.ValidateAndThrow<CreateOrganizationRequest>(request);
+            _validatorFactory.ValidateAndThrow<Organization>(request);
+
             var response = new ApiResponse<Organization>()
             {
                 Data = await _service.Create(request),
@@ -55,7 +56,7 @@ namespace AuthHub.Controllers
             return new OkObjectResult(response);
         }
 
-        [HttpPost("merge_auth_settings")]
+        [HttpPost("save_auth_settings")]
         public async Task<IActionResult> MergeAuthSettings(
             [FromBody] AuthSettings request,
             [FromQuery] Guid organizationId

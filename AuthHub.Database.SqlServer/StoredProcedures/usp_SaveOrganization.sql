@@ -9,13 +9,9 @@ Begin Try
 	on (
 		(
 			Target.Id = Source.Id
-			or
-			(
-				Target.Name = Source.Id
-				and Target.Email = Source.Email
-			)
+			or Target.Name = Source.Name
 		)
-		and Target.DeletedUTC is not null
+		and Target.DeletedUTC is null
 	)
 	when matched
 	then update set

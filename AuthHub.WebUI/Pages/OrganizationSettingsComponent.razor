@@ -103,5 +103,5 @@
     }
 
     private async Task HandleValidSubmit()
-        => await _connector.MergeAuthSettings(model);
+        => await _connector.SaveAuthSettings(model);
 }

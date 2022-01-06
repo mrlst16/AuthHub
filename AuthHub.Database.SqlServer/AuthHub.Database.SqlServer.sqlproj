@@ -115,5 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />
+    <None Include="Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

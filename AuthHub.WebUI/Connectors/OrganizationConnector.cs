@@ -22,8 +22,8 @@ namespace AuthHub.WebUI.Connectors
             _navigationManager = navigationManager;
         }
 
-        public async Task<AuthSettings> MergeAuthSettings(AuthSettings request)
-            => await _connector.Post<AuthSettings, AuthSettings>("organization/merge_auth_settings", request);
+        public async Task<AuthSettings> SaveAuthSettings(AuthSettings request)
+            => await _connector.Post<AuthSettings, AuthSettings>("organization/save_auth_settings", request);
 
         public async Task<Organization> CreateOrganization(CreateOrganizationRequest request)
             => await _connector.Post<CreateOrganizationRequest, Organization>("organization/save_organization", request);

@@ -20,10 +20,7 @@ namespace AuthHub.Validators
             var organizationNames = organizations.Select(x => x.Name);
 
             RuleFor(x => x.Name)
-                .MustAsync(async (x, y, z) =>
-                {
-                    return !organizationNames.Contains(y);
-                })
+                .MustAsync(async (x, y, z) => !organizationNames.Contains(y))
                 .WithMessage((x, y) => $"An orgnization with the name {x.Name} already exists");
         }
     }

@@ -7,7 +7,7 @@ Begin Try
 	merge Password as Target
 	using @request as Source
 	on (Target.FK_User = Source.FK_User
-			and Target.DeletedUTC is not null
+			and Target.DeletedUTC is null
 	)
 	when matched
 	then update set
