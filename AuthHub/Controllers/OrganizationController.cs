@@ -39,7 +39,7 @@ namespace AuthHub.Controllers
             return new OkObjectResult(response);
         }
 
-        [HttpPost("update_organization")]
+        [HttpPost("save_organization")]
         public async Task<IActionResult> UpdateOrganization(
             [FromBody] Organization request
             )
@@ -50,7 +50,7 @@ namespace AuthHub.Controllers
             {
                 Data = result.Item2,
                 Sucess = result.Item1,
-                SuccessMessage = "Successfully updated organization"
+                SuccessMessage = "Successfully saved organization"
             };
             return new OkObjectResult(response);
         }

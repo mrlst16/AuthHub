@@ -48,6 +48,16 @@ namespace AuthHub.DAL.Sql.Organizations
             return _mapper.MapOrganization(dataSet);
         }
 
+        public async Task<IList<Organization>> GetAll()
+        {
+            var dataSet = await _context.ExecuteSproc(SprocNames.GetAllOrganizations);
+
+            if(dataSet.HasDataForTable(0, out DataTable? table))
+                return _mapper.MapOrganizations(table);
+
+            return new List<Organization>();
+        }
+
         public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
         {
             SqlParameter[] parameters = new SqlParameter[] {
@@ -72,7 +82,7 @@ namespace AuthHub.DAL.Sql.Organizations
             if (
                 dataSet.HasDataForTable(0, out DataTable? table)
                     && table.HasDataForRow(0, out DataRow? row)
-                ) request.ID = row.Field<Guid>("id");
+                ) request.ID = row.Field<Guid>("Id");
 
             return (true, request);
         }

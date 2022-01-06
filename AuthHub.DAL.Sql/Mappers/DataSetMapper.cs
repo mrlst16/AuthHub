@@ -109,18 +109,34 @@ namespace AuthHub.DAL.Sql.Mappers
             return result;
         }
 
+        public List<Organization> MapOrganizations(DataTable? table)
+        {
+            List<Organization> result = new();
+            foreach (DataRow row in table.Rows)
+            {
+                Organization item = MapOrganization(row);
+                result.Add(item);
+            }
+            return result;
+        }
+
         public Organization MapOrganization(DataTable? table)
         {
             if (table?.HasDataForRow(0, out DataRow? row) ?? false)
             {
-                return new Organization()
-                {
-                    ID = row.Field<Guid>("Id"),
-                    Name = row.Field<string>("Name"),
-                    Email = row.Field<string>("Email"),
-                };
+                return MapOrganization(row);
             }
             return new Organization();
+        }
+
+        public Organization MapOrganization(DataRow? row)
+        {
+            return new Organization()
+            {
+                ID = row.Field<Guid>("Id"),
+                Name = row.Field<string>("Name"),
+                Email = row.Field<string>("Email"),
+            };
         }
 
         public AuthSettings MapAuthSettings(DataTable? table)

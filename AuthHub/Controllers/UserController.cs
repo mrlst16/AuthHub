@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AuthHub.Controllers
 {
-    [Route("api")]
+    [Route("api/user")]
     public class UserController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;

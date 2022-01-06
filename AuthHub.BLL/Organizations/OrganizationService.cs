@@ -78,6 +78,9 @@ namespace AuthHub.BLL.Organizations
         public async Task<Organization> Get(string name)
             => await _organizationLoader.Get(name);
 
+        public async Task<IList<Organization>> GetAll()
+            => await _organizationLoader.GetAll();
+
         public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
             => await _organizationLoader.GetSettings(organizationId, name);
 

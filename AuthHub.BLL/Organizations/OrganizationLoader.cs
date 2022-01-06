@@ -1,6 +1,7 @@
 ﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Organizations;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Organizations
@@ -24,6 +25,9 @@ namespace AuthHub.BLL.Organizations
 
         public async Task<Organization> Get(string name)
             => await _organizationContext.Get(name);
+
+        public async Task<IList<Organization>> GetAll()
+            => await _organizationContext.GetAll();
 
         public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
             => await _organizationContext.GetSettings(organizationId, name);

@@ -82,6 +82,7 @@ namespace AuthHub.WebUI.Connectors
             {
                 var url = Url(endpoint);
                 var response = await _httpClient.PostAsJsonAsync(url, val);
+
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -93,7 +94,7 @@ namespace AuthHub.WebUI.Connectors
                 }
                 else
                 {
-                    _navigationManager.NavigateTo("/error");
+                    //_navigationManager.NavigateTo("/error");
                 }
             }
             catch (Exception e)

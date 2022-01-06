@@ -30,7 +30,7 @@ namespace AuthHub.DAL.Sql
             if (table != null
                 && table.Rows != null
                 && table.Rows.Count > 0
-                && table.Rows.Count < index
+                && table.Rows.Count > index
                 && table.Rows[index] != null
                 )
             {

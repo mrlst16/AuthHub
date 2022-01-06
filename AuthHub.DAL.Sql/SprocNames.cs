@@ -11,7 +11,8 @@
 
         //Get Sprocs
         public const string GetAuthSettings = "usp_GetAuthSettings";
-        public const string GetOrganization = "usp_GetUser";
+        public const string GetOrganization = "usp_GetOrganization";
+        public const string GetAllOrganizations = "usp_GetAllOrganizations";
         public const string GetUser = "usp_GetUser";
         public const string GetPassword = "usp_GetPassword";
         public const string GetPasswordResetToken = "usp_GetPasswordResetToken";

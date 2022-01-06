@@ -59,6 +59,8 @@ namespace AuthHub.ServiceRegistrations
                     return (IValidator<T>)new OrganizationSettingsValidator();
                 case (Type t, int v) when t == typeof(PasswordRequest) && v == 1:
                     return (IValidator<T>)new PasswordRequestValidator();
+                case (Type t, int v) when t == typeof(Organization) && v == 1:
+                    return (IValidator<T>)new OrganizationValidator(_organizationService);
                 default:
                     throw new Exception($"No validator registered for type {typeof(T)}");
             }

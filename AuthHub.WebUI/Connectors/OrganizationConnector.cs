@@ -23,10 +23,10 @@ namespace AuthHub.WebUI.Connectors
         }
 
         public async Task<AuthSettings> MergeAuthSettings(AuthSettings request)
-            => await _connector.Post<AuthSettings, AuthSettings>("merge_auth_settings", request);
+            => await _connector.Post<AuthSettings, AuthSettings>("organization/merge_auth_settings", request);
 
         public async Task<Organization> CreateOrganization(CreateOrganizationRequest request)
-            => await _connector.Post<CreateOrganizationRequest, Organization>("create_organization", request);
+            => await _connector.Post<CreateOrganizationRequest, Organization>("organization/save_organization", request);
 
         public async Task<Organization> GetOrganization()
         {

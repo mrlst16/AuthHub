@@ -11,6 +11,7 @@ namespace AuthHub.DAL.Sql.Mappers
         Password MapPassword(DataTable? table);
         List<SerializableClaim> MapClaims(DataTable? table);
         PasswordResetToken MapPasswordResetToken(DataTable? table);
+        List<Organization> MapOrganizations(DataTable? table);
         Organization MapOrganization(DataSet? dataSet);
         Organization MapOrganization(DataTable? table);
         AuthSettings MapAuthSettings(DataTable? table);
