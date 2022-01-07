@@ -3,6 +3,7 @@
 AS
 Begin Transaction
 Begin Try
+
 	merge AuthSettings as Target
 	using @request as Source
 	on (
@@ -10,12 +11,13 @@ Begin Try
 		or
 			(
 				Target.FK_Organization = Source.FK_Organization
-					and Target.Name = Source.Name
+				and Target.Name = Source.Name
+				and Target.DeletedUTC is null
 			)
-		and Target.DeletedUTC is null
 		)
 	when matched
 	then update set
+		Target.FK_Organization = Source.FK_Organization,
 		Target.FK_AuthScheme = Source.FK_AuthScheme,	
 		Target.SaltLength = Source.SaltLength,
 		Target.HashLength = Source.HashLength,
@@ -25,13 +27,14 @@ Begin Try
 		Target.ModifiedUTC = getutcdate()
 	when not matched
 	then insert
-	(Id, Name, FK_AuthScheme, SaltLength, HashLength, 
+	(Id, FK_Organization, Name, FK_AuthScheme, SaltLength, HashLength, 
 		Iterations, AuthKey, Issuer, PasswordResetTokenExpirationMinutes)
 	values 
-	(newid(), Source.Name, Source.FK_AuthScheme, Source.SaltLength, Source.HashLength, 
+	(
+		newid(),
+		Source.FK_Organization, Source.Name, Source.FK_AuthScheme, Source.SaltLength, Source.HashLength, 
 		Source.Iterations, Source.AuthKey, Source.Issuer, Source.PasswordResetTokenExpirationMinutes)
 	output inserted.Id;
-
 Commit Transaction
 End Try
 Begin Catch

@@ -10,3 +10,4 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+exec usp_PostDeployment 1

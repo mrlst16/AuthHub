@@ -77,9 +77,9 @@
     <Folder Include="Tables" />
     <Folder Include="StoredProcedures" />
     <Folder Include="Scripts" />
-    <Folder Include="Scripts\Loaders" />
     <Folder Include="Types" />
     <Folder Include="Triggers" />
+    <Folder Include="Functions" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\AuthScheme.sql" />
@@ -87,7 +87,6 @@
     <Build Include="Tables\Organization.sql" />
     <Build Include="Tables\User.sql" />
     <Build Include="StoredProcedures\usp_GetUser.sql" />
-    <None Include="Scripts\Loaders\LoadAuthScheme.sql" />
     <Build Include="Tables\ClaimsKey.sql" />
     <Build Include="Tables\Password.sql" />
     <Build Include="Tables\Claim.sql" />
@@ -109,12 +108,13 @@
     <Build Include="StoredProcedures\usp_GetPasswordResetToken.sql" />
     <Build Include="StoredProcedures\usp_SavePasswordResetToken.sql" />
     <Build Include="StoredProcedures\usp_GetAllOrganizations.sql" />
+    <Build Include="StoredProcedures\usp_PostDeployment.sql" />
+    <Build Include="Functions\GetAuthSchemeId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AuthHub.Database.SqlServer.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <PostDeploy Include="Script.PostDeployment1.sql" />
-    <None Include="Script.PostDeployment.sql" />
+    <None Include="Scripts\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>
