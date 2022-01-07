@@ -33,17 +33,6 @@ values
 (@organizationId, 'audder', 'mrlst16@mail.rmu.edu')
 exec dbo.usp_SaveOrganization @request=@request_var
 
---[Id] [uniqueidentifier] NULL,
---	[FK_Organization] [uniqueidentifier] NULL,
---	[Name] [nvarchar](200) NULL,
---	[FK_AuthScheme] [uniqueidentifier] NULL,
---	[SaltLength] [int] NULL,
---	[HashLength] [int] NULL,
---	[Iterations] [int] NULL,
---	[AuthKey] [nvarchar](100) NULL,
---	[Issuer] [nvarchar](max) NULL,
---	[PasswordResetTokenExpirationMinutes] [int] NULL
-
 declare @authSettings udt_AuthSettings
 insert into @authSettings
 (Id, FK_Organization, Name, FK_AuthScheme, SaltLength, HashLength, Iterations, [AuthKey], Issuer, PasswordResetTokenExpirationMinutes)
