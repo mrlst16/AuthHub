@@ -61,17 +61,12 @@ namespace AuthHub.DAL.Sql.Passwords
                 _udtMapper.MapUdPassword(request),
                 _udtMapper.MapUdtClaim(request.ID, request.Claims)
             };
-            bool success = false;
+            bool success = true;
             Password result = new Password();
             var dataSet = await _context.ExecuteSproc(SprocNames.SavePassword, parameters);
 
-            if (success = dataSet.HasDataForTable(0, out DataTable? passwordTable) == true)
-            {
-                success = true;
-                result = _mapper.MapPassword(passwordTable);
-                if (dataSet.HasDataForTable(1, out DataTable? claimsTable))
-                    result.Claims = _mapper.MapClaims(claimsTable);
-            }
+            success = true;
+            result.ID = _mapper.MapIdFromSave(dataSet);
             return (success, result);
         }
 

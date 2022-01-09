@@ -4,6 +4,16 @@
 AS
 Begin Transaction
 Begin Try
+	
+	if (select count(*) from @request) > 1
+	Begin
+		;throw 50001 , 'Cannot insert more than 1 ppassword at a time', 1
+	End
+
+	declare @passwordId table(
+		value uniqueidentifier
+	);
+
 	merge Password as Target
 	using @request as Source
 	on (Target.FK_User = Source.FK_User
@@ -21,22 +31,25 @@ Begin Try
 	(Id, FK_User, UserName, PasswordHash, Salt, HashLength)
 	values
 	(newid(), Source.FK_User, Source.Username, Source.PasswordHash,Source.Salt, Source.HashLength)
-	Output inserted.Id;
+	Output inserted.Id
+	into @passwordId;
+
+	select value from @passwordId as Id;
 
 	merge Claim as Target
 	using @claims as Source
 	on (
 		Target.FK_Password = Source.FK_Password
-		and Target.[Key] = Source.[Key]
+		and Target.Name = Source.Name
 	)
 	when matched
 	then update set
 		Target.Value = Source.Value
 	when not matched
 	then insert 
-	(Id, FK_Password, [Key], Value)
+	(Id, FK_Password, Name, Value)
 	values
-	(newid(), Source.FK_Password, Source.[Key], Source.Value);
+	(newid(), Source.FK_Password, Source.Name, Source.Value);
 
 Commit Transaction
 End Try
@@ -50,4 +63,3 @@ Begin Catch
 		ERROR_MESSAGE() AS ErrorMessage;
 	Rollback Transaction
 End Catch
-

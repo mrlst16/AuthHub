@@ -61,15 +61,12 @@ namespace AuthHub.DAL.Sql.Users
         public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
         {
             SqlParameter[] parameters = new SqlParameter[] {
-                _udtMapper.MapUdtUser(organizationId, authSettingsName, user)
+                _udtMapper.MapUdtUser(organizationId, authSettingsName, user),
+                new SqlParameter("@organizationId", organizationId)
             };
 
             var dataSet = await _context.ExecuteSproc(SprocNames.SaveUser, parameters);
-            if (dataSet.HasDataForTable(0, out DataTable? table))
-            {
-                var row = table?.Rows[0];
-                user.ID = row?.Field<Guid>("Id") ?? Guid.Empty;
-            }
+            user.ID = _mapper.MapIdFromSave(dataSet);
             return user;
         }
 

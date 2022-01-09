@@ -24,10 +24,10 @@ namespace AuthHub.DAL.Sql
             {
                 IConnectionString connectionString = _connectionStringFactory(2);
 #if DEBUG
-                var sql = parameters.ToSqlString($"exec {sproc}");
+                var sql = parameters.ToSqlString(sproc);
 #endif
                 using (SqlConnection connection = new SqlConnection(connectionString.Value))
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter($"{sproc}", connection))
+                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sproc, connection))
                 {
                     await connection.OpenAsync();
                     sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;

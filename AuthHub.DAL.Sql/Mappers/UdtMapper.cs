@@ -117,14 +117,15 @@ namespace AuthHub.DAL.Sql.Mappers
             DataTable val = new();
             val.Columns.Add("Id", typeof(Guid));
             val.Columns.Add("FK_Password", typeof(string));
-            val.Columns.Add("Key", typeof(string));
+            val.Columns.Add("Name", typeof(string));
             val.Columns.Add("Value", typeof(string));
 
             foreach (var claim in claims)
             {
                 var row = val.NewRow();
+                row["Id"] = Guid.Empty;
                 row["FK_Password"] = passwordId;
-                row["Key"] = claim.Key;
+                row["Name"] = claim.Key;
                 row["Value"] = claim.Value;
                 val.Rows.Add(row);
             }
@@ -161,7 +162,7 @@ namespace AuthHub.DAL.Sql.Mappers
         {
             DataTable val = new();
             val.Columns.Add("Id", typeof(Guid));
-            val.Columns.Add("FK_AuthSettings", typeof(string));
+            val.Columns.Add("FK_AuthSettings", typeof(Guid));
             val.Columns.Add("FirstName", typeof(string));
             val.Columns.Add("LastName", typeof(string));
             val.Columns.Add("Email", typeof(string));
@@ -169,10 +170,11 @@ namespace AuthHub.DAL.Sql.Mappers
 
             var row = val.NewRow();
             row["Id"] = user.ID;
-            row["FK_AuthSettings"] = authSettingsName;
+            row["FK_AuthSettings"] = user.AuthSettingsId;
             row["FirstName"] = user.FirstName;
             row["LastName"] = user.LastName;
             row["Username"] = user.UserName;
+            row["Email"] = user.Email;
 
             val.Rows.Add(row);
 

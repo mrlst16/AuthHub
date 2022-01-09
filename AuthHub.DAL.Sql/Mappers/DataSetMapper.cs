@@ -8,6 +8,13 @@ namespace AuthHub.DAL.Sql.Mappers
 {
     public class DataSetMapper : IDataSetMapper
     {
+
+        public Guid MapIdFromSave(DataSet? dataSet)
+            => (dataSet?.HasDataForTable(0, out var table) ?? false)
+                && (table?.HasDataForRow(0, out var row) ?? false)
+                    ? row?.Field<Guid>("Id") ?? Guid.Empty
+            : Guid.Empty;
+
         public Password MapPassword(DataTable table)
         {
             var result = new Password();
@@ -15,6 +22,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 return new Password()
                 {
+                    UserId = row.Field<Guid>("FK_User"),
                     Iterations = row.Field<int>("Iterations"),
                     HashLength = row.Field<int>("HasLength"),
                     PasswordHash = row.Field<byte[]>("PasswordHash"),
@@ -54,7 +62,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 var item = new SerializableClaim()
                 {
-                    Key = row.Field<string>("Key"),
+                    Key = row.Field<string>("Name"),
                     Value = row.Field<string>("Value")
                 };
                 result.Add(item);
@@ -213,6 +221,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 var item = new Password()
                 {
+                    UserId = row.Field<Guid>("FK_User"),
                     Iterations = row.Field<int>("Iterations"),
                     HashLength = row.Field<int>("HasLength"),
                     PasswordHash = row.Field<byte[]>("PasswordHash"),
@@ -270,6 +279,7 @@ namespace AuthHub.DAL.Sql.Mappers
 
             return result;
         }
+
     }
 
     internal struct ClaimEntity

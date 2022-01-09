@@ -37,7 +37,7 @@ declare @authSettings udt_AuthSettings
 insert into @authSettings
 (Id, FK_Organization, Name, FK_AuthScheme, SaltLength, HashLength, Iterations, [AuthKey], Issuer, PasswordResetTokenExpirationMinutes)
 values
-('6CE12DA2-CB73-4F0B-B9F0-46051621B3C6', @organizationId, 'audder_clients', 'b696fb1e-f823-4b59-a8b0-ca68a93a7ab4', 8, 8, 10, 'This is my auth key for validation', 'Issuer', 60)
+('6CE12DA2-CB73-4F0B-B9F0-46051621B3C6', @organizationId, 'audder_clients', 'b696fb1e-f823-4b59-a8b0-ca68a93a7ab4', 8, 8, 10, 'this is my custom Secret key for authentication', 'Issuer', 60)
 exec usp_SaveAuthSettings @authSettings
 
 

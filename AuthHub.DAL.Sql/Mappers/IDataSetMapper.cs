@@ -15,5 +15,6 @@ namespace AuthHub.DAL.Sql.Mappers
         Organization MapOrganization(DataSet? dataSet);
         Organization MapOrganization(DataTable? table);
         AuthSettings MapAuthSettings(DataTable? table);
+        Guid MapIdFromSave(DataSet? dataSet);
     }
 }

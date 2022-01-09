@@ -19,9 +19,9 @@ Begin Try
 		Target.ModifiedUTC = getutcdate()
 	when not matched
 	then insert
-	(Id, FK_AuthSettings, Username, Email)
+	(Id, FK_AuthSettings, Username, Email, FirstName, LastName)
 	values
-	(newid(), Source.FK_AuthSettings, Source.Username, Source.Email)
+	(newid(), Source.FK_AuthSettings, Source.Username, Source.Email, Source.FirstName, Source.LastName)
 	output inserted.Id;
 Commit Transaction
 End Try

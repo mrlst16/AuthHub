@@ -1,11 +1,15 @@
-﻿using AuthHub.BLL.Common.Tokens;
+﻿using AuthHub.BLL.Common.Extensions;
+using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Organizations;
+using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Organizations
@@ -15,16 +19,22 @@ namespace AuthHub.BLL.Organizations
         private readonly IOrganizationLoader _organizationLoader;
         private readonly IUserLoader _userLoader;
         private readonly IAuthHubOrganizationLoader _authHubOrganizationLoader;
+        private readonly IPasswordLoader _passwordLoader;
+        private readonly IConfiguration _configuration;
 
         public OrganizationService(
             IOrganizationLoader organizationLoader,
             IUserLoader userLoader,
-            IAuthHubOrganizationLoader authHubOrganizationLoader
+            IAuthHubOrganizationLoader authHubOrganizationLoader,
+            IPasswordLoader passwordLoader,
+            IConfiguration configuration
             )
         {
             _organizationLoader = organizationLoader;
             _userLoader = userLoader;
             _authHubOrganizationLoader = authHubOrganizationLoader;
+            _passwordLoader = passwordLoader;
+            _configuration = configuration;
         }
 
         public async Task<Organization> Create(CreateOrganizationRequest request)
@@ -37,7 +47,7 @@ namespace AuthHub.BLL.Organizations
             };
             await _organizationLoader.Create(org);
             var authHubOrg = await _authHubOrganizationLoader.CreateOrGetAuthHubOrganization();
-
+            var parseAuthSettingsGuidSuccess = Guid.TryParse(_configuration.AuthHubSettingsId(), out Guid authSettingsId);
             var passwordRequest = new PasswordRequest()
             {
                 UserName = request.Name,
@@ -47,7 +57,11 @@ namespace AuthHub.BLL.Organizations
             };
             var user = new User()
             {
+                AuthSettingsId = authSettingsId,
                 Email = request.Email,
+                UserName = request.Email,
+                FirstName = request.Name,
+                LastName = org.Name,
                 Password = new Models.Passwords.Password()
                 {
                     UserName = request.Name,
@@ -57,8 +71,7 @@ namespace AuthHub.BLL.Organizations
                     {
                         new SerializableClaim("role", "admin")
                     }
-                },
-                UserName = request.Name
+                }
             };
 
             JWTTokenGenerator tokenGenerator = new JWTTokenGenerator(_organizationLoader);
@@ -68,7 +81,9 @@ namespace AuthHub.BLL.Organizations
             user.Password.Salt = salt;
 
             await _userLoader.Create(authHubOrg.ID, passwordRequest.SettingsName, user);
+            user.Password.UserId = user.ID;
 
+            await _passwordLoader.Set(passwordRequest.OrganizationID, passwordRequest.SettingsName, user.Password);
             return org;
         }
 

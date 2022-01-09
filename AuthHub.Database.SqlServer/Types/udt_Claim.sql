@@ -1,7 +1,7 @@
 ﻿CREATE TYPE [dbo].[udt_Claim] AS TABLE
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] uniqueidentifier NOT NULL PRIMARY KEY, 
     [FK_Password] UNIQUEIDENTIFIER NOT NULL, 
-    [Key] NVARCHAR(200) NOT NULL, 
+    [Name] NVARCHAR(200) NOT NULL, 
     [Value] NVARCHAR(200) NOT NULL
 )

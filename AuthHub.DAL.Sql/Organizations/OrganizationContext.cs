@@ -81,8 +81,8 @@ namespace AuthHub.DAL.Sql.Organizations
             var dataSet = await _context.ExecuteSproc(SprocNames.SaveOrganization, parameters);
             if (
                 dataSet.HasDataForTable(0, out DataTable? table)
-                    && table.HasDataForRow(0, out DataRow? row)
-                ) request.ID = row.Field<Guid>("Id");
+                    && (table?.HasDataForRow(0, out DataRow? row) ?? false)
+                ) request.ID = row?.Field<Guid>("Id") ?? Guid.Empty;
 
             return (true, request);
         }

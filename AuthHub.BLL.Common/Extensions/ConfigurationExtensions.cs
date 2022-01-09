@@ -10,6 +10,8 @@ namespace AuthHub.BLL.Common.Extensions
             => configuration.GetValue<string>("AppSettings:AuthHubIssuer");
         public static string AuthHubKey(this IConfiguration configuration)
             => configuration.GetValue<string>("AppSettings:AuthHubKey");
+        public static string AuthHubSettingsId(this IConfiguration configuration)
+            => configuration.GetValue<string>("AppSettings:AuthHubSettingsId");
 
         public static (Guid, string, string) AuthHubAuthInfo(this IConfiguration configuration)
             => (configuration.AuthHubOrganizationId(), configuration.AuthHubIssuer(), configuration.AuthHubKey());

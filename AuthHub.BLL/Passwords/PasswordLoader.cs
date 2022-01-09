@@ -1,9 +1,11 @@
-﻿using AuthHub.Interfaces.Passwords;
+﻿using AuthHub.Interfaces.Organizations;
+using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using CommonCore.Models.Exceptions;
 using CommonCore2.Extensions;
 using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -13,9 +15,10 @@ namespace AuthHub.BLL.Passwords
     {
 
         private readonly IPasswordContext _passwordContext;
-
+        private readonly IOrganizationContext _organizationContext;
         public PasswordLoader(
-            IPasswordContext passwordContext
+            IPasswordContext passwordContext,
+            IOrganizationContext organizationContext
             )
         {
             _passwordContext = passwordContext;
@@ -38,11 +41,7 @@ namespace AuthHub.BLL.Passwords
                 throw new HttpException("Unable to authenticate reset password token", 403);
 
             token.IsActive = false;
-            //await tokenRepo.Update(token, x => x.Email == request.Email
-            //        && x.OrganizationID == request.OrganizationID
-            //        && x.AuthSettingsName == request.AuthSettingsName
-            //        && x.ExpirationDate <= request.ExpirationDate);
-            throw new NotImplementedException();
+            await _passwordContext.SavePasswordResetToken(token);
         }
 
         private bool AuthenticateResetToken(PasswordResetToken token, byte[] passedToken)
@@ -51,38 +50,38 @@ namespace AuthHub.BLL.Passwords
             return hash.BytesEqual(passedToken);
         }
 
-        public async Task<PasswordResetToken> GeneratePasswordResetToken(UserPointer userPointer)
-        {
-            //var repo = _crudRepositoryFactory.Get<PasswordResetToken>();
-            //var organizationsRepo = _crudRepositoryFactory.Get<Organization>();
-            //var organization = await organizationsRepo.First(x => x.ID == userPointer.OrganizationID);
-            //var authSettings = organization.GetSettings(userPointer.AuthSettingsName);
-            //var user = authSettings.Users.FirstOrDefault(x => string.Equals(x.UserName, userPointer.UserName, StringComparison.InvariantCultureIgnoreCase));
-            //var salt = GenerateSalt(8);
-            //var password = Guid.NewGuid().ToByteArray();
 
-            //var result = new PasswordResetToken()
-            //{
-            //    AuthSettingsName = userPointer.AuthSettingsName,
-            //    OrganizationID = userPointer.OrganizationID,
-            //    UserName = userPointer.UserName,
-            //    Email = user.Email,
-            //    ExpirationDate = DateTime.UtcNow.AddMinutes(authSettings.PasswordResetTokenExpirationMinutes),
-            //    Salt = salt,
-            //    Password = password
-            //};
-
-            //await repo.Create(result);
-            //result.Token = GenerateHash(password, salt, 8);
-            //return (result);
-            throw new NotImplementedException();
-        }
 
         public async Task<Password> Get(Guid organizationId, string authSettingsname, string username)
             => await _passwordContext.Get(organizationId, authSettingsname, username);
 
         public async Task<(bool, Password)> Set(Guid organizationId, string authSettingsname, Password request)
-            => await _passwordContext.Set(organizationId, authSettingsname, request);
+        {
+            return await _passwordContext.Set(organizationId, authSettingsname, request);
+        }
+
+        public async Task<PasswordResetToken> GeneratePasswordResetToken(UserPointer userPointer)
+        {
+            var authSettings = await _organizationContext.GetSettings(userPointer.OrganizationID, userPointer.AuthSettingsName);
+            var user = authSettings.Users.FirstOrDefault(x => string.Equals(x.UserName, userPointer.UserName, StringComparison.InvariantCultureIgnoreCase));
+            
+            var salt = GenerateSalt(8);
+            var password = Guid.NewGuid().ToByteArray();
+
+            var result = new PasswordResetToken()
+            {
+                AuthSettingsName = userPointer.AuthSettingsName,
+                OrganizationID = userPointer.OrganizationID,
+                UserName = userPointer.UserName,
+                Email = user.Email,
+                ExpirationDate = DateTime.UtcNow.AddMinutes(authSettings.PasswordResetTokenExpirationMinutes),
+                Salt = salt,
+                Password = password
+            };
+
+            result.Token = GenerateHash(password, salt, 8);
+            return (result);
+        }
 
         private byte[] GenerateSalt(int length)
         {
