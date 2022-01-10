@@ -13,5 +13,6 @@
     [CreatedUTC] DATETIME NOT NULL default getutcdate(), 
     [ModifiedUTC] DATETIME NOT NULL default getutcdate(), 
     [DeletedUTC] DATETIME NULL, 
+    [ExpirationMinutes] INT NOT NULL DEFAULT 60, 
     CONSTRAINT [FK_AuthSettings_ToOrganizationId] FOREIGN KEY ([FK_Organization]) REFERENCES Organization(Id)
 )

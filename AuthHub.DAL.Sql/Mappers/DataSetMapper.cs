@@ -24,7 +24,7 @@ namespace AuthHub.DAL.Sql.Mappers
                 {
                     UserId = row.Field<Guid>("FK_User"),
                     Iterations = row.Field<int>("Iterations"),
-                    HashLength = row.Field<int>("HasLength"),
+                    HashLength = row.Field<int>("HashLength"),
                     PasswordHash = row.Field<byte[]>("PasswordHash"),
                     Salt = row.Field<byte[]>("Salt"),
                     UserName = row.Field<string>("UserName")
@@ -155,15 +155,15 @@ namespace AuthHub.DAL.Sql.Mappers
                 {
                     ID = row.Field<Guid>("Id"),
                     Name = row.Field<string>("Name"),
-                    OrganizationID = row.Field<Guid>("OrganizationID"),
+                    OrganizationID = row.Field<Guid>("FK_Organization"),
                     AuthScheme = row.Field<AuthSchemeEnum>("AuthScheme"),
-                    ExpirationMinutes = row.Field<int>("AuthScheme"),
-                    CreateDate = row.Field<DateTime>("CreateDate"),
-                    LastUpdated = row.Field<DateTime>("LastUpdated"),
+                    ExpirationMinutes = row.Field<int>("ExpirationMinutes"),
+                    CreateDate = row.Field<DateTime>("CreatedUTC"),
+                    LastUpdated = row.Field<DateTime>("ModifiedUTC"),
                     HashLength = row.Field<int>("HashLength"),
                     Issuer = row.Field<string>("Issuer"),
                     Iterations = row.Field<int>("Iterations"),
-                    Key = row.Field<string>("Key"),
+                    Key = row.Field<string>("AuthKey"),
                     PasswordResetTokenExpirationMinutes = row.Field<int>("PasswordResetTokenExpirationMinutes"),
                     SaltLength = row.Field<int>("SaltLength")
                 };

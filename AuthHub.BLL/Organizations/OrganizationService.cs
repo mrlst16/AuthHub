@@ -74,7 +74,7 @@ namespace AuthHub.BLL.Organizations
                 }
             };
 
-            JWTTokenGenerator tokenGenerator = new JWTTokenGenerator(_organizationLoader);
+            JWTTokenGenerator tokenGenerator = new JWTTokenGenerator(_organizationLoader, _passwordLoader);
 
             var (passwordHash, salt) = await tokenGenerator.GetHash(passwordRequest, authHubOrg);
             user.Password.PasswordHash = passwordHash;

@@ -6,13 +6,16 @@ AS
 Begin Transaction
 Begin Try
 
-	select top 1 *
-	from AuthSettings(nolock)
-	where Id = @id
-	or (FK_Organization = @OrganizationId
-		and [Name] = @Name)
-		and DeletedUTC is null
-	order by CreatedUTC
+	select top 1 a.*, s.Value as AuthScheme
+	from AuthSettings(nolock) a
+	join AuthScheme s on s.Id = a.FK_AuthScheme
+	where a.Id = @id
+	or (
+		a.FK_Organization = @OrganizationId
+		and a.[Name] = @Name
+		)
+		and a.DeletedUTC is null
+	order by a.CreatedUTC
 End Try
 Begin Catch
 	Rollback Transaction

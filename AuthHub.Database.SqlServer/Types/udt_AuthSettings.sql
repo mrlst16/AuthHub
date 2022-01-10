@@ -7,6 +7,7 @@
 	SaltLength int,
 	HashLength int,
 	Iterations int,
+	ExpirationMinutes int not null default 60,
 	AuthKey nvarchar(100),
 	Issuer nvarchar(max),
 	PasswordResetTokenExpirationMinutes int
