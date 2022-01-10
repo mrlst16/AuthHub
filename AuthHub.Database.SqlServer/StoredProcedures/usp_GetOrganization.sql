@@ -41,6 +41,23 @@ Begin Try
 	)
 	and DeletedUTC is null
 
+	
+	select * from #organizations
+
+	select a.*, s.Value as AuthScheme
+	from #authSettings a
+	join AuthScheme s on a.FK_AuthScheme = s.Id
+
+	select * from #users
+
+	select * from #password
+
+	select *
+	from Claim(nolock)
+	where FK_Password in (
+		select Id from #password
+	)
+
 End Try
 Begin Catch
 	Rollback Transaction

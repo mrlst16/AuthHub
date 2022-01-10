@@ -70,8 +70,8 @@ namespace AuthHub.WebUI.Connectors
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message, e);
-                _navigationManager.NavigateTo("/error");
+                //_logger.LogError(e.Message, e);
+                //_navigationManager.NavigateTo("/error");
             }
             return default(T);
         }

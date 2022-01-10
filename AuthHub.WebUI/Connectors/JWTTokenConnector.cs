@@ -25,9 +25,7 @@ namespace AuthHub.WebUI.Connectors
         public async Task<Token> GetTokenFromLocalStorage()
         {
             var token = await _localStorageProvider.GetItem<Token>(JWTTokenKey);
-            if (token?.ExpirationDate > DateTime.UtcNow
-                && token.EnitityID != Guid.Empty
-                )
+            if (token?.ExpirationDate > DateTime.UtcNow)
                 return token;
             else
                 return null;

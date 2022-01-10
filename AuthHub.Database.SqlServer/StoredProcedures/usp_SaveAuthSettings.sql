@@ -23,17 +23,18 @@ Begin Try
 		Target.HashLength = Source.HashLength,
 		Target.AuthKey = Source.AuthKey,
 		Target.Issuer = Source.Issuer,
+		Target.ExpirationMinutes = Source.ExpirationMinutes,
 		Target.PasswordResetTokenExpirationMinutes = Source.PasswordResetTokenExpirationMinutes,
 		Target.ModifiedUTC = getutcdate()
 	when not matched
 	then insert
 	(Id, FK_Organization, Name, FK_AuthScheme, SaltLength, HashLength, 
-		Iterations, AuthKey, Issuer, PasswordResetTokenExpirationMinutes)
+		Iterations, AuthKey, Issuer, PasswordResetTokenExpirationMinutes, ExpirationMinutes)
 	values 
 	(
 		newid(),
 		Source.FK_Organization, Source.Name, Source.FK_AuthScheme, Source.SaltLength, Source.HashLength, 
-		Source.Iterations, Source.AuthKey, Source.Issuer, Source.PasswordResetTokenExpirationMinutes)
+		Source.Iterations, Source.AuthKey, Source.Issuer, Source.PasswordResetTokenExpirationMinutes, Source.ExpirationMinutes)
 	output inserted.Id;
 Commit Transaction
 End Try

@@ -24,7 +24,7 @@ namespace AuthHub.DAL.Sql.Mappers
                 {
                     UserId = row.Field<Guid>("FK_User"),
                     Iterations = row.Field<int>("Iterations"),
-                    HashLength = row.Field<int>("HasLength"),
+                    HashLength = row.Field<int>("HashLength"),
                     PasswordHash = row.Field<byte[]>("PasswordHash"),
                     Salt = row.Field<byte[]>("Salt"),
                     UserName = row.Field<string>("UserName")
@@ -41,6 +41,7 @@ namespace AuthHub.DAL.Sql.Mappers
                 result = new User()
                 {
                     ID = row.Field<Guid>("ID"),
+                    AuthSettingsId = row.Field<Guid>("FK_AuthSettings"),
                     FirstName = row.Field<string>("FirstName"),
                     LastName = row.Field<string>("LastName"),
                     Email = row.Field<string>("Email"),
@@ -84,7 +85,7 @@ namespace AuthHub.DAL.Sql.Mappers
                 var item = new ClaimEntity()
                 {
                     Id = row.Field<Guid>("Id"),
-                    Key = row.Field<string>("Key"),
+                    Key = row.Field<string>("Name"),
                     Value = row.Field<string>("Value"),
                     PasswordId = row.Field<Guid>("FK_Password")
                 };
@@ -155,15 +156,15 @@ namespace AuthHub.DAL.Sql.Mappers
                 {
                     ID = row.Field<Guid>("Id"),
                     Name = row.Field<string>("Name"),
-                    OrganizationID = row.Field<Guid>("OrganizationID"),
+                    OrganizationID = row.Field<Guid>("FK_Organization"),
                     AuthScheme = row.Field<AuthSchemeEnum>("AuthScheme"),
-                    ExpirationMinutes = row.Field<int>("AuthScheme"),
-                    CreateDate = row.Field<DateTime>("CreateDate"),
-                    LastUpdated = row.Field<DateTime>("LastUpdated"),
+                    ExpirationMinutes = row.Field<int>("ExpirationMinutes"),
+                    CreateDate = row.Field<DateTime>("CreatedUTC"),
+                    LastUpdated = row.Field<DateTime>("ModifiedUTC"),
                     HashLength = row.Field<int>("HashLength"),
                     Issuer = row.Field<string>("Issuer"),
                     Iterations = row.Field<int>("Iterations"),
-                    Key = row.Field<string>("Key"),
+                    Key = row.Field<string>("AuthKey"),
                     PasswordResetTokenExpirationMinutes = row.Field<int>("PasswordResetTokenExpirationMinutes"),
                     SaltLength = row.Field<int>("SaltLength")
                 };
@@ -198,7 +199,8 @@ namespace AuthHub.DAL.Sql.Mappers
                         setting.Users = users.Where(x => x.AuthSettingsId == setting.ID).ToList();
                         foreach (var user in setting.Users)
                         {
-                            user.Password = passwords.First(x => x.UserId == setting.ID);
+                            user.Password = passwords.FirstOrDefault(x => x.UserId == user.ID);
+                            if (user.Password == null) continue;
                             user.Password.Claims = claims
                                 .Where(x => x.PasswordId == user.Password.ID)
                                 .Select(x => new SerializableClaim()
@@ -223,7 +225,7 @@ namespace AuthHub.DAL.Sql.Mappers
                 {
                     UserId = row.Field<Guid>("FK_User"),
                     Iterations = row.Field<int>("Iterations"),
-                    HashLength = row.Field<int>("HasLength"),
+                    HashLength = row.Field<int>("HashLength"),
                     PasswordHash = row.Field<byte[]>("PasswordHash"),
                     Salt = row.Field<byte[]>("Salt"),
                     UserName = row.Field<string>("UserName")
@@ -243,15 +245,15 @@ namespace AuthHub.DAL.Sql.Mappers
                 {
                     ID = row.Field<Guid>("Id"),
                     Name = row.Field<string>("Name"),
-                    OrganizationID = row.Field<Guid>("OrganizationID"),
+                    OrganizationID = row.Field<Guid>("FK_Organization"),
                     AuthScheme = row.Field<AuthSchemeEnum>("AuthScheme"),
-                    ExpirationMinutes = row.Field<int>("AuthScheme"),
-                    CreateDate = row.Field<DateTime>("CreateDate"),
-                    LastUpdated = row.Field<DateTime>("LastUpdated"),
+                    ExpirationMinutes = row.Field<int>("ExpirationMinutes"),
+                    CreateDate = row.Field<DateTime>("CreatedUTC"),
+                    LastUpdated = row.Field<DateTime>("ModifiedUTC"),
                     HashLength = row.Field<int>("HashLength"),
                     Issuer = row.Field<string>("Issuer"),
                     Iterations = row.Field<int>("Iterations"),
-                    Key = row.Field<string>("Key"),
+                    Key = row.Field<string>("AuthKey"),
                     PasswordResetTokenExpirationMinutes = row.Field<int>("PasswordResetTokenExpirationMinutes"),
                     SaltLength = row.Field<int>("SaltLength")
                 };

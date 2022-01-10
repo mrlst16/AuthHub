@@ -1,5 +1,6 @@
 ﻿using AuthHub.Common.Extensions;
 using AuthHub.Interfaces.Organizations;
+using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
@@ -16,23 +17,23 @@ namespace AuthHub.BLL.Common.Tokens
     public class JWTTokenGenerator : ITokenGenerator
     {
         private readonly IOrganizationLoader _organizationLoader;
+        private readonly IPasswordLoader _passwordLoader;
+
         public JWTTokenGenerator(
-            IOrganizationLoader organizationLoader
+            IOrganizationLoader organizationLoader,
+            IPasswordLoader passwordLoader
             )
         {
             _organizationLoader = organizationLoader;
+            _passwordLoader = passwordLoader;
         }
 
         public async Task<Token> GetToken(PasswordRequest request, Organization organization, bool forAudderClients = false)
         {
             try
             {
-                var passwordRecord = organization
-                                        .GetSettings(request.SettingsName)
-                                        ?.Users.FirstOrDefault(x => string.Equals(x.UserName, request.UserName))
-                                        ?.Password
-                                            ?? null;
-                var authSettings = organization.GetSettings(request.SettingsName);
+                var passwordRecord = await _passwordLoader.Get(request.OrganizationID, request.SettingsName, request.UserName);
+                var authSettings = await _organizationLoader.GetSettings(request.OrganizationID, request.SettingsName);
 
                 if (!Authenticate(request, passwordRecord))
                     throw new Exception($"Username and Password are not a match for user {request.UserName} in organization {organization.ID}");
@@ -67,7 +68,7 @@ namespace AuthHub.BLL.Common.Tokens
             }
             catch (Exception e)
             {
-
+                throw;
             }
             return null;
         }

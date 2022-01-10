@@ -13,7 +13,7 @@
         Username
         <InputText @bind-Value="model.UserName" DisplayName="UserName"></InputText>
     </label>
-    <br />
+    <br />**
     <label>
         Password
         <InputText @bind-Value="model.Password" DisplayName="Password"></InputText>
@@ -32,7 +32,11 @@
 <a href="/organization_password_reset">Forgot Password</a>
 
 @code {
-    private SignInRequest model = new SignInRequest();
+    private SignInRequest model = new SignInRequest()
+    {
+        UserName = "mrlst16@mail.rmu.edu",
+        Password = "Matty33!"
+    };
     private string Hidden { get; set; } = "hidden";
     private bool ShowError { get; set; } = false;
 

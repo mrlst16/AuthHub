@@ -36,7 +36,7 @@ namespace AuthHub.WebUI.Connectors
                 _navigationManager.NavigateTo("/organization_signin");
                 return null;
             }
-            var response = await _connector.Get<Organization>("get_organization", new Dictionary<string, string>()
+            var response = await _connector.Get<Organization>("organization/get_organization", new Dictionary<string, string>()
             {
                 { "organizationId", token.EnitityID.ToString()}
             });

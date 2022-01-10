@@ -1,14 +1,44 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetPassword]
-	@userId uniqueidentifier = null,
+	@authSettingsName nvarchar(200) = null,
+	@username nvarchar(200) = null,
+	@organizationId uniqueidentifier = null,
 	@passwordId uniqueidentifier = null
 AS
+Begin Transaction Body
 	Begin Try
+
+	if @organizationId is null
+	Begin
+		;throw 10001, 'OrganizationId may not be null', 1
+	End
+
+	declare @userId uniqueidentifier;
+
 	If @passwordId is null
 	Begin
+		
+		declare @authSettingsId uniqueidentifier = (
+			select top 1 Id
+			from AuthSettings(nolock)
+			where Name = @authSettingsName
+			and FK_Organization = @organizationId
+			and DeletedUTC is null
+		);
+
+		set @userId = (
+			select top 1 Id 
+			from [User](nolock)
+			where FK_AuthSettings = @authSettingsId
+			and Username = @username
+			and DeletedUTC is null
+		);
+
 		select 
 			@passwordId = Id
 			from Password(nolock)
-			where FK_User = @userId
+			where (
+				FK_User = @userId
+			)
 			and DeletedUTC is null
 	End
 
@@ -20,6 +50,7 @@ AS
 	from Claim(nolock)
 	where FK_Password = @passwordId
 
+Commit Transaction Body
 	End Try
 	Begin Catch
 	SELECT
@@ -29,5 +60,6 @@ AS
 		ERROR_PROCEDURE() AS ErrorProcedure,
 		ERROR_LINE() AS ErrorLine,
 		ERROR_MESSAGE() AS ErrorMessage;
+
+Rollback Transaction Body
 	End Catch
-RETURN 0
