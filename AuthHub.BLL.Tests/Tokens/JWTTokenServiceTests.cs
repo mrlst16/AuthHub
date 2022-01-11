@@ -25,6 +25,7 @@ namespace AuthHub.BLL.Tests.Tokens
         {
             _organizationLoader = Substitute.For<IOrganizationLoader>();
             _userLoader = Substitute.For<IUserLoader>();
+            _passwordLoader = Substitute.For<IPasswordLoader>();
 
             _generator = new JWTTokenGenerator(
                 _organizationLoader,
@@ -98,6 +99,15 @@ namespace AuthHub.BLL.Tests.Tokens
             _organizationLoader
                 .Get(organizationId)
                 .Returns(organization);
+
+            _passwordLoader
+                .Get(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<string>())
+                .Returns(password);
+
+            _organizationLoader
+                .GetSettings(Arg.Any<Guid>(), Arg.Any<string>())
+                .Returns(organizationSettings);
+
             var actual = await _generator.GetToken(passwordRequest, organization);
         }
     }
