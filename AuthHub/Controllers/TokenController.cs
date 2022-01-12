@@ -3,6 +3,7 @@ using AuthHub.BLL.Common.Tokens;
 using AuthHub.Common.Extensions;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Tokens;
 using AuthHub.ServiceRegistrations;
@@ -20,12 +21,14 @@ namespace AuthHub.Controllers
         private readonly IValidatorFactory _validatorFactory;
         private readonly ITokenGeneratoryFactory _tokenServiceFactory;
         private readonly IOrganizationService _service;
+        private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
 
         public TokenController(
             IValidatorFactory validatorFactory,
             ITokenGeneratoryFactory tokenServiceFactory,
             IOrganizationService service,
+            IUserService userService,
             IConfiguration configuration
             )
         {
@@ -33,6 +36,7 @@ namespace AuthHub.Controllers
             _tokenServiceFactory = tokenServiceFactory;
             _service = service;
             _configuration = configuration;
+            _userService = userService;
         }
 
         [HttpGet("get_jwt_token")]
@@ -74,14 +78,15 @@ namespace AuthHub.Controllers
                 Password = password,
                 SettingsName = "audder_clients"
             };
-            var org = await _service.Get(organizationId);
-            var service = _tokenServiceFactory.Get<JWTTokenGenerator>();
 
             _validatorFactory.ValidateAndThrow<PasswordRequest>(request);
+            var service = _tokenServiceFactory.Get<JWTTokenGenerator>();
+
+            var data = await service.GetTokenForAudderClients(request);
 
             var response = new ApiResponse<Token>()
             {
-                Data = await service.GetToken(request, org, true),
+                Data = data,
                 SuccessMessage = "Successfully get token",
                 Sucess = true
             };

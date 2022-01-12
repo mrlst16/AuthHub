@@ -37,22 +37,12 @@ namespace AuthHub.DAL.Sql.Users
             SqlParameter[] parameters = new SqlParameter[] {
                 new SqlParameter("@organizationId", organizationId),
                 new SqlParameter("@authSettingsName", authSettingsName),
-                new SqlParameter("@userName", username)
+                new SqlParameter("@userName", username),
+                new SqlParameter("@id", Guid.Empty)
             };
             var dataSet = await _context.ExecuteSproc(SprocNames.GetUser, parameters);
-            if (dataSet.HasDataForTable(0, out DataTable? table))
-            {
-                result = _mapper.MapUser(table);
-                if (dataSet.HasDataForTable(1, out DataTable? table2))
-                {
-                    result.Password = _mapper.MapPassword(table2);
-                    if (dataSet.HasDataForTable(2, out DataTable? table3))
-                    {
-                        result.Password.Claims = _mapper.MapClaims(table3).ToList();
-                    }
-                }
-            }
-            return result;
+            
+            return _mapper.MapUser(dataSet);
         }
 
         public async Task<User> Get(UserPointer userPointer)
@@ -66,7 +56,7 @@ namespace AuthHub.DAL.Sql.Users
             };
 
             var dataSet = await _context.ExecuteSproc(SprocNames.SaveUser, parameters);
-            user.ID = _mapper.MapIdFromSave(dataSet);
+            user.ID = _mapper.MapSingle<Guid>(dataSet);
             return user;
         }
 

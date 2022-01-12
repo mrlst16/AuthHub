@@ -8,6 +8,7 @@ namespace AuthHub.DAL.Sql.Mappers
     public interface IDataSetMapper
     {
         User MapUser(DataTable? table);
+        User MapUser(DataSet? dataSet);
         Password MapPassword(DataTable? table);
         List<SerializableClaim> MapClaims(DataTable? table);
         PasswordResetToken MapPasswordResetToken(DataTable? table);
@@ -15,6 +16,7 @@ namespace AuthHub.DAL.Sql.Mappers
         Organization MapOrganization(DataSet? dataSet);
         Organization MapOrganization(DataTable? table);
         AuthSettings MapAuthSettings(DataTable? table);
-        Guid MapIdFromSave(DataSet? dataSet);
+        T MapSingle<T>(DataSet? dataSet, string columnName = "Id");
+        T MapSingle<T>(DataSet? dataSet, int tableIndex, int rowIndex, string columnName = "Id");
     }
 }

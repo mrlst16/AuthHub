@@ -5,6 +5,7 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
+using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace AuthHub.BLL.Tests.Tokens
         private IOrganizationLoader _organizationLoader;
         private IUserLoader _userLoader;
         private IPasswordLoader _passwordLoader;
+        private IConfiguration _configuration;
 
         private readonly JWTTokenGenerator _generator;
 
@@ -26,10 +28,13 @@ namespace AuthHub.BLL.Tests.Tokens
             _organizationLoader = Substitute.For<IOrganizationLoader>();
             _userLoader = Substitute.For<IUserLoader>();
             _passwordLoader = Substitute.For<IPasswordLoader>();
+            _configuration = Substitute.For<IConfiguration>();
 
             _generator = new JWTTokenGenerator(
                 _organizationLoader,
-                _passwordLoader
+                _passwordLoader,
+                _userLoader,
+                _configuration
                 );
         }
 

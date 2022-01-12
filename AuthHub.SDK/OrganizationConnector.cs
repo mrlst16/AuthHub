@@ -35,7 +35,7 @@ namespace AuthHub.SDK
             }
             var response = await _connector.Get<Organization>("get_organization", new Dictionary<string, string>()
             {
-                { "organizationId", token.EnitityID.ToString()}
+                { "organizationId", token.EntityID.ToString()}
             });
             return response;
         }
@@ -50,7 +50,7 @@ namespace AuthHub.SDK
             }
             var response = await _connector.Get<AuthSettings>("get_auth_settings", new Dictionary<string, string>()
             {
-                { "organizationId", token.EnitityID.ToString()},
+                { "organizationId", token.EntityID.ToString()},
                 { "name", name}
             });
             return response;

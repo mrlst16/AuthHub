@@ -1,0 +1,13 @@
+﻿@using AuthHub.Models.Organizations
+
+
+<h3>@model.Name</h3>
+
+@code {
+    [Parameter]
+    public AuthSettings model { get; set; } = new AuthSettings();
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+}

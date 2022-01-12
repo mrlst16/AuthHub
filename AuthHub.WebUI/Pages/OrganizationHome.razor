@@ -1,5 +1,6 @@
 ﻿@page "/organization_home"
 @using AuthHub.Models.Organizations
+@using AuthHub.WebUI.Components
 @using AuthHub.WebUI.Connectors
 @inject IOrganizationConnector _connector
 
@@ -12,6 +13,9 @@
         <li>
             <a href="/organizationSettings?name=@settings.Name">@settings.Name</a>
             <span>@settings.AuthScheme.ToString()</span>
+            <div>
+                <AuthSettingsDisplay model="@settings" ></AuthSettingsDisplay>
+            </div>
         </li>
     }
 </ul>

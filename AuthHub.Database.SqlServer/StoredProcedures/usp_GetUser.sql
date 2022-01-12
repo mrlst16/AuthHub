@@ -6,16 +6,16 @@
 AS
 	Begin Try
 
-	declare @passwordId uniqueidentifier;
-
+	declare @passwordId uniqueidentifier
 	declare @authSettingsId uniqueidentifier
-	if @Id is null
+
+	if @Id is null or @id = cast('00000000-0000-0000-0000-000000000000' as uniqueidentifier)
 	Begin
 		select
 			@authSettingsId = ID
 		from AuthSettings (nolock)
 		where FK_Organization = @organizationId
-		and Name = @authSettingsName
+		and Name = @authSettingsName 
 		and DeletedUTC is null
 
 		select 
@@ -26,11 +26,15 @@ AS
 		and DeletedUTC is null
 	End
 	
-	select top 1 * 
-	from [User](nolock)
-	where Id = @Id
-	and DeletedUTC is null
+	select top 1 u.*, a.FK_Organization as FK_Organization
+	into #user
+	from [User](nolock) u
+	join AuthSettings(nolock) a on u.FK_AuthSettings = a.Id
+	where u.Id = @Id
+	and u.DeletedUTC is null
 	
+	select * from #user
+
 	select top 1 
 	@passwordId = Id
 	from [Password] (nolock) p
@@ -44,6 +48,11 @@ AS
 	select *
 	from Claim (nolock) c
 	where c.FK_Password = @passwordId
+	and DeletedUTC is null
+
+	select top 1 Id as UsersOrganizationId
+	from Organization(nolock)
+	where Name = (select top 1 FirstName from [User] where Id = (select top 1 id from #user))
 	and DeletedUTC is null
 
 	End Try

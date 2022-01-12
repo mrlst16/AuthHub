@@ -1,11 +1,14 @@
-﻿using AuthHub.Common.Extensions;
+﻿using AuthHub.BLL.Common.Extensions;
+using AuthHub.Common.Extensions;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Tokens;
 using CommonCore2.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -18,14 +21,61 @@ namespace AuthHub.BLL.Common.Tokens
     {
         private readonly IOrganizationLoader _organizationLoader;
         private readonly IPasswordLoader _passwordLoader;
+        private readonly IUserLoader _userLoader;
+        private readonly IConfiguration _configuration;
 
         public JWTTokenGenerator(
             IOrganizationLoader organizationLoader,
-            IPasswordLoader passwordLoader
+            IPasswordLoader passwordLoader,
+            IUserLoader userLoader,
+            IConfiguration configuration
             )
         {
             _organizationLoader = organizationLoader;
             _passwordLoader = passwordLoader;
+            _userLoader = userLoader;
+            _configuration = configuration;
+        }
+
+        public async Task<Token> GetTokenForAudderClients(PasswordRequest request)
+        {
+            var authHubOrgId = _configuration.AuthHubOrganizationId();
+            var authHubSettingsId = _configuration.AuthHubSettingsId();
+
+            try
+            {
+                var passwordRecord = await _passwordLoader.Get(request.OrganizationID, request.SettingsName, request.UserName);
+                var authSettings = await _organizationLoader.GetSettings(request.OrganizationID, request.SettingsName);
+                var user = await _userLoader.Get(request.OrganizationID, authSettings.Name, request.UserName);
+
+                if (!Authenticate(request, passwordRecord))
+                    throw new Exception($"Username and Password are not a match for user {request.UserName} while logging in as an ogranization");
+                
+                if (passwordRecord.Claims == null)
+                    passwordRecord.Claims = new List<SerializableClaim>();
+                if (passwordRecord.Claims.FirstOrDefault(x => x.Key == ClaimTypes.Name) == null)
+                    passwordRecord.Claims.Add(new SerializableClaim(ClaimTypes.Name, passwordRecord.UserName));
+
+                passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
+
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.Key));
+                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+                var token = new JwtSecurityToken(
+                    issuer: authSettings.Issuer,
+                    audience: authSettings.Issuer,
+                    claims: passwordRecord.GetClaims(),
+                    expires: DateTime.Now.AddMinutes(authSettings.ExpirationMinutes),
+                    signingCredentials: credentials
+                    );
+
+                var val = new JwtSecurityTokenHandler().WriteToken(token);
+                return new Token(val, token.ValidTo, user.UsersOrganizationId);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public async Task<Token> GetToken(PasswordRequest request, Organization organization, bool forAudderClients = false)

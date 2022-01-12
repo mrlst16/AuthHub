@@ -66,7 +66,7 @@ namespace AuthHub.DAL.Sql.Passwords
             var dataSet = await _context.ExecuteSproc(SprocNames.SavePassword, parameters);
 
             success = true;
-            result.ID = _mapper.MapIdFromSave(dataSet);
+            result.ID = _mapper.MapSingle<Guid>(dataSet);
             return (success, result);
         }
 

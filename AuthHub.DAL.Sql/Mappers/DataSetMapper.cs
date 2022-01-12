@@ -9,11 +9,14 @@ namespace AuthHub.DAL.Sql.Mappers
     public class DataSetMapper : IDataSetMapper
     {
 
-        public Guid MapIdFromSave(DataSet? dataSet)
-            => (dataSet?.HasDataForTable(0, out var table) ?? false)
-                && (table?.HasDataForRow(0, out var row) ?? false)
-                    ? row?.Field<Guid>("Id") ?? Guid.Empty
-            : Guid.Empty;
+        public T MapSingle<T>(DataSet? dataSet, string columnName = "Id")
+            => MapSingle<T>(dataSet, 0, 0, columnName);
+
+        public T MapSingle<T>(DataSet? dataSet, int tableIndex, int rowIndex, string columnName = "Id")
+            => (dataSet?.HasDataForTable(tableIndex, out var table) ?? false)
+                && (table?.HasDataForRow(rowIndex, out var row) ?? false)
+                    ? (row.Field<T>(columnName) ?? default(T))
+            : default(T);
 
         public Password MapPassword(DataTable table)
         {
@@ -33,6 +36,25 @@ namespace AuthHub.DAL.Sql.Mappers
             return result;
         }
 
+        public User MapUser(DataSet? dataSet)
+        {
+            User result = new();
+            if (dataSet == null) return result;
+
+            if (dataSet.HasDataForTable(0, out var userTable))
+            {
+                result = MapUser(userTable);
+                if (dataSet.HasDataForTable(1, out var passwordTable))
+                {
+                    result.Password ??= MapPassword(passwordTable);
+                    if (dataSet.HasDataForTable(2, out var claimsTable))
+                        result.Password.Claims = MapClaims(claimsTable);
+                }
+                result.UsersOrganizationId = MapSingle<Guid>(dataSet, 3, 0, "UsersOrganizationId");
+            }
+            return result;
+        }
+
         public User MapUser(DataTable? table)
         {
             var result = new User();
@@ -41,6 +63,7 @@ namespace AuthHub.DAL.Sql.Mappers
                 result = new User()
                 {
                     ID = row.Field<Guid>("ID"),
+                    OrganizationId = row.Field<Guid>("FK_Organization"),
                     AuthSettingsId = row.Field<Guid>("FK_AuthSettings"),
                     FirstName = row.Field<string>("FirstName"),
                     LastName = row.Field<string>("LastName"),
@@ -48,6 +71,7 @@ namespace AuthHub.DAL.Sql.Mappers
                     UserName = row.Field<string>("UserName")
                 };
             }
+
             return result;
         }
 
@@ -108,7 +132,7 @@ namespace AuthHub.DAL.Sql.Mappers
                     Email = row.Field<string>("Email"),
                     ExpirationDate = row.Field<DateTime>("ExpirationDate"),
                     IsActive = row.Field<bool>("IsActive"),
-                    OrganizationID = row.Field<Guid>("OrganizationID"),
+                    OrganizationID = row.Field<Guid>("FK_Organization"),
                     Salt = row.Field<byte[]>("Salt"),
                     Password = row.Field<byte[]>("Password"),
                     Token = row.Field<byte[]>("Token"),
@@ -281,7 +305,6 @@ namespace AuthHub.DAL.Sql.Mappers
 
             return result;
         }
-
     }
 
     internal struct ClaimEntity
