@@ -4,17 +4,19 @@
 @inject IOrganizationConnector _connector
 
 <div>
-    <EditForm Model="@model">
+    <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <label>
             Name:
-            <InputNumber @bind-Value="model.Name"></InputNumber>
+            <InputText @bind-Value="Model.Name"></InputText>
         </label>
         <label>
             Scheme:
-            <InputSelect @bind-Value="model.AuthScheme">
+            <InputSelect @bind-Value="Model.AuthScheme">
                 @foreach (var scheme in AuthSchemes)
                 {
-                    if (model.AuthScheme == scheme)
+                    if (Model.AuthScheme == scheme)
                     {
                         <option selected="selected" value="@scheme.ToString()">@scheme.ToString()</option>
                     }
@@ -28,32 +30,32 @@
         <br />
         <label>
             Salt Length:
-            <InputNumber @bind-Value="model.SaltLength"></InputNumber>
+            <InputNumber @bind-Value="Model.SaltLength"></InputNumber>
         </label>
         <br />
         <label>
             Hash Length:
-            <InputNumber @bind-Value="model.HashLength"></InputNumber>
+            <InputNumber @bind-Value="Model.HashLength"></InputNumber>
         </label>
         <br />
         <label>
             Iterations:
-            <InputNumber @bind-Value="model.Iterations"></InputNumber>
+            <InputNumber @bind-Value="Model.Iterations"></InputNumber>
         </label>
         <br />
         <label>
             Key:
-            <InputText @bind-Value="model.Key"></InputText>
+            <InputText @bind-Value="Model.Key"></InputText>
         </label>
         <br />
         <label>
             Expiration in Minutes:
-            <InputNumber @bind-Value="model.ExpirationMinutes"></InputNumber>
+            <InputNumber @bind-Value="Model.ExpirationMinutes"></InputNumber>
         </label>
         <div>
             <h3>Claims Keys</h3>
             <ul>
-                @foreach (var key in model.ClaimsKeys)
+                @foreach (var key in Model.ClaimsKeys)
                 {
                     <li>
                         <span>@key</span>
@@ -73,10 +75,8 @@
 
 @code {
 
-    AuthSettings model = new AuthSettings();
-
     [Parameter]
-    public string Name { get; set; } = string.Empty;
+    public AuthSettings Model { get; set; }
 
     private string NewKey { get; set; }
 
@@ -84,21 +84,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        model = await _connector.GetAuthSettings(Name) ?? new AuthSettings();
+         
     }
 
     protected EventCallback OnRemoveClaimsKeyClick(string key)
     {
-        model.ClaimsKeys.Remove(key);
+        Model.ClaimsKeys.Remove(key);
         return new EventCallback();
     }
 
     protected EventCallback OnAddClaimsKeyClick()
     {
-        model.ClaimsKeys.Add(NewKey);
+        Model.ClaimsKeys.Add(NewKey);
         return new EventCallback();
     }
 
     private async Task HandleValidSubmit()
-        => await _connector.SaveAuthSettings(model);
+        => await _connector.SaveAuthSettings(Model);
 }

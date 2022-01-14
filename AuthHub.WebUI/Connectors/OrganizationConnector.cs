@@ -1,6 +1,7 @@
 ﻿using AuthHub.Models.Organizations;
 using AuthHub.Models.Tokens;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -36,9 +37,14 @@ namespace AuthHub.WebUI.Connectors
         public async Task<Organization> GetOrganization()
         {
             var token = await GetToken();
+            return await GetOrganization(token.EntityID.ToString());
+        }
+
+        public async Task<Organization> GetOrganization(string organizationId)
+        {
             var response = await _connector.Get<Organization>("organization/get_organization", new Dictionary<string, string>()
             {
-                { "organizationId", token.EntityID.ToString()}
+                { "organizationId", organizationId.ToString()}
             });
             return response;
         }

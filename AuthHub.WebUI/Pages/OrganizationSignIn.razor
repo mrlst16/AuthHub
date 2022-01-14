@@ -42,9 +42,9 @@
 
     private async Task HandleValidSubmit()
     {
-
-        var signInResult = await _connector.SignIn(model.UserName, model.Password);
+        var signInResult = await _connector.OrganizationSignIn(model.UserName, model.Password);
         ShowError = signInResult == null;
         Hidden = signInResult == null ? "hidden": "show";
+        
     }
 }
