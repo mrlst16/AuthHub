@@ -18,7 +18,7 @@ Begin Try
 	when matched
 	then update set
 		Target.FK_Organization = Source.FK_Organization,
-		Target.FK_AuthScheme = Source.FK_AuthScheme,	
+		Target.FK_AuthScheme = dbo.GetAuthSchemeId(Source.AuthScheme),	
 		Target.SaltLength = Source.SaltLength,
 		Target.HashLength = Source.HashLength,
 		Target.AuthKey = Source.AuthKey,
@@ -33,7 +33,7 @@ Begin Try
 	values 
 	(
 		newid(),
-		Source.FK_Organization, Source.Name, Source.FK_AuthScheme, Source.SaltLength, Source.HashLength, 
+		Source.FK_Organization, Source.Name, dbo.GetAuthSchemeId(Source.AuthScheme), Source.SaltLength, Source.HashLength, 
 		Source.Iterations, Source.AuthKey, Source.Issuer, Source.PasswordResetTokenExpirationMinutes, Source.ExpirationMinutes)
 	output inserted.Id;
 Commit Transaction

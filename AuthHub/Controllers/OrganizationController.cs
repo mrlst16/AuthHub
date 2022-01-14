@@ -92,7 +92,8 @@ namespace AuthHub.Controllers
             {
                 Data = result,
                 Sucess = true,
-                SuccessMessage = "Successfully retrieved organization"
+                SuccessMessage = "Successfully retrieved organization",
+                
             };
             return new OkObjectResult(response);
         }

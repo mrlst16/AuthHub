@@ -1,13 +1,17 @@
-﻿@using AuthHub.Models.Organizations
+﻿@page "/add_auth_settings/{OrganizationId}/{Name}"
+
+@using AuthHub.Models.Organizations
 @using AuthHub.Models.Enums
 @using AuthHub.WebUI.Connectors
 @inject IOrganizationConnector _connector
 
 <div>
-    <EditForm Model="@model">
+    <EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <label>
             Name:
-            <InputNumber @bind-Value="model.Name"></InputNumber>
+            <InputText @bind-Value="model.Name"></InputText>
         </label>
         <label>
             Scheme:
@@ -73,7 +77,10 @@
 
 @code {
 
-    AuthSettings model = new AuthSettings();
+    private AuthSettings model { get; set; } = new AuthSettings();
+
+    [Parameter]
+    public string OrganizationId { get; set; }
 
     [Parameter]
     public string Name { get; set; } = string.Empty;
@@ -84,7 +91,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        model = await _connector.GetAuthSettings(Name) ?? new AuthSettings();
     }
 
     protected EventCallback OnRemoveClaimsKeyClick(string key)
@@ -96,7 +102,10 @@
     protected EventCallback OnAddClaimsKeyClick()
     {
         model.ClaimsKeys.Add(NewKey);
-        return new EventCallback();
+        return new EventCallback()
+            {
+
+            };
     }
 
     private async Task HandleValidSubmit()

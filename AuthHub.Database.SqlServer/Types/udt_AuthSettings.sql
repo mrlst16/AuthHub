@@ -3,7 +3,7 @@
 	Id uniqueidentifier,
 	FK_Organization uniqueidentifier,
 	Name nvarchar(200),
-	FK_AuthScheme uniqueidentifier,
+	AuthScheme int,
 	SaltLength int,
 	HashLength int,
 	Iterations int,

@@ -8,7 +8,7 @@
     [HashLength] INT NOT NULL, 
     [Iterations] INT NOT NULL, 
     [AuthKey] NVARCHAR(100) NOT NULL, 
-    [Issuer] NCHAR(10) NOT NULL, 
+    [Issuer] NCHAR(20) NOT NULL, 
     [PasswordResetTokenExpirationMinutes] INT NOT NULL, 
     [CreatedUTC] DATETIME NOT NULL default getutcdate(), 
     [ModifiedUTC] DATETIME NOT NULL default getutcdate(), 

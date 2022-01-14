@@ -77,37 +77,52 @@ namespace AuthHub.DAL.Sql.Mappers
 
         public SqlParameter MapUdtAuthSettings(AuthSettings authSettings)
         {
+//            CREATE TYPE[dbo].[udt_AuthSettings] AS TABLE
+//(
+//   Id uniqueidentifier,
+//   FK_Organization uniqueidentifier,
+//   Name nvarchar(200),
+//	AuthScheme int,
+//    SaltLength int,
+//    HashLength int,
+//    Iterations int,
+//    ExpirationMinutes int not null default 60,
+//	AuthKey nvarchar(100),
+//	Issuer nvarchar(max),
+//	PasswordResetTokenExpirationMinutes int
+//)
+
             DataTable val = new();
             val.Columns.Add("Id", typeof(Guid));
-            val.Columns.Add("Issuer", typeof(string));
-            val.Columns.Add("HashLength", typeof(int));
-            val.Columns.Add("AuthScheme", typeof(AuthSchemeEnum));
-            val.Columns.Add("ExpirationMinutes", typeof(int));
-            val.Columns.Add("OrganizationID", typeof(Guid));
-            val.Columns.Add("Iterations", typeof(int));
-            val.Columns.Add("Key", typeof(string));
+            val.Columns.Add("FK_Organization", typeof(Guid));
             val.Columns.Add("Name", typeof(string));
-            val.Columns.Add("PasswordResetTokenExpirationMinutes", typeof(int));
+            val.Columns.Add("AuthScheme", typeof(int));
             val.Columns.Add("SaltLength", typeof(string));
+            val.Columns.Add("HashLength", typeof(int));
+            val.Columns.Add("Iterations", typeof(int));
+            val.Columns.Add("ExpirationMinutes", typeof(int));
+            val.Columns.Add("AuthKey", typeof(string));
+            val.Columns.Add("Issuer", typeof(string));
+            val.Columns.Add("PasswordResetTokenExpirationMinutes", typeof(int));
 
             var row = val.NewRow();
             row["Id"] = authSettings.ID;
-            row["Issuer"] = authSettings.Issuer;
-            row["HashLength"] = authSettings.HashLength;
-            row["AuthScheme"] = authSettings.AuthScheme;
-            row["ExpirationMinutes"] = authSettings.ExpirationMinutes;
-            row["OrganizationID"] = authSettings.OrganizationID;
-            row["Iterations"] = authSettings.Iterations;
-            row["Key"] = authSettings.Key;
+            row["FK_Organization"] = authSettings.OrganizationID;
             row["Name"] = authSettings.Name;
-            row["PasswordResetTokenExpirationMinutes"] = authSettings.PasswordResetTokenExpirationMinutes;
+            row["AuthScheme"] = (int)authSettings.AuthScheme;
             row["SaltLength"] = authSettings.SaltLength;
+            row["HashLength"] = authSettings.HashLength;
+            row["ExpirationMinutes"] = authSettings.ExpirationMinutes;
+            row["Iterations"] = authSettings.Iterations;
+            row["AuthKey"] = authSettings.Key;
+            row["Issuer"] = authSettings.Issuer;
+            row["PasswordResetTokenExpirationMinutes"] = authSettings.PasswordResetTokenExpirationMinutes;
 
             val.Rows.Add(row);
 
             return new SqlParameter("@request", SqlDbType.Structured)
             {
-                TypeName = "udt_PasswordResetToken",
+                TypeName = "udt_AuthSettings",
                 Value = val
             };
         }

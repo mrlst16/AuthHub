@@ -70,8 +70,8 @@ namespace AuthHub.WebUI.Connectors
             }
             catch (Exception e)
             {
-                //_logger.LogError(e.Message, e);
-                //_navigationManager.NavigateTo("/error");
+                _logger.LogError(e.Message, e);
+                _navigationManager.NavigateTo($"/error/{e.Message}/{e.StackTrace}");
             }
             return default(T);
         }
@@ -81,25 +81,24 @@ namespace AuthHub.WebUI.Connectors
             try
             {
                 var url = Url(endpoint);
-                var response = await _httpClient.PostAsJsonAsync(url, val);
+                var httpResponse = await _httpClient.PostAsJsonAsync(url, val);
 
-                if (response.IsSuccessStatusCode)
+                if (!httpResponse.IsSuccessStatusCode)
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<TOut>>(json);
-                    if (!apiResponse.Sucess)
-                        throw new Exception(apiResponse.Message);
+                    throw new Exception($"{httpResponse.ReasonPhrase}{System.Environment.NewLine}{httpResponse.ReasonPhrase}");
+                }
 
-                    return apiResponse.Data;
-                }
-                else
-                {
-                    //_navigationManager.NavigateTo("/error");
-                }
+                var json = await httpResponse.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<TOut>>(json);
+                if (!apiResponse.Sucess)
+                    throw new Exception(apiResponse.Message);
+
+                return apiResponse.Data;
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message, e);
+                _navigationManager.NavigateTo($"/error/{e.Message}/{e.StackTrace}");
             }
             return default(TOut);
         }

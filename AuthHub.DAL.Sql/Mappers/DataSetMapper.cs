@@ -247,6 +247,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 var item = new Password()
                 {
+                    ID = row.Field<Guid>("Id"),
                     UserId = row.Field<Guid>("FK_User"),
                     Iterations = row.Field<int>("Iterations"),
                     HashLength = row.Field<int>("HashLength"),
