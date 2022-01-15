@@ -40,23 +40,22 @@ namespace AuthHub.BLL.Common.Tokens
         public async Task<Token> GetTokenForAudderClients(PasswordRequest request)
         {
             var authHubOrgId = _configuration.AuthHubOrganizationId();
-            var authHubSettingsId = _configuration.AuthHubSettingsId();
 
             try
             {
                 var passwordRecord = await _passwordLoader.Get(request.OrganizationID, request.SettingsName, request.UserName);
-                var authSettings = await _organizationLoader.GetSettings(request.OrganizationID, request.SettingsName);
-                var user = await _userLoader.Get(request.OrganizationID, authSettings.Name, request.UserName);
 
                 if (!Authenticate(request, passwordRecord))
                     throw new Exception($"Username and Password are not a match for user {request.UserName} while logging in as an ogranization");
                 
                 if (passwordRecord.Claims == null)
-                    passwordRecord.Claims = new List<SerializableClaim>();
+                    passwordRecord.Claims = new List<ClaimsEntity>();
                 if (passwordRecord.Claims.FirstOrDefault(x => x.Key == ClaimTypes.Name) == null)
-                    passwordRecord.Claims.Add(new SerializableClaim(ClaimTypes.Name, passwordRecord.UserName));
+                    passwordRecord.Claims.Add(_configuration.CreateClaimsEntity("Name", passwordRecord.UserName));
 
                 passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
+                
+                var authSettings = await _organizationLoader.GetSettings(request.OrganizationID, request.SettingsName);
 
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.Key));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -68,6 +67,8 @@ namespace AuthHub.BLL.Common.Tokens
                     expires: DateTime.Now.AddMinutes(authSettings.ExpirationMinutes),
                     signingCredentials: credentials
                     );
+
+                var user = await _userLoader.Get(request.OrganizationID, authSettings.Name, request.UserName);
 
                 var val = new JwtSecurityTokenHandler().WriteToken(token);
                 return new Token(val, token.ValidTo, user.UsersOrganizationId);
@@ -78,22 +79,23 @@ namespace AuthHub.BLL.Common.Tokens
             }
         }
 
-        public async Task<Token> GetToken(PasswordRequest request, Organization organization, bool forAudderClients = false)
+        public async Task<Token> GetToken(PasswordRequest request, Organization organization)
         {
             try
             {
                 var passwordRecord = await _passwordLoader.Get(request.OrganizationID, request.SettingsName, request.UserName);
-                var authSettings = await _organizationLoader.GetSettings(request.OrganizationID, request.SettingsName);
 
                 if (!Authenticate(request, passwordRecord))
                     throw new Exception($"Username and Password are not a match for user {request.UserName} in organization {organization.ID}");
 
                 if (passwordRecord.Claims == null)
-                    passwordRecord.Claims = new List<SerializableClaim>();
+                    passwordRecord.Claims = new List<ClaimsEntity>();
                 if (passwordRecord.Claims.FirstOrDefault(x => x.Key == ClaimTypes.Name) == null)
-                    passwordRecord.Claims.Add(new SerializableClaim(ClaimTypes.Name, passwordRecord.UserName));
+                    passwordRecord.Claims.Add(_configuration.CreateClaimsEntity("Name", passwordRecord.UserName));
 
                 passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
+
+                var authSettings = await _organizationLoader.GetSettings(request.OrganizationID, request.SettingsName);
 
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.Key));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -106,21 +108,13 @@ namespace AuthHub.BLL.Common.Tokens
                     signingCredentials: credentials
                     );
 
-                var orgId = organization.ID;
-                if (forAudderClients)
-                {
-                    var userOrg = await _organizationLoader.Get(passwordRecord.UserName);
-                    orgId = userOrg.ID;
-                }
-
                 var val = new JwtSecurityTokenHandler().WriteToken(token);
-                return new Token(val, token.ValidTo, orgId);
+                return new Token(val, token.ValidTo, organization.ID);
             }
             catch (Exception e)
             {
                 throw;
             }
-            return null;
         }
 
         private byte[] GenerateSalt(int length)

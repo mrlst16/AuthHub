@@ -10,7 +10,7 @@ namespace AuthHub.DAL.Sql.Mappers
         User MapUser(DataTable? table);
         User MapUser(DataSet? dataSet);
         Password MapPassword(DataTable? table);
-        List<SerializableClaim> MapClaims(DataTable? table);
+        List<Models.Passwords.ClaimsEntity> MapClaims(DataTable? table);
         PasswordResetToken MapPasswordResetToken(DataTable? table);
         List<Organization> MapOrganizations(DataTable? table);
         Organization MapOrganization(DataSet? dataSet);
@@ -18,5 +18,6 @@ namespace AuthHub.DAL.Sql.Mappers
         AuthSettings MapAuthSettings(DataTable? table);
         T MapSingle<T>(DataSet? dataSet, string columnName = "Id");
         T MapSingle<T>(DataSet? dataSet, int tableIndex, int rowIndex, string columnName = "Id");
+        List<ClaimsKey> MapClaimsKeys(DataTable? table);
     }
 }

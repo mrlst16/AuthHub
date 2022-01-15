@@ -35,11 +35,21 @@ exec dbo.usp_SaveOrganization @request=@request_var
 
 declare @authSettings udt_AuthSettings
 insert into @authSettings
-(Id, FK_Organization, Name, FK_AuthScheme, SaltLength, HashLength, Iterations, [AuthKey], Issuer, PasswordResetTokenExpirationMinutes)
+(Id, FK_Organization, Name, AuthScheme, SaltLength, HashLength, Iterations, [AuthKey], Issuer, PasswordResetTokenExpirationMinutes)
 values
-('6CE12DA2-CB73-4F0B-B9F0-46051621B3C6', @organizationId, 'audder_clients', 'b696fb1e-f823-4b59-a8b0-ca68a93a7ab4', 8, 8, 10, 'this is my custom Secret key for authentication', 'Issuer', 60)
+('6CE12DA2-CB73-4F0B-B9F0-46051621B3C6', @organizationId, 'audder_clients', 1, 8, 8, 10, 'this is my custom Secret key for authentication', 'Issuer', 60)
 exec usp_SaveAuthSettings @authSettings
 
+--337ec60c-7375-4401-877d-c56bb692517a
+--3aacb46c-418d-4f6b-92c6-6580c473e9c6
+--62bc7a9a-4394-4c7b-9a1e-5ca825d1744a
+--cb92062e-9a12-4418-a3f2-2271ccae7048
+--380ddb1d-b3c6-42ea-894f-e7495ebedac6
+--fc77aa09-1156-4040-b0e2-72b06ba5513b
+--297a2d03-cd5c-4e0d-b800-b891ea3c0056
+--e2ccc155-477f-475e-a11f-b63e9523ba02
+--8e561b4d-229b-422c-bb25-15face2fcf0f
+--f9166177-c981-4d2d-8fb2-e4fab48d7d0b
 
 if @commit = 0
 	Begin

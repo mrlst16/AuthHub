@@ -4,6 +4,11 @@ AS
 
 Begin Transaction
 Begin Try
+	if (select count(*) from @request) > 1
+	Begin
+		;throw 50001 , 'Cannot merge more than 1 organization at a time', 1
+	End
+
 	merge [Organization] as Target
 	using @request as Source
 	on (

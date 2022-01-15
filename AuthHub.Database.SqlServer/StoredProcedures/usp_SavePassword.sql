@@ -7,16 +7,17 @@ Begin Try
 	
 	if (select count(*) from @request) > 1
 	Begin
-		;throw 50001 , 'Cannot insert more than 1 ppassword at a time', 1
+		;throw 50001 , 'Cannot merge more than 1 password at a time', 1
 	End
 
-	declare @passwordId table(
+	declare @passwordIds table(
 		value uniqueidentifier
 	);
 
 	merge Password as Target
 	using @request as Source
-	on (Target.FK_User = Source.FK_User
+	on (
+		Target.FK_User = Source.FK_User
 			and Target.DeletedUTC is null
 	)
 	when matched
@@ -32,24 +33,26 @@ Begin Try
 	values
 	(newid(), Source.FK_User, Source.Username, Source.PasswordHash,Source.Salt, Source.HashLength)
 	Output inserted.Id
-	into @passwordId;
+	into @passwordIds;
 
-	select value from @passwordId as Id;
+	declare @passwordId uniqueidentifier = (select top 1 value from @passwordIds)
+
+	select @passwordId as Id;
 
 	merge Claim as Target
 	using @claims as Source
 	on (
 		Target.FK_Password = Source.FK_Password
-		and Target.Name = Source.Name
+			and Target.FK_ClaimsKey = Target.FK_ClaimsKey
 	)
 	when matched
 	then update set
 		Target.Value = Source.Value
 	when not matched
 	then insert 
-	(Id, FK_Password, Name, Value)
+	(Id, FK_Password, FK_ClaimsKey, Name, Value)
 	values
-	(newid(), Source.FK_Password, Source.Name, Source.Value);
+	(newid(), @passwordId, Source.FK_ClaimsKey, Source.Name, Source.Value);
 
 Commit Transaction
 End Try

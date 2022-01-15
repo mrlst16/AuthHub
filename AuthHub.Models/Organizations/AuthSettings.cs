@@ -1,4 +1,5 @@
 ﻿using AuthHub.Models.Enums;
+using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using CommonCore.Repo.Entities;
 using System;
@@ -19,7 +20,7 @@ namespace AuthHub.Models.Organizations
         public string Key { get; set; }
         public string Issuer { get; set; }
         public int ExpirationMinutes { get; set; } = 30;
-        public List<string> ClaimsKeys { get; set; } = new List<string>();
+        public List<ClaimsKey> ClaimsKeys { get; set; } = new List<ClaimsKey>();
         public List<User> Users { get; set; } = new List<User>();
         public int PasswordResetTokenExpirationMinutes { get; set; } = 120;
     }

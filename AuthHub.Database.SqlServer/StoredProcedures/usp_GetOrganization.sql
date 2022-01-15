@@ -58,6 +58,11 @@ Begin Try
 		select Id from #password
 	)
 
+	select *
+	from ClaimsKey(nolock)
+	where FK_AuthSettings in (
+		select Id from #authSettings
+	)
 End Try
 Begin Catch
 	Rollback Transaction

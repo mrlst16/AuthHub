@@ -33,14 +33,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (model.ID == Guid.Empty && string.IsNullOrWhiteSpace(Id))
-        {
-            model = await _connector.GetOrganization(Id);
-        }
-        else
-        {
-            model = await _connector.GetOrganization();
-        }
+        model = (model.ID == Guid.Empty && !string.IsNullOrWhiteSpace(Id))
+            ? model = await _connector.GetOrganization(Id)
+                : model = await _connector.GetOrganization();
         if (model == null)
             _navigationManager.NavigateTo("/organization_sign_in");
     }

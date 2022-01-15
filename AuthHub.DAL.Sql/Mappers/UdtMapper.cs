@@ -77,21 +77,6 @@ namespace AuthHub.DAL.Sql.Mappers
 
         public SqlParameter MapUdtAuthSettings(AuthSettings authSettings)
         {
-//            CREATE TYPE[dbo].[udt_AuthSettings] AS TABLE
-//(
-//   Id uniqueidentifier,
-//   FK_Organization uniqueidentifier,
-//   Name nvarchar(200),
-//	AuthScheme int,
-//    SaltLength int,
-//    HashLength int,
-//    Iterations int,
-//    ExpirationMinutes int not null default 60,
-//	AuthKey nvarchar(100),
-//	Issuer nvarchar(max),
-//	PasswordResetTokenExpirationMinutes int
-//)
-
             DataTable val = new();
             val.Columns.Add("Id", typeof(Guid));
             val.Columns.Add("FK_Organization", typeof(Guid));
@@ -127,7 +112,7 @@ namespace AuthHub.DAL.Sql.Mappers
             };
         }
 
-        public SqlParameter MapUdtClaim(Guid passwordId, IEnumerable<SerializableClaim> claims)
+        public SqlParameter MapUdtClaim(Guid passwordId, IEnumerable<Models.Passwords.ClaimsEntity> claims)
         {
             DataTable val = new();
             val.Columns.Add("Id", typeof(Guid));
@@ -148,6 +133,30 @@ namespace AuthHub.DAL.Sql.Mappers
             return new SqlParameter("@claims", SqlDbType.Structured)
             {
                 TypeName = "udt_Claim",
+                Value = val
+            };
+        }
+
+        public SqlParameter MapUdtClaimsKeys(IEnumerable<ClaimsKey> claims, string paramName = "@request")
+        {
+            DataTable val = new();
+            val.Columns.Add("Id", typeof(Guid));
+            val.Columns.Add("FK_AuthSettings", typeof(Guid));
+            val.Columns.Add("Name", typeof(string));
+
+            foreach (ClaimsKey claim in claims)
+            {
+                var row = val.NewRow();
+                row["Id"] = claim.ID;
+                row["FK_AuthSettings"] = claim.AuthSettingsId;
+                row["Name"] = claim.Name;
+
+                val.Rows.Add(row);
+            }
+
+            return new SqlParameter(paramName, SqlDbType.Structured)
+            {
+                TypeName = "udt_ClaimsKey",
                 Value = val
             };
         }

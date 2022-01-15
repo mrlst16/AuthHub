@@ -2,6 +2,5 @@
 (
     [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
     [FK_AuthSettings] UNIQUEIDENTIFIER NOT NULL, 
-    [Name] NVARCHAR(200) NOT NULL,
-    Value nvarchar(200) NOT NULL
+    [Name] NVARCHAR(200) NOT NULL
 )

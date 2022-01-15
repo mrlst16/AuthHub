@@ -67,9 +67,9 @@ namespace AuthHub.BLL.Organizations
                     UserName = request.Name,
                     HashLength = 8,
                     Iterations = 10,
-                    Claims = new List<SerializableClaim>()
+                    Claims = new List<ClaimsEntity>()
                     {
-                        new SerializableClaim("role", "admin")
+                        new ClaimsEntity("role", "admin", authSettingsId)
                     }
                 }
             };

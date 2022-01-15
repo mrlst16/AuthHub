@@ -2,6 +2,7 @@
 
 @using AuthHub.Models.Organizations
 @using AuthHub.Models.Enums
+@using AuthHub.Models.Passwords
 @using AuthHub.WebUI.Connectors
 @inject IOrganizationConnector _connector
 
@@ -61,7 +62,7 @@
                 {
                     <li>
                         <span>@key</span>
-                        <button @onclick="@OnRemoveClaimsKeyClick(key)">Remove</button>
+                        <button @onclick="@OnRemoveClaimsKeyClick(key.Name)">Remove</button>
                     </li>
                 }
             </ul>
@@ -95,17 +96,18 @@
 
     protected EventCallback OnRemoveClaimsKeyClick(string key)
     {
-        model.ClaimsKeys.Remove(key);
+        model.ClaimsKeys.Where(x => x.Name != key);
         return new EventCallback();
     }
 
     protected EventCallback OnAddClaimsKeyClick()
     {
-        model.ClaimsKeys.Add(NewKey);
-        return new EventCallback()
+        model.ClaimsKeys.Add(new ClaimsKey()
             {
-
-            };
+                AuthSettingsId = model.ID,
+                Name = NewKey
+            });
+        return new EventCallback();
     }
 
     private async Task HandleValidSubmit()

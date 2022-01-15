@@ -52,7 +52,7 @@ namespace AuthHub.DAL.Sql.Organizations
         {
             var dataSet = await _context.ExecuteSproc(SprocNames.GetAllOrganizations);
 
-            if(dataSet.HasDataForTable(0, out DataTable? table))
+            if (dataSet.HasDataForTable(0, out DataTable? table))
                 return _mapper.MapOrganizations(table);
 
             return new List<Organization>();
@@ -90,7 +90,8 @@ namespace AuthHub.DAL.Sql.Organizations
         public async Task<(bool, AuthSettings)> UpdateSettings(Guid organizationId, AuthSettings request)
         {
             SqlParameter[] parameters = new SqlParameter[]{
-                _udtMapper.MapUdtAuthSettings(request)
+                _udtMapper.MapUdtAuthSettings(request),
+                _udtMapper.MapUdtClaimsKeys(request.ClaimsKeys, "@claimsKeys")
             };
 
             var dataSet = await _context.ExecuteSproc(SprocNames.SaveAuthSettings, parameters);

@@ -15,7 +15,6 @@ namespace AuthHub.Models.Users
             set => _isOrganization = value;
         }
 
-        public Guid OrganizationId { get; set; }
         public Guid AuthSettingsId { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }

@@ -13,7 +13,7 @@ namespace AuthHub.Models.Passwords
         public byte[] Salt { get; set; }
         public int Iterations { get; set; }
         public int HashLength { get; set; }
-        public List<SerializableClaim> Claims { get; set; } = new List<SerializableClaim>();
+        public List<ClaimsEntity> Claims { get; set; } = new List<ClaimsEntity>();
 
         public List<Claim> GetClaims()
         {

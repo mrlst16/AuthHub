@@ -63,7 +63,6 @@ namespace AuthHub.DAL.Sql.Mappers
                 result = new User()
                 {
                     ID = row.Field<Guid>("ID"),
-                    OrganizationId = row.Field<Guid>("FK_Organization"),
                     AuthSettingsId = row.Field<Guid>("FK_AuthSettings"),
                     FirstName = row.Field<string>("FirstName"),
                     LastName = row.Field<string>("LastName"),
@@ -75,9 +74,9 @@ namespace AuthHub.DAL.Sql.Mappers
             return result;
         }
 
-        public List<SerializableClaim> MapClaims(DataTable? table)
+        public List<Models.Passwords.ClaimsEntity> MapClaims(DataTable? table)
         {
-            List<SerializableClaim> result = new List<SerializableClaim>();
+            List<Models.Passwords.ClaimsEntity> result = new List<Models.Passwords.ClaimsEntity>();
             if (table == null
                 || table.Rows == null
                 || table.Rows.Count == 0)
@@ -85,7 +84,7 @@ namespace AuthHub.DAL.Sql.Mappers
 
             foreach (DataRow row in table.Rows)
             {
-                var item = new SerializableClaim()
+                var item = new Models.Passwords.ClaimsEntity()
                 {
                     Key = row.Field<string>("Name"),
                     Value = row.Field<string>("Value")
@@ -208,6 +207,7 @@ namespace AuthHub.DAL.Sql.Mappers
                     List<Password> passwords = new List<Password>();
                     List<User> users = new List<User>();
                     List<ClaimEntity> claims = new List<ClaimEntity>();
+                    List<ClaimsKey> claimsKeys = new List<ClaimsKey>();
 
                     if (dataSet.HasDataForTable(2, out DataTable? usersTable))
                         users = ToFlatUsers(usersTable);
@@ -218,16 +218,21 @@ namespace AuthHub.DAL.Sql.Mappers
                     if (dataSet.HasDataForTable(4, out DataTable? claimsTable))
                         claims = MapClaimsEntities(claimsTable);
 
+                    if (dataSet.HasDataForTable(5, out DataTable? claimsKeysTable))
+                        claimsKeys = MapClaimsKeys(claimsKeysTable);
+
                     foreach (AuthSettings setting in result.Settings)
                     {
                         setting.Users = users.Where(x => x.AuthSettingsId == setting.ID).ToList();
+                        setting.ClaimsKeys = claimsKeys.Where(x => x.AuthSettingsId == setting.ID).ToList();
+
                         foreach (var user in setting.Users)
                         {
                             user.Password = passwords.FirstOrDefault(x => x.UserId == user.ID);
                             if (user.Password == null) continue;
                             user.Password.Claims = claims
                                 .Where(x => x.PasswordId == user.Password.ID)
-                                .Select(x => new SerializableClaim()
+                                .Select(x => new ClaimsEntity()
                                 {
                                     Key = x.Key,
                                     Value = x.Value
@@ -304,6 +309,22 @@ namespace AuthHub.DAL.Sql.Mappers
                 result.Add(item);
             }
 
+            return result;
+        }
+
+        public List<ClaimsKey> MapClaimsKeys(DataTable? table)
+        {
+            List<ClaimsKey> result = new List<ClaimsKey>();
+            foreach (DataRow row in table.Rows)
+            {
+                var item = new ClaimsKey()
+                {
+                    ID = row.Field<Guid>("Id"),
+                    AuthSettingsId = row.Field<Guid>("FK_AuthSettings"),
+                    Name = row.Field<string>("Name")
+                };
+                result.Add(item);
+            }
             return result;
         }
     }

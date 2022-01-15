@@ -1,9 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[usp_SaveAuthSettings]
-	@request udt_AuthSettings readonly
+	@request udt_AuthSettings readonly,
+	@claimsKeys udt_ClaimsKey readonly
 AS
 Begin Transaction
 Begin Try
 
+	if (select count(*) from @request) > 1
+	Begin
+		;throw 50001 , 'Cannot merge more than 1 auth settings at a time', 1
+	End
 	merge AuthSettings as Target
 	using @request as Source
 	on (
@@ -36,6 +41,9 @@ Begin Try
 		Source.FK_Organization, Source.Name, dbo.GetAuthSchemeId(Source.AuthScheme), Source.SaltLength, Source.HashLength, 
 		Source.Iterations, Source.AuthKey, Source.Issuer, Source.PasswordResetTokenExpirationMinutes, Source.ExpirationMinutes)
 	output inserted.Id;
+
+	exec usp_SaveClaimsKey @claimsKeys
+	
 Commit Transaction
 End Try
 Begin Catch

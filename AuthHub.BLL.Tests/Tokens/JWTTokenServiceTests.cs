@@ -88,9 +88,9 @@ namespace AuthHub.BLL.Tests.Tokens
 
             var password = new Password()
             {
-                Claims = new List<SerializableClaim>()
+                Claims = new List<ClaimsEntity>()
                 {
-                    new SerializableClaim("str", "val")
+                    new ClaimsEntity("str", "val", Guid.Parse("841e15bc-ab6d-4220-b6fd-08349238e456"))
                 },
                 UserName = username,
                 Salt = hashResult.Item2,

@@ -1,0 +1,48 @@
+﻿@page "/edit_user"
+@page "/edit_user/{AuthSettingsId}"
+
+@using AuthHub.Models.Users
+@using AuthHub.WebUI.Connectors
+
+
+<h3>EditUserComponent</h3>
+
+
+<div>
+    <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <label>
+            First Name:
+            <InputText @bind-Value="Model.UserName"></InputText>
+        </label>
+        <label>
+            Last Name:
+            <InputText @bind-Value="Model.FirstName"></InputText>
+        </label>
+        <label>
+            UserName:
+            <InputText @bind-Value="Model.LastName"></InputText>
+        </label>
+
+        <button type="submit">Save</button>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public User Model { get; set; } = new();
+
+    [Parameter]
+    public string AuthSettingsId { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+
+    }
+
+    protected void HandleValidSubmit()
+    {
+        
+    }
+}

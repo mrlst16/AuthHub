@@ -1,5 +1,6 @@
 ﻿@using AuthHub.Models.Organizations
 @using AuthHub.Models.Enums
+@using AuthHub.Models.Passwords
 @using AuthHub.WebUI.Connectors
 @inject IOrganizationConnector _connector
 
@@ -59,7 +60,7 @@
                 {
                     <li>
                         <span>@key</span>
-                        <button @onclick="@OnRemoveClaimsKeyClick(key)">Remove</button>
+                        <button @onclick="@(e=> OnRemoveClaimsKeyClick(key.Name))">Remove</button>
                     </li>
                 }
             </ul>
@@ -67,7 +68,7 @@
                 New Claim Key
                 <InputText @bind-Value="@NewKey"></InputText>
             </label>
-            <button name="Add Claim Key"></button>
+            <button name="Add Claim Key" @onclick="@(e=> OnAddClaimsKeyClick())"></button>
         </div>
         <button type="submit">Save</button>
     </EditForm>
@@ -84,19 +85,23 @@
 
     protected override async Task OnInitializedAsync()
     {
-         
+
     }
 
-    protected EventCallback OnRemoveClaimsKeyClick(string key)
+    protected void OnRemoveClaimsKeyClick(string key)
     {
-        Model.ClaimsKeys.Remove(key);
-        return new EventCallback();
+        Model.ClaimsKeys = Model.ClaimsKeys.Where(x => x.Name != key).ToList();
+        //return new EventCallback();
     }
 
-    protected EventCallback OnAddClaimsKeyClick()
+    protected void OnAddClaimsKeyClick()
     {
-        Model.ClaimsKeys.Add(NewKey);
-        return new EventCallback();
+        Model.ClaimsKeys.Add(new ClaimsKey()
+            {
+                Name = NewKey,
+                AuthSettingsId = Model.ID
+            });
+        //return new EventCallback();
     }
 
     private async Task HandleValidSubmit()

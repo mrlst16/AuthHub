@@ -2,6 +2,7 @@
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
+using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using CommonCore.Interfaces.Repository;
 using Microsoft.Extensions.Configuration;
@@ -45,7 +46,7 @@ namespace AuthHub.BLL.Common.Oranizations
                             AuthScheme = AuthSchemeEnum.JWT,
                             SaltLength = 8,
                             HashLength = 8,
-                            ClaimsKeys = new List<string>(){"role"},
+                            ClaimsKeys = new List<ClaimsKey>(){_configuration.GetClaimsKey("role")},
                             ExpirationMinutes = 120,
                             Name = "audder_clients",
                             OrganizationID = authHubOrgId,
