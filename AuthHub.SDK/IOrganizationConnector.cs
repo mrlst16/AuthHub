@@ -7,8 +7,9 @@ namespace AuthHub.SDK
     public interface IOrganizationConnector
     {
         Task<Organization> CreateOrganization(CreateOrganizationRequest request);
-        Task<AuthSettings> MergeAuthSettings(AuthSettings request);
-        Task<Organization> GetOrganization(Action ifNoTokenPresent);
-        Task<AuthSettings> GetAuthSettings(string name, Action ifNoTokenPresent);
+        Task<AuthSettings> SaveAuthSettings(AuthSettings request);
+        Task<Organization> GetOrganization();
+        Task<Organization> GetOrganization(string organizationId);
+        Task<AuthSettings> GetAuthSettings(string name);
     }
 }

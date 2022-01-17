@@ -1,4 +1,5 @@
-﻿using CommonCore.Models.Responses;
+﻿using AuthHub.SDK;
+using CommonCore.Models.Responses;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace AuthHub.WebUI.Connectors
 {
-    public class ApiConnector : IApiConnector
+    public class ApiConnector : ApiConnectorBase
     {
 
         private readonly HttpClient _httpClient;
@@ -25,7 +26,7 @@ namespace AuthHub.WebUI.Connectors
             IConfiguration configuration,
             ILogger<ApiConnector> logger,
             NavigationManager navigationManager
-            )
+            ) : base(httpClient, configuration)
         {
             _httpClient = httpClient;
             _configuration = configuration;
@@ -33,74 +34,14 @@ namespace AuthHub.WebUI.Connectors
             _navigationManager = navigationManager;
         }
 
-        public async Task<T> Get<T>(
-            string endpoint,
-            IDictionary<string, string> queryParams = null,
-            IDictionary<string, string> headers = null)
+        protected override async Task HandleException(Exception e)
         {
-            try
-            {
-                var url = Url(endpoint);
-
-                if (queryParams != null)
-                    url += "?" + queryParams.Select(x => $"{x.Key}={x.Value}").Aggregate((x, y) => $"{x}&{y}");
-
-                var request = new HttpRequestMessage(HttpMethod.Get, url);
-
-                if (headers != null)
-                {
-                    foreach (var kvp in headers)
-                    {
-                        request.Headers.Add(kvp.Key, kvp.Value);
-                    }
-                }
-
-                var httpResponse = await _httpClient.SendAsync(request);
-                if (!httpResponse.IsSuccessStatusCode)
-                {
-                    throw new Exception($"{httpResponse.ReasonPhrase}{System.Environment.NewLine}{httpResponse.ReasonPhrase}");
-                }
-
-                var json = await httpResponse.Content.ReadAsStringAsync();
-                var response = JsonConvert.DeserializeObject<ApiResponse<T>>(json);
-
-                if (!response.Sucess)
-                    throw new Exception(response.Message);
-                return response.Data;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-                _navigationManager.NavigateTo($"/error/{e.Message}/{e.StackTrace}");
-            }
-            return default(T);
+            _navigationManager.NavigateTo($"/error/{e.Message}/{e.StackTrace}");
         }
 
-        public async Task<TOut> Post<TIn, TOut>(string endpoint, TIn val)
+        protected virtual async Task HandleNotLoggedIn()
         {
-            try
-            {
-                var url = Url(endpoint);
-                var httpResponse = await _httpClient.PostAsJsonAsync(url, val);
-
-                if (!httpResponse.IsSuccessStatusCode)
-                {
-                    throw new Exception($"{httpResponse.ReasonPhrase}{System.Environment.NewLine}{httpResponse.ReasonPhrase}");
-                }
-
-                var json = await httpResponse.Content.ReadAsStringAsync();
-                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<TOut>>(json);
-                if (!apiResponse.Sucess)
-                    throw new Exception(apiResponse.Message);
-
-                return apiResponse.Data;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-                _navigationManager.NavigateTo($"/error/{e.Message}/{e.StackTrace}");
-            }
-            return default(TOut);
+            _navigationManager.NavigateTo($"/organization_sign_in");
         }
 
         private string Url(string endpoint)

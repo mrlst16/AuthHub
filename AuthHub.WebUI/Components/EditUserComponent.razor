@@ -24,7 +24,18 @@
             UserName:
             <InputText @bind-Value="Model.LastName"></InputText>
         </label>
-
+        <div>
+            <h3>Claims</h3>
+            <ul>
+                @foreach (var claim in Model.Password.Claims)
+                {
+                    <li>
+                        <span>@claim.Key</span>
+                        <button>Remove</button>
+                    </li>
+                }
+            </ul>
+        </div>
         <button type="submit">Save</button>
     </EditForm>
 </div>
@@ -43,6 +54,6 @@
 
     protected void HandleValidSubmit()
     {
-        
+
     }
 }

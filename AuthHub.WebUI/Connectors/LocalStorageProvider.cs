@@ -1,5 +1,6 @@
 ﻿//Adapted from https://stackoverflow.com/questions/63698112/storing-a-jwt-token-in-blazor-client-side
 
+using AuthHub.SDK;
 using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -16,7 +17,7 @@ namespace AuthHub.WebUI.Connectors
             _jsRuntime = jsRuntime;
         }
 
-        public async Task<T> GetItem<T>(string key)
+        public async Task<T> Get<T>(string key)
         {
             var json = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", key);
 
@@ -26,7 +27,7 @@ namespace AuthHub.WebUI.Connectors
             return JsonSerializer.Deserialize<T>(json);
         }
 
-        public async Task SetItem<T>(string key, T value)
+        public async Task Save<T>(string key, T value)
         {
             if (EqualityComparer<T>.Default.Equals(default(T)))
                 return;
@@ -34,7 +35,7 @@ namespace AuthHub.WebUI.Connectors
             await _jsRuntime.InvokeVoidAsync("localStorage.setItem", key, JsonSerializer.Serialize(value));
         }
 
-        public async Task RemoveItem(string key)
+        public async Task Delete(string key)
         {
             await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", key);
         }

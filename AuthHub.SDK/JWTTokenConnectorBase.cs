@@ -42,5 +42,10 @@ namespace AuthHub.SDK
         }
 
         public abstract Task<Token> GetTokenFromLocalStorage();
+
+        public Task<Token> OrganizationSignIn(string username, string password, string redirect = null)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

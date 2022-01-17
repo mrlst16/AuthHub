@@ -1,5 +1,6 @@
 ﻿using AuthHub.Models.Passwords;
 using AuthHub.Models.Tokens;
+using AuthHub.SDK;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace AuthHub.WebUI.Connectors
 
         public async Task<Token> GetTokenFromLocalStorage()
         {
-            var token = await _localStorageProvider.GetItem<Token>(JWTTokenKey);
+            var token = await _localStorageProvider.Get<Token>(JWTTokenKey);
             if (
                 token?.ExpirationDate > DateTime.UtcNow
                     && token.EntityID != Guid.Empty
@@ -58,7 +59,7 @@ namespace AuthHub.WebUI.Connectors
                     && response.EntityID != Guid.Empty
                 )
             {
-                await _localStorageProvider.SetItem<Token>(JWTTokenKey, response);
+                await _localStorageProvider.Save<Token>(JWTTokenKey, response);
                 _navigationManager.NavigateTo($"organization_home/{response.EntityID}");
             }
             else

@@ -1,8 +1,11 @@
 ﻿@page "/organization_home"
 @page "/organization_home/{Id}"
+
 @using AuthHub.Models.Organizations
 @using AuthHub.WebUI.Components
 @using AuthHub.WebUI.Connectors
+@using AuthHub.SDK
+
 @inject IOrganizationConnector _connector
 @inject NavigationManager _navigationManager;
 

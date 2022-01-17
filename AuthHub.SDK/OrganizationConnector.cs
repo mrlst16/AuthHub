@@ -40,12 +40,11 @@ namespace AuthHub.SDK
             return response;
         }
 
-        public async Task<AuthSettings> GetAuthSettings(string name, Action ifNoTokenPresent)
+        public async Task<AuthSettings> GetAuthSettings(string name)
         {
             var token = await _tokenConnector.GetOrganizationToken(name, "");
             if (token == null)
             {
-                ifNoTokenPresent();
                 return null;
             }
             var response = await _connector.Get<AuthSettings>("get_auth_settings", new Dictionary<string, string>()
@@ -54,6 +53,22 @@ namespace AuthHub.SDK
                 { "name", name}
             });
             return response;
+        }
+
+        public async Task<AuthSettings> SaveAuthSettings(AuthSettings request)
+        {
+
+            return null;
+        }
+
+        public Task<Organization> GetOrganization()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Organization> GetOrganization(string organizationId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

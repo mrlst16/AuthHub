@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
+    <ProjectReference Include="..\AuthHub.SDK\AuthHub.SDK.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
