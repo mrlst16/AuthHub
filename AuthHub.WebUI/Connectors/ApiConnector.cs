@@ -1,4 +1,5 @@
-﻿using AuthHub.SDK;
+﻿using AuthHub.Models.Tokens;
+using AuthHub.SDK;
 using CommonCore.Models.Responses;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
@@ -20,18 +21,30 @@ namespace AuthHub.WebUI.Connectors
         private readonly IConfiguration _configuration;
         private readonly ILogger<ApiConnector> _logger;
         private readonly NavigationManager _navigationManager;
+        private readonly ILocalStorageProvider _localStorageProvider;
 
         public ApiConnector(
             HttpClient httpClient,
             IConfiguration configuration,
-            ILogger<ApiConnector> logger,
-            NavigationManager navigationManager
+            NavigationManager navigationManager,
+            ILocalStorageProvider localStorageProvider
             ) : base(httpClient, configuration)
         {
             _httpClient = httpClient;
             _configuration = configuration;
-            _logger = logger;
             _navigationManager = navigationManager;
+            _localStorageProvider = localStorageProvider;
+        }
+        public override async Task<Token> GetTokenFromLocalStorage()
+        {
+            var token = await _localStorageProvider.Get<Token>(JWTTokenConnectorBase.JWTTokenKey);
+            if (
+                token?.ExpirationDate > DateTime.UtcNow
+                    && token.EntityID != Guid.Empty
+                )
+                return token;
+            else
+                return null;
         }
 
         protected override async Task HandleException(Exception e)

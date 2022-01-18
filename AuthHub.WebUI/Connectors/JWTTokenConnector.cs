@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AuthHub.WebUI.Connectors
 {
-    public class JWTTokenConnector : ITokenConnector
+    public class JWTTokenConnector : JWTTokenConnectorBase
     {
         private readonly IApiConnector _apiConnector;
         private readonly ILocalStorageProvider _localStorageProvider;
@@ -20,28 +20,16 @@ namespace AuthHub.WebUI.Connectors
             IApiConnector apiConnector,
             ILocalStorageProvider localStorageProvider,
             NavigationManager navigationManager
-            )
+            ) : base(apiConnector)
         {
             _apiConnector = apiConnector;
             _localStorageProvider = localStorageProvider;
             _navigationManager = navigationManager;
         }
 
-        public async Task<Token> GetTokenFromLocalStorage()
-        {
-            var token = await _localStorageProvider.Get<Token>(JWTTokenKey);
-            if (
-                token?.ExpirationDate > DateTime.UtcNow
-                    && token.EntityID != Guid.Empty
-                )
-                return token;
-            else
-                return null;
-        }
-
         public async Task<Token> GetOrganizationToken(string username, string password)
         {
-            var token = await GetTokenFromLocalStorage();
+            var token = await _apiConnector.GetTokenFromLocalStorage();
             if (token != null) return token;
 
             return await OrganizationSignIn(username, password, null);

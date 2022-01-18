@@ -9,7 +9,7 @@ namespace AuthHub.DAL.Sql.Mappers
     {
         SqlParameter MapUdtClaimsKeys(IEnumerable<ClaimsKey> claims, string paramName = "@request");
         SqlParameter MapUdtClaim(Guid passwordId, IEnumerable<Models.Passwords.ClaimsEntity> claims);
-        SqlParameter MapUdtUser(Guid organizationId, string authSettingsName, User user);
+        SqlParameter MapUdtUser(User user);
         SqlParameter MapUdPassword(Password password);
         SqlParameter MapUdPasswordResetToken(PasswordResetToken token);
         SqlParameter MapUdtOrganization(Organization organization);

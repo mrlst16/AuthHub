@@ -67,5 +67,20 @@ namespace AuthHub.BLL.Users
 
         public async Task<User> Update(UserPointer pointer, User user)
             => await Update(pointer.OrganizationID, pointer.AuthSettingsName, user);
+
+        public Task DeleteAsync(User item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveAsync(User item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

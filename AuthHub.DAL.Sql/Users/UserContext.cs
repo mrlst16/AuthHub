@@ -31,6 +31,11 @@ namespace AuthHub.DAL.Sql.Users
         public async Task<User> Create(Guid organizationId, string authSettingsName, User user)
             => await Update(organizationId, authSettingsName, user);
 
+        public async Task DeleteAsync(User item)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<User> Get(Guid organizationId, string authSettingsName, string username)
         {
             var result = new User();
@@ -48,10 +53,30 @@ namespace AuthHub.DAL.Sql.Users
         public async Task<User> Get(UserPointer userPointer)
             => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
 
+        public async Task<User> GetAsync(Guid id)
+        {
+            var result = new User();
+            SqlParameter[] parameters = new SqlParameter[] {
+                new SqlParameter("@id", id)
+            };
+            var dataSet = await _context.ExecuteSproc(SprocNames.GetUser, parameters);
+
+            return _mapper.MapUser(dataSet);
+        }
+
+        public async Task SaveAsync(User item)
+        {
+            SqlParameter[] parameters = new SqlParameter[] {
+                _udtMapper.MapUdtUser(item),
+            };
+
+            var dataSet = await _context.ExecuteSproc(SprocNames.SaveUser, parameters);
+        }
+
         public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
         {
             SqlParameter[] parameters = new SqlParameter[] {
-                _udtMapper.MapUdtUser(organizationId, authSettingsName, user),
+                _udtMapper.MapUdtUser(user),
                 new SqlParameter("@organizationId", organizationId)
             };
 

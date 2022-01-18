@@ -7,7 +7,7 @@ namespace AuthHub.SDK
     public interface IOrganizationConnector
     {
         Task<Organization> CreateOrganization(CreateOrganizationRequest request);
-        Task<AuthSettings> SaveAuthSettings(AuthSettings request);
+        Task SaveAuthSettings(AuthSettings request);
         Task<Organization> GetOrganization();
         Task<Organization> GetOrganization(string organizationId);
         Task<AuthSettings> GetAuthSettings(string name);

@@ -19,34 +19,14 @@ namespace AuthHub.SDK
             _tokenConnector = tokenConnector;
         }
 
-        public async Task<AuthSettings> MergeAuthSettings(AuthSettings request)
-            => await _connector.Post<AuthSettings, AuthSettings>("merge_auth_settings", request);
-
         public async Task<Organization> CreateOrganization(CreateOrganizationRequest request)
             => await _connector.Post<CreateOrganizationRequest, Organization>("create_organization", request);
 
-        public async Task<Organization> GetOrganization(Action ifNoTokenPresent)
-        {
-            var token = await _tokenConnector.GetTokenFromLocalStorage();
-            if (token == null)
-            {
-                ifNoTokenPresent();
-                return null;
-            }
-            var response = await _connector.Get<Organization>("get_organization", new Dictionary<string, string>()
-            {
-                { "organizationId", token.EntityID.ToString()}
-            });
-            return response;
-        }
 
         public async Task<AuthSettings> GetAuthSettings(string name)
         {
-            var token = await _tokenConnector.GetOrganizationToken(name, "");
-            if (token == null)
-            {
-                return null;
-            }
+            var token = await _connector.GetTokenFromLocalStorage();
+
             var response = await _connector.Get<AuthSettings>("get_auth_settings", new Dictionary<string, string>()
             {
                 { "organizationId", token.EntityID.ToString()},
@@ -55,20 +35,26 @@ namespace AuthHub.SDK
             return response;
         }
 
-        public async Task<AuthSettings> SaveAuthSettings(AuthSettings request)
-        {
+        public async Task SaveAuthSettings(AuthSettings request)
+            => await _connector.Put<AuthSettings, bool>("/save_auth_settings", request);
 
-            return null;
+        public async Task<Organization> GetOrganization()
+        {
+            var token = await _connector.GetTokenFromLocalStorage();
+            var response = await _connector.Get<Organization>("get_organization", new Dictionary<string, string>()
+            {
+                { "organizationId", token.EntityID.ToString()}
+            });
+            return response;
         }
 
-        public Task<Organization> GetOrganization()
+        public async Task<Organization> GetOrganization(string organizationId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Organization> GetOrganization(string organizationId)
-        {
-            throw new NotImplementedException();
+            var response = await _connector.Get<Organization>("get_organization", new Dictionary<string, string>()
+            {
+                { "organizationId", organizationId}
+            });
+            return response;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace AuthHub.SDK
     {
         protected readonly IApiConnector _apiConnector;
 
-        protected const string JWTTokenKey = "audder_jwt_token";
+        public const string JWTTokenKey = "audder_jwt_token";
 
         protected JWTTokenConnectorBase(
             IApiConnector apiConnector
@@ -20,20 +20,10 @@ namespace AuthHub.SDK
 
         public async Task<Token> GetOrganizationToken(string username, string password)
         {
-            var token = await GetTokenFromLocalStorage();
+            var token = await _apiConnector.GetTokenFromLocalStorage();
             if (token != null) return token;
 
-            return await SignIn(username, password);
-        }
-
-        public async Task<Token> SignIn(string username, string password)
-        {
-            var response = await _apiConnector.Get<Token>("organizations/get_org_jwt_token", headers: new Dictionary<string, string>()
-            {
-                {Models.Constants.AuthHubHeaders.Username , username},
-                {Models.Constants.AuthHubHeaders.Password , password}
-            });
-            return response;
+            return await OrganizationSignIn(username, password);
         }
 
         public async Task RequestPasswordReset(RequestPasswordResetRequest request)
@@ -41,11 +31,14 @@ namespace AuthHub.SDK
             await _apiConnector.Post<RequestPasswordResetRequest, object>("password/request_reset", request);
         }
 
-        public abstract Task<Token> GetTokenFromLocalStorage();
-
-        public Task<Token> OrganizationSignIn(string username, string password, string redirect = null)
+        public async Task<Token> OrganizationSignIn(string username, string password, string redirect = null)
         {
-            throw new System.NotImplementedException();
+            var response = await _apiConnector.Get<Token>("organizations/get_org_jwt_token", headers: new Dictionary<string, string>()
+            {
+                {Models.Constants.AuthHubHeaders.Username , username},
+                {Models.Constants.AuthHubHeaders.Password , password}
+            });
+            return response;
         }
     }
 }

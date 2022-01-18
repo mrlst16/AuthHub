@@ -182,7 +182,7 @@ namespace AuthHub.DAL.Sql.Mappers
             };
         }
 
-        public SqlParameter MapUdtUser(Guid organizationId, string authSettingsName, User user)
+        public SqlParameter MapUdtUser(User user)
         {
             DataTable val = new();
             val.Columns.Add("Id", typeof(Guid));

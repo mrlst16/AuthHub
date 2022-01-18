@@ -1,10 +1,11 @@
 ﻿using AuthHub.Models.Users;
+using CommonCore.Interfaces.Repository;
 using System;
 using System.Threading.Tasks;
 
 namespace AuthHub.Interfaces.Users
 {
-    public interface IUserContext
+    public interface IUserContext : ISRD<User>
     {
         Task<User> Create(Guid organizationId, string authSettingsName, User user);
         Task<User> Get(Guid organizationId, string authSettingsName, string username);

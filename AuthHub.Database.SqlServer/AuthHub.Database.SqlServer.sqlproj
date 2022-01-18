@@ -111,6 +111,7 @@
     <Build Include="StoredProcedures\usp_PostDeployment.sql" />
     <Build Include="Functions\GetAuthSchemeId.sql" />
     <Build Include="StoredProcedures\usp_SaveClaimsKey.sql" />
+    <Build Include="StoredProcedures\usp_GetClaimsKeys.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AuthHub.Database.SqlServer.refactorlog" />

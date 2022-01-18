@@ -1,5 +1,6 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
+using CommonCore.Interfaces.Repository;
 using System;
 using System.Threading.Tasks;
 
@@ -25,6 +26,12 @@ namespace AuthHub.BLL.Users
 
         public async Task<User> Get(UserPointer userPointer)
             => await _userContext.Get(userPointer);
+
+        public async Task<User> GetAsync(Guid id)
+            => await _userContext.GetAsync(id);
+
+        public async Task SaveAsync(User item)
+            => await _userContext.SaveAsync(item);
 
         public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
             => await _userContext.Update(organizationId, authSettingsName, user);

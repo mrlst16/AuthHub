@@ -1,4 +1,5 @@
-﻿using CommonCore.Models.Responses;
+﻿using AuthHub.Models.Tokens;
+using CommonCore.Models.Responses;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -16,6 +17,7 @@ namespace AuthHub.SDK
     {
         protected readonly HttpClient _httpClient;
         protected readonly IConfiguration _configuration;
+        protected readonly ITokenConnector _tokenConnector;
 
         public ApiConnectorBase(
             HttpClient httpClient,
@@ -27,6 +29,7 @@ namespace AuthHub.SDK
         }
 
         protected abstract Task HandleException(Exception e);
+        public abstract Task<Token> GetTokenFromLocalStorage();
 
         protected virtual string Url(string endpoint, IDictionary<string, string> queryParams = null)
         {

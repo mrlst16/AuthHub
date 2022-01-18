@@ -1,9 +1,11 @@
 ﻿@page "/edit_user"
-@page "/edit_user/{AuthSettingsId}"
+@page "/edit_user/{UserId}"
 
 @using AuthHub.Models.Users
+@using AuthHub.SDK
 @using AuthHub.WebUI.Connectors
 
+@inject IUserConnector _userConnector;
 
 <h3>EditUserComponent</h3>
 
@@ -14,27 +16,60 @@
         <ValidationSummary />
         <label>
             First Name:
-            <InputText @bind-Value="Model.UserName"></InputText>
+            <InputText @bind-Value="Model.User.UserName"></InputText>
         </label>
         <label>
             Last Name:
-            <InputText @bind-Value="Model.FirstName"></InputText>
+            <InputText @bind-Value="Model.User.FirstName"></InputText>
         </label>
         <label>
             UserName:
-            <InputText @bind-Value="Model.LastName"></InputText>
+            <InputText @bind-Value="Model.User.LastName"></InputText>
         </label>
         <div>
-            <h3>Claims</h3>
-            <ul>
-                @foreach (var claim in Model.Password.Claims)
+            <h3>Existing Claims</h3>
+            <table>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var claim in Model.User.Password.Claims)
                 {
-                    <li>
-                        <span>@claim.Key</span>
-                        <button>Remove</button>
-                    </li>
+                    <tr>
+                        <td>@claim.Key</td>
+                        <td>@claim.Value</td>
+                        <td>
+                            <button @onclick="@(e => HandleRemoveClaim(claim.Key))">Remove</button>
+                        </td>
+                    </tr>
                 }
-            </ul>
+
+            </table>
+            <div>
+                <span>
+                    <InputSelect @bind-Value="SelectedClaimKeyToAdd">
+                        @foreach (var key in Model.ClaimsKeys)
+                        {
+                            <option value="@key.ID">@key.Name</option>
+                        }
+                    </InputSelect>
+                </span>
+                <label>
+                    Value
+                    <InputText @bind-Value="SelectedClaimKeyValueToAdd"></InputText>
+                </label>
+            </div>
+            @* @foreach (var key in Model.ClaimsKeys)
+                {
+                <InputSelect>
+
+                </InputSelect>
+                }
+                <label>
+                Value
+                <InputText @bind-Value="SelectedClaimKeyValueToAdd"></InputText>
+                </label>*@
         </div>
         <button type="submit">Save</button>
     </EditForm>
@@ -42,18 +77,39 @@
 
 @code {
     [Parameter]
-    public User Model { get; set; } = new();
+    public UserViewModel Model { get; set; } = new();
 
     [Parameter]
-    public string AuthSettingsId { get; set; }
+    public string UserId { get; set; }
+
+    protected string SelectedClaimKeyToAdd { get; set; }
+    protected string SelectedClaimKeyValueToAdd { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
-
+        if (string.IsNullOrWhiteSpace(UserId))
+            return;
+        var userIdGuid = Guid.Parse(UserId);
+        Model = await _userConnector.GetAsync(userIdGuid);
     }
 
-    protected void HandleValidSubmit()
+    protected async Task HandleValidSubmit()
     {
+        await _userConnector.SaveAsync(Model);
+    }
 
+    protected async Task HandleAddClaim()
+    {
+        if (
+            string.IsNullOrWhiteSpace(SelectedClaimKeyToAdd)
+            || string.IsNullOrWhiteSpace(SelectedClaimKeyValueToAdd)
+        ) return;
+
+        Model.User.Password.Claims.Add(null);
+    }
+
+    protected async Task HandleRemoveClaim(string name)
+    {
+        Model.User.Password.Claims = Model.User.Password.Claims.Where(x => x.Key != name).ToList();
     }
 }

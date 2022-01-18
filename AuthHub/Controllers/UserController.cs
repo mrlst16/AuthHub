@@ -3,6 +3,7 @@ using AuthHub.Models.Users;
 using AuthHub.ServiceRegistrations;
 using CommonCore.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace AuthHub.Controllers
@@ -22,7 +23,7 @@ namespace AuthHub.Controllers
             _service = service;
         }
 
-        [HttpPost("create_user")]
+        [HttpPatch("save")]
         public async Task<IActionResult> CreateUser(
             [FromBody] UserRequest request
             )
@@ -31,7 +32,29 @@ namespace AuthHub.Controllers
 
             var response = new ApiResponse<User>()
             {
-                Data = await _service.CreateUser(request),
+                Data = await _service.Save(request),
+                SuccessMessage = "Sucessfully created user",
+                Sucess = true
+            };
+            return new OkObjectResult(response);
+        }
+
+        [HttpGet("get")]
+        public async Task<IActionResult> GetUser(
+           [FromQuery] Guid id
+           )
+        {
+            if (id == Guid.Empty)
+                return new BadRequestObjectResult(new ApiResponse<bool>()
+                {
+                    Data = false,
+                    Sucess = false,
+                    FailureMessage = "No Id was passed"
+                });
+
+            var response = new ApiResponse<UserViewModel>()
+            {
+                Data = await _service.GetAsync(id),
                 SuccessMessage = "Sucessfully created user",
                 Sucess = true
             };

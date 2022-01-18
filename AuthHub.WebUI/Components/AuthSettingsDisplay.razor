@@ -3,7 +3,9 @@
 @using AuthHub.Models.Passwords
 @using AuthHub.SDK
 @using AuthHub.WebUI.Connectors
+
 @inject IOrganizationConnector _connector
+@inject NavigationManager _navigationManager;
 
 <div>
     <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
@@ -70,6 +72,17 @@
                 <InputText @bind-Value="@NewKey"></InputText>
             </label>
             <button name="Add Claim Key" @onclick="@(e=> OnAddClaimsKeyClick())"></button>
+            <div>
+                <ul>
+                    @foreach (var user in Model.Users)
+                    {
+                        var link = $"edit_user/{Model.OrganizationID}/{user.ID}";
+                        <li>
+                            <a href="@link">@user.UserName</a>
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
         <button type="submit">Save</button>
     </EditForm>
@@ -86,7 +99,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-
     }
 
     protected void OnRemoveClaimsKeyClick(string key)

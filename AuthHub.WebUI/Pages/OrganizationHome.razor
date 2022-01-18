@@ -39,8 +39,6 @@
         model = (model.ID == Guid.Empty && !string.IsNullOrWhiteSpace(Id))
             ? model = await _connector.GetOrganization(Id)
                 : model = await _connector.GetOrganization();
-        if (model == null)
-            _navigationManager.NavigateTo("/organization_sign_in");
     }
 
     public void OnAddAuthSchemeClick()

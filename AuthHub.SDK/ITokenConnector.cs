@@ -7,7 +7,6 @@ namespace AuthHub.SDK
 {
     public interface ITokenConnector
     {
-        Task<AuthHubToken> GetTokenFromLocalStorage();
         Task<AuthHubToken> GetOrganizationToken(string username, string password);
         Task<AuthHubToken> OrganizationSignIn(string username, string password, string redirect = null);
         Task RequestPasswordReset(RequestPasswordResetRequest request);

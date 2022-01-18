@@ -26,10 +26,9 @@ AS
 		and DeletedUTC is null
 	End
 	
-	select top 1 u.*, a.FK_Organization as FK_Organization
+	select top 1 u.*
 	into #user
 	from [User](nolock) u
-	join AuthSettings(nolock) a on u.FK_AuthSettings = a.Id
 	where u.Id = @Id
 	and u.DeletedUTC is null
 	
