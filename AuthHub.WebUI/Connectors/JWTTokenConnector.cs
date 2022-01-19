@@ -1,5 +1,4 @@
-﻿using AuthHub.Models.Passwords;
-using AuthHub.Models.Tokens;
+﻿using AuthHub.Models.Tokens;
 using AuthHub.SDK;
 using Microsoft.AspNetCore.Components;
 using System;

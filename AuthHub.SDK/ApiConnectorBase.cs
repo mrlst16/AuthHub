@@ -1,7 +1,6 @@
 ﻿using AuthHub.Models.Tokens;
 using CommonCore.Models.Responses;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
