@@ -40,7 +40,7 @@ namespace AuthHub.Controllers
             return new OkObjectResult(response);
         }
 
-        [HttpPost("save_organization")]
+        [HttpPut("save_organization")]
         public async Task<IActionResult> UpdateOrganization(
             [FromBody] Organization request
             )
@@ -56,10 +56,10 @@ namespace AuthHub.Controllers
             return new OkObjectResult(response);
         }
 
-        [HttpPost("save_auth_settings")]
+        [HttpPut("save_auth_settings")]
         public async Task<IActionResult> MergeAuthSettings(
             [FromBody] AuthSettings request,
-            [FromQuery] Guid organizationId
+            [FromHeader] Guid organizationId
             )
         {
             _validatorFactory.ValidateAndThrow<AuthSettings>(request);
@@ -93,7 +93,7 @@ namespace AuthHub.Controllers
                 Data = result,
                 Sucess = true,
                 SuccessMessage = "Successfully retrieved organization",
-                
+
             };
             return new OkObjectResult(response);
         }

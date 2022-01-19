@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AuthHub.Models.Organizations
 {
@@ -23,6 +22,6 @@ namespace AuthHub.Models.Organizations
                 Name = request.Name,
                 Email = request.Email
             };
-        
+
     }
 }

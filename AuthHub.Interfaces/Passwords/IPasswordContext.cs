@@ -1,5 +1,4 @@
 ﻿using AuthHub.Models.Passwords;
-using AuthHub.Models.Users;
 using System;
 using System.Threading.Tasks;
 

@@ -16,11 +16,11 @@ namespace AuthHub.BLL.Common.Extensions
 
         public static ClaimsKey GetClaimsKey(this IConfiguration configuration, string name)
             => new ClaimsKey()
-                {
-                    Name = name,
-                    ID = configuration.GetValue<Guid>($"AppSettings:AuthHubClaimsKeys:{name}"),
-                    AuthSettingsId = Guid.Parse(configuration.AuthHubSettingsId())
-                };
+            {
+                Name = name,
+                ID = configuration.GetValue<Guid>($"AppSettings:AuthHubClaimsKeys:{name}"),
+                AuthSettingsId = Guid.Parse(configuration.AuthHubSettingsId())
+            };
 
         public static ClaimsEntity CreateClaimsEntity(this IConfiguration configuration, string name, string value, Guid? id = null)
         {

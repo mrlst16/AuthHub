@@ -27,13 +27,11 @@ namespace AuthHub.SDK
         }
 
         public async Task RequestPasswordReset(RequestPasswordResetRequest request)
-        {
-            await _apiConnector.Post<RequestPasswordResetRequest, object>("password/request_reset", request);
-        }
+            => await _apiConnector.Post<RequestPasswordResetRequest, object>("password/request_reset", request);
 
-        public async Task<Token> OrganizationSignIn(string username, string password, string redirect = null)
+        public virtual async Task<Token> OrganizationSignIn(string username, string password)
         {
-            var response = await _apiConnector.Get<Token>("organizations/get_org_jwt_token", headers: new Dictionary<string, string>()
+            var response = await _apiConnector.Get<Token>("token/get_org_jwt_token", null, new Dictionary<string, string>()
             {
                 {Models.Constants.AuthHubHeaders.Username , username},
                 {Models.Constants.AuthHubHeaders.Password , password}

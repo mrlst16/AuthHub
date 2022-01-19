@@ -2,11 +2,7 @@
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
-using AuthHub.Models.Users;
 using CommonCore.Interfaces.Repository;
-using CommonCore.Models.Exceptions;
-using CommonCore2.Extensions;
-using System.Security.Cryptography;
 
 namespace AuthHub.BLL.Passwords
 {
@@ -47,7 +43,7 @@ namespace AuthHub.BLL.Passwords
 
         public async Task SavePasswordResetToken(PasswordResetToken token)
         {
-            
+
         }
     }
 }

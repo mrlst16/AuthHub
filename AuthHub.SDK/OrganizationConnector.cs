@@ -8,26 +8,22 @@ namespace AuthHub.SDK
     public class OrganizationConnector : IOrganizationConnector
     {
         private readonly IApiConnector _connector;
-        private readonly ITokenConnector _tokenConnector;
 
         public OrganizationConnector(
-            IApiConnector connector,
-            ITokenConnector tokenConnector
+            IApiConnector connector
             )
         {
             _connector = connector;
-            _tokenConnector = tokenConnector;
         }
 
-        public async Task<Organization> CreateOrganization(CreateOrganizationRequest request)
-            => await _connector.Post<CreateOrganizationRequest, Organization>("create_organization", request);
-
+        public async Task CreateOrganization(CreateOrganizationRequest request)
+            => await _connector.Post<CreateOrganizationRequest>("organization/create_organization", request);
 
         public async Task<AuthSettings> GetAuthSettings(string name)
         {
             var token = await _connector.GetTokenFromLocalStorage();
 
-            var response = await _connector.Get<AuthSettings>("get_auth_settings", new Dictionary<string, string>()
+            var response = await _connector.Get<AuthSettings>("organization/get_auth_settings", new Dictionary<string, string>()
             {
                 { "organizationId", token.EntityID.ToString()},
                 { "name", name}
@@ -36,12 +32,12 @@ namespace AuthHub.SDK
         }
 
         public async Task SaveAuthSettings(AuthSettings request)
-            => await _connector.Put<AuthSettings, bool>("/save_auth_settings", request);
+            => await _connector.Put<AuthSettings>("organization/save_auth_settings", request);
 
         public async Task<Organization> GetOrganization()
         {
             var token = await _connector.GetTokenFromLocalStorage();
-            var response = await _connector.Get<Organization>("get_organization", new Dictionary<string, string>()
+            var response = await _connector.Get<Organization>("organization/get_organization", headers: new Dictionary<string, string>()
             {
                 { "organizationId", token.EntityID.ToString()}
             });
@@ -50,7 +46,7 @@ namespace AuthHub.SDK
 
         public async Task<Organization> GetOrganization(string organizationId)
         {
-            var response = await _connector.Get<Organization>("get_organization", new Dictionary<string, string>()
+            var response = await _connector.Get<Organization>("organization/get_organization", new Dictionary<string, string>()
             {
                 { "organizationId", organizationId}
             });

@@ -62,7 +62,7 @@
                 @foreach (var key in Model.ClaimsKeys)
                 {
                     <li>
-                        <span>@key</span>
+                        <span>@key.Name</span>
                         <button @onclick="@(e=> OnRemoveClaimsKeyClick(key.Name))">Remove</button>
                     </li>
                 }
@@ -73,6 +73,7 @@
             </label>
             <button name="Add Claim Key" @onclick="@(e=> OnAddClaimsKeyClick())"></button>
             <div>
+                <h3>Users</h3>
                 <ul>
                     @foreach (var user in Model.Users)
                     {
@@ -102,19 +103,20 @@
     }
 
     protected void OnRemoveClaimsKeyClick(string key)
-    {
-        Model.ClaimsKeys = Model.ClaimsKeys.Where(x => x.Name != key).ToList();
-        //return new EventCallback();
-    }
+        => Model.ClaimsKeys = Model.ClaimsKeys.Where(x => x.Name != key).ToList();
 
     protected void OnAddClaimsKeyClick()
     {
+        if (
+            string.IsNullOrWhiteSpace(NewKey)
+            || Model.ClaimsKeys.Select(x => x.Name).Contains(NewKey)
+        ) return;
+
         Model.ClaimsKeys.Add(new ClaimsKey()
             {
                 Name = NewKey,
                 AuthSettingsId = Model.ID
             });
-        //return new EventCallback();
     }
 
     private async Task HandleValidSubmit()

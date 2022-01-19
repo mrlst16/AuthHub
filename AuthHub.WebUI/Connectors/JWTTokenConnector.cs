@@ -3,18 +3,14 @@ using AuthHub.Models.Tokens;
 using AuthHub.SDK;
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AuthHub.WebUI.Connectors
 {
     public class JWTTokenConnector : JWTTokenConnectorBase
     {
-        private readonly IApiConnector _apiConnector;
         private readonly ILocalStorageProvider _localStorageProvider;
         private readonly NavigationManager _navigationManager;
-
-        private const string JWTTokenKey = "audder_jwt_token";
 
         public JWTTokenConnector(
             IApiConnector apiConnector,
@@ -22,43 +18,28 @@ namespace AuthHub.WebUI.Connectors
             NavigationManager navigationManager
             ) : base(apiConnector)
         {
-            _apiConnector = apiConnector;
             _localStorageProvider = localStorageProvider;
             _navigationManager = navigationManager;
         }
 
-        public async Task<Token> GetOrganizationToken(string username, string password)
+        public override async Task<Token> OrganizationSignIn(string username, string password)
         {
-            var token = await _apiConnector.GetTokenFromLocalStorage();
-            if (token != null) return token;
+            var result = await base.OrganizationSignIn(username, password);
 
-            return await OrganizationSignIn(username, password, null);
-        }
-
-        public async Task<Token> OrganizationSignIn(string username, string password, string redirect = null)
-        {
-            var response = await _apiConnector.Get<Token>("token/get_org_jwt_token", headers: new Dictionary<string, string>()
-            {
-                {Models.Constants.AuthHubHeaders.Username , username},
-                {Models.Constants.AuthHubHeaders.Password , password}
-            });
             if (
-                !string.IsNullOrWhiteSpace(response?.Value)
-                    && response.EntityID != Guid.Empty
+                !string.IsNullOrWhiteSpace(result?.Value)
+                    && result.EntityID != Guid.Empty
                 )
             {
-                await _localStorageProvider.Save<Token>(JWTTokenKey, response);
-                _navigationManager.NavigateTo($"organization_home/{response.EntityID}");
+                await _localStorageProvider.Save<Token>(JWTTokenKey, result);
+                _navigationManager.NavigateTo($"organization_home/{result.EntityID}");
             }
             else
-                return null;
+            {
+                _navigationManager.NavigateTo($"organization_sign_in/{result.EntityID}");
+            }
 
-            return response;
-        }
-
-        public async Task RequestPasswordReset(RequestPasswordResetRequest request)
-        {
-            await _apiConnector.Post<RequestPasswordResetRequest, object>("password/request_reset", request);
+            return result;
         }
     }
 }

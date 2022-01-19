@@ -1,6 +1,5 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
-using CommonCore.Interfaces.Repository;
 using System;
 using System.Threading.Tasks;
 

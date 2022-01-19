@@ -47,14 +47,14 @@ namespace AuthHub.BLL.Common.Tokens
 
                 if (!Authenticate(request, passwordRecord))
                     throw new Exception($"Username and Password are not a match for user {request.UserName} while logging in as an ogranization");
-                
+
                 if (passwordRecord.Claims == null)
                     passwordRecord.Claims = new List<ClaimsEntity>();
                 if (passwordRecord.Claims.FirstOrDefault(x => x.Key == ClaimTypes.Name) == null)
                     passwordRecord.Claims.Add(_configuration.CreateClaimsEntity("Name", passwordRecord.UserName));
 
                 passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
-                
+
                 var authSettings = await _organizationLoader.GetSettings(request.OrganizationID, request.SettingsName);
 
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.Key));

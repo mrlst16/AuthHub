@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AuthHub.SDK
@@ -33,14 +34,44 @@ namespace AuthHub.SDK
 
         protected virtual string Url(string endpoint, IDictionary<string, string> queryParams = null)
         {
-            var result = $"{_configuration.GetValue<string>("AppSettings:ApiUrl")}/api/{endpoint}";
+            var result = $"{_httpClient.BaseAddress}api/{endpoint}";
             if (queryParams != null)
                 result += "?" + queryParams.Select(x => $"{x.Key}={x.Value}").Aggregate((x, y) => $"{x}&{y}");
 
             return result;
         }
 
-        protected HttpRequestMessage AssembleHttpRequest<TIn>(
+        /// <summary>
+        /// This method is for Get
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <param name="value"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="headers"></param>
+        /// <returns></returns>
+        protected virtual HttpRequestMessage AssembleHttpRequest(
+            string endpoint,
+            IDictionary<string, string> queryParams = null,
+            IDictionary<string, string> headers = null
+            )
+        {
+            var url = Url(endpoint, queryParams);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("ContentType", "application/json");
+
+            if (headers != null)
+            {
+                foreach (var kvp in headers)
+                {
+                    request.Headers.Add(kvp.Key, kvp.Value);
+                }
+            }
+            return request;
+        }
+
+        protected virtual HttpRequestMessage AssembleHttpRequest<TIn>(
             HttpMethod method,
             string endpoint,
             TIn value,
@@ -48,11 +79,19 @@ namespace AuthHub.SDK
             IDictionary<string, string> headers = null
             )
         {
-            var url = Url(endpoint, headers);
+            var url = Url(endpoint, queryParams);
 
             var request = new HttpRequestMessage(method, url);
-            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            request.Content = new StringContent(JsonConvert.SerializeObject(value));
+            request.Method = method;
+
+            var jsonMediaHeader = new MediaTypeWithQualityHeaderValue("application/json");
+            request.Headers.Accept.Add(jsonMediaHeader);
+
+            if (value != null && method != HttpMethod.Get)
+                request.Content = JsonContent.Create(value, jsonMediaHeader, new JsonSerializerOptions()
+                {
+
+                });
 
             if (headers != null)
             {
@@ -74,7 +113,7 @@ namespace AuthHub.SDK
         {
             try
             {
-                var request = AssembleHttpRequest(method, endpoint, queryParams, headers);
+                var request = AssembleHttpRequest<TIn>(method, endpoint, val, queryParams, headers);
 
                 var httpResponse = await _httpClient.SendAsync(request);
                 if (!httpResponse.IsSuccessStatusCode)
@@ -96,6 +135,30 @@ namespace AuthHub.SDK
             return default(TOut);
         }
 
+        protected virtual async Task CallAndReadHttp<TIn>(
+            HttpMethod method,
+            string endpoint,
+            TIn val,
+            IDictionary<string, string> queryParams = null,
+            IDictionary<string, string> headers = null
+            )
+        {
+            try
+            {
+                var request = AssembleHttpRequest<TIn>(method, endpoint, val, queryParams, headers);
+
+                var httpResponse = await _httpClient.SendAsync(request);
+                if (!httpResponse.IsSuccessStatusCode)
+                {
+                    throw new Exception($"{httpResponse.ReasonPhrase}{System.Environment.NewLine}{httpResponse.ReasonPhrase}");
+                }
+            }
+            catch (Exception e)
+            {
+                await HandleException(e);
+            }
+        }
+
         public async Task<T> Get<T>(
             string endpoint,
             IDictionary<string, string> queryParams = null,
@@ -103,20 +166,7 @@ namespace AuthHub.SDK
         {
             try
             {
-                var url = Url(endpoint);
-
-                if (queryParams != null)
-                    url += "?" + queryParams.Select(x => $"{x.Key}={x.Value}").Aggregate((x, y) => $"{x}&{y}");
-
-                var request = new HttpRequestMessage(HttpMethod.Get, url);
-
-                if (headers != null)
-                {
-                    foreach (var kvp in headers)
-                    {
-                        request.Headers.Add(kvp.Key, kvp.Value);
-                    }
-                }
+                var request = AssembleHttpRequest<object>(HttpMethod.Get, endpoint, null, queryParams: queryParams, headers: headers);
 
                 var httpResponse = await _httpClient.SendAsync(request);
                 if (!httpResponse.IsSuccessStatusCode)
@@ -142,10 +192,24 @@ namespace AuthHub.SDK
             => await CallAndReadHttp<TIn, TOut>(HttpMethod.Post, endpoint, val, queryParams, headers);
 
         public async Task<TOut> Patch<TIn, TOut>(string endpoint, TIn val, IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null)
-            => await CallAndReadHttp<TIn, TOut>(HttpMethod.Post, endpoint, val, queryParams, headers);
+            => await CallAndReadHttp<TIn, TOut>(HttpMethod.Patch, endpoint, val, queryParams, headers);
 
         public async Task<TOut> Put<TIn, TOut>(string endpoint, TIn val, IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null)
-            => await CallAndReadHttp<TIn, TOut>(HttpMethod.Post, endpoint, val, queryParams, headers);
+            => await CallAndReadHttp<TIn, TOut>(HttpMethod.Put, endpoint, val, queryParams, headers);
+
+        public async Task Post<TIn>(string endpoint, TIn val, IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null)
+            => await CallAndReadHttp<TIn>(HttpMethod.Post, endpoint, val, queryParams, headers);
+
+        public async Task Patch<TIn>(string endpoint, TIn val, IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null)
+            => await CallAndReadHttp<TIn>(HttpMethod.Patch, endpoint, val, queryParams, headers);
+
+
+        public async Task Put<TIn>(string endpoint, TIn val, IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null)
+            => await CallAndReadHttp<TIn>(HttpMethod.Put, endpoint, val, queryParams, headers);
+
+
+        public async Task Delete<T>(string endpoint, T val, IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null)
+            => await CallAndReadHttp<T>(HttpMethod.Delete, endpoint, val, queryParams, headers);
 
     }
 }

@@ -16,6 +16,7 @@ namespace AuthHub.ServiceRegistrations
         public static IServiceCollection RegisterLoaders(this IServiceCollection services)
         {
             services.AddTransient<IUserLoader, UserLoader>();
+            services.AddTransient<IClaimsKeyLoader, ClaimsKeyLoader>();
             services.AddTransient<IPasswordLoader, PasswordLoader>();
             services.AddTransient<IOrganizationLoader, OrganizationLoader>();
             services.AddTransient<IAuthHubOrganizationLoader, AuthHubOrganizationLoader>();

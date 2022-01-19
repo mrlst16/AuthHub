@@ -1,15 +1,10 @@
 ﻿using AuthHub.Models.Tokens;
 using AuthHub.SDK;
-using CommonCore.Models.Responses;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace AuthHub.WebUI.Connectors

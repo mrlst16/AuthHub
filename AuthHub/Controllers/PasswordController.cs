@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AuthHub.Controllers
 {
-    [Route("api/password/")]
+    [Route("api/password")]
     public class PasswordController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;

@@ -24,7 +24,6 @@ namespace AuthHub.DAL.Sql.Passwords
             _context = context;
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -51,7 +50,7 @@ namespace AuthHub.DAL.Sql.Passwords
                 _udtMapper.MapUdtClaimsKeys(item)
             };
 
-            var dataSet = await _context.ExecuteSproc(SprocNames.SaveClaimsKeys, parameters);
+            await _context.ExecuteSproc(SprocNames.SaveClaimsKeys, parameters);
         }
     }
 }

@@ -1,13 +1,7 @@
 ﻿using AuthHub.DAL.Sql.Mappers;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AuthHub.DAL.Sql.Users
 {
@@ -46,7 +40,7 @@ namespace AuthHub.DAL.Sql.Users
                 new SqlParameter("@id", Guid.Empty)
             };
             var dataSet = await _context.ExecuteSproc(SprocNames.GetUser, parameters);
-            
+
             return _mapper.MapUser(dataSet);
         }
 

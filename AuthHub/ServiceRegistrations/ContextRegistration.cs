@@ -40,6 +40,7 @@ namespace AuthHub.ServiceRegistrations
 
             services.AddTransient<ISqlServerContext, SqlServerContext>();
             services.AddTransient<IUserContext, UserContext>();
+            services.AddTransient<IClaimsKeyContext, ClaimsKeyContext>();
             services.AddTransient<IPasswordContext, PasswordsContext>();
             services.AddTransient<IOrganizationContext, OrganizationContext>();
 

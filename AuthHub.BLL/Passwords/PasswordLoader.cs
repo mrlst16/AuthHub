@@ -64,7 +64,7 @@ namespace AuthHub.BLL.Passwords
         {
             var authSettings = await _organizationContext.GetSettings(userPointer.OrganizationID, userPointer.AuthSettingsName);
             var user = authSettings.Users.FirstOrDefault(x => string.Equals(x.UserName, userPointer.UserName, StringComparison.InvariantCultureIgnoreCase));
-            
+
             var salt = GenerateSalt(8);
             var password = Guid.NewGuid().ToByteArray();
 

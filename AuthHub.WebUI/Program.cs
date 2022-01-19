@@ -15,7 +15,10 @@ namespace AuthHub.WebUI
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(sp => new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44351")
+            });
             builder.Services.AddTransient<IApiConnector, ApiConnector>();
             builder.Services.AddTransient<IOrganizationConnector, OrganizationConnector>();
             builder.Services.AddTransient<ITokenConnector, JWTTokenConnector>();
