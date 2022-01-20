@@ -21,6 +21,7 @@ namespace AuthHub.WebUI
             });
             builder.Services.AddTransient<IApiConnector, ApiConnector>();
             builder.Services.AddTransient<IOrganizationConnector, OrganizationConnector>();
+            builder.Services.AddTransient<IUserConnector, UserConnector>();
             builder.Services.AddTransient<ITokenConnector, JWTTokenConnector>();
             builder.Services.AddTransient<ILocalStorageProvider, LocalStorageProvider>();
             await builder.Build().RunAsync();

@@ -83,6 +83,9 @@
                         </li>
                     }
                 </ul>
+                <button @onclick=@(e=> HandleAddUserClick())>
+                    Add User
+                </button>
             </div>
         </div>
         <button type="submit">Save</button>
@@ -121,4 +124,9 @@
 
     private async Task HandleValidSubmit()
         => await _connector.SaveAuthSettings(Model);
+
+    private void HandleAddUserClick()
+    {
+        _navigationManager.NavigateTo($"/edit_user");
+    }
 }

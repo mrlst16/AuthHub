@@ -50,7 +50,10 @@ namespace AuthHub.BLL.Common.Tokens
 
                 if (passwordRecord.Claims == null)
                     passwordRecord.Claims = new List<ClaimsEntity>();
-                if (passwordRecord.Claims.FirstOrDefault(x => x.Key == ClaimTypes.Name) == null)
+                if (
+                    passwordRecord.Claims
+                        .FirstOrDefault(x => string.Equals(x.Key, "Name", StringComparison.InvariantCultureIgnoreCase)
+                            ) == null)
                     passwordRecord.Claims.Add(_configuration.CreateClaimsEntity("Name", passwordRecord.UserName));
 
                 passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();

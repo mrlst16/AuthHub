@@ -16,15 +16,15 @@
         <ValidationSummary />
         <label>
             First Name:
-            <InputText @bind-Value="Model.User.UserName"></InputText>
+            <InputText @bind-Value="Model?.User?.FirstName"></InputText>
         </label>
         <label>
             Last Name:
-            <InputText @bind-Value="Model.User.FirstName"></InputText>
+            <InputText @bind-Value="Model?.User?.LastName"></InputText>
         </label>
         <label>
             UserName:
-            <InputText @bind-Value="Model.User.LastName"></InputText>
+            <InputText @bind-Value="Model?.User?.UserName"></InputText>
         </label>
         <div>
             <h3>Existing Claims</h3>
@@ -34,7 +34,7 @@
                     <th>Value</th>
                     <th>Action</th>
                 </tr>
-                @foreach (var claim in Model.User.Password.Claims)
+                @foreach (var claim in Model?.User?.Password?.Claims)
                 {
                     <tr>
                         <td>@claim.Key</td>
@@ -77,10 +77,10 @@
 
     protected async override Task OnInitializedAsync()
     {
-        if (string.IsNullOrWhiteSpace(UserId))
-            return;
-        var userIdGuid = Guid.Parse(UserId);
-        Model = await _userConnector.GetAsync(userIdGuid);
+        if (Guid.TryParse(UserId, out Guid userId))
+        {
+            Model = await _userConnector.GetAsync(userId);
+        }
     }
 
     protected async Task HandleValidSubmit()
