@@ -1,10 +1,11 @@
-﻿CREATE PROCEDURE [dbo].[usp_PostDeployment]
+﻿CREATE   PROCEDURE [dbo].[usp_PostDeployment]
 	@commit bit = 0
 AS 
 Begin Transaction Body
 Begin Try
 --Seed static values
 declare @organizationId uniqueidentifier = '0B674AC4-7079-4AD7-830A-C41CD6AB5204'
+declare @authSettingsId uniqueidentifier = '6CE12DA2-CB73-4F0B-B9F0-46051621B3C6'
 
 declare @authSchemes table (
 	id uniqueidentifier not null,
@@ -37,17 +38,18 @@ declare @authSettings udt_AuthSettings
 insert into @authSettings
 (Id, FK_Organization, Name, AuthScheme, SaltLength, HashLength, Iterations, [AuthKey], Issuer, PasswordResetTokenExpirationMinutes)
 values
-('6CE12DA2-CB73-4F0B-B9F0-46051621B3C6', @organizationId, 'audder_clients', 1, 8, 8, 10, 'this is my custom Secret key for authentication', 'Issuer', 60)
-exec usp_SaveAuthSettings @authSettings
+(@authSettingsId, @organizationId, 'audder_clients', 1, 8, 8, 10, 'this is my custom Secret key for authentication', 'Issuer', 60)
+exec usp_SaveAuthSettings @authSettings, @flat = 1
 
---3aacb46c-418d-4f6b-92c6-6580c473e9c6
---62bc7a9a-4394-4c7b-9a1e-5ca825d1744a
---cb92062e-9a12-4418-a3f2-2271ccae7048
---380ddb1d-b3c6-42ea-894f-e7495ebedac6
---fc77aa09-1156-4040-b0e2-72b06ba5513b
---297a2d03-cd5c-4e0d-b800-b891ea3c0056
---e2ccc155-477f-475e-a11f-b63e9523ba02
---8e561b4d-229b-422c-bb25-15face2fcf0f
+SELECT 'ClaimsKeys after exec usp_SaveAuthSettings @authSettings' as [Table], * 
+from ClaimsKey(nolock)
+
+declare @claimsKeys udt_ClaimsKey
+insert into @claimsKeys
+values
+('3aacb46c-418d-4f6b-92c6-6580c473e9c6', '6CE12DA2-CB73-4F0B-B9F0-46051621B3C6', 'Name'),
+('fc77aa09-1156-4040-b0e2-72b06ba5513b', '6CE12DA2-CB73-4F0B-B9F0-46051621B3C6', 'Role')
+exec usp_SaveClaimsKey @claimsKeys
 
 if @commit = 0
 	Begin

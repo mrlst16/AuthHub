@@ -36,11 +36,7 @@ namespace AuthHub.SDK
         public async Task<Organization> GetOrganization()
         {
             var token = await _connector.GetTokenFromLocalStorage();
-            var response = await _connector.Get<Organization>("organization/get_organization", headers: new Dictionary<string, string>()
-            {
-                { "organizationId", token.EntityID.ToString()}
-            });
-            return response;
+            return await GetOrganization(token.EntityID.ToString());
         }
 
         public async Task<Organization> GetOrganization(string organizationId)

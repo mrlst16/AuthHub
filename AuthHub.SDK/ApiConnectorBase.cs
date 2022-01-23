@@ -29,7 +29,7 @@ namespace AuthHub.SDK
         }
 
         protected abstract Task HandleException(Exception e);
-        public abstract Task<Token> GetTokenFromLocalStorage();
+        public abstract Task<Token> GetTokenFromLocalStorage(string fromPage = "");
 
         protected virtual string Url(string endpoint, IDictionary<string, string> queryParams = null)
         {

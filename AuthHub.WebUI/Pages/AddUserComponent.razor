@@ -1,0 +1,240 @@
+﻿@*@page "/add_user/{AuthSettingsName}"
+
+@using AuthHub.Models.Organizations
+@using AuthHub.Models.Passwords
+@using AuthHub.Models.Users
+@using AuthHub.SDK
+
+@inject IUserConnector _userConnector
+@inject IOrganizationConnector _organizationConnector;
+
+<h3>Add User</h3>
+
+
+<div>
+    <EditForm Model="@Request" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div>
+            <label>
+                First Name:
+                <InputText @bind-Value="@Request.FirstName"></InputText>
+            </label>
+            <label>
+                Last Name:
+                <InputText @bind-Value="@Request.LastName"></InputText>
+            </label>
+        </div>
+        <div>
+            <h3>Existing Claims</h3>
+            <table>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var claim in UserClaims)
+                {
+                    <tr>
+                        <td>@claim.Key</td>
+                        <td>@claim.Value</td>
+                        <td>
+                            <button @onclick="@(e => HandleRemoveClaim(claim.Key))">Remove</button>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <div>
+                <span>
+                    <InputSelect @bind-Value="SelectedClaimKeyToAdd">
+                        @foreach (var key in AuthSettings.ClaimsKeys)
+                        {
+                            <option value="@key.ID">@key.Name</option>
+                        }
+                    </InputSelect>
+                </span>
+                <label>
+                    Value
+                    <InputText @bind-Value="SelectedClaimKeyValueToAdd"></InputText>
+                </label>
+                <button @onclick="(e=> HandleAddClaim())">Add Claim</button>
+            </div>
+        </div>
+        <button type="submit">Save</button>
+    </EditForm>
+</div>
+
+@code {
+    private User Request { get; set; } = new();
+
+    private AuthSettings AuthSettings { get; set; }
+
+    [Parameter]
+    public string AuthSettingsName { get; set; }
+
+    protected string SelectedClaimKeyToAdd { get; set; }
+    protected string SelectedClaimKeyValueToAdd { get; set; }
+    protected List<ClaimsEntity> UserClaims { get; set; } = new List<ClaimsEntity>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        AuthSettings = await _organizationConnector.GetAuthSettings(AuthSettingsName);
+    }
+
+    protected async Task HandleValidSubmit()
+    {
+        Request.Password.Claims = UserClaims;
+        await _userConnector.SaveAsync(Request);
+    }
+
+    protected async Task HandleAddClaim()
+    {
+        if (
+            !string.IsNullOrWhiteSpace(SelectedClaimKeyToAdd)
+            && Guid.TryParse(SelectedClaimKeyValueToAdd, out Guid id)
+        )
+        {
+            var claimsKey = UserClaims.First(x => x.ClaimsKeyId == id);
+            UserClaims.Add(new ClaimsEntity()
+                {
+                    ID = id,
+                    Key = claimsKey.Key,
+                    Value = SelectedClaimKeyValueToAdd
+                });
+        }
+    }
+
+    protected async Task HandleRemoveClaim(string name)
+    {
+        if (UserClaims.Any(x => x.Key == name))
+            UserClaims.FirstOrDefault(x => x.Key != name).DeletedUTC = DateTime.UtcNow;
+    }
+}
+*@
+
+@page "/add_user/{AuthSettingsId}"
+
+@using AuthHub.Models.Passwords
+@using AuthHub.Models.Users
+@using AuthHub.SDK
+@using AuthHub.WebUI.Connectors
+
+@inject IUserConnector _userConnector;
+@inject IClaimsKeyConnector _claimsKeyConnector;
+
+<h3>EditUserComponent</h3>
+
+
+<div>
+    <EditForm Model="@Request" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div>
+
+            <label>
+                First Name:
+                <InputText @bind-Value="@Request.User.FirstName"></InputText>
+            </label>
+            <label>
+                Last Name:
+                <InputText @bind-Value="@Request.User.LastName"></InputText>
+            </label>
+        </div>
+        <div>
+            <h3>Existing Claims</h3>
+            <table>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var claim in UserClaims)
+                {
+                    <tr>
+                        <td>@claim.Key</td>
+                        <td>@claim.Value</td>
+                        <td>
+                            <button @onclick="@(e => HandleRemoveClaim(claim.Key))">Remove</button>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <div>
+                <span>
+                    <InputSelect @bind-Value="SelectedClaimKeyToAdd">
+                        @foreach (var key in Request.ClaimsKeys)
+                        {
+                            <option value="@key.ID">@key.Name</option>
+                        }
+                    </InputSelect>
+                </span>
+                <label>
+                    Value
+                    <InputText @bind-Value="SelectedClaimKeyValueToAdd"></InputText>
+                </label>
+                <button @onclick="(e=> HandleAddClaim())">Add User</button>
+            </div>
+        </div>
+        <button type="submit">Save</button>
+    </EditForm>
+</div>
+
+@code {
+    public UserViewModel Request { get; set; } = new();
+
+    [Parameter]
+    public string AuthSettingsId { get; set; }
+
+    protected string SelectedClaimKeyToAdd { get; set; }
+    protected string SelectedClaimKeyValueToAdd { get; set; }
+    protected List<ClaimsEntity> UserClaims { get; set; } = new List<ClaimsEntity>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        UserClaims = (Request?.User?.Password?.Claims == null)
+            ? Request.User.Password.Claims.Where(x => x.DeletedUTC == null).ToList()
+                : new();
+
+        if (Request.ClaimsKeys == null || !Request.ClaimsKeys.Any())
+        {
+            if (Guid.TryParse(AuthSettingsId, out Guid authSettingsId))
+            {
+                Request.ClaimsKeys = await _claimsKeyConnector.Get(authSettingsId);
+            }
+            else
+            {
+                Request.ClaimsKeys = new List<ClaimsKey>();
+            }
+        }
+    }
+
+    protected async Task HandleValidSubmit()
+    {
+        Request.User.Password.Claims = UserClaims;
+        await _userConnector.SaveAsync(Request);
+    }
+
+    protected async Task HandleAddClaim()
+    {
+        if (
+            !string.IsNullOrWhiteSpace(SelectedClaimKeyToAdd)
+            && Guid.TryParse(SelectedClaimKeyValueToAdd, out Guid id)
+        )
+        {
+            var claimsKey = UserClaims.First(x => x.ClaimsKeyId == id);
+            UserClaims.Add(new ClaimsEntity()
+                {
+                    ID = id,
+                    Key = claimsKey.Key,
+                    Value = SelectedClaimKeyValueToAdd
+                });
+        }
+    }
+
+    protected async Task HandleRemoveClaim(string name)
+    {
+        UserClaims.FirstOrDefault(x => x.Key != name).DeletedUTC = DateTime.UtcNow;
+    }
+}

@@ -77,10 +77,10 @@
                 <ul>
                     @foreach (var user in Model.Users)
                     {
-                        var link = $"edit_user/{Model.OrganizationID}/{user.ID}";
+                      @*  var link = $"add_user/{Model.ID}";
                         <li>
                             <a href="@link">@user.UserName</a>
-                        </li>
+                        </li>*@
                     }
                 </ul>
                 <button @onclick=@(e=> HandleAddUserClick())>
@@ -127,6 +127,6 @@
 
     private void HandleAddUserClick()
     {
-        _navigationManager.NavigateTo($"/edit_user");
+        _navigationManager.NavigateTo($"/add_user/{Model.ID}");
     }
 }

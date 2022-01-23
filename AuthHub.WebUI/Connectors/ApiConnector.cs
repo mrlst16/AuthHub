@@ -2,22 +2,18 @@
 using AuthHub.SDK;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace AuthHub.WebUI.Connectors
 {
     public class ApiConnector : ApiConnectorBase
     {
-
-        private readonly HttpClient _httpClient;
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<ApiConnector> _logger;
         private readonly NavigationManager _navigationManager;
         private readonly ILocalStorageProvider _localStorageProvider;
-
         public ApiConnector(
             HttpClient httpClient,
             IConfiguration configuration,
@@ -25,12 +21,11 @@ namespace AuthHub.WebUI.Connectors
             ILocalStorageProvider localStorageProvider
             ) : base(httpClient, configuration)
         {
-            _httpClient = httpClient;
-            _configuration = configuration;
             _navigationManager = navigationManager;
             _localStorageProvider = localStorageProvider;
         }
-        public override async Task<Token> GetTokenFromLocalStorage()
+
+        public override async Task<Token> GetTokenFromLocalStorage(string fromPage = "")
         {
             var token = await _localStorageProvider.Get<Token>(JWTTokenConnectorBase.JWTTokenKey);
             if (
@@ -39,7 +34,10 @@ namespace AuthHub.WebUI.Connectors
                 )
                 return token;
             else
+            {
+                await HandleNotLoggedIn(fromPage);
                 return null;
+            }
         }
 
         protected override async Task HandleException(Exception e)
@@ -47,12 +45,23 @@ namespace AuthHub.WebUI.Connectors
             _navigationManager.NavigateTo($"/error/{e.Message}/{e.StackTrace}");
         }
 
-        protected virtual async Task HandleNotLoggedIn()
+        protected virtual async Task HandleNotLoggedIn(string option = "")
         {
-            _navigationManager.NavigateTo($"/organization_sign_in");
+            if (string.IsNullOrWhiteSpace(option))
+                _navigationManager.NavigateTo($"/organization_signin");
+            switch (option)
+            {
+                case "user":
+                case string opt1 when opt1.ToLowerInvariant().Contains("user"):
+                    _navigationManager.NavigateTo($"/user_signin");
+                    break;
+                case string opt3 when string.IsNullOrWhiteSpace(opt3):
+                case string opt2 when opt2.ToLowerInvariant().Contains("organization"):
+                case "organization":
+                default:
+                    _navigationManager.NavigateTo($"/organization_signin");
+                    break;
+            }
         }
-
-        private string Url(string endpoint)
-            => $"{_configuration.GetValue<string>("AppSettings:ApiUrl")}/api/{endpoint}";
     }
 }

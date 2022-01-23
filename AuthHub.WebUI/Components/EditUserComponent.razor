@@ -1,11 +1,14 @@
 ﻿@page "/edit_user"
-@page "/edit_user/{UserId}"
+@page "/edit_user/{AuthSettingsId}"
+@page "/edit_user/{AuthSettingsId}/{UserId}"
 
+@using AuthHub.Models.Passwords
 @using AuthHub.Models.Users
 @using AuthHub.SDK
 @using AuthHub.WebUI.Connectors
 
 @inject IUserConnector _userConnector;
+@inject IClaimsKeyConnector _claimsKeyConnector;
 
 <h3>EditUserComponent</h3>
 
@@ -14,18 +17,17 @@
     <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
-        <label>
-            First Name:
-            <InputText @bind-Value="Model?.User?.FirstName"></InputText>
-        </label>
-        <label>
-            Last Name:
-            <InputText @bind-Value="Model?.User?.LastName"></InputText>
-        </label>
-        <label>
-            UserName:
-            <InputText @bind-Value="Model?.User?.UserName"></InputText>
-        </label>
+        <div>
+
+            <label>
+                First Name:
+                <InputText @bind-Value="@Model.User.FirstName"></InputText>
+            </label>
+            <label>
+                Last Name:
+                <InputText @bind-Value="@Model.User.LastName"></InputText>
+            </label>
+        </div>
         <div>
             <h3>Existing Claims</h3>
             <table>
@@ -34,7 +36,7 @@
                     <th>Value</th>
                     <th>Action</th>
                 </tr>
-                @foreach (var claim in Model?.User?.Password?.Claims)
+                @foreach (var claim in UserClaims)
                 {
                     <tr>
                         <td>@claim.Key</td>
@@ -59,6 +61,7 @@
                     Value
                     <InputText @bind-Value="SelectedClaimKeyValueToAdd"></InputText>
                 </label>
+                <button @onclick="(e=> HandleAddClaim())">Add User</button>
             </div>
         </div>
         <button type="submit">Save</button>
@@ -72,34 +75,64 @@
     [Parameter]
     public string UserId { get; set; }
 
+    [Parameter]
+    public string AuthSettingsId { get; set; }
+
     protected string SelectedClaimKeyToAdd { get; set; }
     protected string SelectedClaimKeyValueToAdd { get; set; }
+    protected List<ClaimsEntity> UserClaims { get; set; } = new List<ClaimsEntity>();
 
     protected async override Task OnInitializedAsync()
     {
-        if (Guid.TryParse(UserId, out Guid userId))
+        if (
+            !string.IsNullOrWhiteSpace(UserId)
+            && Guid.TryParse(UserId, out Guid userId)
+        )
         {
             Model = await _userConnector.GetAsync(userId);
+        }
+        UserClaims = (Model?.User?.Password?.Claims == null)
+            ? Model.User.Password.Claims.Where(x => x.DeletedUTC == null).ToList()
+                : new();
+
+        if (Model.ClaimsKeys == null || !Model.ClaimsKeys.Any())
+        {
+            if (Guid.TryParse(AuthSettingsId, out Guid authSettingsId))
+            {
+                Model.ClaimsKeys = await _claimsKeyConnector.Get(authSettingsId);
+            }
+            else
+            {
+                Model.ClaimsKeys = new List<ClaimsKey>();
+            }
         }
     }
 
     protected async Task HandleValidSubmit()
     {
+        Model.User.Password.Claims = UserClaims;
         await _userConnector.SaveAsync(Model);
     }
 
     protected async Task HandleAddClaim()
     {
         if (
-            string.IsNullOrWhiteSpace(SelectedClaimKeyToAdd)
-            || string.IsNullOrWhiteSpace(SelectedClaimKeyValueToAdd)
-        ) return;
-
-        Model.User.Password.Claims.Add(null);
+            !string.IsNullOrWhiteSpace(SelectedClaimKeyToAdd)
+            && Guid.TryParse(SelectedClaimKeyValueToAdd, out Guid id)
+        )
+        {
+            var claimsKey = UserClaims.First(x => x.ClaimsKeyId == id);
+            UserClaims.Add(new ClaimsEntity()
+                {
+                    ID = id,
+                    Key = claimsKey.Key,
+                    Value = SelectedClaimKeyValueToAdd
+                });
+        }
     }
 
     protected async Task HandleRemoveClaim(string name)
     {
-        Model.User.Password.Claims = Model.User.Password.Claims.Where(x => x.Key != name).ToList();
+        UserClaims.FirstOrDefault(x => x.Key != name).DeletedUTC = DateTime.UtcNow;
     }
 }

@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetClaimsKeys]
-	@authSettingsId uniqueidentifier
+	@authSettingsId uniqueidentifier = null
 AS
 Begin Transaction
 Begin Try

@@ -20,6 +20,6 @@ namespace AuthHub.Models.Users
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Password Password { get; set; }
+        public Password Password { get; set; } = new Password();
     }
 }

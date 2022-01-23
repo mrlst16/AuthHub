@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[usp_SaveAuthSettings]
 	@request udt_AuthSettings readonly,
-	@claimsKeys udt_ClaimsKey readonly
+	@claimsKeys udt_ClaimsKey readonly,
+	@flat bit = 0
 AS
 Begin Transaction
 Begin Try
@@ -41,6 +42,11 @@ Begin Try
 		Source.FK_Organization, Source.Name, dbo.GetAuthSchemeId(Source.AuthScheme), Source.SaltLength, Source.HashLength, 
 		Source.Iterations, Source.AuthKey, Source.Issuer, Source.PasswordResetTokenExpirationMinutes, Source.ExpirationMinutes)
 	output inserted.Id;
+
+	if @flat = 1
+	Begin
+		return
+	End
 
 	exec usp_SaveClaimsKey @claimsKeys
 	

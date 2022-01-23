@@ -7,13 +7,8 @@ Begin Try
 	merge [User] as Target
 	using @request as Source
 	on (
-		(
-			Target.Id = Source.Id
-			or (
-				Target.FK_AuthSettings = Source.FK_AuthSettings
-				and Target.Email = Source.Email
-			)
-		)
+		Target.FK_AuthSettings = Source.FK_AuthSettings
+		and Target.Email = Source.Email
 		and Target.DeletedUTC is null
 		)
 	when matched

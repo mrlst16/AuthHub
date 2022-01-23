@@ -80,6 +80,8 @@
     <Folder Include="Types" />
     <Folder Include="Triggers" />
     <Folder Include="Functions" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Functions\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\AuthScheme.sql" />
@@ -111,6 +113,8 @@
     <Build Include="StoredProcedures\usp_PostDeployment.sql" />
     <Build Include="Functions\GetAuthSchemeId.sql" />
     <Build Include="StoredProcedures\usp_SaveClaimsKey.sql" />
+    <Build Include="dbo\Functions\IsValidGuid.sql" />
+    <Build Include="StoredProcedures\usp_SaveClaims.sql" />
     <Build Include="StoredProcedures\usp_GetClaimsKeys.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -118,5 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Script.PostDeployment.sql" />
+    <None Include="Scripts\Lab.sql" />
   </ItemGroup>
 </Project>
