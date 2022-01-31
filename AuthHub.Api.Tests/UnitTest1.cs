@@ -1,5 +1,3 @@
-using AuthHub.Models.Users;
-using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Xunit;

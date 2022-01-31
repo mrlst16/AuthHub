@@ -51,8 +51,8 @@ namespace AuthHub.ServiceRegistrations
         {
             switch ((typeof(T), version))
             {
-                case (Type t, int v) when t == typeof(UserRequest) && v == 1:
-                    return (IValidator<T>)new UserRequestValidator();
+                case (Type t, int v) when t == typeof(User) && v == 1:
+                    return (IValidator<T>)new UserValidator();
                 case (Type t, int v) when t == typeof(CreateOrganizationRequest) && v == 1:
                     return (IValidator<T>)new CreateOrganizationRequestValidator(_organizationService);
                 case (Type t, int v) when t == typeof(AuthSettings) && v == 1:

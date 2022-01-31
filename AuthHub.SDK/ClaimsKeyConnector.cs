@@ -1,9 +1,6 @@
-﻿using AuthHub.Models.Organizations;
-using AuthHub.Models.Passwords;
+﻿using AuthHub.Models.Passwords;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthHub.SDK

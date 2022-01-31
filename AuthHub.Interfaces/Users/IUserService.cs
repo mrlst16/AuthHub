@@ -1,11 +1,9 @@
 ﻿using AuthHub.Models.Users;
 using CommonCore.Interfaces.Repository;
-using System.Threading.Tasks;
 
 namespace AuthHub.Interfaces.Users
 {
-    public interface IUserService : ISR<UserViewModel>
+    public interface IUserService : IEntityInViewModelOut<User, UserViewModel>
     {
-        Task<User> Save(UserRequest request);
     }
 }

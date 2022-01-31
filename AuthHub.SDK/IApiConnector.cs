@@ -1,6 +1,5 @@
 ﻿using AuthHub.Models.Tokens;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace AuthHub.SDK

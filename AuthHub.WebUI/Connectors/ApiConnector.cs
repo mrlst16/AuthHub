@@ -3,9 +3,7 @@ using AuthHub.SDK;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Diagnostics;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace AuthHub.WebUI.Connectors

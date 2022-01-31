@@ -23,7 +23,8 @@ namespace AuthHub.SDK
                     { "id", id.ToString()}
                 });
 
-        public async Task SaveAsync(UserViewModel item)
-            => await _apiConnector.Patch<UserViewModel, bool>("user/save", item);
+        public async Task SaveAsync(User item)
+            => await _apiConnector.Patch<User, bool>("user/save", item);
+
     }
 }

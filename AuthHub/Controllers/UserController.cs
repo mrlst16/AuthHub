@@ -25,14 +25,15 @@ namespace AuthHub.Controllers
 
         [HttpPatch("save")]
         public async Task<IActionResult> CreateUser(
-            [FromBody] UserRequest request
+            [FromBody] User request
             )
         {
-            _validatorFactory.ValidateAndThrow<UserRequest>(request);
+            _validatorFactory.ValidateAndThrow<User>(request);
+            await _service.SaveAsync(request);
 
-            var response = new ApiResponse<User>()
+            var response = new ApiResponse<bool>()
             {
-                Data = await _service.Save(request),
+                Data = true,
                 SuccessMessage = "Sucessfully created user",
                 Sucess = true
             };

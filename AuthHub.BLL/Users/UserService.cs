@@ -1,5 +1,4 @@
-﻿using AuthHub.Interfaces.Organizations;
-using AuthHub.Interfaces.Passwords;
+﻿using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using System;
@@ -10,17 +9,14 @@ namespace AuthHub.BLL.Users
     public class UserService : IUserService
     {
         private readonly IUserLoader _loader;
-        private readonly IOrganizationLoader _organizationLoader;
         private readonly IClaimsKeyLoader _claimsKeyLoader;
 
         public UserService(
             IUserLoader loader,
-            IOrganizationLoader organizationLoader,
             IClaimsKeyLoader claimsKeyLoader
             )
         {
             _loader = loader;
-            _organizationLoader = organizationLoader;
             _claimsKeyLoader = claimsKeyLoader;
         }
 
@@ -29,7 +25,10 @@ namespace AuthHub.BLL.Users
             var user = new User()
             {
                 Email = request.Email,
-                UserName = request.UserName
+                UserName = request.UserName,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+
             };
             return await _loader.Create(request.OrganizationID, request.SettingsName, user);
         }
@@ -47,5 +46,11 @@ namespace AuthHub.BLL.Users
             };
             return result;
         }
+
+        public async Task Save(UserViewModel request)
+            => await _loader.SaveAsync(request.User);
+
+        public async Task SaveAsync(User item)
+            => await _loader.SaveAsync(item);
     }
 }

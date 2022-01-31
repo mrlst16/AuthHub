@@ -3,7 +3,7 @@ using CommonCore.Interfaces.Repository;
 
 namespace AuthHub.SDK
 {
-    public interface IUserConnector : ISR<UserViewModel>
+    public interface IUserConnector : IEntityInViewModelOut<User, UserViewModel>
     {
     }
 }
