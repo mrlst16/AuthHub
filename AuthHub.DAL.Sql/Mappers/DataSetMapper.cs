@@ -95,9 +95,9 @@ namespace AuthHub.DAL.Sql.Mappers
             return result;
         }
 
-        private List<ClaimEntity> MapClaimsEntities(DataTable table)
+        private List<ClaimsEntity> MapClaimsEntities(DataTable table)
         {
-            List<ClaimEntity> result = new List<ClaimEntity>();
+            List<ClaimsEntity> result = new List<ClaimsEntity>();
             if (table == null
                 || table.Rows == null
                 || table.Rows.Count == 0)
@@ -105,9 +105,9 @@ namespace AuthHub.DAL.Sql.Mappers
 
             foreach (DataRow row in table.Rows)
             {
-                var item = new ClaimEntity()
+                var item = new ClaimsEntity()
                 {
-                    Id = row.Field<Guid>("Id"),
+                    ID = row.Field<Guid>("Id"),
                     Key = row.Field<string>("Name"),
                     Value = row.Field<string>("Value"),
                     PasswordId = row.Field<Guid>("FK_Password")
@@ -206,7 +206,7 @@ namespace AuthHub.DAL.Sql.Mappers
                     result.Settings = ToFlatAuthSettings(authSettingsTable);
                     List<Password> passwords = new List<Password>();
                     List<User> users = new List<User>();
-                    List<ClaimEntity> claims = new List<ClaimEntity>();
+                    List<ClaimsEntity> claims = new List<ClaimsEntity>();
                     List<ClaimsKey> claimsKeys = new List<ClaimsKey>();
 
                     if (dataSet.HasDataForTable(2, out DataTable? usersTable))
@@ -327,13 +327,20 @@ namespace AuthHub.DAL.Sql.Mappers
             }
             return result;
         }
-    }
 
-    internal struct ClaimEntity
-    {
-        public Guid Id { get; set; }
-        public Guid PasswordId { get; set; }
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public AuthSettings MapAuthSettings(DataSet? dataSet)
+        {
+            AuthSettings result = new AuthSettings();
+            if (dataSet.HasDataForTable(0, out DataTable? authSettingsTable))
+                result = MapAuthSettings(authSettingsTable);
+
+            if (dataSet.HasDataForTable(1, out DataTable? usersTable))
+            {
+                var users = ToFlatUsers(usersTable);
+                result.Users = users.Where(x => x.AuthSettingsId == result.ID);
+            }
+
+            return result;
+        }
     }
 }

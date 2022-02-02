@@ -7,6 +7,7 @@ namespace AuthHub.Models.Passwords
     public class ClaimsEntity : EntityBase
     {
         public Guid ClaimsKeyId { get; set; }
+        public Guid PasswordId { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
 
@@ -22,8 +23,8 @@ namespace AuthHub.Models.Passwords
             ClaimsKeyId = claimsKeyId;
         }
 
-        public static implicit operator Claim(ClaimsEntity serializableClaim)
-            => new Claim(serializableClaim.Key, serializableClaim.Value);
+        public static implicit operator Claim(ClaimsEntity entity)
+            => new Claim(entity.Key, entity.Value);
     }
 
 }

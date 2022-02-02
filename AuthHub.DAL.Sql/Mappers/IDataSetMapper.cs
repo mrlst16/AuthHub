@@ -16,6 +16,7 @@ namespace AuthHub.DAL.Sql.Mappers
         Organization MapOrganization(DataSet? dataSet);
         Organization MapOrganization(DataTable? table);
         AuthSettings MapAuthSettings(DataTable? table);
+        AuthSettings MapAuthSettings(DataSet? dataSet);
         T MapSingle<T>(DataSet? dataSet, string columnName = "Id");
         T MapSingle<T>(DataSet? dataSet, int tableIndex, int rowIndex, string columnName = "Id");
         List<ClaimsKey> MapClaimsKeys(DataTable? table);

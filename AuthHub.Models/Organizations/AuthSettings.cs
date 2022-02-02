@@ -21,7 +21,7 @@ namespace AuthHub.Models.Organizations
         public string Issuer { get; set; }
         public int ExpirationMinutes { get; set; } = 30;
         public List<ClaimsKey> ClaimsKeys { get; set; } = new List<ClaimsKey>();
-        public List<User> Users { get; set; } = new List<User>();
+        public IEnumerable<User> Users { get; set; } = new List<User>();
         public int PasswordResetTokenExpirationMinutes { get; set; } = 120;
     }
 }

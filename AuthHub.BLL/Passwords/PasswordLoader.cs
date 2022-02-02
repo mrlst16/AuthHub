@@ -22,6 +22,7 @@ namespace AuthHub.BLL.Passwords
             )
         {
             _passwordContext = passwordContext;
+            _organizationContext = organizationContext;
         }
 
 

@@ -27,11 +27,11 @@ namespace AuthHub.BLL.Users
             if (existingUser != null)
                 throw new Exception($"User {user.UserName} already exists in organization {organizationId}");
 
-            org.GetSettings(authUserName).Users.Add(user);
-            var (success, organization) = await repo.Update(org, x => x.ID == organizationId);
+            //org.GetSettings(authUserName).Users.Add(user);
+            //var (success, organization) = await repo.Update(org, x => x.ID == organizationId);
 
-            if (!success)
-                throw new Exception($"Unsuccessful Update");
+            //if (!success)
+            //    throw new Exception($"Unsuccessful Update");
 
             return user;
         }

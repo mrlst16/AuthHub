@@ -66,10 +66,7 @@ namespace AuthHub.DAL.Sql.Organizations
             };
 
             var dataSet = await _context.ExecuteSproc(SprocNames.GetAuthSettings, parameters);
-            if (dataSet.HasDataForTable(0, out DataTable? table))
-                return _mapper.MapAuthSettings(table);
-
-            return new AuthSettings();
+            return _mapper.MapAuthSettings(dataSet);
         }
 
         public async Task<(bool, Organization)> Update(Organization request)
