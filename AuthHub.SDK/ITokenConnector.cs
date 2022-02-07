@@ -8,6 +8,7 @@ namespace AuthHub.SDK
     {
         Task<AuthHubToken> GetOrganizationToken(string username, string password);
         Task<AuthHubToken> OrganizationSignIn(string username, string password);
-        Task RequestPasswordReset(RequestPasswordResetRequest request);
+        Task RequestPasswordReset(RequestSetPasswordRequest request);
+        Task SetPassword(SetPasswordRequest request);
     }
 }

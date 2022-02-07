@@ -1,17 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetPasswordResetToken]
-	@email nvarchar(200),
-	@organizationId uniqueidentifier,
-	@authSettingsName nvarchar(200)
+	@userId uniqueidentifier
 AS
 Begin Transaction
 Begin Try
 
-select * from 
-(select top 1 *
-	from PasswordResetToken(nolock)
-	where Email = @email
-) query
-order by Count
+select top 1 *
+from PasswordResetToken(nolock)
+where FK_User = @userId
+and ExpirationDate > getutcdate()
+order by ExpirationDate desc
 
 Commit Transaction
 End Try

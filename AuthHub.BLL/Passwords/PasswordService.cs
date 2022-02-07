@@ -51,17 +51,18 @@ namespace AuthHub.BLL.Passwords
             var orgId = _configuration.AuthHubOrganizationId();
             userPointer = (orgId, "audder_clients", userPointer.UserName);
 
-            PasswordResetToken token = await _loader.GeneratePasswordResetToken(userPointer);
+            PasswordResetToken token = await _loader.GenerateAndSavePasswordResetToken(userPointer);
+
             await _authHubEmailLoader.SendPasswordResetEmail(token);
         }
 
-        public async Task ResetOrganizationPassword(ResetPasswordRequest request)
+        public async Task ResetOrganizationPassword(SetPasswordRequest request)
         {
             await _loader.AuthenticateAndUpdateToken(request);
-            var user = await _userLoader.Get((request.OrganizationID, request.AuthSettingsName, request.UserName));
+            var user = await _userLoader.GetAsync(request.UserId);
             var newBytes = _applicationHelper.GetBytes(request.NewPassword);
             user.Password.PasswordHash = newBytes;
-            await _userLoader.Update(request.OrganizationID, request.AuthSettingsName, user);
+            await _userLoader.SaveAsync(user);
         }
 
         public async Task<(bool, Password)> Set<T>(PasswordRequest request)

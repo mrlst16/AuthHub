@@ -16,7 +16,7 @@ namespace AuthHub.DAL.Sql
             _connectionStringFactory = connectionStringFactory;
         }
 
-        public async Task<DataSet> ExecuteSproc(string sproc, SqlParameter[] parameters)
+        public async Task<DataSet> ExecuteSproc(string sproc, params SqlParameter[] parameters)
         {
             DataSet result = new();
             try

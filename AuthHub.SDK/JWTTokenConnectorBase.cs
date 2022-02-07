@@ -26,8 +26,8 @@ namespace AuthHub.SDK
             return await OrganizationSignIn(username, password);
         }
 
-        public async Task RequestPasswordReset(RequestPasswordResetRequest request)
-            => await _apiConnector.Post<RequestPasswordResetRequest, object>("password/request_reset", request);
+        public async Task RequestPasswordReset(RequestSetPasswordRequest request)
+            => await _apiConnector.Post<RequestSetPasswordRequest, object>("password/request_reset", request);
 
         public virtual async Task<Token> OrganizationSignIn(string username, string password)
         {
@@ -38,5 +38,8 @@ namespace AuthHub.SDK
             });
             return response;
         }
+
+        public async Task SetPassword(SetPasswordRequest request)
+            => await _apiConnector.Put<SetPasswordRequest>("password/set", request);
     }
 }

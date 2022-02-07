@@ -43,7 +43,7 @@ namespace AuthHub.Controllers
         [AllowAnonymous]
         [HttpPost("request_reset")]
         public async Task<IActionResult> RequestPasswordReset(
-          [FromBody] RequestPasswordResetRequest request
+          [FromBody] RequestSetPasswordRequest request
           )
         {
             await _service.RequestOrganizationPasswordReset((request.OrganizationId, request.AuthSettingsName, request.UserName));
@@ -57,9 +57,9 @@ namespace AuthHub.Controllers
         }
 
 
-        [HttpPatch("reset")]
+        [HttpPut("set")]
         public async Task<IActionResult> ResetPassword(
-            [FromBody] ResetPasswordRequest request
+            [FromBody] SetPasswordRequest request
           )
         {
             await _service.ResetOrganizationPassword(request);

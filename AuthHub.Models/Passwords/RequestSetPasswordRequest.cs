@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AuthHub.Models.Passwords
 {
-    public class RequestPasswordResetRequest
+    public class RequestSetPasswordRequest
     {
         [Required]
         [EmailAddress]

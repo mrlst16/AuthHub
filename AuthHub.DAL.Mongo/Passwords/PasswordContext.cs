@@ -45,5 +45,10 @@ namespace AuthHub.BLL.Passwords
         {
 
         }
+
+        public Task<PasswordResetToken> GetPasswordResetToken(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

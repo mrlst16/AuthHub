@@ -108,7 +108,6 @@
     <Build Include="Tables\PasswordResetToken.sql" />
     <Build Include="Types\udt_PasswordResetToken.sql" />
     <Build Include="StoredProcedures\usp_GetPasswordResetToken.sql" />
-    <Build Include="StoredProcedures\usp_SavePasswordResetToken.sql" />
     <Build Include="StoredProcedures\usp_GetAllOrganizations.sql" />
     <Build Include="StoredProcedures\usp_PostDeployment.sql" />
     <Build Include="Functions\GetAuthSchemeId.sql" />
@@ -116,6 +115,7 @@
     <Build Include="dbo\Functions\IsValidGuid.sql" />
     <Build Include="StoredProcedures\usp_SaveClaims.sql" />
     <Build Include="StoredProcedures\usp_GetClaimsKeys.sql" />
+    <Build Include="StoredProcedures\usp_SavePasswordResetToken.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AuthHub.Database.SqlServer.refactorlog" />

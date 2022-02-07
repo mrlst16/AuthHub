@@ -127,15 +127,10 @@ namespace AuthHub.DAL.Sql.Mappers
                 result = new PasswordResetToken()
                 {
                     ID = row.Field<Guid>("ID"),
-                    AuthSettingsName = row.Field<string>("AuthSettingsName"),
                     Email = row.Field<string>("Email"),
                     ExpirationDate = row.Field<DateTime>("ExpirationDate"),
-                    IsActive = row.Field<bool>("IsActive"),
-                    OrganizationID = row.Field<Guid>("FK_Organization"),
-                    Salt = row.Field<byte[]>("Salt"),
-                    Password = row.Field<byte[]>("Password"),
-                    Token = row.Field<byte[]>("Token"),
-                    UserName = row.Field<string>("UserName")
+                    Token = row.Field<string>("Token"),
+                    UserId = row.Field<Guid>("FK_User")
                 };
             }
             return result;

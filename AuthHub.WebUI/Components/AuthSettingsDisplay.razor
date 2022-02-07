@@ -77,10 +77,10 @@
                 <ul>
                     @foreach (var user in Model.Users)
                     {
-                      @*  var link = $"add_user/{Model.ID}";
+                        var link = $"edit_user/{Model.ID}";
                         <li>
                             <a href="@link">@user.UserName</a>
-                        </li>*@
+                        </li>
                     }
                 </ul>
                 <button @onclick=@(e=> HandleAddUserClick())>

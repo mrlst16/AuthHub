@@ -16,6 +16,12 @@ Begin Try
 		)
 		and a.DeletedUTC is null
 	order by a.CreatedUTC
+
+	select *
+	from [User](nolock)
+	where FK_AuthSettings = @Id
+	and DeletedUTC is null
+
 End Try
 Begin Catch
 	Rollback Transaction

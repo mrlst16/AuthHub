@@ -78,5 +78,14 @@ namespace AuthHub.DAL.Sql.Passwords
 
             await _context.ExecuteSproc(SprocNames.SavePasswordResetToken, parameters);
         }
+
+        public async Task<PasswordResetToken> GetPasswordResetToken(Guid userId)
+        {
+            var dataSet = await _context.ExecuteSproc(SprocNames.GetPasswordResetToken, new SqlParameter("@userId", userId));
+            if (dataSet.HasDataForTable(0, out DataTable? table))
+                return _mapper.MapPasswordResetToken(table);
+
+            return new PasswordResetToken();
+        }
     }
 }

@@ -25,26 +25,22 @@ namespace AuthHub.BLL.Common.Emails
             _fromEmail = configuration.GetValue<string>("AppSettings:Email:From");
             _password = configuration.GetValue<string>("AppSettings:Email:Password");
             _port = configuration.GetValue<int>("AppSettings:Email:Port");
-            _hostUrl = configuration.GetValue<string>("AppSettings:HostUrl");
+            _hostUrl = configuration.GetValue<string>("AppSettings:Email:HostUrl");
             _applicationHelper = applicationHelper;
         }
 
         public async Task SendPasswordResetEmail(PasswordResetToken token)
         {
-            var tokenText = _applicationHelper.GetString(token.Token);
-
             using (SmtpClient client = new SmtpClient(_serverAddress, _port)
             {
                 EnableSsl = true,
                 Credentials = new NetworkCredential(_fromEmail, _password)
             })
             {
-                var url = $"{_hostUrl}/api/reset_password" +
-                    $"?username={token.UserName}" +
+                var url = $"{_hostUrl}/set_password" +
+                    $"?userid={token.UserId}" +
                     $"&email={token.Email}" +
-                    $"&token={tokenText}" +
-                    $"&organizationId={token.OrganizationID}" +
-                    $"&authSettingsName={token.AuthSettingsName}";
+                    $"&token={token.Token}";
                 var link = $"<a href=\"{url}\">Reset Password</a>";
 
                 var message = new MailMessage(_fromEmail, token.Email)

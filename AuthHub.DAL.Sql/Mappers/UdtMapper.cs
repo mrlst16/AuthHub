@@ -42,28 +42,16 @@ namespace AuthHub.DAL.Sql.Mappers
             DataTable val = new();
             val.Columns.Add("Id", typeof(Guid));
             val.Columns.Add("FK_User", typeof(Guid));
-            val.Columns.Add("UserName", typeof(string));
             val.Columns.Add("Email", typeof(string));
-            val.Columns.Add("OrganizationID", typeof(Guid));
-            val.Columns.Add("AuthSettingsName", typeof(string));
             val.Columns.Add("ExpirationDate", typeof(DateTime));
-            val.Columns.Add("Salt", typeof(byte[]));
-            val.Columns.Add("ExpirationDate", typeof(DateTime));
-            val.Columns.Add("Token", typeof(byte[]));
-            val.Columns.Add("IsActive", typeof(bool));
-            val.Columns.Add("Password", typeof(byte[]));
+            val.Columns.Add("Token", typeof(string));
 
             var row = val.NewRow();
             row["Id"] = token.ID;
-            row["UserName"] = token.UserName;
             row["FK_User"] = token.UserId;
             row["Email"] = token.Email;
-            row["OrganizationID"] = token.OrganizationID;
-            row["AuthSettingsName"] = token.AuthSettingsName;
             row["ExpirationDate"] = token.ExpirationDate;
             row["Token"] = token.Token;
-            row["IsActive"] = token.IsActive;
-            row["Password"] = token.Password;
 
             val.Rows.Add(row);
 
