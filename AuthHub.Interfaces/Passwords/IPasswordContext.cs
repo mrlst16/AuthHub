@@ -11,6 +11,8 @@ namespace AuthHub.Interfaces.Passwords
         Task<PasswordResetToken> GetPasswordResetToken(string email, Guid organizationId, string authSettingsName, DateTime expirationDate);
         Task<PasswordResetToken> GetPasswordResetToken(Guid userId);
         Task SavePasswordResetToken(PasswordResetToken token);
+        Task<Password> GetByUserIdAsync(Guid userId);
+        Task Set(Password request);
 
     }
 }

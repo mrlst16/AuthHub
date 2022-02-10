@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetUser]
-	@Id uniqueidentifier,
-	@organizationId uniqueidentifier,
-	@authSettingsName nvarchar(200),
-	@userName nvarchar(200)
+	@Id uniqueidentifier = null,
+	@organizationId uniqueidentifier = null,
+	@authSettingsName nvarchar(200) = null,
+	@userName nvarchar(200) = null
 AS
 	Begin Try
 

@@ -5,5 +5,6 @@
     [Email] NCHAR(200) NOT NULL, 
     [ExpirationDate] DATETIME NOT NULL, 
     [Token] NVARCHAR(6) NOT NULL 
-    CONSTRAINT [FK_PasswordResetToken_ToUser] FOREIGN KEY (FK_User) REFERENCES [User](Id)
+    CONSTRAINT [FK_PasswordResetToken_ToUser] FOREIGN KEY (FK_User) REFERENCES [User](Id), 
+    [DeletedUTC] DATETIME NULL
 )

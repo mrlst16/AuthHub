@@ -14,6 +14,19 @@ Begin Try
 --    [CreatedUTC] DATETIME NOT NULL default getutcdate(), 
 --    [ModifiedUTC] DATETIME NOT NULL default getutcdate(), 
 --    [DeletedUTC] DATETIME NULL
+
+if (select count(1) from @request) = 0
+Begin
+	return;
+End
+
+declare @userId uniqueidentifier = (select top 1 FK_User from @request)
+
+update PasswordResetToken
+set DeletedUTC = getutcdate()
+where FK_User = @userId
+and DeletedUTC is null
+
 	insert into PasswordResetToken
 	(
 		Id,

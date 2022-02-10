@@ -87,5 +87,25 @@ namespace AuthHub.DAL.Sql.Passwords
 
             return new PasswordResetToken();
         }
+
+        public async Task<Password> GetByUserIdAsync(Guid userId)
+        {
+            var dataSet = await _context.ExecuteSproc(SprocNames.GetPasswordByUserId, new SqlParameter("@userId", userId));
+            if (dataSet.HasDataForTable(0, out DataTable? table))
+                return _mapper.MapPassword(table);
+            return new Password();
+        }
+
+        public async Task Set(Password request)
+        {
+            SqlParameter[] parameters = new SqlParameter[] {
+                _udtMapper.MapUdPassword(request)
+            };
+            if (request?.Claims?.Any() ?? false)
+            {
+                parameters.Append(_udtMapper.MapUdtClaim(request.ID, request.Claims));
+            }
+            await _context.ExecuteSproc(SprocNames.SavePassword, parameters);
+        }
     }
 }

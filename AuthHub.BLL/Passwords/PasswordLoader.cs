@@ -14,7 +14,6 @@ namespace AuthHub.BLL.Passwords
 {
     public class PasswordLoader : IPasswordLoader
     {
-
         private readonly IPasswordContext _passwordContext;
         private readonly IOrganizationContext _organizationContext;
         private readonly IUserContext _userContext;
@@ -39,9 +38,6 @@ namespace AuthHub.BLL.Passwords
 
             if (!string.Equals(request.Token, token.Token, StringComparison.InvariantCulture))
                 throw new HttpException("Unable to authenticate reset password token", 403);
-
-            //TODO: Add an IsActiveSwitch for password reset tokens
-            //await _passwordContext.SavePasswordResetToken(token);
         }
 
         public async Task<Password> Get(Guid organizationId, string authSettingsname, string username)
@@ -82,5 +78,10 @@ namespace AuthHub.BLL.Passwords
             return builder.ToString();
         }
 
+        public async Task<Password> GetByUserIdAsync(Guid userId)
+            => await _passwordContext.GetByUserIdAsync(userId);
+
+        public async Task Set(Password request)
+            => await _passwordContext.Set(request);
     }
 }

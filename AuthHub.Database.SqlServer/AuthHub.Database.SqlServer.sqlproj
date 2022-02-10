@@ -113,9 +113,9 @@
     <Build Include="Functions\GetAuthSchemeId.sql" />
     <Build Include="StoredProcedures\usp_SaveClaimsKey.sql" />
     <Build Include="dbo\Functions\IsValidGuid.sql" />
-    <Build Include="StoredProcedures\usp_SaveClaims.sql" />
     <Build Include="StoredProcedures\usp_GetClaimsKeys.sql" />
     <Build Include="StoredProcedures\usp_SavePasswordResetToken.sql" />
+    <Build Include="StoredProcedures\usp_GetPasswordByUserId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AuthHub.Database.SqlServer.refactorlog" />

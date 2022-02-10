@@ -59,10 +59,10 @@ namespace AuthHub.BLL.Passwords
         public async Task ResetOrganizationPassword(SetPasswordRequest request)
         {
             await _loader.AuthenticateAndUpdateToken(request);
-            var user = await _userLoader.GetAsync(request.UserId);
+            var password = await _loader.GetByUserIdAsync(request.UserId);
             var newBytes = _applicationHelper.GetBytes(request.NewPassword);
-            user.Password.PasswordHash = newBytes;
-            await _userLoader.SaveAsync(user);
+            password.PasswordHash = newBytes;
+            await _loader.Set(password);
         }
 
         public async Task<(bool, Password)> Set<T>(PasswordRequest request)
