@@ -14,11 +14,11 @@ namespace AuthHub.BLL.Common.Emails
         private readonly string _password;
         private readonly int _port;
         private readonly string _hostUrl;
-        private readonly IApplicationHelper _applicationHelper;
+        private readonly IApplicationConsistency _applicationHelper;
 
         public AuthHubEmailLoader(
             IConfiguration configuration,
-            IApplicationHelper applicationHelper
+            IApplicationConsistency applicationHelper
             )
         {
             _serverAddress = configuration.GetValue<string>("AppSettings:Email:ServerAddress");

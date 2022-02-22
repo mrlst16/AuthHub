@@ -8,11 +8,8 @@ namespace AuthHub.Models.Passwords
     public class Password : EntityBase
     {
         public Guid UserId { get; set; }
-        public string UserName { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] Salt { get; set; }
-        public int Iterations { get; set; }
-        public int HashLength { get; set; }
         public List<ClaimsEntity> Claims { get; set; } = new List<ClaimsEntity>();
 
         public List<Claim> GetClaims()

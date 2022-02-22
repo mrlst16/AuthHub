@@ -3,8 +3,10 @@ using System.Text;
 
 namespace AuthHub.BLL.Common.Helpers
 {
-    public class ApplicationHelper : IApplicationHelper
+    public class ApplicationConsistency : IApplicationConsistency
     {
+        public bool BytesEqual(byte[] one, byte[] two)
+            => one.SequenceEqual(two);
         public byte[] GetBytes(string str)
             => Encoding.UTF8.GetBytes(str);
         public string GetString(byte[] bytes)

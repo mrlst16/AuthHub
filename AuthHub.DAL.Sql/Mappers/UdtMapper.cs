@@ -22,11 +22,8 @@ namespace AuthHub.DAL.Sql.Mappers
             var row = val.NewRow();
             row["Id"] = password.ID;
             row["FK_User"] = password.UserId;
-            row["UserName"] = password.UserName;
             row["PasswordHash"] = password.PasswordHash;
             row["Salt"] = password.Salt;
-            row["HashLength"] = password.HashLength;
-            row["Iterations"] = password.Iterations;
 
             val.Rows.Add(row);
 

@@ -2,7 +2,9 @@
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
+using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
+using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
@@ -20,13 +22,15 @@ namespace AuthHub.BLL.Organizations
         private readonly IAuthHubOrganizationLoader _authHubOrganizationLoader;
         private readonly IPasswordLoader _passwordLoader;
         private readonly IConfiguration _configuration;
+        private readonly Func<AuthSchemeEnum, ITokenGenerator> _tokenGeneratorFactory;
 
         public OrganizationService(
             IOrganizationLoader organizationLoader,
             IUserLoader userLoader,
             IAuthHubOrganizationLoader authHubOrganizationLoader,
             IPasswordLoader passwordLoader,
-            IConfiguration configuration
+            IConfiguration configuration,
+            Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratorFactory
             )
         {
             _organizationLoader = organizationLoader;
@@ -34,6 +38,7 @@ namespace AuthHub.BLL.Organizations
             _authHubOrganizationLoader = authHubOrganizationLoader;
             _passwordLoader = passwordLoader;
             _configuration = configuration;
+            _tokenGeneratorFactory = tokenGeneratorFactory;
         }
 
         public async Task<Organization> Create(CreateOrganizationRequest request)
@@ -63,9 +68,6 @@ namespace AuthHub.BLL.Organizations
                 LastName = org.Name,
                 Password = new Models.Passwords.Password()
                 {
-                    UserName = request.Name,
-                    HashLength = 8,
-                    Iterations = 10,
                     Claims = new List<ClaimsEntity>()
                     {
                         new ClaimsEntity("role", "admin", authSettingsId)
@@ -73,7 +75,7 @@ namespace AuthHub.BLL.Organizations
                 }
             };
 
-            JWTTokenGenerator tokenGenerator = new JWTTokenGenerator(_organizationLoader, _passwordLoader, _userLoader, _configuration);
+            ITokenGenerator tokenGenerator = _tokenGeneratorFactory(AuthSchemeEnum.JWT);
 
             var (passwordHash, salt) = await tokenGenerator.GetHash(passwordRequest, authHubOrg);
             user.Password.PasswordHash = passwordHash;

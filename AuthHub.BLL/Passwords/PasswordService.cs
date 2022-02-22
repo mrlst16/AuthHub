@@ -21,7 +21,7 @@ namespace AuthHub.BLL.Passwords
         private readonly ITokenGeneratoryFactory _tokenGeneratoryFactory;
         private readonly IUserLoader _userLoader;
         private readonly IAuthHubEmailLoader _authHubEmailLoader;
-        private readonly IApplicationHelper _applicationHelper;
+        private readonly IApplicationConsistency _applicationHelper;
         private readonly IConfiguration _configuration;
 
         public PasswordService(
@@ -30,7 +30,7 @@ namespace AuthHub.BLL.Passwords
             ITokenGeneratoryFactory tokenGeneratoryFactory,
             IUserLoader userLoader,
             IAuthHubEmailLoader authHubEmailLoader,
-            IApplicationHelper applicationHelper,
+            IApplicationConsistency applicationHelper,
             IConfiguration configuration
             )
         {
@@ -83,10 +83,7 @@ namespace AuthHub.BLL.Passwords
             return new Password()
             {
                 PasswordHash = passwordHash,
-                Salt = salt,
-                Iterations = organizationSettings.Iterations,
-                UserName = request.UserName,
-                HashLength = organizationSettings.HashLength
+                Salt = salt
             };
         }
     }

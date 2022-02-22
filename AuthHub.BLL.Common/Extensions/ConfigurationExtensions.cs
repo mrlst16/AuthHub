@@ -5,6 +5,16 @@ namespace AuthHub.BLL.Common.Extensions
 {
     public static class ConfigurationExtensions
     {
+
+        public static IConfiguration FromDictionary(
+            this IConfiguration config,
+            params KeyValuePair<string, string>[] kvps)
+        {
+
+
+            return null; ///FUCK OFF
+        }
+
         public static Guid AuthHubOrganizationId(this IConfiguration configuration)
             => configuration.GetValue<Guid>("AppSettings:AuthHubOrganiztionID");
         public static string AuthHubIssuer(this IConfiguration configuration)

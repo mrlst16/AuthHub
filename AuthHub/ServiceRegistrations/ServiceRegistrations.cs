@@ -18,7 +18,6 @@ namespace AuthHub.ServiceRegistrations
             services.AddTransient<IClaimsKeyService, ClaimsKeyService>();
             services.AddTransient<IOrganizationService, OrganizationService>();
             services.AddTransient<IPasswordService, PasswordService>();
-            services.AddTransient<ITokenGeneratoryFactory, TokenGeneratorFactory>();
             return services;
         }
     }

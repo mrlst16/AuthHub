@@ -7,6 +7,7 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Tokens;
+using CommonCore.Interfaces.Helpers;
 using CommonCore2.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -23,18 +24,21 @@ namespace AuthHub.BLL.Common.Tokens
         private readonly IPasswordLoader _passwordLoader;
         private readonly IUserLoader _userLoader;
         private readonly IConfiguration _configuration;
+        private readonly IApplicationConsistency _applicationConsistency;
 
         public JWTTokenGenerator(
             IOrganizationLoader organizationLoader,
             IPasswordLoader passwordLoader,
             IUserLoader userLoader,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IApplicationConsistency applicationConsistency
             )
         {
             _organizationLoader = organizationLoader;
             _passwordLoader = passwordLoader;
             _userLoader = userLoader;
             _configuration = configuration;
+            _applicationConsistency = applicationConsistency;
         }
 
         public async Task<Token> GetTokenForAudderClients(PasswordRequest request)
@@ -44,8 +48,17 @@ namespace AuthHub.BLL.Common.Tokens
             try
             {
                 var passwordRecord = await _passwordLoader.Get(request.OrganizationID, request.SettingsName, request.UserName);
+                var authSettings = await _organizationLoader.GetSettings(authHubOrgId, "audder_clients");
 
-                if (!Authenticate(request, passwordRecord))
+                if (!Authenticate
+                        (
+                            passwordRecord.PasswordHash,
+                            request.Password,
+                            passwordRecord.Salt,
+                            authSettings.HashLength,
+                            authSettings.Iterations
+                            )
+                        )
                     throw new Exception($"Username and Password are not a match for user {request.UserName} while logging in as an ogranization");
 
                 if (passwordRecord.Claims == null)
@@ -54,11 +67,10 @@ namespace AuthHub.BLL.Common.Tokens
                     passwordRecord.Claims
                         .FirstOrDefault(x => string.Equals(x.Key, "Name", StringComparison.InvariantCultureIgnoreCase)
                             ) == null)
-                    passwordRecord.Claims.Add(_configuration.CreateClaimsEntity("Name", passwordRecord.UserName));
+                    passwordRecord.Claims.Add(_configuration.CreateClaimsEntity("Name", request.UserName));
 
                 passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 
-                var authSettings = await _organizationLoader.GetSettings(request.OrganizationID, request.SettingsName);
 
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.Key));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -88,13 +100,12 @@ namespace AuthHub.BLL.Common.Tokens
             {
                 var passwordRecord = await _passwordLoader.Get(request.OrganizationID, request.SettingsName, request.UserName);
 
-                if (!Authenticate(request, passwordRecord))
-                    throw new Exception($"Username and Password are not a match for user {request.UserName} in organization {organization.ID}");
+                throw new Exception($"Username and Password are not a match for user {request.UserName} in organization {organization.ID}");
 
                 if (passwordRecord.Claims == null)
                     passwordRecord.Claims = new List<ClaimsEntity>();
                 if (passwordRecord.Claims.FirstOrDefault(x => x.Key == ClaimTypes.Name) == null)
-                    passwordRecord.Claims.Add(_configuration.CreateClaimsEntity("Name", passwordRecord.UserName));
+                    passwordRecord.Claims.Add(_configuration.CreateClaimsEntity("Name", request.UserName));
 
                 passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 
@@ -120,7 +131,7 @@ namespace AuthHub.BLL.Common.Tokens
             }
         }
 
-        private byte[] GenerateSalt(int length)
+        private byte[] RandomSalt(int length)
         {
             byte[] result = new byte[length];
 
@@ -131,7 +142,7 @@ namespace AuthHub.BLL.Common.Tokens
             return result;
         }
 
-        private byte[] GenerateHash(byte[] password, byte[] salt, int length, int iterations = 100)
+        public byte[] GenerateHash(byte[] password, byte[] salt, int length, int iterations = 100)
         {
             byte[] result = new byte[length];
 
@@ -143,19 +154,19 @@ namespace AuthHub.BLL.Common.Tokens
             return result;
         }
 
-        private byte[] GenerateHash(string password, byte[] salt, int length, int iterations = 100)
-            => GenerateHash(UTF8Encoding.UTF8.GetBytes(password), salt, length, iterations);
+        public byte[] GenerateHash(string password, byte[] salt, int length, int iterations = 100)
+            => GenerateHash(_applicationConsistency.GetBytes(password), salt, length, iterations);
 
-        public bool Authenticate(PasswordRequest request, Password password)
+        public bool Authenticate(byte[] passwordInRepository, string passwordPassed, byte[] salt, int length, int iterations = 100)
         {
-            var requestHash = GenerateHash(request.Password, password.Salt, password.HashLength, password.Iterations);
-            return requestHash.BytesEqual(password.PasswordHash);
+            var requestHash = GenerateHash(passwordPassed, salt, length, iterations);
+            return requestHash.BytesEqual(passwordInRepository);
         }
 
         public async Task<(byte[], byte[])> GetHash(PasswordRequest passwordRequest, Organization organization)
         {
             var settings = organization.GetSettings(passwordRequest.SettingsName);
-            var salt = GenerateSalt(settings.SaltLength);
+            var salt = RandomSalt(settings.SaltLength);
             return (GenerateHash(passwordRequest.Password, salt, settings.HashLength, settings.Iterations), salt);
         }
     }

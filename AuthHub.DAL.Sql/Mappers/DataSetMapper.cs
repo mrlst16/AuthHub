@@ -26,11 +26,8 @@ namespace AuthHub.DAL.Sql.Mappers
                 return new Password()
                 {
                     UserId = row.Field<Guid>("FK_User"),
-                    Iterations = row.Field<int>("Iterations"),
-                    HashLength = row.Field<int>("HashLength"),
                     PasswordHash = row.Field<byte[]>("PasswordHash"),
                     Salt = row.Field<byte[]>("Salt"),
-                    UserName = row.Field<string>("UserName")
                 };
             }
             return result;
@@ -249,11 +246,8 @@ namespace AuthHub.DAL.Sql.Mappers
                 {
                     ID = row.Field<Guid>("Id"),
                     UserId = row.Field<Guid>("FK_User"),
-                    Iterations = row.Field<int>("Iterations"),
-                    HashLength = row.Field<int>("HashLength"),
                     PasswordHash = row.Field<byte[]>("PasswordHash"),
-                    Salt = row.Field<byte[]>("Salt"),
-                    UserName = row.Field<string>("UserName")
+                    Salt = row.Field<byte[]>("Salt")
                 };
                 result.Add(item);
             }

@@ -1,6 +1,6 @@
 ﻿namespace AuthHub.BLL.Sql
 {
-    public class SqlServerContext
+    public class SqlServerContextTests
     {
 
 
