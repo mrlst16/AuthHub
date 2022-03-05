@@ -14,5 +14,6 @@ namespace AuthHub.Interfaces.Organizations
         Task<AuthSettings> GetSettings(Guid organizationId, string name);
         Task<(bool, Organization)> Update(Organization request);
         Task<(bool, AuthSettings)> UpdateSettings(Guid organizationId, AuthSettings request);
+        Task<AuthSettings> GetSettings(Guid authSettingsId);
     }
 }

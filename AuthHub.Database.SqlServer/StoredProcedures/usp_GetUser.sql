@@ -55,8 +55,12 @@ AS
 	where Name = (select top 1 FirstName from [User] where Id = (select top 1 id from #user))
 	and DeletedUTC is null
 
-	End Try
-	Begin Catch
+End Try
+Begin Catch
+	if @@TRANCOUNT > 0
+	Begin
+		Rollback Transaction
+	End
 	SELECT
 		ERROR_NUMBER() AS ErrorNumber,
 		ERROR_STATE() AS ErrorState,
@@ -65,4 +69,3 @@ AS
 		ERROR_LINE() AS ErrorLine,
 		ERROR_MESSAGE() AS ErrorMessage;
 	End Catch
-RETURN 0

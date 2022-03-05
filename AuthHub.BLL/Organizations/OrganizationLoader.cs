@@ -32,6 +32,9 @@ namespace AuthHub.BLL.Organizations
         public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
             => await _organizationContext.GetSettings(organizationId, name);
 
+        public async Task<AuthSettings> GetSettings(Guid authSettingsId)
+            => await _organizationContext.GetSettings(authSettingsId);
+
         public async Task<(bool, Organization)> Update(Organization request)
             => await _organizationContext.Update(request);
 

@@ -41,6 +41,14 @@ namespace AuthHub.BLL.Common.Tokens
             _applicationConsistency = applicationConsistency;
         }
 
+        public async Task<bool> Authenticate(string username, string password, Guid authSettingsId)
+        {
+            var loginChallenge = await _passwordLoader.GetLoginChallenge(authSettingsId, username);
+            if (loginChallenge == null) return false;
+
+            return false;
+        }
+
         public async Task<Token> GetTokenForAudderClients(PasswordRequest request)
         {
             var authHubOrgId = _configuration.AuthHubOrganizationId();

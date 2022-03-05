@@ -51,8 +51,12 @@ Begin Transaction Body
 	where FK_Password = @passwordId
 
 Commit Transaction Body
-	End Try
-	Begin Catch
+End Try
+Begin Catch
+	if @@TRANCOUNT > 0
+	Begin
+		Rollback Transaction
+	End
 	SELECT
 		ERROR_NUMBER() AS ErrorNumber,
 		ERROR_STATE() AS ErrorState,
@@ -60,6 +64,4 @@ Commit Transaction Body
 		ERROR_PROCEDURE() AS ErrorProcedure,
 		ERROR_LINE() AS ErrorLine,
 		ERROR_MESSAGE() AS ErrorMessage;
-
-Rollback Transaction Body
-	End Catch
+End Catch

@@ -1,10 +1,8 @@
-﻿using AuthHub.BLL.Common.Tokens;
-using AuthHub.BLL.Organizations;
+﻿using AuthHub.BLL.Organizations;
 using AuthHub.BLL.Passwords;
 using AuthHub.BLL.Users;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
-using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using Microsoft.Extensions.DependencyInjection;
 

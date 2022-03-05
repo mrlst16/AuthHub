@@ -61,7 +61,11 @@ if @commit = 0
 Commit Transaction Body
 End Try
 Begin Catch
-	Rollback Transaction Body
+	
+	if @@TRANCOUNT > 0
+	Begin
+		Rollback Transaction Body
+	End
 
 	SELECT
 		ERROR_NUMBER() AS ErrorNumber,

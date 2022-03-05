@@ -46,6 +46,10 @@ and DeletedUTC is null
 Commit Transaction
 End Try
 Begin Catch
+	if @@TRANCOUNT > 0
+	Begin
+		Rollback Transaction
+	End
 	SELECT
 		ERROR_NUMBER() AS ErrorNumber,
 		ERROR_STATE() AS ErrorState,
@@ -53,5 +57,4 @@ Begin Catch
 		ERROR_PROCEDURE() AS ErrorProcedure,
 		ERROR_LINE() AS ErrorLine,
 		ERROR_MESSAGE() AS ErrorMessage;
-	Rollback Transaction
 End Catch

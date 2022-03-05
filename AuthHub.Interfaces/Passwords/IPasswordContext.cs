@@ -13,6 +13,6 @@ namespace AuthHub.Interfaces.Passwords
         Task SavePasswordResetToken(PasswordResetToken token);
         Task<Password> GetByUserIdAsync(Guid userId);
         Task Set(Password request);
-
+        Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName);
     }
 }

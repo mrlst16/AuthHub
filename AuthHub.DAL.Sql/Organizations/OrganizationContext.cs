@@ -69,6 +69,16 @@ namespace AuthHub.DAL.Sql.Organizations
             return _mapper.MapAuthSettings(dataSet);
         }
 
+        public async Task<AuthSettings> GetSettings(Guid authSettingsId)
+        {
+            SqlParameter[] parameters = new SqlParameter[] {
+                new SqlParameter("@id", authSettingsId)
+            };
+
+            var dataSet = await _context.ExecuteSproc(SprocNames.GetAuthSettings, parameters);
+            return _mapper.MapAuthSettings(dataSet);
+        }
+
         public async Task<(bool, Organization)> Update(Organization request)
         {
             SqlParameter[] parameters = new SqlParameter[]{

@@ -19,5 +19,6 @@
         public const string GetPassword = "usp_GetPassword";
         public const string GetPasswordResetToken = "usp_GetPasswordResetToken";
         public const string GetPasswordByUserId = "usp_GetPasswordByUserId";
+        public const string GetLoginChallengeModel = "usp_GetLoginChallengeModel";
     }
 }

@@ -22,9 +22,13 @@ Begin Try
 	where FK_AuthSettings = @Id
 	and DeletedUTC is null
 
+commit transaction
 End Try
 Begin Catch
-	Rollback Transaction
+	if @@TRANCOUNT > 0
+	Begin
+		Rollback Transaction
+	End
 	SELECT
 		ERROR_NUMBER() AS ErrorNumber,
 		ERROR_STATE() AS ErrorState,
@@ -33,4 +37,3 @@ Begin Catch
 		ERROR_LINE() AS ErrorLine,
 		ERROR_MESSAGE() AS ErrorMessage;
 End Catch
-Commit Transaction

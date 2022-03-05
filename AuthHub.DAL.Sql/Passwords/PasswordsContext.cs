@@ -107,5 +107,14 @@ namespace AuthHub.DAL.Sql.Passwords
             }
             await _context.ExecuteSproc(SprocNames.SavePassword, parameters);
         }
+
+        public async Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName)
+        {
+            SqlParameter[] parameters = new SqlParameter[] {
+
+            };
+            var dataSet = await _context.ExecuteSproc(SprocNames.GetLoginChallengeModel, parameters);
+
+        }
     }
 }

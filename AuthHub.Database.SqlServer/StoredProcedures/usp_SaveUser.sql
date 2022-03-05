@@ -25,6 +25,10 @@ Begin Try
 Commit Transaction
 End Try
 Begin Catch
+	if @@TRANCOUNT > 0
+	Begin
+		Rollback Transaction
+	End
 	SELECT
 		ERROR_NUMBER() AS ErrorNumber,
 		ERROR_STATE() AS ErrorState,

@@ -1,20 +1,18 @@
-﻿using AuthHub.BLL.Common.Tokens;
+﻿using AuthHub.BLL.Common.Helpers;
+using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Tests.MockData;
+using CommonCore.Interfaces.Helpers;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
-using System.Threading.Tasks;
-using MockPasswords = AuthHub.Tests.MockData.MockPasswords;
-using MockAuthSettings = AuthHub.Tests.MockData.MockAuthSettings;
 using System;
-using Xunit;
-using CommonCore.Interfaces.Helpers;
-using AuthHub.BLL.Common.Helpers;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xunit;
+using MockAuthSettings = AuthHub.Tests.MockData.MockAuthSettings;
+using MockPasswords = AuthHub.Tests.MockData.MockPasswords;
 
 namespace AuthHub.BLL.Common.Tests.Tokens
 {
@@ -90,6 +88,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
             Assert.False(result);
         }
 
+        #region Member Data
         public static IEnumerable<object[]> PasswordsDoNotMatchData()
             => new List<object[]>
             {
@@ -113,5 +112,6 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                     10
                 }
             };
+        #endregion
     }
 }

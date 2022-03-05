@@ -1,5 +1,4 @@
 ﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;

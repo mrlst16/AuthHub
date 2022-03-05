@@ -1,13 +1,15 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetAllOrganizations]
 AS
-Begin Transaction
 Begin Try
 	select *
 	from Organization(nolock)
 	where DeletedUTC is null
 End Try
 Begin Catch
-	Rollback Transaction
+	if @@TRANCOUNT > 0
+	Begin
+		Rollback Transaction
+	End
 	SELECT
 		ERROR_NUMBER() AS ErrorNumber,
 		ERROR_STATE() AS ErrorState,
@@ -16,4 +18,3 @@ Begin Catch
 		ERROR_LINE() AS ErrorLine,
 		ERROR_MESSAGE() AS ErrorMessage;
 End Catch
-Commit Transaction

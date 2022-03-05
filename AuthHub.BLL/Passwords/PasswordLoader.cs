@@ -4,9 +4,7 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using CommonCore.Models.Exceptions;
-using CommonCore2.Extensions;
 using System;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
