@@ -33,6 +33,11 @@ namespace AuthHub.DAL.Sql.Mappers
             return result;
         }
 
+        public static LoginChallengeResponse MapLoginChallengeResponse(DataSet dataSet)
+        {
+            return null;
+        }
+
         public User MapUser(DataSet? dataSet)
         {
             User result = new();

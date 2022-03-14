@@ -111,10 +111,11 @@ namespace AuthHub.DAL.Sql.Passwords
         public async Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName)
         {
             SqlParameter[] parameters = new SqlParameter[] {
-
+                new SqlParameter("@authSettingsId", authSettingsId),
+                new SqlParameter("@userName", userName),
             };
             var dataSet = await _context.ExecuteSproc(SprocNames.GetLoginChallengeModel, parameters);
-
+            return DataSetMapper.MapLoginChallengeResponse(dataSet);
         }
     }
 }

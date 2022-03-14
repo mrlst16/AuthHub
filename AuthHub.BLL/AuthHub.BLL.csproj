@@ -13,7 +13,9 @@
     <ProjectReference Include="..\AuthHub.BLL.Common\AuthHub.BLL.Common.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Extensions\CommonCore.Extensions.csproj" />
-    <ProjectReference Include="D:\Repos\CommonCore\CommonCore2\CommonCore2.csproj" />
+    <ProjectReference Include="D:\Repos\CommonCore\CommonCore2\CommonCore2.csproj">
+      <CopyLocal>True</CopyLocal>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

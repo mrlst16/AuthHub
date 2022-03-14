@@ -81,5 +81,8 @@ namespace AuthHub.BLL.Passwords
 
         public async Task Set(Password request)
             => await _passwordContext.Set(request);
+
+        public async Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName)
+            => await _passwordContext.GetLoginChallenge(authSettingsId, userName);  
     }
 }
