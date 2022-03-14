@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="10.3.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="FluentValidation" Version="10.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +17,7 @@
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
     <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Api\CommonCore.Api.csproj">
       <CopyLocal>True</CopyLocal>
+      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
 
