@@ -15,10 +15,13 @@
     <ProjectReference Include="..\AuthHub.DAL.Sql\AuthHub.DAL.Sql.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
-    <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Api\CommonCore.Api.csproj">
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CommonCore.Api">
+      <HintPath>D:\Repos\CommonCore\CommonCore.Api\bin\Debug\net5.0\CommonCore.Api.dll</HintPath>
       <CopyLocal>True</CopyLocal>
-      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
-    </ProjectReference>
+    </Reference>
   </ItemGroup>
 
 </Project>
