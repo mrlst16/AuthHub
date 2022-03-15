@@ -19,16 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.Api.Tests", "AuthHu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{4A676C2B-4F4C-4EBE-8C62-F2721452AB06}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCore2", "D:\Repos\CommonCore\CommonCore2\CommonCore2.csproj", "{1ED6EF34-7818-405F-AE40-C60F17A16567}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCore.Models", "D:\Repos\CommonCore\CommonCore.Models\CommonCore.Models.csproj", "{6259A46D-8406-4D75-AD63-6C575AF605A3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCore.Interfaces", "D:\Repos\CommonCore\CommonCore.Interfaces\CommonCore.Interfaces.csproj", "{B9E65C09-B2DC-48BD-AAAB-2036D44519DB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCore.Api", "D:\Repos\CommonCore\CommonCore.Api\CommonCore.Api.csproj", "{157E4042-A13B-4BAB-A2D0-B509AE91C1CC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCore.Extensions", "D:\Repos\CommonCore\CommonCore.Extensions\CommonCore.Extensions.csproj", "{7536FEE2-C6AC-47D4-AA09-5C5997174E0B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.WebUI", "AuthHub.WebUI\AuthHub.WebUI.csproj", "{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.SDK", "AuthHub.SDK\AuthHub.SDK.csproj", "{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}"
