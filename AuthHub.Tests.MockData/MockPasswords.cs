@@ -15,6 +15,15 @@ namespace AuthHub.Tests.MockData
             };
         }
 
+        public static LoginChallengeResponse TestOrg1_LoginChallengeResponse
+            => new LoginChallengeResponse()
+            {
+                Iterations = 10,
+                Length = 8,
+                Salt = CommonSalt,
+                StoredPasswordHash = PasswordHash_Matty33EP_L10_I8
+            };
+
         public static byte[] CommonSalt
         {
             get => new byte[] {
@@ -33,6 +42,10 @@ namespace AuthHub.Tests.MockData
         {
             get => new byte[] { 9, 240, 14, 19, 84, 137, 15, 11 };
         }
+
+        public static byte[] PasswordHash_Matty33EP_L10_I8
+            => new byte[] { 237, 141, 111, 209, 105, 225, 152, 46, 181, 59 };
+
 
         public static byte[] PasswordHashTwo
         {

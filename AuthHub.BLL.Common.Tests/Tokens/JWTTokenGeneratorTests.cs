@@ -5,10 +5,13 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Tests.MockData;
 using CommonCore.Interfaces.Helpers;
+using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using MockAuthSettings = AuthHub.Tests.MockData.MockAuthSettings;
@@ -41,6 +44,28 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                 _configuration,
                 _applicationConsistency
                 );
+        }
+
+        [Fact]
+        public void GeneratePasswordHashHarness()
+        {
+            var result = _generator.GenerateHash("Matty33!", MockPasswords.CommonSalt, 8, 10);
+            var str = result.Select(x => x.ToString()).Aggregate((x, y) => $"{x},{y}");
+            //237,141,111,209,105,225,152,46,181,59
+        }
+
+        [Theory]
+        [MemberData(nameof(GenerateHashData))]
+        public void GenerateHash(
+            string password,
+            byte[] salt,
+            int length,
+            int iterations,
+            byte[] expected
+            )
+        {
+            var result = _generator.GenerateHash(password, salt, length, iterations);
+            result.Should().BeEquivalentTo(expected);
         }
 
 
@@ -88,6 +113,46 @@ namespace AuthHub.BLL.Common.Tests.Tokens
             Assert.False(result);
         }
 
+        [Fact]
+        public async Task Authenticate_NoLoginChallengeFound()
+        {
+            _passwordLoader.GetLoginChallenge(Arg.Any<Guid>(), Arg.Any<string>())
+                .ReturnsNull();
+
+            var result = await _generator.Authenticate(string.Empty, string.Empty, Guid.Empty);
+
+            result.Should()
+                .Be(false);
+        }
+
+        [Fact]
+        public async Task Authenticate_LoginChallengeFound_DoesNotMatch()
+        {
+            _passwordLoader.GetLoginChallenge(Arg.Any<Guid>(), Arg.Any<string>())
+                .Returns(MockPasswords.TestOrg1_LoginChallengeResponse);
+            var authSettingsId = MockAuthSettings.TestOrganization1_AuthSettings.ID;
+
+            var result = await _generator.Authenticate(string.Empty, string.Empty, authSettingsId);
+
+            result.Should()
+                .Be(false);
+        }
+
+        [Fact]
+        public async Task Authenticate_LoginChallengeFound_Matches()
+        {
+            var response = MockPasswords.TestOrg1_LoginChallengeResponse;
+
+            _passwordLoader.GetLoginChallenge(Arg.Any<Guid>(), Arg.Any<string>())
+                .Returns(response);
+            var authSettingsId = MockAuthSettings.TestOrganization1_AuthSettings.ID;
+
+            var result = await _generator.Authenticate("mrlst16@mail.rmu.edu", "Matty33!", authSettingsId);
+
+            result.Should()
+                .Be(true);
+        }
+
         #region Member Data
         public static IEnumerable<object[]> PasswordsDoNotMatchData()
             => new List<object[]>
@@ -105,11 +170,22 @@ namespace AuthHub.BLL.Common.Tests.Tokens
             => new List<object[]>
             {
                 new object[] {
-                    MockPasswords.PasswordHashMatty33ExclaimationPoint,
-                    "Matty31!",
+                    MockPasswords.PasswordHash_Matty33EP_L10_I8,
+                    "Matty33!",
+                    MockPasswords.CommonSalt,
+                    10,
+                    8
+                }
+            };
+
+        public static IEnumerable<object[]> GenerateHashData()
+            => new List<object[]>() {
+                new object[]{
+                    "Matty33!",
                     MockPasswords.CommonSalt,
                     8,
-                    10
+                    10,
+                    new byte[]{ 237, 141, 111, 209, 105, 225, 152, 46, 181, 59 }
                 }
             };
         #endregion

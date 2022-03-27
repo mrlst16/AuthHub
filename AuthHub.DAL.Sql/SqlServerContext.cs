@@ -50,7 +50,7 @@ namespace AuthHub.DAL.Sql
                 IConnectionString connectionString = _connectionStringFactory(2);
 
                 using (SqlConnection connection = new SqlConnection(connectionString.Value))
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter($"{sproc}", connection))
+                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sproc, connection))
                 {
                     await connection.OpenAsync();
                     sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
