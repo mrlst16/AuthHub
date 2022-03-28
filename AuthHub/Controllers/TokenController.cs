@@ -41,24 +41,23 @@ namespace AuthHub.Controllers
 
         [HttpGet("get_jwt_token")]
         public async Task<IActionResult> GetJWTToken(
-            [FromQuery] Guid organizationId
+            [FromQuery] Guid authSettingsId
             )
         {
             var (username, password) = Request.GetUsernameAndPassword();
 
             var request = new PasswordRequest()
             {
-                OrganizationID = organizationId,
+                AuthSettingsId = authSettingsId,
                 UserName = username,
                 Password = password
             };
-            var org = await _service.Get(organizationId);
             var service = _tokenServiceFactory.Get<JWTTokenGenerator>();
 
             _validatorFactory.ValidateAndThrow<PasswordRequest>(request);
             var response = new ApiResponse<Token>()
             {
-                Data = await service.GetToken(request, org),
+                Data = await service.GetToken(authSettingsId, username, password),
                 SuccessMessage = "Successfully get token",
                 Sucess = true
             };

@@ -10,6 +10,7 @@ namespace AuthHub.Interfaces.Passwords
         Task<(bool, Password)> Set(Guid organizationId, string authSettingsname, Password request);
         Task Set(Password request);
         Task<Password> Get(Guid organizationId, string authSettingsname, string username);
+        Task<Password> Get(Guid authSettingsId, string username);
         Task<PasswordResetToken> GenerateAndSavePasswordResetToken(UserPointer userPointer);
         Task AuthenticateAndUpdateToken(SetPasswordRequest request);
         Task<Password> GetByUserIdAsync(Guid userId);

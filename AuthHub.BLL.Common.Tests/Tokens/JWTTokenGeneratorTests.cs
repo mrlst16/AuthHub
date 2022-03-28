@@ -3,6 +3,8 @@ using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
+using AuthHub.Models.Passwords;
+using AuthHub.Models.Tokens;
 using AuthHub.Tests.MockData;
 using CommonCore.Interfaces.Helpers;
 using FluentAssertions;
@@ -49,19 +51,18 @@ namespace AuthHub.BLL.Common.Tests.Tokens
         [Fact]
         public void GeneratePasswordHashHarness()
         {
-            var result = _generator.GenerateHash("Matty33!", MockPasswords.CommonSalt, 8, 10);
+            var result = _generator.GenerateHash("Matty33!", MockPasswords.CommonSalt, 64, 100);
             var str = result.Select(x => x.ToString()).Aggregate((x, y) => $"{x},{y}");
-            //237,141,111,209,105,225,152,46,181,59
         }
 
         [Theory]
-        [MemberData(nameof(GenerateHashData))]
-        public void GenerateHash(
+        [MemberData(nameof(PasswordsMatchData))]
+        public void GenerateHash_AsExpected(
+            byte[] expected,
             string password,
             byte[] salt,
             int length,
-            int iterations,
-            byte[] expected
+            int iterations
             )
         {
             var result = _generator.GenerateHash(password, salt, length, iterations);
@@ -72,7 +73,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
         [Fact]
         public async Task GetOrganizationAuthToken_AsExpected()
         {
-            var passwordRecord = MockPasswords.Instance;
+            var passwordRecord = MockPasswords.TestOrg1_AudderOrgLogin;
             var authSettings = MockAuthSettings.AudderClients;
 
             _passwordLoader
@@ -83,6 +84,8 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                 .GetSettings(Arg.Any<Guid>(), Arg.Any<string>())
                 .Returns(authSettings);
 
+            var result = await _generator.GetTokenForAudderClients(authSettings.ID, "mrlst16@mail.rmu.edu", "Matty33!");
+            result.Should().BeEquivalentTo(new Token() { });
         }
 
         [Theory]
@@ -153,6 +156,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                 .Be(true);
         }
 
+
         #region Member Data
         public static IEnumerable<object[]> PasswordsDoNotMatchData()
             => new List<object[]>
@@ -175,19 +179,23 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                     MockPasswords.CommonSalt,
                     10,
                     8
-                }
-            };
-
-        public static IEnumerable<object[]> GenerateHashData()
-            => new List<object[]>() {
+                },
                 new object[]{
+                    MockPasswords.PasswordHash_Matty33EP_L8_I10,
                     "Matty33!",
                     MockPasswords.CommonSalt,
                     8,
-                    10,
-                    new byte[]{ 237, 141, 111, 209, 105, 225, 152, 46, 181, 59 }
+                    10
+                },
+                new object[]{
+                    MockPasswords.PasswordHash_Matty33EP_L64_I100,
+                    "Matty33!",
+                    MockPasswords.CommonSalt,
+                    64,
+                    100
                 }
             };
+
         #endregion
     }
 }

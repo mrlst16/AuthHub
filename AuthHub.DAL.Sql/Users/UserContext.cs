@@ -27,7 +27,7 @@ namespace AuthHub.DAL.Sql.Users
 
         public async Task DeleteAsync(User item)
         {
-            throw new NotImplementedException();
+            item.DeletedUTC = DateTime.UtcNow;
         }
 
         public async Task<User> Get(Guid organizationId, string authSettingsName, string username)
@@ -49,7 +49,6 @@ namespace AuthHub.DAL.Sql.Users
 
         public async Task<User> GetAsync(Guid id)
         {
-            var result = new User();
             SqlParameter[] parameters = new SqlParameter[] {
                 new SqlParameter("@id", id)
             };
