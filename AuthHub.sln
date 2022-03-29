@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.DAL.Sql", "AuthHub.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.BLL.Common.Tests", "AuthHub.BLL.Common.Tests\AuthHub.BLL.Common.Tests.csproj", "{69BA8F02-91AA-43CB-A79F-8D583DC7B827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.Database.SqlServer.Integration.Tests", "AuthHub.Database.SqlServer.Integration.Tests\AuthHub.Database.SqlServer.Integration.Tests.csproj", "{3CA79474-7D6C-4D19-8286-DD8F76B2DC41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.Database.SqlServer.Tests.Integration", "AuthHub.Database.SqlServer.Integration.Tests\AuthHub.Database.SqlServer.Tests.Integration.csproj", "{3CA79474-7D6C-4D19-8286-DD8F76B2DC41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

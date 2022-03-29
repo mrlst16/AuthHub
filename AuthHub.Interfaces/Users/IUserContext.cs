@@ -13,5 +13,6 @@ namespace AuthHub.Interfaces.Users
         Task<User> Update(UserPointer pointer, User user);
         Task<User> GetAsync(Guid id);
         Task SaveAsync(User item);
+        Task<User> Get(Guid authSettingsId, string userName);
     }
 }

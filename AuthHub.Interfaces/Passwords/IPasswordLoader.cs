@@ -14,6 +14,6 @@ namespace AuthHub.Interfaces.Passwords
         Task<PasswordResetToken> GenerateAndSavePasswordResetToken(UserPointer userPointer);
         Task AuthenticateAndUpdateToken(SetPasswordRequest request);
         Task<Password> GetByUserIdAsync(Guid userId);
-        Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName); 
+        Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName);
     }
 }

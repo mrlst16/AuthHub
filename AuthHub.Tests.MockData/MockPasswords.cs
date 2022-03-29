@@ -11,7 +11,7 @@ namespace AuthHub.Tests.MockData
         {
             get => new Password()
             {
-                
+
             };
         }
 

@@ -26,6 +26,9 @@ namespace AuthHub.BLL.Users
         public async Task<User> Get(UserPointer userPointer)
             => await _userContext.Get(userPointer);
 
+        public async Task<User> Get(Guid authSettingsId, string userName)
+            => await _userContext.Get(authSettingsId, userName);
+
         public async Task<User> GetAsync(Guid id)
             => await _userContext.GetAsync(id);
 

@@ -50,7 +50,8 @@ namespace AuthHub.BLL.Organizations
             };
             await _organizationLoader.Create(org);
             var authHubOrg = await _authHubOrganizationLoader.CreateOrGetAuthHubOrganization();
-            var parseAuthSettingsGuidSuccess = Guid.TryParse(_configuration.AuthHubSettingsId(), out Guid authSettingsId);
+            var authSettingsId = _configuration.AuthHubSettingsId();
+
             var passwordRequest = new PasswordRequest()
             {
                 UserName = request.Name,

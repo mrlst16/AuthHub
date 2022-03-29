@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[usp_GetUser]
 	@Id uniqueidentifier = null,
+	@authSettingsId uniqueidentifier = null,
 	@organizationId uniqueidentifier = null,
 	@authSettingsName nvarchar(200) = null,
 	@userName nvarchar(200) = null
@@ -7,16 +8,18 @@ AS
 	Begin Try
 
 	declare @passwordId uniqueidentifier
-	declare @authSettingsId uniqueidentifier
 
 	if @Id is null or @id = cast('00000000-0000-0000-0000-000000000000' as uniqueidentifier)
 	Begin
-		select
-			@authSettingsId = ID
-		from AuthSettings (nolock)
-		where FK_Organization = @organizationId
-		and Name = @authSettingsName 
-		and DeletedUTC is null
+		if @authSettingsId is null or @authSettingsId = cast('00000000-0000-0000-0000-000000000000' as uniqueidentifier)
+		Begin
+			select
+				@authSettingsId = ID
+			from AuthSettings (nolock)
+			where FK_Organization = @organizationId
+			and Name = @authSettingsName 
+			and DeletedUTC is null
+		End
 
 		select 
 			@Id = ID

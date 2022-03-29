@@ -14,7 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace AuthHub.BLL.Common.Tokens
 {
@@ -49,47 +48,8 @@ namespace AuthHub.BLL.Common.Tokens
             return Authenticate(loginChallenge.StoredPasswordHash, password, loginChallenge.Salt, loginChallenge.Length, loginChallenge.Iterations);
         }
 
-        public async Task<Token> GetTokenForAudderClients(Guid authSettingsId, string userName, string password)
-        {
-            var authSettings = await _organizationLoader.GetSettings(authSettingsId);
-            var user = await _userLoader.Get(authSettingsId, userName);
-            var passwordRecord = user.Password;
-
-            if (!Authenticate
-                    (
-                        passwordRecord.PasswordHash,
-                        password,
-                        passwordRecord.Salt,
-                        authSettings.HashLength,
-                        authSettings.Iterations
-                        )
-                    )
-                throw new Exception($"Username and Password are not a match for user {userName} while logging in as an ogranization");
-
-            if (passwordRecord.Claims == null)
-                passwordRecord.Claims = new List<ClaimsEntity>();
-            if (
-                passwordRecord.Claims
-                    .FirstOrDefault(x => string.Equals(x.Key, ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase)
-                        ) == null)
-                passwordRecord.Claims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, userName));
-
-            passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
-
-            var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(authSettings.Key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: authSettings.Issuer,
-                audience: authSettings.Issuer,
-                claims: passwordRecord?.GetClaims() ?? new List<Claim>(),
-                expires: DateTime.Now.AddMinutes(authSettings.ExpirationMinutes),
-                signingCredentials: credentials
-                );
-
-            var val = new JwtSecurityTokenHandler().WriteToken(token);
-            return new Token(val, token.ValidTo, user.UsersOrganizationId);
-        }
+        public async Task<Token> GetTokenForAudderClients(string userName, string password)
+            => await GetToken(_configuration.AuthHubOrganizationId(), userName, password);
 
         private byte[] RandomSalt(int length)
         {

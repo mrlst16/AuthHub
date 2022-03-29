@@ -69,23 +69,12 @@ namespace AuthHub.Controllers
             )
         {
             var (username, password) = Request.GetUsernameAndPassword();
-            var organizationId = _configuration.AuthHubOrganizationId();
-            var request = new PasswordRequest()
-            {
-                OrganizationID = organizationId,
-                UserName = username,
-                Password = password,
-                SettingsName = "audder_clients"
-            };
-
-            _validatorFactory.ValidateAndThrow<PasswordRequest>(request);
+            
             var service = _tokenServiceFactory.Get<JWTTokenGenerator>();
-
-            var data = await service.GetTokenForAudderClients(request);
 
             var response = new ApiResponse<Token>()
             {
-                Data = data,
+                Data = await service.GetTokenForAudderClients(username, password),
                 SuccessMessage = "Successfully get token",
                 Sucess = true
             };

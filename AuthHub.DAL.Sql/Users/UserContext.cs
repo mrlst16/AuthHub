@@ -47,6 +47,17 @@ namespace AuthHub.DAL.Sql.Users
         public async Task<User> Get(UserPointer userPointer)
             => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
 
+        public async Task<User> Get(Guid authSettingsId, string userName)
+        {
+            SqlParameter[] parameters = new SqlParameter[] {
+                new SqlParameter("@authSettingsId", authSettingsId),
+                new SqlParameter("@userName", userName)
+            };
+            var dataSet = await _context.ExecuteSproc(SprocNames.GetUser, parameters);
+
+            return _mapper.MapUser(dataSet);
+        }
+
         public async Task<User> GetAsync(Guid id)
         {
             SqlParameter[] parameters = new SqlParameter[] {

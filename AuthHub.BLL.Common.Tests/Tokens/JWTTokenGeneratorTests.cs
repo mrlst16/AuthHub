@@ -3,7 +3,6 @@ using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
-using AuthHub.Models.Passwords;
 using AuthHub.Models.Tokens;
 using AuthHub.Tests.MockData;
 using CommonCore.Interfaces.Helpers;
@@ -71,7 +70,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
 
 
         [Fact]
-        public async Task GetOrganizationAuthToken_AsExpected()
+        public async Task GetOrganizationAuthToken_PasswordMatches()
         {
             var passwordRecord = MockPasswords.TestOrg1_AudderOrgLogin;
             var authSettings = MockAuthSettings.AudderClients;
@@ -84,8 +83,11 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                 .GetSettings(Arg.Any<Guid>(), Arg.Any<string>())
                 .Returns(authSettings);
 
-            var result = await _generator.GetTokenForAudderClients(authSettings.ID, "mrlst16@mail.rmu.edu", "Matty33!");
-            result.Should().BeEquivalentTo(new Token() { });
+            var result = await _generator.GetTokenForAudderClients("mrlst16@mail.rmu.edu", "Matty33!");
+            result.Should().BeEquivalentTo(new Token()
+            {
+
+            });
         }
 
         [Theory]
