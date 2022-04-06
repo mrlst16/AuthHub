@@ -1,6 +1,6 @@
 ﻿using AuthHub.Models.Organizations;
 
-namespace AuthHub.Common.Extensions
+namespace AuthHub.BLL.Common.Extensions
 {
     public static class ModelExtensions
     {

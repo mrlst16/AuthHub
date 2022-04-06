@@ -1,5 +1,4 @@
 ﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Common.Extensions;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
@@ -78,7 +77,7 @@ namespace AuthHub.BLL.Passwords
             var organization = await _organizationLoader.Get(request.OrganizationID);
             var organizationSettings = organization.GetSettings(request.SettingsName);
             var tokenGenerator = _tokenGeneratoryFactory.Get<T>();
-            var (passwordHash, salt) = await tokenGenerator.GetHash(request, organization);
+            var (passwordHash, salt) = await tokenGenerator.NewHash(request, organization);
 
             return new Password()
             {

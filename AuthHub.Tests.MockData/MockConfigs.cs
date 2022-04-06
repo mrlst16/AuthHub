@@ -5,10 +5,8 @@ namespace AuthHub.Tests.MockData
 {
     public static class MockConfigs
     {
-        public static IConfiguration Instance
-        {
-            get =>
-                new ConfigurationBuilder()
+        public static IConfiguration Instance =>
+            new ConfigurationBuilder()
                 .AddInMemoryCollection(
                     new Dictionary<string, string>()
                     {
@@ -25,6 +23,5 @@ namespace AuthHub.Tests.MockData
                         { "AppSettings:Email:Port", "587"}
                     })
                 .Build();
-        }
     }
 }

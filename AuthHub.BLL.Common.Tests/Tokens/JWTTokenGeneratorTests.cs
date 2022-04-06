@@ -3,9 +3,10 @@ using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
-using AuthHub.Models.Tokens;
+using AuthHub.Models.Passwords;
 using AuthHub.Tests.MockData;
 using CommonCore.Interfaces.Helpers;
+using CommonCore.Interfaces.Providers;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
@@ -27,6 +28,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
         private readonly IUserLoader _userLoader;
         private readonly IConfiguration _configuration;
         private readonly IApplicationConsistency _applicationConsistency;
+        private readonly IDateProvider _dateProvider;
 
         private readonly JWTTokenGenerator _generator;
 
@@ -37,20 +39,22 @@ namespace AuthHub.BLL.Common.Tests.Tokens
             _userLoader = Substitute.For<IUserLoader>();
             _configuration = MockConfigs.Instance;
             _applicationConsistency = new ApplicationConsistency();
+            _dateProvider = Substitute.For<IDateProvider>();
 
             _generator = new JWTTokenGenerator(
                 _organizationLoader,
                 _passwordLoader,
                 _userLoader,
                 _configuration,
-                _applicationConsistency
+                _applicationConsistency,
+                _dateProvider
                 );
         }
 
         [Fact]
         public void GeneratePasswordHashHarness()
         {
-            var result = _generator.GenerateHash("Matty33!", MockPasswords.CommonSalt, 64, 100);
+            var result = _generator.GenerateHash("Matty33!", SharedMocks.Salt, 64, 100);
             var str = result.Select(x => x.ToString()).Aggregate((x, y) => $"{x},{y}");
         }
 
@@ -70,24 +74,53 @@ namespace AuthHub.BLL.Common.Tests.Tokens
 
 
         [Fact]
+        public async Task GetOrganizationAuthToken_PasswordDoesNotMatch()
+        {
+            _passwordLoader
+                .GetLoginChallenge(Guid.Empty, "mrlst16@mail.rmu.edu")
+                .Returns(new LoginChallengeResponse()
+                {
+                    Iterations = 10,
+                    Length = 8,
+                    StoredPasswordHash = MockPasswords.PasswordHash_Matty33EP_L8_I10,
+                    Salt = SharedMocks.Salt
+                });
+
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _generator.GetTokenForAudderClients("mrlst16@mail.rmu.edu", "Matty33!"));
+        }
+
+        [Fact]
         public async Task GetOrganizationAuthToken_PasswordMatches()
         {
-            var passwordRecord = MockPasswords.TestOrg1_AudderOrgLogin;
+            string expected =
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibXJsc3QxNkBtYWlsLnJtdS5lZHUiLCJleHAiOjE2NDEwNDc0MDAsImlzcyI6Iklzc3VlciIsImF1ZCI6Iklzc3VlciJ9._-OCrYWpr1-_hbeccYeuZywyEfuY11LvJEG3Sy3Gc-c";
+            var loginChallengeResponse = new LoginChallengeResponse()
+            {
+                Iterations = 10,
+                Length = 8,
+                StoredPasswordHash = MockPasswords.PasswordHash_Matty33EP_L8_I10,
+                Salt = SharedMocks.Salt
+            };
+
             var authSettings = MockAuthSettings.AudderClients;
 
-            _passwordLoader
-                .Get(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<string>())
-                .Returns(passwordRecord);
-
             _organizationLoader
-                .GetSettings(Arg.Any<Guid>(), Arg.Any<string>())
+                .GetSettings(authSettings.ID)
                 .Returns(authSettings);
 
-            var result = await _generator.GetTokenForAudderClients("mrlst16@mail.rmu.edu", "Matty33!");
-            result.Should().BeEquivalentTo(new Token()
-            {
+            var user = MockUsers.TestOrganization1;
 
-            });
+            _passwordLoader
+                .GetLoginChallenge(Arg.Any<Guid>(), Arg.Any<string>())
+                .Returns(loginChallengeResponse);
+
+            _userLoader
+                .Get(authSettings.ID, Arg.Any<string>())
+                .Returns(user);
+
+            var result = await _generator.GetTokenForAudderClients("mrlst16@mail.rmu.edu", "Matty33!");
+            Assert.NotNull(result);
+            Assert.Equal(expected, result.Value);
         }
 
         [Theory]
@@ -166,7 +199,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                 new object[] {
                     MockPasswords.PasswordHashMatty33ExclaimationPoint,
                     "Matty33!",
-                    MockPasswords.CommonSalt,
+                    SharedMocks.Salt,
                     8,
                     10
                 }
@@ -178,21 +211,21 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                 new object[] {
                     MockPasswords.PasswordHash_Matty33EP_L10_I8,
                     "Matty33!",
-                    MockPasswords.CommonSalt,
+                    SharedMocks.Salt,
                     10,
                     8
                 },
                 new object[]{
                     MockPasswords.PasswordHash_Matty33EP_L8_I10,
                     "Matty33!",
-                    MockPasswords.CommonSalt,
+                    SharedMocks.Salt,
                     8,
                     10
                 },
                 new object[]{
                     MockPasswords.PasswordHash_Matty33EP_L64_I100,
                     "Matty33!",
-                    MockPasswords.CommonSalt,
+                    SharedMocks.Salt,
                     64,
                     100
                 }

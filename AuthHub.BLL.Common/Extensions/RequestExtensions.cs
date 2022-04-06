@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace AuthHub.Common.Extensions
+namespace AuthHub.BLL.Common.Extensions
 {
     public static class RequestExtensions
     {

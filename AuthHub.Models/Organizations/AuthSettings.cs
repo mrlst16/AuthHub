@@ -1,7 +1,7 @@
 ﻿using AuthHub.Models.Enums;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
-using CommonCore.Repo.Entities;
+using CommonCore.Models.Repo.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

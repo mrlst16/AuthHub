@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace AuthHub.Common.Extensions
+namespace AuthHub.BLL.Common.Extensions
 {
     public static class StartupExtensions
     {

@@ -7,6 +7,7 @@ using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
 using CommonCore.Interfaces.Helpers;
+using CommonCore.Interfaces.Providers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -32,7 +33,8 @@ namespace AuthHub.ServiceRegistrations
                                 services.GetService<IPasswordLoader>(),
                                 services.GetService<IUserLoader>(),
                                 services.GetService<IConfiguration>(),
-                                services.GetService<IApplicationConsistency>()
+                                services.GetService<IApplicationConsistency>(),
+                                services.GetService<IDateProvider>()
                             );
                         default:
                             return new JWTTokenGenerator(
@@ -40,7 +42,8 @@ namespace AuthHub.ServiceRegistrations
                                 services.GetService<IPasswordLoader>(),
                                 services.GetService<IUserLoader>(),
                                 services.GetService<IConfiguration>(),
-                                services.GetService<IApplicationConsistency>()
+                                services.GetService<IApplicationConsistency>(),
+                                services.GetService<IDateProvider>()
                             );
                     }
                 });

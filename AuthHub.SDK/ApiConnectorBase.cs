@@ -176,7 +176,7 @@ namespace AuthHub.SDK
                 var json = await httpResponse.Content.ReadAsStringAsync();
                 var response = JsonConvert.DeserializeObject<ApiResponse<T>>(json);
 
-                if (!response.Sucess)
+                if (!response?.Sucess ?? false)
                     throw new Exception(response.Message);
                 return response.Data;
             }

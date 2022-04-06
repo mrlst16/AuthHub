@@ -1,6 +1,5 @@
 ﻿using AuthHub.BLL.Common.Extensions;
 using AuthHub.BLL.Common.Tokens;
-using AuthHub.Common.Extensions;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
@@ -58,7 +57,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<Token>()
             {
                 Data = await service.GetToken(authSettingsId, username, password),
-                SuccessMessage = "Successfully get token",
+                SuccessMessage = "Successfully got token",
                 Sucess = true
             };
             return new OkObjectResult(response);
@@ -69,13 +68,13 @@ namespace AuthHub.Controllers
             )
         {
             var (username, password) = Request.GetUsernameAndPassword();
-            
+
             var service = _tokenServiceFactory.Get<JWTTokenGenerator>();
 
             var response = new ApiResponse<Token>()
             {
                 Data = await service.GetTokenForAudderClients(username, password),
-                SuccessMessage = "Successfully get token",
+                SuccessMessage = "Successfully got token",
                 Sucess = true
             };
             return new OkObjectResult(response);

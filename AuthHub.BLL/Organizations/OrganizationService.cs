@@ -77,9 +77,7 @@ namespace AuthHub.BLL.Organizations
 
             ITokenGenerator tokenGenerator = _tokenGeneratorFactory(AuthSchemeEnum.JWT);
 
-            var (passwordHash, salt) = await tokenGenerator.GetHash(passwordRequest, authHubOrg);
-            user.Password.PasswordHash = passwordHash;
-            user.Password.Salt = salt;
+            (user.Password.PasswordHash, user.Password.Salt) = await tokenGenerator.NewHash(passwordRequest, authHubOrg);
 
             await _userLoader.Create(authHubOrg.ID, passwordRequest.SettingsName, user);
             user.Password.UserId = user.ID;

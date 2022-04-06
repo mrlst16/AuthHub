@@ -1,5 +1,5 @@
 ﻿using AuthHub.Models.Passwords;
-using CommonCore.Repo.Entities;
+using CommonCore.Models.Repo.Entities;
 using System;
 
 namespace AuthHub.Models.Users

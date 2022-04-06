@@ -7,7 +7,7 @@ using AuthHub.Models.Users;
 using CommonCore.Interfaces.Repository;
 using Microsoft.Extensions.Configuration;
 
-namespace AuthHub.BLL.Common.Oranizations
+namespace AuthHub.BLL.Common.Organizations
 {
     public class AuthHubOrganizationLoader : IAuthHubOrganizationLoader
     {

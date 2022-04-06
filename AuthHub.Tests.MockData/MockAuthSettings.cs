@@ -5,12 +5,11 @@ namespace AuthHub.Tests.MockData
 {
     public static class MockAuthSettings
     {
-        public static AuthSettings AudderClients
-        {
-            get => new AuthSettings()
+        public static AuthSettings AudderClients =>
+            new AuthSettings()
             {
-                ID = Guid.Parse("6CE12DA2-CB73-4F0B-B9F0-46051621B3C6"),
-                OrganizationID = Guid.Parse("0B674AC4-7079-4AD7-830A-C41CD6AB5204"),
+                ID = SharedMocks.AuthHubOrganization1Id,
+                OrganizationID = SharedMocks.TestOrganization1Id,
                 AuthScheme = Models.Enums.AuthSchemeEnum.JWT,
                 ExpirationMinutes = 120,
                 Iterations = 10,
@@ -21,11 +20,9 @@ namespace AuthHub.Tests.MockData
                 Issuer = "Issuer",
                 PasswordResetTokenExpirationMinutes = 60
             };
-        }
 
-        public static AuthSettings TestOrganization1_AuthSettings
-        {
-            get => new AuthSettings()
+        public static AuthSettings TestOrganization1_AuthSettings =>
+            new AuthSettings()
             {
                 ID = Guid.Parse("6CE12DA2-CB73-4F0B-B9F0-46051621B3C6"),
                 OrganizationID = SharedMocks.TestOrganization1Id,
@@ -39,6 +36,5 @@ namespace AuthHub.Tests.MockData
                 Issuer = "Issuer",
                 PasswordResetTokenExpirationMinutes = 60
             };
-        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CommonCore.Repo.Entities;
+﻿using CommonCore.Models.Repo.Entities;
 using System;
 using System.Security.Claims;
 

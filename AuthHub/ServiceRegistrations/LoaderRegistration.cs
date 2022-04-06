@@ -1,5 +1,5 @@
 ﻿using AuthHub.BLL.Common.Emails;
-using AuthHub.BLL.Common.Oranizations;
+using AuthHub.BLL.Common.Organizations;
 using AuthHub.BLL.Organizations;
 using AuthHub.BLL.Passwords;
 using AuthHub.BLL.Users;

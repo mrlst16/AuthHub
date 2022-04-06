@@ -118,6 +118,7 @@
     <Build Include="StoredProcedures\usp_GetPasswordByUserId.sql" />
     <Build Include="StoredProcedures\usp_GetLoginModel.sql" />
     <Build Include="Functions\UUIDNotEmpty.sql" />
+    <Build Include="StoredProcedures\usp_GetLoginChallenge.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AuthHub.Database.SqlServer.refactorlog" />

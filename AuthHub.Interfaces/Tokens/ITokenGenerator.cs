@@ -10,6 +10,6 @@ namespace AuthHub.Interfaces.Tokens
     {
         Task<Token> GetToken(Guid authSettings, string userName, string password);
         Task<Token> GetTokenForAudderClients(string userName, string password);
-        Task<(byte[], byte[])> GetHash(PasswordRequest passwordRequest, Organization organization);
+        Task<(byte[], byte[])> NewHash(PasswordRequest passwordRequest, Organization organization);
     }
 }

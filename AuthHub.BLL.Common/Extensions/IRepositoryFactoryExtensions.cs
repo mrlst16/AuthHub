@@ -2,7 +2,7 @@
 using AuthHub.Models.Users;
 using CommonCore.Interfaces.Repository;
 
-namespace AuthHub.Common.Extensions
+namespace AuthHub.BLL.Common.Extensions
 {
     public static class IRepositoryFactoryExtensions
     {
