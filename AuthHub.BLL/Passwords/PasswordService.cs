@@ -6,6 +6,7 @@ using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using CommonCore.Interfaces.Helpers;
 using Microsoft.Extensions.Configuration;

@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthHub.Models.Requests;
 using Xunit;
 using MockAuthSettings = AuthHub.Tests.MockData.MockAuthSettings;
 using MockPasswords = AuthHub.Tests.MockData.MockPasswords;

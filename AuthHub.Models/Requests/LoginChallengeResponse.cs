@@ -1,4 +1,4 @@
-﻿namespace AuthHub.Models.Passwords
+﻿namespace AuthHub.Models.Requests
 {
     public class LoginChallengeResponse
     {

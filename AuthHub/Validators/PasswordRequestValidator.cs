@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Passwords;
+﻿using AuthHub.Models.Requests;
 using FluentValidation;
 
 namespace AuthHub.Validators

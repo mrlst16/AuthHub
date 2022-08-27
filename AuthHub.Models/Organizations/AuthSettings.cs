@@ -5,7 +5,6 @@ using CommonCore.Models.Repo.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using AuthHub.DAL.EntityFramework.Models;
 
 namespace AuthHub.Models.Organizations
 {
@@ -14,6 +13,7 @@ namespace AuthHub.Models.Organizations
         public string Name { get; set; }
         public Guid OrganizationID { get; set; }
         public AuthScheme AuthScheme { get; set; }
+        public Guid AuthSchemeID { get; set; }
         public int SaltLength { get; set; }
         public int HashLength { get; set; }
         public int Iterations { get; set; }

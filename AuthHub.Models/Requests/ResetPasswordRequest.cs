@@ -1,4 +1,6 @@
-﻿namespace AuthHub.Models.Passwords
+﻿using AuthHub.Models.Passwords;
+
+namespace AuthHub.Models.Requests
 {
     public class SetPasswordRequest : PasswordResetToken
     {

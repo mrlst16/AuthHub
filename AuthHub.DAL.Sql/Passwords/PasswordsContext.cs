@@ -1,6 +1,7 @@
 ﻿using AuthHub.DAL.Sql.Mappers;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.Requests;
 using System.Data;
 using System.Data.SqlClient;
 

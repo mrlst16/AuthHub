@@ -1,6 +1,6 @@
 ﻿using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Passwords;
-using AuthHub.Models.Passwords;
+using AuthHub.Models.Requests;
 using AuthHub.ServiceRegistrations;
 using CommonCore.Models.Responses;
 using Microsoft.AspNetCore.Authorization;

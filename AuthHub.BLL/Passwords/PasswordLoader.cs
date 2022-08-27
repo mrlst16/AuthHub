@@ -2,6 +2,7 @@
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using CommonCore.Models.Exceptions;
 using System;

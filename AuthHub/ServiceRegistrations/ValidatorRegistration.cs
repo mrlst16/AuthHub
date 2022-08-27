@@ -1,7 +1,6 @@
 ﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
-using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using AuthHub.Validators;
 using FluentValidation;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AuthHub.Models.Passwords
+namespace AuthHub.Models.Requests
 {
     public class RequestSetPasswordRequest
     {

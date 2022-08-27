@@ -5,6 +5,7 @@ using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
 using CommonCore.Interfaces.Helpers;
 using CommonCore.Interfaces.Providers;

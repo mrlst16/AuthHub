@@ -1,6 +1,7 @@
 ﻿using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using System.Data;
 

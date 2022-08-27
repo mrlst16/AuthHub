@@ -3,7 +3,7 @@ using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
-using AuthHub.Models.Passwords;
+using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
 using AuthHub.ServiceRegistrations;
 using CommonCore.Models.Responses;

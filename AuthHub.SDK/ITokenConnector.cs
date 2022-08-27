@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Passwords;
+﻿using AuthHub.Models.Requests;
 using System.Threading.Tasks;
 using AuthHubToken = AuthHub.Models.Tokens.Token;
 

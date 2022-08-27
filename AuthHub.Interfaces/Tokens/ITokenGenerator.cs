@@ -1,5 +1,5 @@
 ﻿using AuthHub.Models.Organizations;
-using AuthHub.Models.Passwords;
+using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
 using System;
 using System.Threading.Tasks;
