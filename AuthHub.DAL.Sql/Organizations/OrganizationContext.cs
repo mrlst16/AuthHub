@@ -98,7 +98,7 @@ namespace AuthHub.DAL.Sql.Organizations
         {
             SqlParameter[] parameters = new SqlParameter[]{
                 _udtMapper.MapUdtAuthSettings(request),
-                _udtMapper.MapUdtClaimsKeys(request.ClaimsKeys, "@claimsKeys")
+                _udtMapper.MapUdtClaimsKeys(request.AvailableClaimsKeys, "@claimsKeys")
             };
 
             var dataSet = await _context.ExecuteSproc(SprocNames.SaveAuthSettings, parameters);

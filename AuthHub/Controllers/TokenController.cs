@@ -1,8 +1,8 @@
 ﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
+using AuthHub.Models.Enums;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Tokens;
 using AuthHub.ServiceRegistrations;
@@ -18,21 +18,21 @@ namespace AuthHub.Controllers
     public class TokenController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;
-        private readonly ITokenGeneratoryFactory _tokenServiceFactory;
+        private readonly Func<AuthSchemeEnum, ITokenGenerator> _tokenService;
         private readonly IOrganizationService _service;
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
 
         public TokenController(
             IValidatorFactory validatorFactory,
-            ITokenGeneratoryFactory tokenServiceFactory,
+            Func<AuthSchemeEnum, ITokenGenerator> tokenServiceFactory,
             IOrganizationService service,
             IUserService userService,
             IConfiguration configuration
             )
         {
             _validatorFactory = validatorFactory;
-            _tokenServiceFactory = tokenServiceFactory;
+            _tokenService = tokenServiceFactory;
             _service = service;
             _configuration = configuration;
             _userService = userService;
@@ -51,7 +51,8 @@ namespace AuthHub.Controllers
                 UserName = username,
                 Password = password
             };
-            var service = _tokenServiceFactory.Get<JWTTokenGenerator>();
+
+            var service = _tokenService(AuthSchemeEnum.JWT);
 
             _validatorFactory.ValidateAndThrow<PasswordRequest>(request);
             var response = new ApiResponse<Token>()
@@ -69,7 +70,7 @@ namespace AuthHub.Controllers
         {
             var (username, password) = Request.GetUsernameAndPassword();
 
-            var service = _tokenServiceFactory.Get<JWTTokenGenerator>();
+            var service = _tokenService(AuthSchemeEnum.JWT);
 
             var response = new ApiResponse<Token>()
             {

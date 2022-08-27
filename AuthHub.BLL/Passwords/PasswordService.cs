@@ -4,6 +4,7 @@ using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
+using AuthHub.Models.Enums;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using CommonCore.Interfaces.Helpers;
@@ -17,7 +18,7 @@ namespace AuthHub.BLL.Passwords
     {
         private readonly IPasswordLoader _loader;
         private readonly IOrganizationLoader _organizationLoader;
-        private readonly ITokenGeneratoryFactory _tokenGeneratoryFactory;
+        private readonly Func<AuthSchemeEnum, ITokenGenerator> _tokenGeneratoryFactory;
         private readonly IUserLoader _userLoader;
         private readonly IAuthHubEmailLoader _authHubEmailLoader;
         private readonly IApplicationConsistency _applicationHelper;
@@ -26,7 +27,7 @@ namespace AuthHub.BLL.Passwords
         public PasswordService(
             IPasswordLoader loader,
             IOrganizationLoader organizationLoader,
-            ITokenGeneratoryFactory tokenGeneratoryFactory,
+            Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratoryFactory,
             IUserLoader userLoader,
             IAuthHubEmailLoader authHubEmailLoader,
             IApplicationConsistency applicationHelper,
@@ -76,7 +77,7 @@ namespace AuthHub.BLL.Passwords
         {
             var organization = await _organizationLoader.Get(request.OrganizationID);
             var organizationSettings = organization.GetSettings(request.SettingsName);
-            var tokenGenerator = _tokenGeneratoryFactory.Get<T>();
+            var tokenGenerator = _tokenGeneratoryFactory(AuthSchemeEnum.JWT);
             var (passwordHash, salt) = await tokenGenerator.NewHash(request, organization);
 
             return new Password()

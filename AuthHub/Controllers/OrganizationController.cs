@@ -5,6 +5,7 @@ using CommonCore.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using AuthHub.Models.Requests;
 
 namespace AuthHub.Controllers
 {

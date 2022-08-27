@@ -1,6 +1,7 @@
 ﻿using AuthHub.Models.Organizations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AuthHub.Models.Requests;
 
 namespace AuthHub.SDK
 {

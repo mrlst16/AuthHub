@@ -221,7 +221,7 @@ namespace AuthHub.DAL.Sql.Mappers
                     foreach (AuthSettings setting in result.Settings)
                     {
                         setting.Users = users.Where(x => x.AuthSettingsId == setting.ID).ToList();
-                        setting.ClaimsKeys = claimsKeys.Where(x => x.AuthSettingsId == setting.ID).ToList();
+                        setting.AvailableClaimsKeys = claimsKeys.Where(x => x.AuthSettingsId == setting.ID).ToList();
 
                         foreach (var user in setting.Users)
                         {

@@ -191,6 +191,11 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                 .Be(true);
         }
 
+        [Fact]
+        public async Task GetToken()
+        {
+
+        }
 
         #region Member Data
         public static IEnumerable<object[]> PasswordsDoNotMatchData()

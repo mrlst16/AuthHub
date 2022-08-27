@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.Organizations;
-using AuthHub.Models.Organizations;
+using AuthHub.Models.Requests;
 using FluentValidation;
 
 namespace AuthHub.Validators

@@ -1,8 +1,8 @@
 using Xunit;
 
-namespace AuthHub.DAL.Sql.Test.Integration
+namespace AuthHub.SDK.Tests
 {
-    public class UnitTest1
+    public class ApiConnectorBaseTests
     {
         [Fact]
         public void Test1()

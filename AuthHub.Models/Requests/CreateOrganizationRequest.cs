@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AuthHub.Models.Organizations;
 
-namespace AuthHub.Models.Organizations
+namespace AuthHub.Models.Requests
 {
     public class CreateOrganizationRequest
     {

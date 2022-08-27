@@ -25,14 +25,12 @@ namespace AuthHub.DAL.Sql
 #if DEBUG
                 var sql = parameters.ToSqlString(sproc);
 #endif
-                using (SqlConnection connection = new SqlConnection(connectionString.Value))
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sproc, connection))
-                {
-                    await connection.OpenAsync();
-                    sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    sqlDataAdapter.SelectCommand.Parameters.AddRange(parameters);
-                    sqlDataAdapter.Fill(result);
-                }
+                await using SqlConnection connection = new SqlConnection(connectionString.Value);
+                using SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sproc, connection);
+                await connection.OpenAsync();
+                sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sqlDataAdapter.SelectCommand.Parameters.AddRange(parameters);
+                sqlDataAdapter.Fill(result);
             }
             catch (Exception e)
             {

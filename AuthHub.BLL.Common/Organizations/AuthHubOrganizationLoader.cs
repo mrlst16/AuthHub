@@ -46,7 +46,7 @@ namespace AuthHub.BLL.Common.Organizations
                             AuthScheme = AuthSchemeEnum.JWT,
                             SaltLength = 8,
                             HashLength = 8,
-                            ClaimsKeys = new List<ClaimsKey>(){_configuration.GetClaimsKey("role")},
+                            AvailableClaimsKeys = new List<ClaimsKey>(){_configuration.GetClaimsKey("role")},
                             ExpirationMinutes = 120,
                             Name = "audder_clients",
                             OrganizationID = authHubOrgId,

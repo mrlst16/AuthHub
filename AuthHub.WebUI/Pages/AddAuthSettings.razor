@@ -59,7 +59,7 @@
         <div>
             <h3>Claims Keys</h3>
             <ul>
-                @foreach (var key in model.ClaimsKeys)
+                @foreach (var key in model.AvailableClaimsKeys)
                 {
                     <li>
                         <span>@key</span>
@@ -97,13 +97,13 @@
 
     protected EventCallback OnRemoveClaimsKeyClick(string key)
     {
-        model.ClaimsKeys.Where(x => x.Name != key);
+        model.AvailableClaimsKeys.Where(x => x.Name != key);
         return new EventCallback();
     }
 
     protected EventCallback OnAddClaimsKeyClick()
     {
-        model.ClaimsKeys.Add(new ClaimsKey()
+        model.AvailableClaimsKeys.Add(new ClaimsKey()
             {
                 AuthSettingsId = model.ID,
                 Name = NewKey

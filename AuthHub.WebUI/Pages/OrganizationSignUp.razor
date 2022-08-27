@@ -1,9 +1,11 @@
 ﻿@page "/organization_signup"
 @using AuthHub.WebUI.Connectors
 @using AuthHub.Models.Organizations
+@using AuthHub.Models.Requests
 @using AuthHub.SDK
 
 @inject IOrganizationConnector _connector
+@inject NavigationManager _navigation;
 
 <h3>Organization SignUp</h3>
 
@@ -39,5 +41,8 @@
     CreateOrganizationRequest model = new CreateOrganizationRequest();
 
     private async Task HandleValidSubmit()
-        => await _connector.CreateOrganization(model);
+    {
+         await _connector.CreateOrganization(model);
+        _navigation.NavigateTo("/organization_home");
+    }
 }

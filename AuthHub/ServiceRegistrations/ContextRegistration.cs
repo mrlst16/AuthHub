@@ -30,7 +30,7 @@ namespace AuthHub.ServiceRegistrations
                         case 2:
                             return new ConnectionString(sqlConnectionString);
                         default:
-                            return new ConnectionString(mongoConnectionString);
+                            return new ConnectionString(sqlConnectionString);
                     }
                 }));
 
