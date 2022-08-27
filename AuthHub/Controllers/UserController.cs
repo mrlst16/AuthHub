@@ -1,7 +1,7 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using AuthHub.ServiceRegistrations;
-using CommonCore.Models.Responses;
+using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

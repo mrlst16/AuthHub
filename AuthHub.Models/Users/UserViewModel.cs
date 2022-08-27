@@ -1,6 +1,6 @@
 ﻿using AuthHub.Models.Passwords;
-using CommonCore.Models.Responses;
 using System.Collections.Generic;
+using Common.Models.Responses;
 
 namespace AuthHub.Models.Users
 {

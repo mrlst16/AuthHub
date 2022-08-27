@@ -2,7 +2,7 @@
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Requests;
 using AuthHub.ServiceRegistrations;
-using CommonCore.Models.Responses;
+using Common.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

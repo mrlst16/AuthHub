@@ -6,7 +6,7 @@ using AuthHub.Models.Enums;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
 using AuthHub.ServiceRegistrations;
-using CommonCore.Models.Responses;
+using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;

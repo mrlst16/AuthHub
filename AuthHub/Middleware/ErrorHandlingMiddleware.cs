@@ -1,12 +1,12 @@
 ﻿using CommonCore.Api.Extensions;
 using CommonCore.Models.Exceptions;
-using CommonCore.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Common.Models.Responses;
 
 namespace AuthHub.Middleware
 {

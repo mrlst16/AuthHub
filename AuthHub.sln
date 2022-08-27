@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.BLL.Tests", "AuthHu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.Api.Tests", "AuthHub.Api.Tests\AuthHub.Api.Tests.csproj", "{4C8411DC-5B3D-436D-97EC-1BE3792B20AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.WebUI", "AuthHub.WebUI\AuthHub.WebUI.csproj", "{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.SDK", "AuthHub.SDK\AuthHub.SDK.csproj", "{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AuthHub.Database.SqlServer", "AuthHub.Database.SqlServer\AuthHub.Database.SqlServer.sqlproj", "{D740E6C7-BCE8-493E-9A83-F2DDC9577BBA}"
@@ -35,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{98DB08B2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.SDK.Tests", "AuthHub.SDK.Tests\AuthHub.SDK.Tests.csproj", "{543CF4BD-833F-4FBB-8CE6-F48A359FF3EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.DAL.EntityFramework", "AuthHub.DAL.EntityFramework\AuthHub.DAL.EntityFramework.csproj", "{9A2BD83D-9AC3-4CD2-9926-EDD17A3BCC22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.DAL.EntityFramework", "AuthHub.DAL.EntityFramework\AuthHub.DAL.EntityFramework.csproj", "{9A2BD83D-9AC3-4CD2-9926-EDD17A3BCC22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,12 +84,6 @@ Global
 		{4C8411DC-5B3D-436D-97EC-1BE3792B20AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C8411DC-5B3D-436D-97EC-1BE3792B20AA}.Run Web UI and APIs|Any CPU.ActiveCfg = Run Web UI and APIs|Any CPU
 		{4C8411DC-5B3D-436D-97EC-1BE3792B20AA}.Run Web UI and APIs|Any CPU.Build.0 = Run Web UI and APIs|Any CPU
-		{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}.Run Web UI and APIs|Any CPU.ActiveCfg = Run Web UI and APIs|Any CPU
-		{584EAFC5-3FAD-4DB5-95C4-B9663209AE50}.Run Web UI and APIs|Any CPU.Build.0 = Run Web UI and APIs|Any CPU
 		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8D88A85-2C9A-47B6-8E85-FDD45D42ED10}.Release|Any CPU.ActiveCfg = Release|Any CPU
