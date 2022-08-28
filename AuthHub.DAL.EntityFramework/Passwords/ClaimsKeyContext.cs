@@ -1,18 +1,31 @@
 ﻿using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Passwords;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Passwords
 {
     public class ClaimsKeyContext : IClaimsKeyContext
     {
-        public Task SaveAsync(IEnumerable<ClaimsKey> item)
+        private readonly AuthHubContext _authHubContext;
+
+        public ClaimsKeyContext(
+            AuthHubContext authHubContext
+            )
         {
-            throw new NotImplementedException();
+            _authHubContext = authHubContext;
         }
 
-        public Task<IEnumerable<ClaimsKey>> GetAsync(Guid id)
+        public async Task SaveAsync(IEnumerable<ClaimsKey> item)
         {
-            throw new NotImplementedException();
+            var ids = item.Select(x => x.ID);
+            var existing = await _authHubContext.ClaimsKeys.Where(x => ids.Contains(x.ID)).ToListAsync();
+            _authHubContext.ClaimsKeys.UpdateRange(item.Where(x=> existing.Contains(x)));
+
+            var nonExisting = await _authHubContext.ClaimsKeys.Where(x=> !ids.Contains(x.ID)).ToListAsync();
+            await _authHubContext.ClaimsKeys.AddRangeAsync(item.Where(x=> nonExisting.Contains(x)));
         }
+
+        public async Task<IEnumerable<ClaimsKey>> GetAsync(Guid authSettingsId)
+            => _authHubContext.ClaimsKeys.Where(x => x.AuthSettingsId == authSettingsId);
     }
 }

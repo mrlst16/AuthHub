@@ -6,6 +6,15 @@ namespace AuthHub.DAL.EntityFramework.Passwords
 {
     public class PasswordsContext : IPasswordContext
     {
+        private readonly AuthHubContext _authHubContext;
+
+        public PasswordsContext(
+            AuthHubContext authHubContext
+            )
+        {
+            _authHubContext = authHubContext;
+        }
+
         public Task<(bool, Password)> Set(Guid organizationId, string authSettingsname, Password request)
         {
             throw new NotImplementedException();

@@ -1,6 +1,11 @@
 using AuthHub.BLL.Common.Extensions;
+using AuthHub.DAL.EntityFramework.Organizations;
+using AuthHub.DAL.EntityFramework.Passwords;
+using AuthHub.DAL.EntityFramework.Users;
+using AuthHub.Interfaces.Organizations;
+using AuthHub.Interfaces.Passwords;
+using AuthHub.Interfaces.Users;
 using AuthHub.Middleware;
-using AuthHub.Models.Organizations;
 using AuthHub.ServiceRegistrations;
 using CommonCore.Api.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,8 +15,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace AuthHub
 {
@@ -27,14 +30,11 @@ namespace AuthHub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            BsonClassMap.RegisterClassMap<Organization>((o) =>
-            {
-                o.AutoMap();
-                o.MapIdMember(m => m.ID).SetIdGenerator(GuidGenerator.Instance);
-            });
-
             services
-                .RegisterContexts(Configuration)
+                .AddTransient<IUserContext, UserContext>()
+                .AddTransient<IClaimsKeyContext, ClaimsKeyContext>()
+                .AddTransient<IPasswordContext, PasswordsContext>()
+                .AddTransient<IOrganizationContext, OrganizationContext>()      
                 .RegisterLoaders()
                 .RegisterServices()
                 .RegisterValidatorFactory()

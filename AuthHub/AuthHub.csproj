@@ -6,13 +6,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ServiceRegistrations\ContextRegistration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AuthHub.BLL\AuthHub.BLL.csproj" />
-    <ProjectReference Include="..\AuthHub.DAL.Sql\AuthHub.DAL.Sql.csproj" />
+    <ProjectReference Include="..\AuthHub.DAL.EntityFramework\AuthHub.DAL.EntityFramework.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
   </ItemGroup>

@@ -10,6 +10,7 @@ using CommonCore2.Repository.MongoDb;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using MongoDB.Driver.Core.Configuration;
 
 namespace AuthHub.ServiceRegistrations
 {

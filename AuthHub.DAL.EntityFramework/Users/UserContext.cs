@@ -1,48 +1,63 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Users
 {
     public class UserContext : IUserContext
     {
-        public Task<User> Create(Guid organizationId, string authSettingsName, User user)
+        private readonly AuthHubContext _context;
+
+        public UserContext(
+            AuthHubContext context
+            )
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<User> Get(Guid organizationId, string authSettingsName, string username)
+        public async Task<User> Create(Guid organizationId, string authSettingsName, User user)
         {
-            throw new NotImplementedException();
+            await SaveAsync(user);
+            return user;
         }
 
-        public Task<User> Get(UserPointer userPointer)
+        public async Task<User> Get(Guid organizationId, string authSettingsName, string username)
+            => _context
+                .AuthSettings
+                .First(x => x.OrganizationID == organizationId && x.Name == authSettingsName)
+                .Users
+                .First(x => x.UserName == username);
+
+        public async Task<User> Get(UserPointer userPointer)
+            => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
+
+        public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
         {
-            throw new NotImplementedException();
+            await SaveAsync(user);
+            return user;
         }
 
-        public Task<User> Update(Guid organizationId, string authSettingsName, User user)
+        public async Task<User> Update(UserPointer pointer, User user)
+            => await Update(pointer.OrganizationID, pointer.AuthSettingsName, user);
+
+        public async Task<User> GetAsync(Guid id)
+            => (await _context.Users.SingleOrDefaultAsync(x => x.ID == id))!;
+
+        public async Task SaveAsync(User item)
         {
-            throw new NotImplementedException();
+            var existingItem = await _context.Users.SingleOrDefaultAsync(x => x.ID == item.ID);
+            if(existingItem == null) await _context.Users.AddAsync(existingItem);
+            else
+            {
+                _context.Users.Update(existingItem);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
-        public Task<User> Update(UserPointer pointer, User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveAsync(User item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> Get(Guid authSettingsId, string userName)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<User> Get(Guid authSettingsId, string userName)
+            => (await _context
+                .Users
+                .SingleOrDefaultAsync(x=> x.AuthSettingsId == authSettingsId && x.UserName == userName))!;
     }
 }
