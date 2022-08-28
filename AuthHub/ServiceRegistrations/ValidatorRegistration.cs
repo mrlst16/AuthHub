@@ -1,12 +1,12 @@
 ﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
+using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using AuthHub.Validators;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using AuthHub.Models.Requests;
 
 namespace AuthHub.ServiceRegistrations
 {

@@ -6,12 +6,12 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AuthHub.Models.Requests;
 
 namespace AuthHub.BLL.Organizations
 {

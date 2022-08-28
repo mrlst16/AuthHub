@@ -1,11 +1,11 @@
 ﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Organizations;
+using AuthHub.Models.Requests;
 using AuthHub.ServiceRegistrations;
+using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using AuthHub.Models.Requests;
-using Common.Models.Responses;
 
 namespace AuthHub.Controllers
 {

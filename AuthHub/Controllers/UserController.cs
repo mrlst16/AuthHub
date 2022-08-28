@@ -34,7 +34,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<bool>()
             {
                 Data = true,
-                SuccessMessage = "Sucessfully created user",
+                SuccessMessage = "Successfully created user",
                 Sucess = true
             };
             return new OkObjectResult(response);
@@ -56,7 +56,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<UserViewModel>()
             {
                 Data = await _service.GetAsync(id),
-                SuccessMessage = "Sucessfully created user",
+                SuccessMessage = "Successfully created user",
                 Sucess = true
             };
             return new OkObjectResult(response);

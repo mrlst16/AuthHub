@@ -1,5 +1,5 @@
-﻿using System;
-using CommonCore.Models.Repo.Entities;
+﻿using CommonCore.Models.Repo.Entities;
+using System;
 
 namespace AuthHub.Models.Enums
 {

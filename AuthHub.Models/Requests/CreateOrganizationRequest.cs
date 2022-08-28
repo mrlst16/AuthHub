@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AuthHub.Models.Organizations;
+﻿using AuthHub.Models.Organizations;
+using System.ComponentModel.DataAnnotations;
 
 namespace AuthHub.Models.Requests
 {
