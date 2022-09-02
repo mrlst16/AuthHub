@@ -13,7 +13,7 @@ namespace AuthHub.ServiceRegistrations
 {
     public static class LoaderRegistration
     {
-        public static IServiceCollection RegisterLoaders(this IServiceCollection services)
+        public static IServiceCollection AddAuthHubLoaders(this IServiceCollection services)
         {
             services.AddTransient<IUserLoader, UserLoader>();
             services.AddTransient<IClaimsKeyLoader, ClaimsKeyLoader>();

@@ -5,8 +5,6 @@ using AuthHub.DAL.Sql.Users;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
-using CommonCore.Interfaces.Repository;
-using CommonCore2.Repository.MongoDb;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;

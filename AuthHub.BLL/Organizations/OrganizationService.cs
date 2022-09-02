@@ -45,7 +45,7 @@ namespace AuthHub.BLL.Organizations
         {
             var org = new Organization()
             {
-                ID = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 Name = request.Name,
                 Email = request.Email
             };
@@ -56,7 +56,7 @@ namespace AuthHub.BLL.Organizations
             var passwordRequest = new PasswordRequest()
             {
                 UserName = request.Name,
-                OrganizationID = authHubOrg.ID,
+                OrganizationID = authHubOrg.Id,
                 Password = request.Password,
                 SettingsName = "audder_clients"
             };
@@ -80,8 +80,8 @@ namespace AuthHub.BLL.Organizations
 
             (user.Password.PasswordHash, user.Password.Salt) = await tokenGenerator.NewHash(passwordRequest, authHubOrg);
 
-            await _userLoader.Create(authHubOrg.ID, passwordRequest.SettingsName, user);
-            user.Password.UserId = user.ID;
+            await _userLoader.Create(authHubOrg.Id, passwordRequest.SettingsName, user);
+            user.Password.UserId = user.Id;
 
             await _passwordLoader.Set(passwordRequest.OrganizationID, passwordRequest.SettingsName, user.Password);
             return org;

@@ -1,9 +1,9 @@
-﻿using CommonCore.Models.Repo.Entities;
+﻿using Common.Models.Entities;
 using System;
 
 namespace AuthHub.Models.Passwords
 {
-    public class PasswordResetToken : EntityBase
+    public class PasswordResetToken : EntityBase<Guid>
     {
         public Guid UserId { get; set; }
         public string Email { get; set; }

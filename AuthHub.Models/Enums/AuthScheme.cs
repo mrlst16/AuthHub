@@ -1,9 +1,9 @@
-﻿using CommonCore.Models.Repo.Entities;
+﻿using Common.Models.Entities;
 using System;
 
 namespace AuthHub.Models.Enums
 {
-    public class AuthScheme : EntityBase
+    public class AuthScheme : EntityBase<Guid>
     {
         public string Name { get; set; }
         public AuthSchemeEnum Value { get; set; }

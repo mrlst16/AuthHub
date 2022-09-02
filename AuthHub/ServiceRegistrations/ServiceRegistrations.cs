@@ -10,7 +10,7 @@ namespace AuthHub.ServiceRegistrations
 {
     public static class ServiceRegistrations
     {
-        public static IServiceCollection RegisterServices(this IServiceCollection services)
+        public static IServiceCollection AddAuthHubServices(this IServiceCollection services)
         {
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IClaimsKeyService, ClaimsKeyService>();

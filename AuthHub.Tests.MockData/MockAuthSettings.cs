@@ -8,7 +8,7 @@ namespace AuthHub.Tests.MockData
         public static AuthSettings AudderClients =>
             new AuthSettings()
             {
-                ID = SharedMocks.AuthHubOrganization1Id,
+                Id = SharedMocks.AuthHubOrganization1Id,
                 OrganizationID = SharedMocks.TestOrganization1Id,
                 AuthScheme = Models.Enums.AuthSchemeEnum.JWT,
                 ExpirationMinutes = 120,
@@ -24,7 +24,7 @@ namespace AuthHub.Tests.MockData
         public static AuthSettings TestOrganization1_AuthSettings =>
             new AuthSettings()
             {
-                ID = Guid.Parse("6CE12DA2-CB73-4F0B-B9F0-46051621B3C6"),
+                Id = Guid.Parse("6CE12DA2-CB73-4F0B-B9F0-46051621B3C6"),
                 OrganizationID = SharedMocks.TestOrganization1Id,
                 AuthScheme = Models.Enums.AuthSchemeEnum.JWT,
                 ExpirationMinutes = 120,

@@ -4,10 +4,10 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
-using CommonCore.Models.Exceptions;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Models.Exceptions;
 
 namespace AuthHub.BLL.Passwords
 {
@@ -54,7 +54,7 @@ namespace AuthHub.BLL.Passwords
 
             var result = new PasswordResetToken()
             {
-                UserId = user.ID,
+                UserId = user.Id,
                 Email = user.Email,
                 ExpirationDate = DateTime.UtcNow.AddMinutes(authSettings.PasswordResetTokenExpirationMinutes),
                 Token = RandomAlphanumericString(6)
@@ -80,7 +80,7 @@ namespace AuthHub.BLL.Passwords
         public async Task<Password> GetByUserIdAsync(Guid userId)
             => await _passwordContext.GetByUserIdAsync(userId);
 
-        public async Task Set(Password request)
+        public async Task<Guid> Set(Password request)
             => await _passwordContext.Set(request);
 
         public async Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName)

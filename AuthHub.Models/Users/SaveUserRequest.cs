@@ -2,7 +2,7 @@
 
 namespace AuthHub.Models.Users
 {
-    public class UserRequest
+    public class SaveUserRequest
     {
         public Guid OrganizationID { get; set; }
         public string SettingsName { get; set; }
@@ -11,5 +11,7 @@ namespace AuthHub.Models.Users
         public string Password { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
+        public Guid UserID { get; set; }
+        public Guid AuthSettingsId { get; set; }
     }
 }

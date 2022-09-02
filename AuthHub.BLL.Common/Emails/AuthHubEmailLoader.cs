@@ -1,9 +1,9 @@
 ﻿using AuthHub.Interfaces.Emails;
 using AuthHub.Models.Passwords;
-using CommonCore.Interfaces.Helpers;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
+using Common.Interfaces.Helpers;
 
 namespace AuthHub.BLL.Common.Emails
 {

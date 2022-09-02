@@ -54,5 +54,10 @@ namespace AuthHub.DAL.EntityFramework.Passwords
         {
             throw new NotImplementedException();
         }
+
+        Task<Guid> IPasswordContext.Set(Password request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -89,7 +89,7 @@ namespace AuthHub.DAL.Sql.Organizations
             if (
                 dataSet.HasDataForTable(0, out DataTable? table)
                     && (table?.HasDataForRow(0, out DataRow? row) ?? false)
-                ) request.ID = row?.Field<Guid>("Id") ?? Guid.Empty;
+                ) request.Id = row?.Field<Guid>("Id") ?? Guid.Empty;
 
             return (true, request);
         }
@@ -106,7 +106,7 @@ namespace AuthHub.DAL.Sql.Organizations
             if (
                 dataSet.HasDataForTable(0, out DataTable? table)
                     && table.HasDataForRow(0, out DataRow? row)
-                ) request.ID = row.Field<Guid>("id");
+                ) request.Id = row.Field<Guid>("id");
 
             return (true, request);
         }

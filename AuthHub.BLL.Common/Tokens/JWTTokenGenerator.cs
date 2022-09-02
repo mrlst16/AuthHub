@@ -7,14 +7,14 @@ using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
-using CommonCore.Interfaces.Helpers;
-using CommonCore.Interfaces.Providers;
-using CommonCore2.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using Common.Extensions;
+using Common.Interfaces.Helpers;
+using Common.Interfaces.Providers;
 
 namespace AuthHub.BLL.Common.Tokens
 {
@@ -88,6 +88,19 @@ namespace AuthHub.BLL.Common.Tokens
             var settings = organization.GetSettings(passwordRequest.SettingsName);
             var salt = RandomSalt(settings.SaltLength);
             return (GenerateHash(passwordRequest.Password, salt, settings.HashLength, settings.Iterations), salt);
+        }
+
+        public async Task<(byte[], byte[], IEnumerable<ClaimsKey>)> NewHash(string password, AuthSettings authSettings)
+        {
+            var salt = RandomSalt(authSettings.SaltLength);
+            return (GenerateHash(password, salt, authSettings.HashLength, authSettings.Iterations), salt, authSettings.AvailableClaimsKeys);
+        }
+
+        public async Task<(byte[], byte[], IEnumerable<ClaimsKey>)> NewHash(string password, Guid authSettingsId)
+        {
+            var settings = await _organizationLoader.GetSettings(authSettingsId);
+            var salt = RandomSalt(settings.SaltLength);
+            return (GenerateHash(password, salt, settings.HashLength, settings.Iterations), salt, settings.AvailableClaimsKeys);
         }
 
         public async Task<Token> GetToken(Guid authSettingsId, string userName, string password)

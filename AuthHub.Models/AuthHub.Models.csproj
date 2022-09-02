@@ -6,9 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Models\CommonCore.Models.csproj">
-      <CopyLocal>True</CopyLocal>
-    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Common.Models\Common.Models.csproj" />
   </ItemGroup>
 
 </Project>

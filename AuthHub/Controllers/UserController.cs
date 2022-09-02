@@ -1,14 +1,14 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using AuthHub.ServiceRegistrations;
-using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Common.Models.Responses;
 
 namespace AuthHub.Controllers
 {
-    [Route("api/user")]
+    [Microsoft.AspNetCore.Components.Route("api/user")]
     public class UserController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;
@@ -25,12 +25,11 @@ namespace AuthHub.Controllers
 
         [HttpPatch("save")]
         public async Task<IActionResult> CreateUser(
-            [FromBody] User request
+            [FromBody] SaveUserRequest request
             )
         {
-            _validatorFactory.ValidateAndThrow<User>(request);
-            await _service.SaveAsync(request);
-
+            _validatorFactory.ValidateAndThrow<SaveUserRequest>(request);
+            await _service.CreateAsync(request);
             var response = new ApiResponse<bool>()
             {
                 Data = true,
@@ -53,9 +52,9 @@ namespace AuthHub.Controllers
                     FailureMessage = "No Id was passed"
                 });
 
-            var response = new ApiResponse<UserViewModel>()
+            var response = new ApiResponse<User>()
             {
-                Data = await _service.GetAsync(id),
+                Data = await _service.ReadAsync(id),
                 SuccessMessage = "Successfully created user",
                 Sucess = true
             };

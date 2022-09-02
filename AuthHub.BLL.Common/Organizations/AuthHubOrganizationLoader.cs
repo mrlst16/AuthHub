@@ -4,38 +4,38 @@ using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
-using CommonCore.Interfaces.Repository;
 using Microsoft.Extensions.Configuration;
 
 namespace AuthHub.BLL.Common.Organizations
 {
     public class AuthHubOrganizationLoader : IAuthHubOrganizationLoader
     {
-        ICrudRepositoryFactory _crudRepositoryFactory;
-        IConfiguration _configuration;
+
+        private readonly IConfiguration _configuration;
+        private readonly IOrganizationContext _context;
+
         public AuthHubOrganizationLoader(
-            ICrudRepositoryFactory crudRepositoryFactory,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IOrganizationContext context
             )
         {
-            _crudRepositoryFactory = crudRepositoryFactory;
             _configuration = configuration;
+            _context = context;
         }
 
         public async Task<Organization> CreateOrGetAuthHubOrganization()
         {
             Organization result = null;
 
-            var repo = _crudRepositoryFactory.Get<Organization>();
             var (authHubOrgId, authHubIssuer, authHubKey) = _configuration.AuthHubAuthInfo();
-            result = await repo.First(x => x.ID == authHubOrgId);
+            result = await _context.Get(authHubOrgId);
             if (result != null)
                 return result;
             result = new Organization()
             {
                 Email = "mrlst16@mail.rmu.edu",
                 Name = "audder",
-                ID = authHubOrgId,
+                Id = authHubOrgId,
                 Settings = new List<AuthSettings>()
                     {
                         new AuthSettings()
@@ -54,8 +54,7 @@ namespace AuthHub.BLL.Common.Organizations
                         }
                     }
             };
-            await repo.Create(result);
-
+            await _context.Create(result);
             return result;
         }
     }

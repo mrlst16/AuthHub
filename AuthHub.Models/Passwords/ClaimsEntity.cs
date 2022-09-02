@@ -1,10 +1,10 @@
-﻿using CommonCore.Models.Repo.Entities;
+﻿using Common.Models.Entities;
 using System;
 using System.Security.Claims;
 
 namespace AuthHub.Models.Passwords
 {
-    public class ClaimsEntity : EntityBase
+    public class ClaimsEntity : EntityBase<Guid>
     {
         public Guid ClaimsKeyId { get; set; }
         public Guid PasswordId { get; set; }

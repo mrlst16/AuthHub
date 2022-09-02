@@ -1,12 +1,14 @@
-﻿using CommonCore.Models.Repo.Entities;
+﻿using Common.Models.Entities;
 using System;
 
 namespace AuthHub.Models.Passwords
 {
-    public class ClaimsKey : EntityBase
+    public class ClaimsKey : EntityBase<Guid>
     {
         public string Name { get; set; }
+        public string DefaultValue { get; set; }
         public Guid AuthSettingsId { get; set; }
+        public bool IsDefault { get; set; }
 
         public ClaimsKey()
         {
@@ -20,7 +22,7 @@ namespace AuthHub.Models.Passwords
         {
             Name = name;
             AuthSettingsId = authSettingsId;
-            ID = id;
+            Id = id;
         }
 
         public ClaimsKey(

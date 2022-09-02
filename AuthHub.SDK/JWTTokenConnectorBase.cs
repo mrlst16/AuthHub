@@ -20,8 +20,9 @@ namespace AuthHub.SDK
 
         public async Task<Token> GetOrganizationToken(string username, string password)
         {
-            var token = await _apiConnector.GetTokenFromLocalStorage();
-            if (token != null) return token;
+            //TODO: Put this back
+            //Token token = await _apiConnector.GetTokenFromLocalStorage();
+            //if (token != null) return token;
 
             return await OrganizationSignIn(username, password);
         }

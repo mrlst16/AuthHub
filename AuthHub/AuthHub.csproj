@@ -14,22 +14,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.2.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+    <PackageReference Include="FluentValidation" Version="11.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.Extensions\Common.Extensions.csproj" />
+    <ProjectReference Include="..\..\Common\Common.Models\Common.Models.csproj" />
+    <ProjectReference Include="..\..\Common\Common\Common.csproj" />
     <ProjectReference Include="..\AuthHub.BLL\AuthHub.BLL.csproj" />
     <ProjectReference Include="..\AuthHub.DAL.EntityFramework\AuthHub.DAL.EntityFramework.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="CommonCore.Api">
-      <HintPath>D:\Repos\CommonCore\CommonCore.Api\bin\Debug\net5.0\CommonCore.Api.dll</HintPath>
-      <CopyLocal>True</CopyLocal>
-    </Reference>
   </ItemGroup>
 
 </Project>

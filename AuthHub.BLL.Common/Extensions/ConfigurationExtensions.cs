@@ -18,7 +18,7 @@ namespace AuthHub.BLL.Common.Extensions
             => new ClaimsKey()
             {
                 Name = name,
-                ID = configuration.GetValue<Guid>($"AppSettings:AuthHubClaimsKeys:{name}"),
+                Id = configuration.GetValue<Guid>($"AppSettings:AuthHubClaimsKeys:{name}"),
                 AuthSettingsId = configuration.AuthHubSettingsId()
             };
 
@@ -29,8 +29,8 @@ namespace AuthHub.BLL.Common.Extensions
             {
                 Key = name,
                 Value = value,
-                ClaimsKeyId = claimsKey.ID,
-                ID = id ?? Guid.Empty
+                ClaimsKeyId = claimsKey.Id,
+                Id = id ?? Guid.Empty
             };
         }
 

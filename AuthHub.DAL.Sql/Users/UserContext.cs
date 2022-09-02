@@ -70,6 +70,7 @@ namespace AuthHub.DAL.Sql.Users
 
         public async Task SaveAsync(User item)
         {
+            throw new NotImplementedException();
             SqlParameter[] parameters = new SqlParameter[] {
                 _udtMapper.MapUdtUser(item),
             };
@@ -85,11 +86,16 @@ namespace AuthHub.DAL.Sql.Users
             };
 
             var dataSet = await _context.ExecuteSproc(SprocNames.SaveUser, parameters);
-            user.ID = _mapper.MapSingle<Guid>(dataSet);
+            user.Id = _mapper.MapSingle<Guid>(dataSet);
             return user;
         }
 
         public async Task<User> Update(UserPointer pointer, User user)
             => await Update(pointer.OrganizationID, pointer.AuthSettingsName, user);
+
+        Task<Guid> IUserContext.SaveAsync(User item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

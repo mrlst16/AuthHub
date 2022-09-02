@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,19 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.Interfaces\Common.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.BLL.Common\AuthHub.BLL.Common.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="CommonCore.Extensions">
-      <HintPath>D:\Repos\CommonCore\CommonCore.Extensions\bin\Debug\net5.0\CommonCore.Extensions.dll</HintPath>
-      <CopyLocal>True</CopyLocal>
-    </Reference>
-    <Reference Include="CommonCore2">
-      <HintPath>D:\Repos\CommonCore\CommonCore2\bin\Debug\net5.0\CommonCore2.dll</HintPath>
-      <CopyLocal>True</CopyLocal>
-    </Reference>
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ namespace AuthHub.Interfaces.Users
 {
     public interface IUserService
     {
-        Task SaveAsync(User request);
-        Task<UserViewModel> GetAsync(Guid id);
+        Task CreateAsync(SaveUserRequest request);
+        Task<User> ReadAsync(Guid id);
     }
 }

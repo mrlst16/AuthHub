@@ -32,7 +32,7 @@ namespace AuthHub.BLL.Users
         public async Task<User> GetAsync(Guid id)
             => await _userContext.GetAsync(id);
 
-        public async Task SaveAsync(User item)
+        public async Task<Guid> SaveAsync(User item)
             => await _userContext.SaveAsync(item);
 
         public async Task<User> Update(Guid organizationId, string authSettingsName, User user)

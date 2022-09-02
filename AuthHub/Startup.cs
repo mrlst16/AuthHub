@@ -1,4 +1,5 @@
 using AuthHub.BLL.Common.Extensions;
+using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Organizations;
 using AuthHub.DAL.EntityFramework.Passwords;
 using AuthHub.DAL.EntityFramework.Users;
@@ -7,10 +8,13 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Middleware;
 using AuthHub.ServiceRegistrations;
-using CommonCore.Api.Handlers;
+using Common.Interfaces.Repository;
+using Common.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,11 +38,14 @@ namespace AuthHub
                 .AddTransient<IUserContext, UserContext>()
                 .AddTransient<IClaimsKeyContext, ClaimsKeyContext>()
                 .AddTransient<IPasswordContext, PasswordsContext>()
-                .AddTransient<IOrganizationContext, OrganizationContext>()      
-                .RegisterLoaders()
-                .RegisterServices()
-                .RegisterValidatorFactory()
-                .RegisterOthers();
+                .AddTransient<IOrganizationContext, OrganizationContext>()
+                .AddTransient<DbContext, AuthHubContext>()
+                .AddTransient<AuthHubContext, AuthHubContext>()
+                .AddTransient(typeof(ISRDRepository<,>), typeof(EntityFrameworkSRDRepository<,>))
+                .AddAuthHubLoaders()
+                .AddAuthHubServices()
+                .AddAuthHubValidatorFactory()
+                .AddOthers();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -92,6 +99,13 @@ namespace AuthHub
                 endpoints.MapControllers();
             });
 
+        }
+    }
+
+    internal class JWTAuthorizationRequirement : IAuthorizationRequirement
+    {
+        public JWTAuthorizationRequirement()
+        {
         }
     }
 }

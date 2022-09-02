@@ -20,7 +20,7 @@ namespace AuthHub.DAL.Sql.Mappers
             val.Columns.Add("Iterations", typeof(string));
 
             var row = val.NewRow();
-            row["Id"] = password.ID;
+            row["Id"] = password.Id;
             row["FK_User"] = password.UserId;
             row["PasswordHash"] = password.PasswordHash;
             row["Salt"] = password.Salt;
@@ -44,7 +44,7 @@ namespace AuthHub.DAL.Sql.Mappers
             val.Columns.Add("Token", typeof(string));
 
             var row = val.NewRow();
-            row["Id"] = token.ID;
+            row["Id"] = token.Id;
             row["FK_User"] = token.UserId;
             row["Email"] = token.Email;
             row["ExpirationDate"] = token.ExpirationDate;
@@ -75,7 +75,7 @@ namespace AuthHub.DAL.Sql.Mappers
             val.Columns.Add("PasswordResetTokenExpirationMinutes", typeof(int));
 
             var row = val.NewRow();
-            row["Id"] = authSettings.ID;
+            row["Id"] = authSettings.Id;
             row["FK_Organization"] = authSettings.OrganizationID;
             row["Name"] = authSettings.Name;
             row["AuthScheme"] = (int)authSettings.AuthScheme;
@@ -131,7 +131,7 @@ namespace AuthHub.DAL.Sql.Mappers
             foreach (ClaimsKey claim in claims)
             {
                 var row = val.NewRow();
-                row["Id"] = claim.ID;
+                row["Id"] = claim.Id;
                 row["FK_AuthSettings"] = claim.AuthSettingsId;
                 row["Name"] = claim.Name;
 
@@ -153,7 +153,7 @@ namespace AuthHub.DAL.Sql.Mappers
             val.Columns.Add("Email", typeof(string));
 
             var row = val.NewRow();
-            row["Id"] = organization.ID;
+            row["Id"] = organization.Id;
             row["Name"] = organization.Name;
             row["Email"] = organization.Email;
 
@@ -177,7 +177,7 @@ namespace AuthHub.DAL.Sql.Mappers
             val.Columns.Add("Username", typeof(string));
 
             var row = val.NewRow();
-            row["Id"] = user.ID;
+            row["Id"] = user.Id;
             row["FK_AuthSettings"] = user.AuthSettingsId;
             row["FirstName"] = user.FirstName;
             row["LastName"] = user.LastName;

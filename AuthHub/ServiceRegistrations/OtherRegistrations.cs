@@ -5,17 +5,17 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
-using CommonCore.Interfaces.Helpers;
-using CommonCore.Interfaces.Providers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Common.Interfaces.Helpers;
+using Common.Interfaces.Providers;
 
 namespace AuthHub.ServiceRegistrations
 {
     public static class OtherRegistrations
     {
-        public static IServiceCollection RegisterOthers(this IServiceCollection services)
+        public static IServiceCollection AddOthers(this IServiceCollection services)
         {
             services.AddTransient<IApplicationConsistency, ApplicationConsistency>();
             services.AddTransient<Func<AuthSchemeEnum, ITokenGenerator>>((services) =>

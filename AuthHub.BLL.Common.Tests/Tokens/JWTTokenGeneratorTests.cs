@@ -105,7 +105,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
             var authSettings = MockAuthSettings.AudderClients;
 
             _organizationLoader
-                .GetSettings(authSettings.ID)
+                .GetSettings(authSettings.Id)
                 .Returns(authSettings);
 
             var user = MockUsers.TestOrganization1;
@@ -115,7 +115,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
                 .Returns(loginChallengeResponse);
 
             _userLoader
-                .Get(authSettings.ID, Arg.Any<string>())
+                .Get(authSettings.Id, Arg.Any<string>())
                 .Returns(user);
 
             var result = await _generator.GetTokenForAudderClients("mrlst16@mail.rmu.edu", "Matty33!");
@@ -168,7 +168,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
         {
             _passwordLoader.GetLoginChallenge(Arg.Any<Guid>(), Arg.Any<string>())
                 .Returns(MockPasswords.TestOrg1_LoginChallengeResponse);
-            var authSettingsId = MockAuthSettings.TestOrganization1_AuthSettings.ID;
+            var authSettingsId = MockAuthSettings.TestOrganization1_AuthSettings.Id;
 
             var result = await _generator.Authenticate(string.Empty, string.Empty, authSettingsId);
 
@@ -183,7 +183,7 @@ namespace AuthHub.BLL.Common.Tests.Tokens
 
             _passwordLoader.GetLoginChallenge(Arg.Any<Guid>(), Arg.Any<string>())
                 .Returns(response);
-            var authSettingsId = MockAuthSettings.TestOrganization1_AuthSettings.ID;
+            var authSettingsId = MockAuthSettings.TestOrganization1_AuthSettings.Id;
 
             var result = await _generator.Authenticate("mrlst16@mail.rmu.edu", "Matty33!", authSettingsId);
 

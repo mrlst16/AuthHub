@@ -65,7 +65,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 result = new User()
                 {
-                    ID = row.Field<Guid>("ID"),
+                    Id = row.Field<Guid>("ID"),
                     AuthSettingsId = row.Field<Guid>("FK_AuthSettings"),
                     FirstName = row.Field<string>("FirstName"),
                     LastName = row.Field<string>("LastName"),
@@ -110,7 +110,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 var item = new ClaimsEntity()
                 {
-                    ID = row.Field<Guid>("Id"),
+                    Id = row.Field<Guid>("Id"),
                     Key = row.Field<string>("Name"),
                     Value = row.Field<string>("Value"),
                     PasswordId = row.Field<Guid>("FK_Password")
@@ -129,7 +129,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 result = new PasswordResetToken()
                 {
-                    ID = row.Field<Guid>("ID"),
+                    Id = row.Field<Guid>("ID"),
                     Email = row.Field<string>("Email"),
                     ExpirationDate = row.Field<DateTime>("ExpirationDate"),
                     Token = row.Field<string>("Token"),
@@ -163,7 +163,7 @@ namespace AuthHub.DAL.Sql.Mappers
         {
             return new Organization()
             {
-                ID = row.Field<Guid>("Id"),
+                Id = row.Field<Guid>("Id"),
                 Name = row.Field<string>("Name"),
                 Email = row.Field<string>("Email"),
             };
@@ -175,7 +175,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 return new AuthSettings()
                 {
-                    ID = row.Field<Guid>("Id"),
+                    Id = row.Field<Guid>("Id"),
                     Name = row.Field<string>("Name"),
                     OrganizationID = row.Field<Guid>("FK_Organization"),
                     AuthScheme = row.Field<AuthSchemeEnum>("AuthScheme"),
@@ -221,15 +221,15 @@ namespace AuthHub.DAL.Sql.Mappers
 
                     foreach (AuthSettings setting in result.Settings)
                     {
-                        setting.Users = users.Where(x => x.AuthSettingsId == setting.ID).ToList();
-                        setting.AvailableClaimsKeys = claimsKeys.Where(x => x.AuthSettingsId == setting.ID).ToList();
+                        setting.Users = users.Where(x => x.AuthSettingsId == setting.Id).ToList();
+                        setting.AvailableClaimsKeys = claimsKeys.Where(x => x.AuthSettingsId == setting.Id).ToList();
 
                         foreach (var user in setting.Users)
                         {
-                            user.Password = passwords.FirstOrDefault(x => x.UserId == user.ID);
+                            user.Password = passwords.FirstOrDefault(x => x.UserId == user.Id);
                             if (user.Password == null) continue;
                             user.Password.Claims = claims
-                                .Where(x => x.PasswordId == user.Password.ID)
+                                .Where(x => x.PasswordId == user.Password.Id)
                                 .Select(x => new ClaimsEntity()
                                 {
                                     Key = x.Key,
@@ -250,7 +250,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 var item = new Password()
                 {
-                    ID = row.Field<Guid>("Id"),
+                    Id = row.Field<Guid>("Id"),
                     UserId = row.Field<Guid>("FK_User"),
                     PasswordHash = row.Field<byte[]>("PasswordHash"),
                     Salt = row.Field<byte[]>("Salt")
@@ -268,7 +268,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 var item = new AuthSettings()
                 {
-                    ID = row.Field<Guid>("Id"),
+                    Id = row.Field<Guid>("Id"),
                     Name = row.Field<string>("Name"),
                     OrganizationID = row.Field<Guid>("FK_Organization"),
                     AuthScheme = row.Field<AuthSchemeEnum>("AuthScheme"),
@@ -294,7 +294,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 var item = new User()
                 {
-                    ID = row.Field<Guid>("Id"),
+                    Id = row.Field<Guid>("Id"),
                     AuthSettingsId = row.Field<Guid>("FK_AuthSettings"),
                     UserName = row.Field<string>("UserName"),
                     Email = row.Field<string>("Email"),
@@ -314,7 +314,7 @@ namespace AuthHub.DAL.Sql.Mappers
             {
                 var item = new ClaimsKey()
                 {
-                    ID = row.Field<Guid>("Id"),
+                    Id = row.Field<Guid>("Id"),
                     AuthSettingsId = row.Field<Guid>("FK_AuthSettings"),
                     Name = row.Field<string>("Name")
                 };
@@ -332,7 +332,7 @@ namespace AuthHub.DAL.Sql.Mappers
             if (dataSet.HasDataForTable(1, out DataTable? usersTable))
             {
                 var users = ToFlatUsers(usersTable);
-                result.Users = users.Where(x => x.AuthSettingsId == result.ID);
+                result.Users = users.Where(x => x.AuthSettingsId == result.Id);
             }
 
             return result;

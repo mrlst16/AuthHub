@@ -5,6 +5,6 @@ namespace AuthHub.SDK
 {
     public interface IUserConnector
     {
-        Task SaveAsync(User user);
+        Task SaveAsync(SaveUserRequest user);
     }
 }

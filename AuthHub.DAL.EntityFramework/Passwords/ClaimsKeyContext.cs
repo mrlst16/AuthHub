@@ -17,12 +17,12 @@ namespace AuthHub.DAL.EntityFramework.Passwords
 
         public async Task SaveAsync(IEnumerable<ClaimsKey> item)
         {
-            var ids = item.Select(x => x.ID);
-            var existing = await _authHubContext.ClaimsKeys.Where(x => ids.Contains(x.ID)).ToListAsync();
-            _authHubContext.ClaimsKeys.UpdateRange(item.Where(x=> existing.Contains(x)));
+            var ids = item.Select(x => x.Id);
+            var existing = await _authHubContext.ClaimsKeys.Where(x => ids.Contains(x.Id)).ToListAsync();
+            _authHubContext.ClaimsKeys.UpdateRange(item.Where(x => existing.Contains(x)));
 
-            var nonExisting = await _authHubContext.ClaimsKeys.Where(x=> !ids.Contains(x.ID)).ToListAsync();
-            await _authHubContext.ClaimsKeys.AddRangeAsync(item.Where(x=> nonExisting.Contains(x)));
+            var nonExisting = await _authHubContext.ClaimsKeys.Where(x => !ids.Contains(x.Id)).ToListAsync();
+            await _authHubContext.ClaimsKeys.AddRangeAsync(item.Where(x => nonExisting.Contains(x)));
         }
 
         public async Task<IEnumerable<ClaimsKey>> GetAsync(Guid authSettingsId)

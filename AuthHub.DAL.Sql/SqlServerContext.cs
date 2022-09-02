@@ -1,6 +1,6 @@
-﻿using CommonCore2.Extensions;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
+using Common.Extensions;
 
 namespace AuthHub.DAL.Sql
 {

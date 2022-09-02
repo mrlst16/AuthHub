@@ -60,14 +60,14 @@ namespace AuthHub.DAL.Sql.Passwords
         {
             SqlParameter[] parameters = new SqlParameter[] {
                 _udtMapper.MapUdPassword(request),
-                _udtMapper.MapUdtClaim(request.ID, request.Claims)
+                _udtMapper.MapUdtClaim(request.Id, request.Claims)
             };
             bool success = true;
             Password result = new Password();
             var dataSet = await _context.ExecuteSproc(SprocNames.SavePassword, parameters);
 
             success = true;
-            result.ID = _mapper.MapSingle<Guid>(dataSet);
+            result.Id = _mapper.MapSingle<Guid>(dataSet);
             return (success, result);
         }
 
@@ -97,16 +97,17 @@ namespace AuthHub.DAL.Sql.Passwords
             return new Password();
         }
 
-        public async Task Set(Password request)
+        public async Task<Guid> Set(Password request)
         {
+            throw new NotImplementedException();
             SqlParameter[] parameters = new SqlParameter[] {
                 _udtMapper.MapUdPassword(request)
             };
             if (request?.Claims?.Any() ?? false)
             {
-                parameters.Append(_udtMapper.MapUdtClaim(request.ID, request.Claims));
+                parameters.Append(_udtMapper.MapUdtClaim(request.Id, request.Claims));
             }
-            await _context.ExecuteSproc(SprocNames.SavePassword, parameters);
+            var dataSet = await _context.ExecuteSproc(SprocNames.SavePassword, parameters);
         }
 
         public async Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName)

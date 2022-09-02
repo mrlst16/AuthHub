@@ -1,10 +1,10 @@
 ﻿using AuthHub.Models.Passwords;
-using CommonCore.Models.Repo.Entities;
+using Common.Models.Entities;
 using System;
 
 namespace AuthHub.Models.Users
 {
-    public class User : EntityBase
+    public class User : EntityBase<Guid>
     {
         public Guid UsersOrganizationId { get; set; }
 

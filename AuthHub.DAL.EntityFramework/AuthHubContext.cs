@@ -38,11 +38,11 @@ namespace AuthHub.DAL.EntityFramework
             #region Setup Schema
             //AuthScheme Setup
             modelBuilder.Entity<AuthScheme>()
-                .HasKey(x => x.ID);
+                .HasKey(x => x.Id);
 
             //Organizations Setup
             modelBuilder.Entity<Organization>()
-                .HasKey(x => x.ID);
+                .HasKey(x => x.Id);
             modelBuilder.Entity<Organization>()
                 .HasMany<AuthSettings>(x => x.Settings);
             modelBuilder.Entity<Organization>()
@@ -54,7 +54,7 @@ namespace AuthHub.DAL.EntityFramework
 
             //AuthSettings Setup
             modelBuilder.Entity<AuthSettings>()
-                .HasKey(x => x.ID);
+                .HasKey(x => x.Id);
             modelBuilder.Entity<AuthSettings>()
                 .HasOne<AuthScheme>(x => x.AuthScheme);
             modelBuilder.Entity<AuthSettings>()
@@ -87,7 +87,7 @@ namespace AuthHub.DAL.EntityFramework
 
             //Users Setup
             modelBuilder.Entity<User>()
-                .HasKey(x => x.ID);
+                .HasKey(x => x.Id);
             modelBuilder.Entity<User>()
                 .HasOne<Password>(x => x.Password);
             modelBuilder.Entity<User>()
@@ -109,7 +109,7 @@ namespace AuthHub.DAL.EntityFramework
 
             //Passwords Setup
             modelBuilder.Entity<Password>()
-                .HasKey(x => x.ID);
+                .HasKey(x => x.Id);
             modelBuilder.Entity<Password>()
                 .HasMany<ClaimsEntity>(x => x.Claims);
             modelBuilder.Entity<Password>()
@@ -127,7 +127,7 @@ namespace AuthHub.DAL.EntityFramework
 
             //ClaimsKeys Setup
             modelBuilder.Entity<ClaimsKey>()
-                .HasKey(x => x.ID);
+                .HasKey(x => x.Id);
             modelBuilder.Entity<ClaimsKey>()
                 .Property(x => x.AuthSettingsId)
                 .IsRequired();
@@ -137,7 +137,7 @@ namespace AuthHub.DAL.EntityFramework
 
             //Claims Setup
             modelBuilder.Entity<ClaimsEntity>()
-                .HasKey(x => x.ID);
+                .HasKey(x => x.Id);
             modelBuilder.Entity<ClaimsEntity>()
                 .Property(x => x.Key)
                 .IsRequired();
@@ -150,7 +150,7 @@ namespace AuthHub.DAL.EntityFramework
 
             //PasswordResetToken Setup
             modelBuilder.Entity<PasswordResetToken>()
-                .HasKey(x => x.ID);
+                .HasKey(x => x.Id);
             modelBuilder.Entity<PasswordResetToken>()
                 .Property(x => x.Email)
                 .IsRequired();
@@ -171,7 +171,7 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<AuthScheme>()
                 .HasData(new AuthScheme()
                 {
-                    ID = Guid.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
+                    Id = Guid.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
                     Name = "JWT",
                     Value = AuthSchemeEnum.JWT,
                     CreateDate = DateTime.UtcNow,
@@ -182,7 +182,7 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<Organization>()
                 .HasData(new Organization()
                 {
-                    ID = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
+                    Id = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                     Name = "Pawnder",
                     Email = "mattlantz88@gmail.com"
                 });
@@ -190,7 +190,7 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<AuthSettings>()
                 .HasData(new AuthSettings()
                 {
-                    ID = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
+                    Id = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                     OrganizationID = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                     AuthSchemeID = Guid.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
                     ExpirationMinutes = 120,
@@ -207,13 +207,13 @@ namespace AuthHub.DAL.EntityFramework
                 .HasData(
                     new ClaimsKey()
                     {
-                        ID = Guid.Parse("7ef019bd-4155-4c25-85d8-5eee7427af8a"),
+                        Id = Guid.Parse("7ef019bd-4155-4c25-85d8-5eee7427af8a"),
                         AuthSettingsId = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                         Name = "Name"
                     },
                     new ClaimsKey()
                     {
-                        ID = Guid.Parse("6598c3ca-417e-47ed-b796-66f94af855df"),
+                        Id = Guid.Parse("6598c3ca-417e-47ed-b796-66f94af855df"),
                         AuthSettingsId = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                         Name = "Name"
                     });
@@ -221,57 +221,3 @@ namespace AuthHub.DAL.EntityFramework
         }
     }
 }
-
-//
-//
-//
-//
-//
-//"953631f6-d880-495a-b504-7547b0b0ddeb"
-//"23d6bea7-4454-4303-a66a-eadafda1c1ee"
-//"a7a9a3f5-03a1-4c79-88eb-1039dd03fbf0"
-//"9647ff92-a167-4c71-a4d3-aa211153e873"
-//"122affc7-0be8-4de0-9153-8ba0c1960f5d"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

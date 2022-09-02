@@ -12,14 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.Extensions\Common.Extensions.csproj" />
+    <ProjectReference Include="..\..\Common\Common.Interfaces\Common.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
-    <ProjectReference Include="D:\Repos\CommonCore\CommonCore.Interfaces\CommonCore.Interfaces.csproj">
-      <CopyLocal>True</CopyLocal>
-    </ProjectReference>
-    <ProjectReference Include="D:\Repos\CommonCore\CommonCore2\CommonCore2.csproj">
-      <CopyLocal>True</CopyLocal>
-    </ProjectReference>
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
 ﻿using AuthHub.Models.Users;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AuthHub.SDK
@@ -16,15 +14,8 @@ namespace AuthHub.SDK
             _apiConnector = apiConnector;
         }
 
-        public async Task<UserViewModel> GetAsync(Guid id)
-            => await _apiConnector.Get<UserViewModel>("user/get",
-                queryParams: new Dictionary<string, string>()
-                {
-                    { "id", id.ToString()}
-                });
-
-        public async Task SaveAsync(User item)
-            => await _apiConnector.Patch<User, bool>("user/save", item);
+        public async Task SaveAsync(SaveUserRequest item)
+            => await _apiConnector.Patch<SaveUserRequest, bool>("user/save", item);
 
     }
 }
