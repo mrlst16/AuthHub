@@ -20,14 +20,19 @@ namespace AuthHub.BLL.Users
         private readonly Func<AuthSchemeEnum, ITokenGenerator> _tokenGeneratorFactory;
         private readonly IPasswordLoader _passwordLoader;
         private readonly ISRDRepository<AuthSettings, Guid> _authSettingsRepo;
+        private readonly ISRDRepository<AuthScheme, Guid> _authSchemeRepo;
         private readonly ISRDRepository<ClaimsEntity, Guid> _claimsEntityRepo;
+        private readonly ISRDRepository<User, Guid> _userRepo;
 
         public UserService(
             IUserLoader loader,
             IClaimsKeyLoader claimsKeyLoader,
             Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratorFactory,
             IPasswordLoader passwordLoader,
-            ISRDRepository<AuthSettings, Guid> authSettingsRepo
+            ISRDRepository<AuthSettings, Guid> authSettingsRepo,
+            ISRDRepository<AuthScheme, Guid> authSchemeRepo,
+            ISRDRepository<ClaimsEntity, Guid> claimsEntityRepo,
+            ISRDRepository<User, Guid> userRepo
             )
         {
             _loader = loader;
@@ -35,47 +40,52 @@ namespace AuthHub.BLL.Users
             _tokenGeneratorFactory = tokenGeneratorFactory;
             _passwordLoader = passwordLoader;
             _authSettingsRepo = authSettingsRepo;
+            _authSchemeRepo = authSchemeRepo;
+            _claimsEntityRepo = claimsEntityRepo;
+            _userRepo = userRepo;
         }
 
         public async Task CreateAsync(CreateUserRequest item)
         {
             var authSettings = await _authSettingsRepo.ReadAsync(item.AuthSettingsId);
+            var authScheme = await _authSchemeRepo.ReadAsync(authSettings.AuthSchemeID);
 
-            var tokenGenerator = _tokenGeneratorFactory(authSettings.AuthScheme);
+            var tokenGenerator = _tokenGeneratorFactory(authScheme);
 
             (byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
                     = await tokenGenerator.NewHash(item.Password, authSettings);
 
+            var newUserId = Guid.NewGuid();
+            var newPasswordId = Guid.NewGuid();
+
             User user = new()
             {
+                Id = newUserId,
                 Email = item.Email,
                 FirstName = item.FirstName,
                 LastName = item.LastName,
                 UserName = item.UserName,
                 AuthSettingsId = item.AuthSettingsId,
-                IsOrganization = false
-            };
-            user.Id = await _loader.SaveAsync(user);
-
-            Password password = new()
-            {
-                UserId = user.Id,
-                PasswordHash = passwordHash,
-                Salt = salt
-            };
-
-            var claims = claimsKeys.Where(x => x.IsDefault)
-                .Select(x => new ClaimsEntity()
+                IsOrganization = false,
+                Password = new()
                 {
-                    Id = Guid.NewGuid(),
-                    Value = x.DefaultValue,
-                    Key = x.Name,
-                    ClaimsKeyId = x.Id,
-                    PasswordId = password.Id
-                });
+                    Id = newPasswordId,
+                    UserId = newUserId,
+                    PasswordHash = passwordHash,
+                    Salt = salt,
+                    Claims = claimsKeys.Where(x => x.IsDefault)
+                        .Select(x => new ClaimsEntity()
+                        {
+                            Id = Guid.NewGuid(),
+                            Value = x.DefaultValue,
+                            Key = x.Name,
+                            ClaimsKeyId = x.Id,
+                            PasswordId = newPasswordId
+                        }).ToList()
+                }
+            };
 
-            //TODO: Figure out how to save this
-
+            user.Id = await _loader.SaveAsync(user);
         }
 
         public async Task<User> ReadAsync(Guid id)

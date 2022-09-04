@@ -49,7 +49,7 @@ namespace AuthHub.DAL.EntityFramework.Users
                     ? null :
                             await _context.Users.SingleOrDefaultAsync(x => x.Id == item.Id);
 
-            if (existingItem == null) await _context.Users.AddAsync(existingItem);
+            if (existingItem == null) await _context.Users.AddAsync(item);
             else
             {
                 _context.Users.Update(existingItem);

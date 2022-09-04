@@ -2,6 +2,7 @@
 using AuthHub.Models.Users;
 using System;
 using System.Threading.Tasks;
+using Common.Interfaces.Repository;
 
 namespace AuthHub.BLL.Users
 {
@@ -9,12 +10,15 @@ namespace AuthHub.BLL.Users
     {
 
         private readonly IUserContext _userContext;
+        private readonly ISRDRepository<User, Guid> _usersRepository;
 
         public UserLoader(
-            IUserContext userContext
+            IUserContext userContext,
+            ISRDRepository<User, Guid> usersRepository
             )
         {
             _userContext = userContext;
+            _usersRepository = usersRepository;
         }
 
         public async Task<User> Create(Guid organizationId, string authSettingsName, User user)
@@ -33,7 +37,7 @@ namespace AuthHub.BLL.Users
             => await _userContext.GetAsync(id);
 
         public async Task<Guid> SaveAsync(User item)
-            => await _userContext.SaveAsync(item);
+            => await _usersRepository.SaveAsync(item);
 
         public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
             => await _userContext.Update(organizationId, authSettingsName, user);

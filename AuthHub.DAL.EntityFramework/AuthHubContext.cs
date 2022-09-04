@@ -21,16 +21,21 @@ namespace AuthHub.DAL.EntityFramework
 
         public AuthHubContext()
         {
-            _configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
+            _configuration = GetConfigFromFile();
         }
 
         public AuthHubContext(DbContextOptions<AuthHubContext> options)
         : base(options)
         {
+            _configuration = GetConfigFromFile();
         }
+
+        protected IConfiguration GetConfigFromFile(string path = "appsettings.json")
+            =>
+                new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile(path, optional: false, reloadOnChange: true)
+                    .Build();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -168,7 +173,6 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<PasswordResetToken>()
                 .Property(x => x.ExpirationDate)
                 .IsRequired();
-
             #endregion
 
             #region Load Data

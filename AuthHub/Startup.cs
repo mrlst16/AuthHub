@@ -34,19 +34,22 @@ namespace AuthHub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string dopgsqlConnectionString = Configuration.GetConnectionString("dopgsql");
+            DbContextOptionsBuilder<AuthHubContext> builder = new DbContextOptionsBuilder<AuthHubContext>();
+            builder.UseNpgsql(dopgsqlConnectionString);
+            var options = builder.Options;
+
             services.AddDbContext<AuthHubContext>(o =>
                 {
-                    o.UseNpgsql(Configuration.GetConnectionString("dopgsql"));
+                    o.EnableDetailedErrors();
+                    o.UseNpgsql(dopgsqlConnectionString);
                 })
-                .AddDbContext<DbContext>(o =>
-                {
-                    o.UseNpgsql(Configuration.GetConnectionString("dopgsql"));
-                })
+                .AddSingleton<AuthHubContext>(x=> new AuthHubContext(options))
                 .AddTransient<IUserContext, UserContext>()
                 .AddTransient<IClaimsKeyContext, ClaimsKeyContext>()
                 .AddTransient<IPasswordContext, PasswordsContext>()
                 .AddTransient<IOrganizationContext, OrganizationContext>()
-                .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<>))
+                .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
                 .AddAuthHubLoaders()
                 .AddAuthHubServices()
                 .AddAuthHubValidatorFactory()
