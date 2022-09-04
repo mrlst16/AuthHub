@@ -8,8 +8,11 @@ using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Middleware;
+using AuthHub.Models.Users;
 using AuthHub.ServiceRegistrations;
+using AuthHub.Validators;
 using Common.Interfaces.Repository;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -44,7 +47,8 @@ namespace AuthHub
                     o.EnableDetailedErrors();
                     o.UseNpgsql(dopgsqlConnectionString);
                 })
-                .AddSingleton<AuthHubContext>(x=> new AuthHubContext(options))
+                .AddSingleton<AuthHubContext>(x => new AuthHubContext(options))
+                .AddTransient<IValidator<CreateUserRequest>, CreateUserRequestValidator>()
                 .AddTransient<IUserContext, UserContext>()
                 .AddTransient<IClaimsKeyContext, ClaimsKeyContext>()
                 .AddTransient<IPasswordContext, PasswordsContext>()

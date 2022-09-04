@@ -1,8 +1,9 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
-using System;
-using System.Threading.Tasks;
 using Common.Interfaces.Repository;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Users
 {
@@ -38,6 +39,13 @@ namespace AuthHub.BLL.Users
 
         public async Task<Guid> SaveAsync(User item)
             => await _usersRepository.SaveAsync(item);
+
+        public async Task<bool> UsernameAvailable(Guid authSettingsId, string userName)
+        {
+            if (authSettingsId == Guid.Empty || string.IsNullOrWhiteSpace(userName)) return false;
+
+            return (await _usersRepository.LinqQuery(x => x.AuthSettingsId == authSettingsId && userName == userName)).Count() > 1;
+        }
 
         public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
             => await _userContext.Update(organizationId, authSettingsName, user);

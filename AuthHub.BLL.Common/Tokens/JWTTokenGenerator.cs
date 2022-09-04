@@ -47,9 +47,9 @@ namespace AuthHub.BLL.Common.Tokens
         public async Task<bool> Authenticate(string username, string password, Guid authSettingsId)
         {
             var loginChallenge = await _passwordLoader.GetLoginChallenge(authSettingsId, username);
-            if (loginChallenge == null) return false;
-
-            return Authenticate(loginChallenge.StoredPasswordHash, password, loginChallenge.Salt, loginChallenge.Length, loginChallenge.Iterations);
+            return loginChallenge == null
+                ? false
+                : Authenticate(loginChallenge.StoredPasswordHash, password, loginChallenge.Salt, loginChallenge.Length, loginChallenge.Iterations);
         }
 
         public async Task<Token> GetTokenForAudderClients(string userName, string password)

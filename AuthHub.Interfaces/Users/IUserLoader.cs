@@ -14,5 +14,6 @@ namespace AuthHub.Interfaces.Users
         Task<User> GetAsync(Guid id);
         Task<User> Get(Guid authSettingsId, string userName);
         Task<Guid> SaveAsync(User item);
+        Task<bool> UsernameAvailable(Guid authSettingsId, string userName);
     }
 }

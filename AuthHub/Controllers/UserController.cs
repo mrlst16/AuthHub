@@ -1,10 +1,10 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
-using AuthHub.ServiceRegistrations;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using FluentValidation;
 
 namespace AuthHub.Controllers
 {
@@ -12,15 +12,15 @@ namespace AuthHub.Controllers
     [Route("api/user")]
     public class UserController : Controller
     {
-        private readonly IValidatorFactory _validatorFactory;
+        private readonly IValidator<CreateUserRequest> _validator;
         private readonly IUserService _service;
 
         public UserController(
-            IValidatorFactory validatorFactory,
+            IValidator<CreateUserRequest> validator,
             IUserService service
             )
         {
-            _validatorFactory = validatorFactory;
+            _validator = validator;
             _service = service;
         }
 
@@ -29,7 +29,7 @@ namespace AuthHub.Controllers
             [FromBody] CreateUserRequest request
             )
         {
-            _validatorFactory.ValidateAndThrow<CreateUserRequest>(request);
+            await _validator.ValidateAndThrowAsync(request);
             await _service.CreateAsync(request);
             var response = new ApiResponse<bool>()
             {
