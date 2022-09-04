@@ -3,10 +3,10 @@ using FluentValidation;
 
 namespace AuthHub.Validators
 {
-    public class UserValidator : AbstractValidator<User>
+    public class CreateUserValidator : AbstractValidator<CreateUserRequest>
     {
         public const string IncludeValidatePassword = "ValidatePassword";
-        public UserValidator()
+        public CreateUserValidator()
         {
             RuleFor(x => x.UserName)
                 .NotEmpty()

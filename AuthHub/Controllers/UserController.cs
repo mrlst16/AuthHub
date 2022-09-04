@@ -1,14 +1,15 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using AuthHub.ServiceRegistrations;
+using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Common.Models.Responses;
 
 namespace AuthHub.Controllers
 {
-    [Microsoft.AspNetCore.Components.Route("api/user")]
+    [ApiController]
+    [Route("api/user")]
     public class UserController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;
@@ -25,10 +26,10 @@ namespace AuthHub.Controllers
 
         [HttpPatch("save")]
         public async Task<IActionResult> CreateUser(
-            [FromBody] SaveUserRequest request
+            [FromBody] CreateUserRequest request
             )
         {
-            _validatorFactory.ValidateAndThrow<SaveUserRequest>(request);
+            _validatorFactory.ValidateAndThrow<CreateUserRequest>(request);
             await _service.CreateAsync(request);
             var response = new ApiResponse<bool>()
             {

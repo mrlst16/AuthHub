@@ -27,6 +27,11 @@ namespace AuthHub.DAL.EntityFramework
                 .Build();
         }
 
+        public AuthHubContext(DbContextOptions<AuthHubContext> options)
+        : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = _configuration.GetConnectionString("dopgsql");

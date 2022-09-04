@@ -5,11 +5,11 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
+using Common.Interfaces.Helpers;
+using Common.Interfaces.Providers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Common.Interfaces.Helpers;
-using Common.Interfaces.Providers;
 
 namespace AuthHub.ServiceRegistrations
 {

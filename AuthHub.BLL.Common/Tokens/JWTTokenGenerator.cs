@@ -7,14 +7,14 @@ using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
+using Common.Extensions;
+using Common.Interfaces.Helpers;
+using Common.Interfaces.Providers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Common.Extensions;
-using Common.Interfaces.Helpers;
-using Common.Interfaces.Providers;
 
 namespace AuthHub.BLL.Common.Tokens
 {

@@ -1,11 +1,12 @@
-﻿using Common.Models.Exceptions;
+﻿using Common.Extensions;
+using Common.Models.Exceptions;
 using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Common.Extensions;
 
 namespace AuthHub.Middleware
 {
@@ -33,30 +34,30 @@ namespace AuthHub.Middleware
             }
             catch (Exception exception)
             {
-                //var response = context.Response;
-                //response.ContentType = "application/json";
+                var response = context.Response;
+                response.ContentType = "application/json";
 
-                //ApiResponse<string> apiResponse = new ApiResponse<string>();
+                ApiResponse<string> apiResponse = new ApiResponse<string>();
 
-                //switch (exception)
-                //{
-                //    case ValidationException e:
-                //        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                //        apiResponse = e.AsApiResponse();
-                //        break;
-                //    case HttpException e:
-                //        response.StatusCode = e.StatusCode;
-                //        apiResponse = e.AsApiResponse();
-                //        break;
-                //    default:
-                //        // unhandled error
-                //        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                //        apiResponse = exception.AsApiResponse();
-                //        break;
-                //}
+                switch (exception)
+                {
+                    case ValidationException e:
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        apiResponse = e.AsApiResponse();
+                        break;
+                    case HttpException e:
+                        response.StatusCode = e.StatusCode;
+                        apiResponse = e.AsApiResponse();
+                        break;
+                    default:
+                        // unhandled error
+                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        apiResponse = exception.AsApiResponse();
+                        break;
+                }
 
-                //var result = JsonConvert.SerializeObject(apiResponse);
-                //await response.WriteAsync(result);
+                var result = JsonConvert.SerializeObject(apiResponse);
+                await response.WriteAsync(result);
             }
         }
     }

@@ -1,5 +1,6 @@
 using AuthHub.BLL.Common.Extensions;
 using AuthHub.DAL.EntityFramework;
+using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.DAL.EntityFramework.Organizations;
 using AuthHub.DAL.EntityFramework.Passwords;
 using AuthHub.DAL.EntityFramework.Users;
@@ -9,7 +10,6 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Middleware;
 using AuthHub.ServiceRegistrations;
 using Common.Interfaces.Repository;
-using Common.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -34,14 +34,19 @@ namespace AuthHub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
+            services.AddDbContext<AuthHubContext>(o =>
+                {
+                    o.UseNpgsql(Configuration.GetConnectionString("dopgsql"));
+                })
+                .AddDbContext<DbContext>(o =>
+                {
+                    o.UseNpgsql(Configuration.GetConnectionString("dopgsql"));
+                })
                 .AddTransient<IUserContext, UserContext>()
                 .AddTransient<IClaimsKeyContext, ClaimsKeyContext>()
                 .AddTransient<IPasswordContext, PasswordsContext>()
                 .AddTransient<IOrganizationContext, OrganizationContext>()
-                .AddTransient<DbContext, AuthHubContext>()
-                .AddTransient<AuthHubContext, AuthHubContext>()
-                .AddTransient(typeof(ISRDRepository<,>), typeof(EntityFrameworkSRDRepository<,>))
+                .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<>))
                 .AddAuthHubLoaders()
                 .AddAuthHubServices()
                 .AddAuthHubValidatorFactory()

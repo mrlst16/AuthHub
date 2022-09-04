@@ -8,10 +8,10 @@ using AuthHub.Models.Enums;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
+using Common.Interfaces.Helpers;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
-using Common.Interfaces.Helpers;
 
 namespace AuthHub.BLL.Passwords
 {

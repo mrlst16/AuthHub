@@ -1,5 +1,5 @@
-﻿using System.Text;
-using Common.Interfaces.Helpers;
+﻿using Common.Interfaces.Helpers;
+using System.Text;
 
 namespace AuthHub.BLL.Common.Helpers
 {

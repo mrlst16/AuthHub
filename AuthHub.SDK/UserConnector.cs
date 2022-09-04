@@ -14,8 +14,8 @@ namespace AuthHub.SDK
             _apiConnector = apiConnector;
         }
 
-        public async Task SaveAsync(SaveUserRequest item)
-            => await _apiConnector.Patch<SaveUserRequest, bool>("user/save", item);
+        public async Task SaveAsync(CreateUserRequest item)
+            => await _apiConnector.Patch<CreateUserRequest, bool>("user/save", item);
 
     }
 }

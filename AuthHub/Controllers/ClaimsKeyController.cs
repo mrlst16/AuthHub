@@ -1,11 +1,11 @@
 ﻿using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Passwords;
+using Common.Models.Exceptions;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Common.Models.Exceptions;
 
 namespace AuthHub.Controllers
 {
