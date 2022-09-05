@@ -28,7 +28,7 @@ namespace AuthHub.BLL.Common.Extensions
                     TokenReader = (token, parameters) =>
                     {
                         var result = new JwtSecurityToken();
-                        JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+                        JwtSecurityTokenHandler handler = new();
                         result = handler.ReadJwtToken(token);
                         return result;
                     }

@@ -44,7 +44,7 @@ namespace AuthHub.BLL.Users
         {
             if (authSettingsId == Guid.Empty || string.IsNullOrWhiteSpace(userName)) return false;
 
-            return (await _usersRepository.LinqQuery(x => x.AuthSettingsId == authSettingsId && userName == userName)).Count() > 1;
+            return (await _usersRepository.ReadAsync(x => x.AuthSettingsId == authSettingsId && userName == userName)).Count() > 1;
         }
 
         public async Task<User> Update(Guid organizationId, string authSettingsName, User user)

@@ -1,8 +1,12 @@
-﻿using AuthHub.Models.Enums;
+﻿using AuthHub.BLL.Common.Extensions;
+using AuthHub.BLL.Common.Helpers;
+using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace AuthHub.DAL.EntityFramework
@@ -41,6 +45,7 @@ namespace AuthHub.DAL.EntityFramework
         {
             string connectionString = _configuration.GetConnectionString("dopgsql");
             optionsBuilder.UseNpgsql(connectionString);
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -194,6 +199,12 @@ namespace AuthHub.DAL.EntityFramework
                     Id = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                     Name = "Pawnder",
                     Email = "mattlantz88@gmail.com"
+                },
+                new Organization()
+                {
+                    Id = Guid.Parse("0B674AC4-7079-4AD7-830A-C41CD6AB5204"),
+                    Name = "Audder",
+                    Email = "mattlantz88@gmail.com"
                 });
 
             modelBuilder.Entity<AuthSettings>()
@@ -210,7 +221,21 @@ namespace AuthHub.DAL.EntityFramework
                     Name = "Pawnder JWT",
                     PasswordResetTokenExpirationMinutes = 10,
                     SaltLength = 8
-                });
+                },
+                    new AuthSettings()
+                    {
+                        Id = Guid.Parse("6CE12DA2-CB73-4F0B-B9F0-46051621B3C6"),
+                        OrganizationID = Guid.Parse("0B674AC4-7079-4AD7-830A-C41CD6AB5204"),
+                        AuthSchemeID = Guid.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
+                        ExpirationMinutes = 120,
+                        HashLength = 8,
+                        Issuer = "Audder",
+                        Iterations = 10,
+                        Key = "This is my auth key",
+                        Name = "Audder_Clients",
+                        PasswordResetTokenExpirationMinutes = 10,
+                        SaltLength = 8
+                    });
 
             modelBuilder.Entity<ClaimsKey>()
                 .HasData(
@@ -224,9 +249,33 @@ namespace AuthHub.DAL.EntityFramework
                     {
                         Id = Guid.Parse("6598c3ca-417e-47ed-b796-66f94af855df"),
                         AuthSettingsId = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                        Name = "Name"
+                        Name = "Role"
                     });
-            #endregion
+
+            modelBuilder.Entity<User>()
+                .HasData(new User()
+                {
+                    Id = Guid.Parse("b9e2e173-f8c4-41ed-be88-ec1071920130"),
+                    IsOrganization = true,
+                    UserName = "Pawnder",
+                    Email = "mattlantz88@gmail.com",
+                    AuthSettingsId = Guid.Parse("6CE12DA2-CB73-4F0B-B9F0-46051621B3C6"),
+                    UsersOrganizationId = Guid.Parse("0B674AC4-7079-4AD7-830A-C41CD6AB5204"),
+                    FirstName = "Pawnder",
+                    LastName = "Organization",
+                    Password = null
+                });
+
+            modelBuilder.Entity<Password>()
+                .HasData(new Password()
+                {
+                    Id = Guid.Parse("8358a66e-b015-44a6-9cc3-7b5c2b9f1d79"),
+                    PasswordHash = ApplicationConsistency.GetBytesFromString("Pawnder22!"),
+                    Salt = new byte[] { 91, 156, 7, 89, 255, 32, 9, 14 },
+                    UserId = Guid.Parse("b9e2e173-f8c4-41ed-be88-ec1071920130"),
+                    Claims = new List<ClaimsEntity>()
+                });
         }
+        #endregion
     }
 }

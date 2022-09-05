@@ -27,6 +27,15 @@ namespace AuthHub
 {
     public class Startup
     {
+
+        private DbContextOptionsBuilder<AuthHubContext> AuthHubContextOptionsBuilder
+            => new DbContextOptionsBuilder<AuthHubContext>()
+#if DEBUG
+                .EnableSensitiveDataLogging()
+#endif
+                .EnableDetailedErrors()
+                .UseNpgsql(Configuration.GetConnectionString("dopgsql"));
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,18 +46,10 @@ namespace AuthHub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string dopgsqlConnectionString = Configuration.GetConnectionString("dopgsql");
-            DbContextOptionsBuilder<AuthHubContext> builder = new DbContextOptionsBuilder<AuthHubContext>();
-            builder.UseNpgsql(dopgsqlConnectionString);
-            var options = builder.Options;
-
-            services.AddDbContext<AuthHubContext>(o =>
-                {
-                    o.EnableDetailedErrors();
-                    o.UseNpgsql(dopgsqlConnectionString);
-                })
-                .AddSingleton<AuthHubContext>(x => new AuthHubContext(options))
+            _ = services.AddDbContext<AuthHubContext>(o => o = AuthHubContextOptionsBuilder)
+                .AddSingleton(x => new AuthHubContext(AuthHubContextOptionsBuilder.Options))
                 .AddTransient<IValidator<CreateUserRequest>, CreateUserRequestValidator>()
+                .AddTransient<IAuthorizationHandler, FromAuthorizedOrganizationHandler>()
                 .AddTransient<IUserContext, UserContext>()
                 .AddTransient<IClaimsKeyContext, ClaimsKeyContext>()
                 .AddTransient<IPasswordContext, PasswordsContext>()
@@ -72,7 +73,7 @@ namespace AuthHub
                 x.AddPolicy(JwtBearerDefaults.AuthenticationScheme, y =>
                 {
                     y.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-                    y.AddRequirements(new JWTAuthorizationRequirement());
+                    y.AddRequirements(new FromAuthorizedOrganizationRequirement());
                 });
             });
         }
@@ -104,6 +105,8 @@ namespace AuthHub
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -111,13 +114,6 @@ namespace AuthHub
                 endpoints.MapControllers();
             });
 
-        }
-    }
-
-    internal class JWTAuthorizationRequirement : IAuthorizationRequirement
-    {
-        public JWTAuthorizationRequirement()
-        {
         }
     }
 }
