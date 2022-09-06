@@ -40,7 +40,7 @@ namespace AuthHub.BLL.Common.Emails
                 var url = $"{_hostUrl}/set_password" +
                     $"?userid={token.UserId}" +
                     $"&email={token.Email}" +
-                    $"&token={token.Token}";
+                    $"&token={token.VerificationCode}";
                 var link = $"<a href=\"{url}\">Reset Password</a>";
 
                 var message = new MailMessage(_fromEmail, token.Email)

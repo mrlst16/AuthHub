@@ -1,13 +1,13 @@
-﻿using AuthHub.BLL.Common.Tokens;
+﻿using AuthHub.BLL.Common.Extensions;
+using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Auth;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using Common.Interfaces.Repository;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthHub.BLL.Common.Extensions;
-using Microsoft.Extensions.Configuration;
 
 namespace AuthHub.BLL.Auth
 {

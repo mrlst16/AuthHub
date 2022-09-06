@@ -32,10 +32,9 @@ namespace AuthHub.Controllers
             )
         {
             await _validator.ValidateAndThrowAsync(request);
-            await _service.CreateAsync(request);
-            var response = new ApiResponse<bool>()
+            var response = new ApiResponse<Guid>()
             {
-                Data = true,
+                Data = await _service.CreateAsync(request),
                 SuccessMessage = "Successfully created user",
                 Sucess = true
             };

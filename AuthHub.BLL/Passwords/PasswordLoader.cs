@@ -35,7 +35,7 @@ namespace AuthHub.BLL.Passwords
             if (token == null)
                 throw new HttpException("Unable to authenticate reset password token", 403);
 
-            if (!string.Equals(request.Token, token.Token, StringComparison.InvariantCulture))
+            if (!string.Equals(request.VerificationCode, token.VerificationCode, StringComparison.InvariantCulture))
                 throw new HttpException("Unable to authenticate reset password token", 403);
         }
 
@@ -57,7 +57,7 @@ namespace AuthHub.BLL.Passwords
                 UserId = user.Id,
                 Email = user.Email,
                 ExpirationDate = DateTime.UtcNow.AddMinutes(authSettings.PasswordResetTokenExpirationMinutes),
-                Token = StringHelper.RandomAlphanumericString(6)
+                VerificationCode = StringHelper.RandomAlphanumericString(6)
             };
             await _passwordContext.SavePasswordResetToken(result);
             return (result);

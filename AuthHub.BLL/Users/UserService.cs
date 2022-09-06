@@ -45,7 +45,7 @@ namespace AuthHub.BLL.Users
             _userRepo = userRepo;
         }
 
-        public async Task CreateAsync(CreateUserRequest item)
+        public async Task<Guid> CreateAsync(CreateUserRequest item)
         {
             var authSettings = await _authSettingsRepo.ReadAsync(item.AuthSettingsId);
             var authScheme = await _authSchemeRepo.ReadAsync(authSettings.AuthSchemeID);
@@ -86,6 +86,7 @@ namespace AuthHub.BLL.Users
             };
 
             user.Id = await _loader.SaveAsync(user);
+            return user.Id;
         }
 
         public async Task<User> ReadAsync(Guid id)

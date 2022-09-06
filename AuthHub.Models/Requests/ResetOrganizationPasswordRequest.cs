@@ -1,16 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace AuthHub.Models.Requests
 {
-    public class RequestSetPasswordRequest
+    public class ResetOrganizationPasswordRequest
     {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
         public Guid OrganizationId { get; set; }
         public string AuthSettingsName { get; set; }
-        [Required]
         public string UserName { get; set; }
     }
 }

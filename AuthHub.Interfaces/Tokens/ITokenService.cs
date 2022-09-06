@@ -1,6 +1,5 @@
 ﻿using AuthHub.Models.Tokens;
 using System;
-using System.Threading.Tasks;
 
 namespace AuthHub.Interfaces.Tokens
 {

@@ -167,7 +167,7 @@ namespace AuthHub.DAL.EntityFramework
                 .Property(x => x.Email)
                 .IsRequired();
             modelBuilder.Entity<PasswordResetToken>()
-                .Property(x => x.Token)
+                .Property(x => x.VerificationCode)
                 .IsRequired();
             modelBuilder.Entity<PasswordResetToken>()
                 .Property(x => x.UserId)

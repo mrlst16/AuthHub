@@ -1,9 +1,7 @@
 ﻿using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
-using AuthHub.Models.Users;
 using System;
-using System.Threading.Tasks;
 
 namespace AuthHub.Interfaces.Passwords
 {
@@ -12,7 +10,6 @@ namespace AuthHub.Interfaces.Passwords
         Task<(bool, Password)> Set<T>(PasswordRequest request)
             where T : ITokenGenerator;
         Task<Password> Get(Guid organizationId, string authSettingsName, string username);
-        Task ResetOrganizationPassword(SetPasswordRequest request);
-        Task RequestOrganizationPasswordReset(UserPointer userPointer);
+
     }
 }

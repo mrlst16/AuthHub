@@ -1,5 +1,4 @@
 ﻿using AuthHub.Models.Organizations;
-using System.Threading.Tasks;
 
 namespace AuthHub.Interfaces.Organizations
 {
