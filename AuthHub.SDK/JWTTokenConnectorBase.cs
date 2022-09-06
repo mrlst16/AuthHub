@@ -21,14 +21,14 @@ namespace AuthHub.SDK
         public async Task<Token> GetOrganizationToken(string username, string password)
         {
             //TODO: Put this back
-            //Token token = await _apiConnector.GetTokenFromLocalStorage();
+            //VerificationCode token = await _apiConnector.GetTokenFromLocalStorage();
             //if (token != null) return token;
 
             return await OrganizationSignIn(username, password);
         }
 
-        public async Task RequestPasswordReset(RequestSetPasswordRequest request)
-            => await _apiConnector.Post<RequestSetPasswordRequest, object>("password/request_reset", request);
+        public async Task RequestPasswordReset(ResetOrganizationPasswordRequest request)
+            => await _apiConnector.Post<ResetOrganizationPasswordRequest, object>("password/request_reset", request);
 
         public virtual async Task<Token> OrganizationSignIn(string username, string password)
         {

@@ -1,4 +1,5 @@
 ﻿using AuthHub.BLL.Common.Extensions;
+using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
@@ -7,7 +8,6 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
-using AuthHub.Models.Users;
 using Common.Interfaces.Helpers;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -24,6 +24,7 @@ namespace AuthHub.BLL.Passwords
         private readonly IAuthHubEmailLoader _authHubEmailLoader;
         private readonly IApplicationConsistency _applicationHelper;
         private readonly IConfiguration _configuration;
+        private readonly IAuthSettingsLoader _authSettingsLoader;
 
         public PasswordService(
             IPasswordLoader loader,
@@ -32,7 +33,8 @@ namespace AuthHub.BLL.Passwords
             IUserLoader userLoader,
             IAuthHubEmailLoader authHubEmailLoader,
             IApplicationConsistency applicationHelper,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IAuthSettingsLoader authSettingsLoader
             )
         {
             _loader = loader;
@@ -42,29 +44,11 @@ namespace AuthHub.BLL.Passwords
             _authHubEmailLoader = authHubEmailLoader;
             _applicationHelper = applicationHelper;
             _configuration = configuration;
+            _authSettingsLoader = authSettingsLoader;
         }
 
         public async Task<Password> Get(Guid organizationId, string authSettingsName, string username)
             => await _loader.Get(organizationId, authSettingsName, username);
-
-        public async Task RequestOrganizationPasswordReset(UserPointer userPointer)
-        {
-            var orgId = _configuration.AuthHubOrganizationId();
-            userPointer = (orgId, "audder_clients", userPointer.UserName);
-
-            PasswordResetToken token = await _loader.GenerateAndSavePasswordResetToken(userPointer);
-
-            await _authHubEmailLoader.SendPasswordResetEmail(token);
-        }
-
-        public async Task ResetOrganizationPassword(SetPasswordRequest request)
-        {
-            await _loader.AuthenticateAndUpdateToken(request);
-            var password = await _loader.GetByUserIdAsync(request.UserId);
-            var newBytes = _applicationHelper.GetBytes(request.NewPassword);
-            password.PasswordHash = newBytes;
-            await _loader.Set(password);
-        }
 
         public async Task<(bool, Password)> Set<T>(PasswordRequest request)
             where T : ITokenGenerator

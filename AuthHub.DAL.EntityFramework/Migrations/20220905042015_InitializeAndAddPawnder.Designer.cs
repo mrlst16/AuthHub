@@ -366,7 +366,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.Property<DateTime?>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Token")
+                    b.Property<string>("VerificationCode")
                         .IsRequired()
                         .HasColumnType("text");
 

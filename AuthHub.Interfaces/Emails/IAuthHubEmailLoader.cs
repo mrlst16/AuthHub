@@ -1,5 +1,4 @@
 ﻿using AuthHub.Models.Passwords;
-using System.Threading.Tasks;
 
 namespace AuthHub.Interfaces.Emails
 {

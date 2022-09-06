@@ -3,7 +3,6 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Requests;
 using AuthHub.ServiceRegistrations;
 using Common.Models.Responses;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -40,36 +39,5 @@ namespace AuthHub.Controllers
             return new OkObjectResult(response);
         }
 
-        [AllowAnonymous]
-        [HttpPost("request_reset")]
-        public async Task<IActionResult> RequestPasswordReset(
-          [FromBody] RequestSetPasswordRequest request
-          )
-        {
-            await _service.RequestOrganizationPasswordReset((request.OrganizationId, request.AuthSettingsName, request.UserName));
-            var response = new ApiResponse<bool>()
-            {
-                Data = true,
-                Sucess = true,
-                SuccessMessage = "Successfully requested a password reset token to be sent to your email"
-            };
-            return new OkObjectResult(response);
-        }
-
-
-        [HttpPut("set")]
-        public async Task<IActionResult> ResetPassword(
-            [FromBody] SetPasswordRequest request
-          )
-        {
-            await _service.ResetOrganizationPassword(request);
-            var response = new ApiResponse<bool>()
-            {
-                Data = true,
-                Sucess = true,
-                SuccessMessage = "Successfully reset password"
-            };
-            return new OkObjectResult(response);
-        }
     }
 }

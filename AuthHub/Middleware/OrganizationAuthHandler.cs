@@ -1,5 +1,4 @@
 ﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Models.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
@@ -30,21 +29,6 @@ namespace AuthHub.Middleware
                 return;
             }
             context.Fail();
-        }
-
-        protected bool TryGetHeaderValues(
-            out Guid organizationId,
-            out string username,
-            out string password
-            )
-        {
-            organizationId = Guid.Empty;
-            username = password = null;
-
-
-
-
-            return true;
         }
     }
 

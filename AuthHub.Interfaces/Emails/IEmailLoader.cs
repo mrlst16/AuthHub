@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace AuthHub.Interfaces.Emails
+﻿namespace AuthHub.Interfaces.Emails
 {
     public interface IEmailLoader
     {

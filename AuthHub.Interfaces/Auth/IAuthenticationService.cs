@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace AuthHub.Interfaces.Auth
+﻿namespace AuthHub.Interfaces.Auth
 {
     public interface IAuthenticationService
     {
