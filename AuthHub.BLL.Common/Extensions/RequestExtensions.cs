@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Text;
 
 namespace AuthHub.BLL.Common.Extensions
 {
@@ -16,6 +17,33 @@ namespace AuthHub.BLL.Common.Extensions
             {
                 return (null, null);
             }
+        }
+
+        public static bool TryParseBasicAuthHeader(
+            this HttpRequest request,
+            out string? username,
+            out string? password
+            )
+        {
+            username = password = null;
+
+            var authHeader = request.Headers["Authorization"];
+            if (string.IsNullOrEmpty(authHeader))
+                return false;
+
+            var strings = authHeader.ToString().Split(' ');
+            if (strings.Length != 2) return false;
+
+            var base64EncodedUsernameAndPassword = strings.Last();
+
+            var bytes = Convert.FromBase64String(base64EncodedUsernameAndPassword);
+            var decodedUsernameAndPassword = Encoding.UTF8.GetString(bytes);
+
+            var decodedStrings = decodedUsernameAndPassword.Split(':');
+            username = decodedStrings[0];
+            password = decodedStrings[1];
+
+            return true;
         }
     }
 }

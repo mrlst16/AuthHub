@@ -4,7 +4,6 @@ using AuthHub.Models.Requests;
 using AuthHub.ServiceRegistrations;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace AuthHub.Controllers

@@ -4,9 +4,9 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
+using Common.Helpers;
 using Common.Models.Exceptions;
 using System;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Passwords
@@ -57,25 +57,13 @@ namespace AuthHub.BLL.Passwords
                 UserId = user.Id,
                 Email = user.Email,
                 ExpirationDate = DateTime.UtcNow.AddMinutes(authSettings.PasswordResetTokenExpirationMinutes),
-                Token = RandomAlphanumericString(6)
+                Token = StringHelper.RandomAlphanumericString(6)
             };
             await _passwordContext.SavePasswordResetToken(result);
             return (result);
         }
 
-        private string RandomAlphanumericString(int length)
-        {
-            Random rand = new Random(Guid.NewGuid().GetHashCode());
-            StringBuilder builder = new StringBuilder();
 
-            for (int i = 0; i < length; i++)
-            {
-                int randNumber = rand.Next(48, 90);
-                char c = (char)randNumber;
-                builder.Append(c);
-            }
-            return builder.ToString();
-        }
 
         public async Task<Password> GetByUserIdAsync(Guid userId)
             => await _passwordContext.GetByUserIdAsync(userId);

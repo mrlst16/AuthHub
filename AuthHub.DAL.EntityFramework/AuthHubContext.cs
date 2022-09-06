@@ -1,12 +1,9 @@
-﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.BLL.Common.Helpers;
+﻿using AuthHub.BLL.Common.Helpers;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace AuthHub.DAL.EntityFramework

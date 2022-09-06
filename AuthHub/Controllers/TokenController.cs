@@ -1,15 +1,10 @@
 ﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Interfaces.Organizations;
-using AuthHub.Interfaces.Tokens;
-using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
 using AuthHub.ServiceRegistrations;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System;
 using System.Threading.Tasks;
 
 namespace AuthHub.Controllers
@@ -18,24 +13,15 @@ namespace AuthHub.Controllers
     public class TokenController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;
-        private readonly Func<AuthSchemeEnum, ITokenGenerator> _tokenService;
-        private readonly IOrganizationService _service;
-        private readonly IUserService _userService;
-        private readonly IConfiguration _configuration;
+        private readonly TokenServiceFactory _tokenService;
 
         public TokenController(
             IValidatorFactory validatorFactory,
-            Func<AuthSchemeEnum, ITokenGenerator> tokenServiceFactory,
-            IOrganizationService service,
-            IUserService userService,
-            IConfiguration configuration
+            TokenServiceFactory tokenServiceFactory
             )
         {
             _validatorFactory = validatorFactory;
             _tokenService = tokenServiceFactory;
-            _service = service;
-            _configuration = configuration;
-            _userService = userService;
         }
 
         [HttpGet("get_jwt_token")]

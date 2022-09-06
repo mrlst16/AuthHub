@@ -1,4 +1,6 @@
+using AuthHub.BLL.Auth;
 using AuthHub.BLL.Common.Extensions;
+using AuthHub.BLL.Common.Tokens;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.DAL.EntityFramework.Organizations;
@@ -11,12 +13,14 @@ using AuthHub.Middleware;
 using AuthHub.Models.Users;
 using AuthHub.ServiceRegistrations;
 using AuthHub.Validators;
+using Common.AspDotNet;
 using Common.Interfaces.Repository;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,17 +52,21 @@ namespace AuthHub
         {
             _ = services.AddDbContext<AuthHubContext>(o => o = AuthHubContextOptionsBuilder)
                 .AddSingleton(x => new AuthHubContext(AuthHubContextOptionsBuilder.Options))
+                .AddTransient<IAuthHubAuthenticationService, AuthenticationService>()
                 .AddTransient<IValidator<CreateUserRequest>, CreateUserRequestValidator>()
-                .AddTransient<IAuthorizationHandler, FromAuthorizedOrganizationHandler>()
+                .AddTransient<IAuthorizationHandler, OrganizationAuthHandler>()
                 .AddTransient<IUserContext, UserContext>()
                 .AddTransient<IClaimsKeyContext, ClaimsKeyContext>()
                 .AddTransient<IPasswordContext, PasswordsContext>()
                 .AddTransient<IOrganizationContext, OrganizationContext>()
+                .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
+                .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
                 .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
                 .AddAuthHubLoaders()
                 .AddAuthHubServices()
                 .AddAuthHubValidatorFactory()
-                .AddOthers();
+                .AddOthers()
+                .AddCommon();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -73,7 +81,7 @@ namespace AuthHub
                 x.AddPolicy(JwtBearerDefaults.AuthenticationScheme, y =>
                 {
                     y.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-                    y.AddRequirements(new FromAuthorizedOrganizationRequirement());
+                    y.AddRequirements(new OrganizationAuthRequirement());
                 });
             });
         }

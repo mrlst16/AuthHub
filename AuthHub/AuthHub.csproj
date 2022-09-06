@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.AspDotNet\Common.AspDotNet.csproj" />
     <ProjectReference Include="..\..\Common\Common.Extensions\Common.Extensions.csproj" />
     <ProjectReference Include="..\..\Common\Common.Models\Common.Models.csproj" />
     <ProjectReference Include="..\..\Common\Common\Common.csproj" />

@@ -43,8 +43,9 @@ namespace AuthHub.BLL.Users
         public async Task<bool> UsernameAvailable(Guid authSettingsId, string userName)
         {
             if (authSettingsId == Guid.Empty || string.IsNullOrWhiteSpace(userName)) return false;
-
-            return (await _usersRepository.ReadAsync(x => x.AuthSettingsId == authSettingsId && userName == userName)).Count() > 1;
+            var lookupResults = await _usersRepository.ReadAsync(x => x.AuthSettingsId == authSettingsId && x.UserName == userName);
+            var result = lookupResults.Count() < 0;
+            return result;
         }
 
         public async Task<User> Update(Guid organizationId, string authSettingsName, User user)

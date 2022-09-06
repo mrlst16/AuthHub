@@ -6,7 +6,6 @@ using AuthHub.Models.Users;
 using AuthHub.Validators;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace AuthHub.ServiceRegistrations
 {

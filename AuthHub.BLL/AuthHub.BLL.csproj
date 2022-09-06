@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common.Interfaces\Common.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Common\Common\Common.csproj" />
     <ProjectReference Include="..\AuthHub.BLL.Common\AuthHub.BLL.Common.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
   </ItemGroup>
