@@ -26,7 +26,7 @@ namespace AuthHub.Controllers
             _service = service;
         }
 
-        [HttpPatch("save")]
+        [HttpPatch("create")]
         public async Task<IActionResult> CreateUser(
             [FromBody] CreateUserRequest request
             )

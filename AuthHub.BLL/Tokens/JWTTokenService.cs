@@ -1,9 +1,6 @@
 ﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
-using AuthHub.Interfaces.Users;
-using AuthHub.Models.Passwords;
 using AuthHub.Models.Tokens;
 using Common.Extensions;
 using Common.Interfaces.Helpers;
@@ -21,43 +18,21 @@ namespace AuthHub.BLL.Tokens
 {
     public class JWTTokenService : ITokenService
     {
-        private readonly IOrganizationLoader _organizationLoader;
         private readonly IPasswordLoader _passwordLoader;
-        private readonly IUserLoader _userLoader;
         private readonly IConfiguration _configuration;
         private readonly IApplicationConsistency _applicationConsistency;
+        private readonly ITokenLoader _tokenLoader;
 
         public JWTTokenService(
-            IOrganizationLoader organizationLoader,
             IPasswordLoader passwordLoader,
-            IUserLoader userLoader,
             IConfiguration configuration,
             IApplicationConsistency applicationConsistency
             )
         {
-            _organizationLoader = organizationLoader;
             _passwordLoader = passwordLoader;
-            _userLoader = userLoader;
             _configuration = configuration;
             _applicationConsistency = applicationConsistency;
         }
-
-        public async Task<bool> Authenticate(string username, string password, Guid authSettingsId)
-        {
-            var loginChallenge = await _passwordLoader.GetLoginChallenge(authSettingsId, username);
-            return loginChallenge == null
-                ? false
-                : Authenticate(loginChallenge.StoredPasswordHash, password, loginChallenge.Salt, loginChallenge.Length, loginChallenge.Iterations);
-        }
-
-        async Task<Token> ITokenService.GetTokenForAudderClients(string userName, string password)
-        {
-            return await GetTokenForAudderClients(userName, password);
-        }
-
-        public async Task<Token> GetTokenForAudderClients(string userName, string password)
-            => await GetToken(_configuration.AuthHubOrganizationId(), userName, password);
-
 
         public byte[] GenerateHash(byte[] password, byte[] salt, int length, int iterations = 100)
         {
@@ -78,9 +53,9 @@ namespace AuthHub.BLL.Tokens
             return requestHash.BytesEqual(passwordInRepository);
         }
 
-        public async Task<Token> GetToken(Guid authSettingsId, string userName, string password)
+        public async Task<Token> GetToken(Guid userId, string password)
         {
-            var loginChallenge = await _passwordLoader.GetLoginChallenge(authSettingsId, userName);
+            var loginChallenge = await _passwordLoader.GetLoginChallenge(userId, password);
 
             if (!Authenticate
                     (
@@ -91,19 +66,15 @@ namespace AuthHub.BLL.Tokens
                         loginChallenge.Iterations
                         )
                     )
-                throw new Exception($"Username and Password are not a match for user {userName} while logging in as an ogranization");
+                throw new Exception($"Username and Password are not a match for user {userId} while logging in as an ogranization");
 
-            var user = await _userLoader.Get(authSettingsId, userName);
-            var passwordRecord = user.Password;
-            var authSettings = await _organizationLoader.GetSettings(authSettingsId);
 
-            passwordRecord.Claims ??= new List<ClaimsEntity>();
 
             if (
                 passwordRecord.Claims
                     .FirstOrDefault(x => string.Equals(x.Key, ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase)
                         ) == null)
-                passwordRecord.Claims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, userName));
+                passwordRecord.Claims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, user.UserName));
 
             passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 

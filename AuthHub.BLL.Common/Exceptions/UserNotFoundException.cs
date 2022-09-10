@@ -1,6 +1,6 @@
 ﻿namespace AuthHub.BLL.Common.Exceptions
 {
-    public class UserNotFoundException : Exception
+    public class UserNotFoundException : NotFoundException
     {
 
         public UserNotFoundException()

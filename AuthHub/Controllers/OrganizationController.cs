@@ -3,6 +3,8 @@ using AuthHub.Models.Organizations;
 using AuthHub.Models.Requests;
 using AuthHub.ServiceRegistrations;
 using Common.Models.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,6 +12,7 @@ namespace AuthHub.Controllers
 {
     [Route("api/organization")]
     [ApiController]
+    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class OrganizationController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;

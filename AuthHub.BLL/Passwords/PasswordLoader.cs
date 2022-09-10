@@ -7,7 +7,11 @@ using AuthHub.Models.Users;
 using Common.Helpers;
 using Common.Models.Exceptions;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using AuthHub.BLL.Common.Exceptions;
+using AuthHub.Models.Organizations;
+using Common.Interfaces.Repository;
 
 namespace AuthHub.BLL.Passwords
 {
@@ -16,17 +20,26 @@ namespace AuthHub.BLL.Passwords
         private readonly IPasswordContext _passwordContext;
         private readonly IOrganizationContext _organizationContext;
         private readonly IUserContext _userContext;
+        private readonly ISRDRepository<Password, Guid> _passwordRepo;
+        private readonly ISRDRepository<User, Guid> _userRepo;
+        private readonly ISRDRepository<AuthSettings, Guid> _authSettingsRepo;
+
         public PasswordLoader(
             IPasswordContext passwordContext,
             IOrganizationContext organizationContext,
-            IUserContext userContext
+            IUserContext userContext,
+            ISRDRepository<Password, Guid> passwordRepo,
+            ISRDRepository<User, Guid> userRepo,
+            ISRDRepository<AuthSettings, Guid> authSettingsRepo
             )
         {
             _passwordContext = passwordContext;
             _organizationContext = organizationContext;
             _userContext = userContext;
+            _passwordRepo = passwordRepo;
+            _userRepo = userRepo;
+            _authSettingsRepo = authSettingsRepo;
         }
-
 
         public async Task AuthenticateAndUpdateToken(SetPasswordRequest request)
         {
@@ -74,9 +87,24 @@ namespace AuthHub.BLL.Passwords
         public async Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName)
             => await _passwordContext.GetLoginChallenge(authSettingsId, userName);
 
-        public async Task<Password> Get(Guid authSettingsId, string username)
+        public async Task<LoginChallengeResponse> GetLoginChallenge(Guid userId)
         {
-            throw new NotImplementedException();
+            var password = (await _passwordRepo.ReadAsync(x => x.UserId == userId))
+                .FirstOrDefault();
+            if (password == null) throw new PasswordNotFoundException(userId);
+            var result = new LoginChallengeResponse()
+            {
+                StoredPasswordHash = password.PasswordHash,
+                Salt = password.Salt,
+            };
+
+            var user = await _userRepo.ReadAsync(userId);
+            var authSettings = await _authSettingsRepo.ReadAsync(user.AuthSettingsId);
+
+            result.Iterations = authSettings.Iterations;
+            result.Length = authSettings.HashLength;
+
+            return result;
         }
     }
 }

@@ -2,6 +2,8 @@
 using AuthHub.Models.Passwords;
 using Common.Models.Exceptions;
 using Common.Models.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +11,8 @@ using System.Threading.Tasks;
 namespace AuthHub.Controllers
 {
     [Route("api/claimskey")]
+    [ApiController]
+    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class ClaimsKeyController : Controller
     {
         private readonly IClaimsKeyService _service;

@@ -7,9 +7,9 @@ using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using Common.Helpers;
+using Common.Interfaces.Providers;
 using System;
 using System.Threading.Tasks;
-using Common.Interfaces.Providers;
 
 namespace AuthHub.BLL.Passwords
 {

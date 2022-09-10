@@ -3,18 +3,22 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Requests;
 using AuthHub.ServiceRegistrations;
 using Common.Models.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace AuthHub.Controllers
 {
-    [Route("api/password")]
-    public class PasswordController : Controller
+    [Route("api/password_management")]
+    [ApiController]
+    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+    public class PasswordManagementController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;
         private readonly IPasswordService _service;
 
-        public PasswordController(
+        public PasswordManagementController(
             IValidatorFactory validatorFactory,
             IPasswordService service
             )

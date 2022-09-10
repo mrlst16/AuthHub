@@ -4,65 +4,42 @@ using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
 using AuthHub.ServiceRegistrations;
 using Common.Models.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AuthHub.Interfaces.Tokens;
 
 namespace AuthHub.Controllers
 {
     [Route("api/token")]
+    [ApiController]
+    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class TokenController : Controller
     {
         private readonly IValidatorFactory _validatorFactory;
-        private readonly TokenServiceFactory _tokenService;
+        private readonly ITokenService _tokenService;
 
         public TokenController(
             IValidatorFactory validatorFactory,
-            TokenServiceFactory tokenServiceFactory
+            ITokenService tokenService
             )
         {
             _validatorFactory = validatorFactory;
-            _tokenService = tokenServiceFactory;
+            _tokenService = tokenService;
         }
 
-        [HttpGet("get_jwt_token")]
-        public async Task<IActionResult> GetJWTToken(
-            [FromQuery] Guid authSettingsId
-            )
+        [HttpGet("user_auth_token")]
+        public async Task<IActionResult> GetUserAuthToken(
+            [FromBody] Guid userId,
+            [FromBody] string password
+        )
         {
-            var (username, password) = Request.GetUsernameAndPassword();
-
-            var request = new PasswordRequest()
-            {
-                AuthSettingsId = authSettingsId,
-                UserName = username,
-                Password = password
-            };
-
-            var service = _tokenService(AuthSchemeEnum.JWT);
-
-            _validatorFactory.ValidateAndThrow<PasswordRequest>(request);
             var response = new ApiResponse<Token>()
             {
-                Data = await service.GetToken(authSettingsId, username, password),
-                SuccessMessage = "Successfully got token",
-                Sucess = true
-            };
-            return new OkObjectResult(response);
-        }
-
-        [HttpGet("get_org_jwt_token")]
-        public async Task<IActionResult> GetOrgJWTToken(
-            )
-        {
-            var (username, password) = Request.GetUsernameAndPassword();
-
-            var service = _tokenService(AuthSchemeEnum.JWT);
-
-            var response = new ApiResponse<Token>()
-            {
-                Data = await service.GetTokenForAudderClients(username, password),
-                SuccessMessage = "Successfully got token",
-                Sucess = true
+                Data = await _tokenService.GetToken(userId, password),
+                Sucess = true,
+                SuccessMessage = "Successfully retrieved token for user"
             };
             return new OkObjectResult(response);
         }

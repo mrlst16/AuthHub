@@ -1,11 +1,16 @@
 ﻿using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace AuthHub.Controllers
 {
+    [Route("api/password_reset")]
+    [ApiController]
+    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class PasswordResetController : Controller
     {
         private readonly IPasswordResetService _service;
@@ -32,9 +37,7 @@ namespace AuthHub.Controllers
             return new OkObjectResult(response);
         }
 
-
-
-        [HttpPut("set")]
+        [HttpPost()]
         public async Task<IActionResult> ResetPassword(
             [FromBody] SetPasswordRequest request
         )
