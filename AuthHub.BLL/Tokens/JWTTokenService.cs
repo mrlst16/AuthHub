@@ -13,6 +13,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using AuthHub.Models.Passwords;
+using Common.Interfaces.Utilities;
 
 namespace AuthHub.BLL.Tokens
 {
@@ -21,17 +23,19 @@ namespace AuthHub.BLL.Tokens
         private readonly IPasswordLoader _passwordLoader;
         private readonly IConfiguration _configuration;
         private readonly IApplicationConsistency _applicationConsistency;
-        private readonly ITokenLoader _tokenLoader;
+        private readonly IMapper<ClaimsEntity, Claim> _claimsMapper;
 
         public JWTTokenService(
             IPasswordLoader passwordLoader,
             IConfiguration configuration,
-            IApplicationConsistency applicationConsistency
+            IApplicationConsistency applicationConsistency,
+            IMapper<ClaimsEntity, Claim> claimsMapper
             )
         {
             _passwordLoader = passwordLoader;
             _configuration = configuration;
             _applicationConsistency = applicationConsistency;
+            _claimsMapper = claimsMapper;
         }
 
         public byte[] GenerateHash(byte[] password, byte[] salt, int length, int iterations = 100)
@@ -68,29 +72,29 @@ namespace AuthHub.BLL.Tokens
                     )
                 throw new Exception($"Username and Password are not a match for user {userId} while logging in as an ogranization");
 
-
+            var tad = await _passwordLoader.GetTokenAssemblyData(userId);
 
             if (
-                passwordRecord.Claims
+                tad.Claims
                     .FirstOrDefault(x => string.Equals(x.Key, ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase)
                         ) == null)
-                passwordRecord.Claims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, user.UserName));
+                tad.Claims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, tad.UserName));
 
-            passwordRecord.Claims = passwordRecord?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
+            tad.Claims = tad?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 
-            var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(authSettings.Key));
+            var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(tad.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: authSettings.Issuer,
-                audience: authSettings.Issuer,
-                claims: passwordRecord?.GetClaims() ?? new List<Claim>(),
-                expires: passwordRecord.ExpirationDate,
+                issuer: tad.Issuer,
+                audience: tad.Issuer,
+                claims: tad?.Claims?.Select(_claimsMapper.Map) ?? new List<Claim>(),
+                expires: tad.ExpirationDate,
                 signingCredentials: credentials
             );
 
             var val = new JwtSecurityTokenHandler().WriteToken(token);
-            return new Token(val, token.ValidTo, user.UsersOrganizationId);
+            return new Token(val, token.ValidTo, tad.OrganizationId);
         }
     }
 }

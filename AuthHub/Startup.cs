@@ -14,6 +14,7 @@ using AuthHub.Models.Users;
 using AuthHub.ServiceRegistrations;
 using AuthHub.Validators;
 using Common.AspDotNet;
+using Common.AspDotNet.Extensions;
 using Common.Interfaces.Repository;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

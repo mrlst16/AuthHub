@@ -123,7 +123,7 @@ namespace AuthHub.SDK
                 var json = await httpResponse.Content.ReadAsStringAsync();
                 var response = JsonConvert.DeserializeObject<ApiResponse<TOut>>(json);
 
-                if (!response.Sucess)
+                if (!response.Success)
                     throw new Exception(response.Message);
                 return response.Data;
             }
@@ -176,7 +176,7 @@ namespace AuthHub.SDK
                 var json = await httpResponse.Content.ReadAsStringAsync();
                 var response = JsonConvert.DeserializeObject<ApiResponse<T>>(json);
 
-                if (!response?.Sucess ?? false)
+                if (!response?.Success ?? false)
                     throw new Exception(response.Message);
                 return response.Data;
             }

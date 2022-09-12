@@ -38,7 +38,7 @@ namespace AuthHub.Controllers
             {
                 Data = await _service.Create(request),
                 SuccessMessage = "Successfully created organization",
-                Sucess = true
+                Success = true
             };
             return new OkObjectResult(response);
         }
@@ -53,7 +53,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<Organization>()
             {
                 Data = result.Item2,
-                Sucess = result.Item1,
+                Success = result.Item1,
                 SuccessMessage = "Successfully saved organization"
             };
             return new OkObjectResult(response);
@@ -70,7 +70,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<AuthSettings>()
             {
                 Data = result.Item2,
-                Sucess = result.Item1,
+                Success = result.Item1,
                 SuccessMessage = "Successfully updated organization settings"
             };
             return new OkObjectResult(response);
@@ -85,7 +85,7 @@ namespace AuthHub.Controllers
                 return new BadRequestObjectResult(new ApiResponse<bool>()
                 {
                     Data = false,
-                    Sucess = false,
+                    Success = false,
                     FailureMessage = "No organizationId was passed"
                 });
 
@@ -94,7 +94,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<Organization>()
             {
                 Data = result,
-                Sucess = true,
+                Success = true,
                 SuccessMessage = "Successfully retrieved organization"
             };
             return new OkObjectResult(response);
@@ -110,7 +110,7 @@ namespace AuthHub.Controllers
                 new BadRequestObjectResult(new ApiResponse<bool>()
                 {
                     Data = false,
-                    Sucess = false,
+                    Success = false,
                     FailureMessage = "No organizationId and/or name was passed"
                 });
 
@@ -119,7 +119,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<AuthSettings>()
             {
                 Data = result,
-                Sucess = true,
+                Success = true,
                 SuccessMessage = "Successfully retrieved organization"
             };
             return new OkObjectResult(response);
@@ -135,7 +135,7 @@ namespace AuthHub.Controllers
                 return new BadRequestObjectResult(new ApiResponse<bool>()
                 {
                     Data = false,
-                    Sucess = false,
+                    Success = false,
                     FailureMessage = "No organizationId and/or name was passed"
                 });
 
@@ -144,7 +144,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<AuthSettings>()
             {
                 Data = result,
-                Sucess = true,
+                Success = true,
                 SuccessMessage = "Successfully retrieved organization"
             };
             return new OkObjectResult(response);

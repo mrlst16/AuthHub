@@ -1,7 +1,4 @@
-﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Models.Enums;
-using AuthHub.Models.Requests;
-using AuthHub.Models.Tokens;
+﻿using AuthHub.Models.Tokens;
 using AuthHub.ServiceRegistrations;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,7 +35,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<Token>()
             {
                 Data = await _tokenService.GetToken(userId, password),
-                Sucess = true,
+                Success = true,
                 SuccessMessage = "Successfully retrieved token for user"
             };
             return new OkObjectResult(response);

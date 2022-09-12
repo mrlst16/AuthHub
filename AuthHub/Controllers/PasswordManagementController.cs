@@ -37,7 +37,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<bool>()
             {
                 Data = success,
-                Sucess = success,
+                Success = success,
                 SuccessMessage = "Successfully set password"
             };
             return new OkObjectResult(response);

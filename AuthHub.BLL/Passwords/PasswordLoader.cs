@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthHub.BLL.Common.Exceptions;
+using AuthHub.BLL.QueryResultSets;
 using AuthHub.Models.Organizations;
 using Common.Interfaces.Repository;
 
@@ -105,6 +106,11 @@ namespace AuthHub.BLL.Passwords
             result.Length = authSettings.HashLength;
 
             return result;
+        }
+
+        public async Task<TokenAssemblyData> GetTokenAssemblyData(Guid uthSettingsId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

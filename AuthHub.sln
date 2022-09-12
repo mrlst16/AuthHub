@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub", "AuthHub\AuthHub.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.AspDotNet", "..\Common\Common.AspDotNet\Common.AspDotNet.csproj", "{A2B8331C-6AB2-40CC-8D0C-122E17BB2DD3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.EntityFramework", "..\Common\Common.EntityFramework\Common.EntityFramework.csproj", "{F072AE2F-E32D-4D20-9318-82D406950D1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,6 +152,12 @@ Global
 		{A2B8331C-6AB2-40CC-8D0C-122E17BB2DD3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2B8331C-6AB2-40CC-8D0C-122E17BB2DD3}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
 		{A2B8331C-6AB2-40CC-8D0C-122E17BB2DD3}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
+		{F072AE2F-E32D-4D20-9318-82D406950D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F072AE2F-E32D-4D20-9318-82D406950D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F072AE2F-E32D-4D20-9318-82D406950D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F072AE2F-E32D-4D20-9318-82D406950D1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F072AE2F-E32D-4D20-9318-82D406950D1E}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
+		{F072AE2F-E32D-4D20-9318-82D406950D1E}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +173,7 @@ Global
 		{E0A9FEA1-F837-4E61-B1C3-5F5B812BE027} = {9A50DB1C-D829-4B44-9EDD-426DD4813493}
 		{D59E2AF9-484C-4A7E-9B19-C3668DCF653B} = {9A50DB1C-D829-4B44-9EDD-426DD4813493}
 		{A2B8331C-6AB2-40CC-8D0C-122E17BB2DD3} = {9A50DB1C-D829-4B44-9EDD-426DD4813493}
+		{F072AE2F-E32D-4D20-9318-82D406950D1E} = {9A50DB1C-D829-4B44-9EDD-426DD4813493}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {269FF6BF-D8F2-4568-A5A6-61255063C32F}

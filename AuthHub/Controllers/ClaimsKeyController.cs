@@ -36,7 +36,7 @@ namespace AuthHub.Controllers
             {
                 Data = await _service.GetAsync(authSettingsId),
                 SuccessMessage = "Successfully get token",
-                Sucess = true
+                Success = true
             };
             return new OkObjectResult(response);
         }

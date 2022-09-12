@@ -36,7 +36,7 @@ namespace AuthHub.Controllers
             {
                 Data = await _service.CreateAsync(request),
                 SuccessMessage = "Successfully created user",
-                Sucess = true
+                Success = true
             };
             return new OkObjectResult(response);
         }
@@ -50,7 +50,7 @@ namespace AuthHub.Controllers
                 return new BadRequestObjectResult(new ApiResponse<bool>()
                 {
                     Data = false,
-                    Sucess = false,
+                    Success = false,
                     FailureMessage = "No Id was passed"
                 });
 
@@ -58,7 +58,7 @@ namespace AuthHub.Controllers
             {
                 Data = await _service.ReadAsync(id),
                 SuccessMessage = "Successfully created user",
-                Sucess = true
+                Success = true
             };
             return new OkObjectResult(response);
         }

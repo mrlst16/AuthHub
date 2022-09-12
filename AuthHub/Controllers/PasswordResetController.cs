@@ -31,7 +31,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<bool>()
             {
                 Data = true,
-                Sucess = true,
+                Success = true,
                 SuccessMessage = "Successfully requested a password reset token to be sent to your email"
             };
             return new OkObjectResult(response);
@@ -46,7 +46,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<bool>()
             {
                 Data = true,
-                Sucess = true,
+                Success = true,
                 SuccessMessage = "Successfully reset password"
             };
             return new OkObjectResult(response);
@@ -61,7 +61,7 @@ namespace AuthHub.Controllers
             var response = new ApiResponse<bool>()
             {
                 Data = true,
-                Sucess = true,
+                Success = true,
                 SuccessMessage = "Successfully requested a password reset token to be sent to your email"
             };
             return new OkObjectResult(response);
