@@ -2,7 +2,7 @@
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using System;
-using AuthHub.BLL.QueryResultSets;
+using AuthHub.Models.QueryResultSets;
 
 namespace AuthHub.Interfaces.Passwords
 {

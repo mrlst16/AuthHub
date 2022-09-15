@@ -10,8 +10,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthHub.BLL.Common.Exceptions;
-using AuthHub.BLL.QueryResultSets;
 using AuthHub.Models.Organizations;
+using AuthHub.Models.QueryResultSets;
 using Common.Interfaces.Repository;
 
 namespace AuthHub.BLL.Passwords
@@ -108,9 +108,19 @@ namespace AuthHub.BLL.Passwords
             return result;
         }
 
-        public async Task<TokenAssemblyData> GetTokenAssemblyData(Guid uthSettingsId)
+        public async Task<TokenAssemblyData> GetTokenAssemblyData(Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await _userRepo.ReadAsync(userId);
+            var password = (await _passwordRepo.ReadAsync(x => x.UserId == userId))
+                .FirstOrDefault();
+
+            var authSettings = await _authSettingsRepo.ReadAsync(user.AuthSettingsId);
+
+            return new TokenAssemblyData()
+            {
+                UserName = user.UserName,
+                
+            };
         }
     }
 }

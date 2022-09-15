@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using AuthHub.Models.Passwords;
 
-namespace AuthHub.BLL.QueryResultSets
+namespace AuthHub.Models.QueryResultSets
 {
     public class TokenAssemblyData
     {
