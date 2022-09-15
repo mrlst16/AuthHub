@@ -1,11 +1,15 @@
-﻿using AuthHub.BLL.Common.Helpers;
+﻿using System.Security.Claims;
+using AuthHub.BLL.Common.Helpers;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.BLL.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
+using AuthHub.Models.Passwords;
 using Common.Interfaces.Helpers;
+using Common.Interfaces.Providers;
+using Common.Interfaces.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,19 +27,17 @@ namespace AuthHub.ServiceRegistrations
                     return a switch
                     {
                         AuthSchemeEnum.JWT => new JWTTokenService(
-                                                        services.GetService<IOrganizationLoader>(),
                                                         services.GetService<IPasswordLoader>(),
-                                                        services.GetService<IUserLoader>(),
                                                         services.GetService<IConfiguration>(),
-                                                        services.GetService<IApplicationConsistency>()
+                                                        services.GetService<IApplicationConsistency>(),
+                                                        services.GetService<IMapper<ClaimsEntity, Claim>>()
                                                     ),
                         _ => new JWTTokenService(
-                                                        services.GetService<IOrganizationLoader>(),
-                                                        services.GetService<IPasswordLoader>(),
-                                                        services.GetService<IUserLoader>(),
-                                                        services.GetService<IConfiguration>(),
-                                                        services.GetService<IApplicationConsistency>()
-                                                    ),
+                            services.GetService<IPasswordLoader>(),
+                            services.GetService<IConfiguration>(),
+                            services.GetService<IApplicationConsistency>(),
+                            services.GetService<IMapper<ClaimsEntity, Claim>>()
+                        )
                     };
                 });
             });
