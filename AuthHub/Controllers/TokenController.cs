@@ -26,7 +26,7 @@ namespace AuthHub.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpGet("user_auth_token")]
+        [HttpGet("user")]
         public async Task<IActionResult> GetUserAuthToken(
             [FromBody] Guid userId,
             [FromBody] string password
