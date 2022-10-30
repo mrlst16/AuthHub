@@ -1,8 +1,8 @@
 ﻿using AuthHub.Models.Passwords;
+using AuthHub.Models.QueryResultSets;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using System;
-using AuthHub.Models.QueryResultSets;
 
 namespace AuthHub.Interfaces.Passwords
 {

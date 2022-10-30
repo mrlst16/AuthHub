@@ -35,13 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Extensions", "..\Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "..\Common\Common\Common.csproj", "{D59E2AF9-484C-4A7E-9B19-C3668DCF653B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub", "AuthHub\AuthHub.csproj", "{9C2A5EA8-C44F-454F-ACE0-3607A041CB75}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.AspDotNet", "..\Common\Common.AspDotNet\Common.AspDotNet.csproj", "{A2B8331C-6AB2-40CC-8D0C-122E17BB2DD3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.EntityFramework", "..\Common\Common.EntityFramework\Common.EntityFramework.csproj", "{F072AE2F-E32D-4D20-9318-82D406950D1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.Admin", "AuthHub.Admin\AuthHub.Admin.csproj", "{E18DBE05-821A-470D-ACA5-969341B27079}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub", "AuthHub\AuthHub.csproj", "{695941FE-85F1-43BD-AAA3-1E1EA3E6FA78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,12 +132,6 @@ Global
 		{D59E2AF9-484C-4A7E-9B19-C3668DCF653B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D59E2AF9-484C-4A7E-9B19-C3668DCF653B}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
 		{D59E2AF9-484C-4A7E-9B19-C3668DCF653B}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
-		{9C2A5EA8-C44F-454F-ACE0-3607A041CB75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C2A5EA8-C44F-454F-ACE0-3607A041CB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C2A5EA8-C44F-454F-ACE0-3607A041CB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C2A5EA8-C44F-454F-ACE0-3607A041CB75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C2A5EA8-C44F-454F-ACE0-3607A041CB75}.Run Web UI and APIs|Any CPU.ActiveCfg = Run Web UI and APIs|Any CPU
-		{9C2A5EA8-C44F-454F-ACE0-3607A041CB75}.Run Web UI and APIs|Any CPU.Build.0 = Run Web UI and APIs|Any CPU
 		{A2B8331C-6AB2-40CC-8D0C-122E17BB2DD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2B8331C-6AB2-40CC-8D0C-122E17BB2DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2B8331C-6AB2-40CC-8D0C-122E17BB2DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -152,12 +144,12 @@ Global
 		{F072AE2F-E32D-4D20-9318-82D406950D1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F072AE2F-E32D-4D20-9318-82D406950D1E}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
 		{F072AE2F-E32D-4D20-9318-82D406950D1E}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
-		{E18DBE05-821A-470D-ACA5-969341B27079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E18DBE05-821A-470D-ACA5-969341B27079}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E18DBE05-821A-470D-ACA5-969341B27079}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E18DBE05-821A-470D-ACA5-969341B27079}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E18DBE05-821A-470D-ACA5-969341B27079}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
-		{E18DBE05-821A-470D-ACA5-969341B27079}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
+		{695941FE-85F1-43BD-AAA3-1E1EA3E6FA78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{695941FE-85F1-43BD-AAA3-1E1EA3E6FA78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{695941FE-85F1-43BD-AAA3-1E1EA3E6FA78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{695941FE-85F1-43BD-AAA3-1E1EA3E6FA78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{695941FE-85F1-43BD-AAA3-1E1EA3E6FA78}.Run Web UI and APIs|Any CPU.ActiveCfg = Run Web UI and APIs|Any CPU
+		{695941FE-85F1-43BD-AAA3-1E1EA3E6FA78}.Run Web UI and APIs|Any CPU.Build.0 = Run Web UI and APIs|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

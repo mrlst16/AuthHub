@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Requests;
@@ -14,12 +15,15 @@ namespace AuthHub.Api.Controllers
     [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class PasswordManagementController : Controller
     {
+        private readonly IValidatorFactory _validatorFactory;
         private readonly IPasswordService _service;
 
         public PasswordManagementController(
+            IValidatorFactory validatorFactory,
             IPasswordService service
             )
         {
+            _validatorFactory = validatorFactory;
             _service = service;
         }
 
@@ -28,6 +32,7 @@ namespace AuthHub.Api.Controllers
             [FromBody] PasswordRequest request
             )
         {
+            _validatorFactory.ValidateAndThrow<PasswordRequest>(request);
             var (success, passwordRecord) = await _service.Set<JWTTokenGenerator>(request);
             var response = new ApiResponse<bool>()
             {

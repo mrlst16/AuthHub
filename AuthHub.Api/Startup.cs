@@ -1,3 +1,6 @@
+using AuthHub.Api.Middleware;
+using AuthHub.Api.ServiceRegistrations;
+using AuthHub.Api.Validators;
 using AuthHub.BLL.Auth;
 using AuthHub.BLL.Common.Extensions;
 using AuthHub.BLL.Common.Tokens;
@@ -9,11 +12,10 @@ using AuthHub.DAL.EntityFramework.Users;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
-using AuthHub.Middleware;
-using AuthHub.ServiceRegistrations;
+using AuthHub.Models.Users;
 using Common.AspDotNet.Extensions;
-using Common.AspDotNet.Handlers;
 using Common.Interfaces.Repository;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -25,7 +27,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace AuthHub
+namespace AuthHub.Api
 {
     public class Startup
     {
@@ -51,6 +53,7 @@ namespace AuthHub
             _ = services.AddDbContext<AuthHubContext>(o => o = AuthHubContextOptionsBuilder)
                 .AddSingleton(x => new AuthHubContext(AuthHubContextOptionsBuilder.Options))
                 .AddTransient<IAuthHubAuthenticationService, AuthenticationService>()
+                .AddTransient<IValidator<CreateUserRequest>, CreateUserRequestValidator>()
                 .AddTransient<IAuthorizationHandler, OrganizationAuthHandler>()
                 .AddTransient<IUserContext, UserContext>()
                 .AddTransient<IClaimsKeyContext, ClaimsKeyContext>()
@@ -61,6 +64,7 @@ namespace AuthHub
                 .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
                 .AddAuthHubLoaders()
                 .AddAuthHubServices()
+                .AddAuthHubValidatorFactory()
                 .AddOthers()
                 .AddCommon();
 

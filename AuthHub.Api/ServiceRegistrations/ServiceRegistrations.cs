@@ -4,6 +4,7 @@ using AuthHub.BLL.Users;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthHub.Api.ServiceRegistrations
 {

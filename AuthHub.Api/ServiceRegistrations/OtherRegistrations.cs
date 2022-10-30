@@ -1,12 +1,14 @@
-﻿using AuthHub.BLL.Common.Helpers;
+﻿using System.Security.Claims;
+using AuthHub.BLL.Common.Helpers;
 using AuthHub.BLL.Common.Tokens;
+using AuthHub.BLL.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
-using AuthHub.Interfaces.Tokens;
-using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
+using AuthHub.Models.Passwords;
 using Common.Interfaces.Helpers;
-using Common.Interfaces.Providers;
+using Common.Interfaces.Utilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthHub.Api.ServiceRegistrations
@@ -16,31 +18,42 @@ namespace AuthHub.Api.ServiceRegistrations
         public static IServiceCollection AddOthers(this IServiceCollection services)
         {
             services.AddTransient<IApplicationConsistency, ApplicationConsistency>();
-            services.AddTransient<Func<AuthSchemeEnum, ITokenGenerator>>((services) =>
+            services.AddTransient((services) =>
             {
-                return new Func<AuthSchemeEnum, ITokenGenerator>((a) =>
+                return new TokenServiceFactory((a) =>
                 {
-                    switch (a)
+                    return a switch
                     {
-                        case AuthSchemeEnum.JWT:
-                            return new JWTTokenGenerator(
-                                services.GetService<IOrganizationLoader>(),
-                                services.GetService<IPasswordLoader>(),
-                                services.GetService<IUserLoader>(),
-                                services.GetService<IConfiguration>(),
-                                services.GetService<IApplicationConsistency>(),
-                                services.GetService<IDateProvider>()
-                            );
-                        default:
-                            return new JWTTokenGenerator(
-                                services.GetService<IOrganizationLoader>(),
-                                services.GetService<IPasswordLoader>(),
-                                services.GetService<IUserLoader>(),
-                                services.GetService<IConfiguration>(),
-                                services.GetService<IApplicationConsistency>(),
-                                services.GetService<IDateProvider>()
-                            );
-                    }
+                        AuthSchemeEnum.JWT => new JWTTokenService(
+                                                        services.GetService<IPasswordLoader>(),
+                                                        services.GetService<IConfiguration>(),
+                                                        services.GetService<IApplicationConsistency>(),
+                                                        services.GetService<IMapper<ClaimsEntity, Claim>>()
+                                                    ),
+                        _ => new JWTTokenService(
+                            services.GetService<IPasswordLoader>(),
+                            services.GetService<IConfiguration>(),
+                            services.GetService<IApplicationConsistency>(),
+                            services.GetService<IMapper<ClaimsEntity, Claim>>()
+                        )
+                    };
+                });
+            });
+            services.AddTransient((services) =>
+            {
+                return new TokenGeneratorFactory((a) =>
+                {
+                    return a switch
+                    {
+                        AuthSchemeEnum.JWT => new JWTTokenGenerator(
+                            services.GetService<IOrganizationLoader>(),
+                            services.GetService<IApplicationConsistency>()
+                        ),
+                        _ => new JWTTokenGenerator(
+                            services.GetService<IOrganizationLoader>(),
+                            services.GetService<IApplicationConsistency>()
+                        ),
+                    };
                 });
             });
             return services;

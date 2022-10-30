@@ -3,7 +3,7 @@ using AuthHub.BLL.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-namespace AuthHub.Middleware
+namespace AuthHub.Api.Middleware
 {
     public class OrganizationAuthHandler : AuthorizationHandler<OrganizationAuthRequirement>
     {

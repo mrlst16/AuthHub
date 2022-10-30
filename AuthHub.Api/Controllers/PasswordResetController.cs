@@ -1,11 +1,12 @@
-﻿using AuthHub.Interfaces.Passwords;
+﻿using System.Threading.Tasks;
+using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthHub.Controllers
+namespace AuthHub.Api.Controllers
 {
     [Route("api/password_reset")]
     [ApiController]
@@ -21,12 +22,27 @@ namespace AuthHub.Controllers
             _service = service;
         }
 
-        [HttpPost("for_organization")]
-        public async Task<IActionResult> ForOrganizationAsync(
-            [FromBody] ResetOrganizationPasswordRequest request
+        [HttpPost()]
+        public async Task<IActionResult> ResetPassword(
+            [FromBody] SetPasswordRequest request
         )
         {
-            await _service.RequestOrganizationPasswordReset((request.OrganizationId, request.AuthSettingsName, request.UserName));
+            await _service.ResetOrganizationPassword(request);
+            var response = new ApiResponse<bool>()
+            {
+                Data = true,
+                Success = true,
+                SuccessMessage = "Successfully reset password"
+            };
+            return new OkObjectResult(response);
+        }
+
+        [HttpPost("request_user_password_reset")]
+        public async Task<IActionResult> RequestPasswordResetForUser(
+            [FromBody] ResetUserPasswordRequest request
+        )
+        {
+            await _service.RequestPasswordResetForUser(request.UserId);
             var response = new ApiResponse<bool>()
             {
                 Data = true,

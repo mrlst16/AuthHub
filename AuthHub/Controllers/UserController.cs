@@ -1,13 +1,13 @@
-﻿using AuthHub.Interfaces.Users;
+﻿using System.Threading.Tasks;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace AuthHub.Controllers
+namespace AuthHub.Api.Controllers
 {
     [ApiController]
     [Route("api/user")]

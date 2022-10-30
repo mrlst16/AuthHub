@@ -5,6 +5,7 @@ using AuthHub.Models.Organizations;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthHub.Api.ServiceRegistrations
 {
@@ -26,15 +27,15 @@ namespace AuthHub.Api.ServiceRegistrations
     public class ValidatorFactory : IValidatorFactory
     {
         private readonly IOrganizationService _organizationService;
-        private readonly IUserService _userService;
+        private readonly IUserLoader _userLoader;
 
         public ValidatorFactory(
             IOrganizationService organizationService,
-            IUserService userService
+            IUserLoader userLoader
             )
         {
             _organizationService = organizationService;
-            _userService = userService;
+            _userLoader = userLoader;
         }
 
         public void ValidateAndThrow<T>(T request, int version = 1)
@@ -49,8 +50,8 @@ namespace AuthHub.Api.ServiceRegistrations
         {
             switch ((typeof(T), version))
             {
-                case (Type t, int v) when t == typeof(User) && v == 1:
-                    return (IValidator<T>)new UserValidator();
+                case (Type t, int v) when t == typeof(CreateUserRequest) && v == 1:
+                    return (IValidator<T>)new CreateUserRequestValidator(_userLoader);
                 case (Type t, int v) when t == typeof(CreateOrganizationRequest) && v == 1:
                     return (IValidator<T>)new CreateOrganizationRequestValidator(_organizationService);
                 case (Type t, int v) when t == typeof(AuthSettings) && v == 1:

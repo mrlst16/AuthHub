@@ -2,7 +2,7 @@
 using AuthHub.Models.Users;
 using FluentValidation;
 
-namespace AuthHub.Validators
+namespace AuthHub.Api.Validators
 {
     public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
     {

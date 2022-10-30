@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AuthHub.Models.Tokens
+namespace AuthHub.Models.Requests
 {
     public class SignInRequest
     {

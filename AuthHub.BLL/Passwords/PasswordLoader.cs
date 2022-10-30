@@ -1,18 +1,18 @@
-﻿using AuthHub.Interfaces.Organizations;
+﻿using AuthHub.BLL.Common.Exceptions;
+using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
+using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.QueryResultSets;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using Common.Helpers;
+using Common.Interfaces.Repository;
 using Common.Models.Exceptions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthHub.BLL.Common.Exceptions;
-using AuthHub.Models.Organizations;
-using AuthHub.Models.QueryResultSets;
-using Common.Interfaces.Repository;
 
 namespace AuthHub.BLL.Passwords
 {
@@ -119,7 +119,7 @@ namespace AuthHub.BLL.Passwords
             return new TokenAssemblyData()
             {
                 UserName = user.UserName,
-                
+
             };
         }
     }

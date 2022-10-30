@@ -1,13 +1,13 @@
-﻿using Common.Extensions;
+﻿using System.Net;
+using System.Threading.Tasks;
+using Common.Extensions;
 using Common.Models.Exceptions;
 using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System.Net;
-using System.Threading.Tasks;
 
-namespace AuthHub.Middleware
+namespace AuthHub.Api.Middleware
 {
 
     public class ErrorHandlingMiddleware
