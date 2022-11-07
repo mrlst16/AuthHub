@@ -5,13 +5,13 @@ using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+
 using AuthSettingsModel = AuthHub.Models.Organizations.AuthSettings;
 
 namespace AuthHub.DAL.EntityFramework
 {
     public class AuthHubContext : DbContext
     {
-        private readonly IConfiguration _configuration;
         public DbSet<Organization> Organizations;
         public DbSet<AuthSettingsModel> AuthSettings;
         public DbSet<User> Users;
@@ -30,19 +30,20 @@ namespace AuthHub.DAL.EntityFramework
         {
         }
 
-        //protected IConfiguration GetConfigFromFile(string path = "appsettings.json")
-        //    =>
-        //        new ConfigurationBuilder()
-        //            .SetBasePath(Directory.GetCurrentDirectory())
-        //            .AddJsonFile(path, optional: false, reloadOnChange: true)
-        //            .Build();
+        protected IConfiguration GetConfigFromFile(string path = "appsettings.json")
+            =>
+                new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile(path, optional: false, reloadOnChange: true)
+                    .Build();
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    string connectionString = _configuration.GetConnectionString("authhub");
-        //    optionsBuilder.UseNpgsql(connectionString);
-        //    optionsBuilder.EnableSensitiveDataLogging();
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var configuration = GetConfigFromFile();
+            string connectionString = configuration.GetConnectionString("authhub");
+            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -191,6 +192,7 @@ namespace AuthHub.DAL.EntityFramework
                         .HasForeignKey("AuthSettingsId")
                         .HasConstraintName("FK_AuthSettingsToUsersMap_AuthSettings_AuthSettingsId")
                         .OnDelete(DeleteBehavior.ClientNoAction));
+
 
             #region Load Data
             //Load Static data

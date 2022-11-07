@@ -3,6 +3,7 @@ using System;
 using AuthHub.DAL.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -11,36 +12,38 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthHub.DAL.EntityFramework.Migrations
 {
     [DbContext(typeof(AuthHubContext))]
-    [Migration("20221102011114_CreateManyToManyAuthSettingsToUsersRelationship")]
-    partial class CreateManyToManyAuthSettingsToUsersRelationship
+    [Migration("20221107012524_InitAndAddSeedData")]
+    partial class InitAndAddSeedData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("AuthHub.Models.Enums.AuthScheme", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedUTC")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Value")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -50,8 +53,8 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3053),
-                            LastUpdated = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3054),
+                            CreateDate = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7817),
+                            LastUpdated = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7817),
                             Name = "JWT",
                             Value = 1
                         });
@@ -61,56 +64,56 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AuthSchemeID")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedUTC")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ExpirationMinutes")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasDefaultValue(30);
 
                     b.Property<int>("HashLength")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasDefaultValue(8);
 
                     b.Property<string>("Issuer")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Iterations")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasDefaultValue(10);
 
                     b.Property<string>("Key")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("OrganizationID")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PasswordResetTokenExpirationMinutes")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasDefaultValue(10);
 
                     b.Property<int>("SaltLength")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasDefaultValue(8);
 
                     b.HasKey("Id");
@@ -126,13 +129,13 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         {
                             Id = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                             AuthSchemeID = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3241),
+                            CreateDate = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7949),
                             ExpirationMinutes = 120,
                             HashLength = 8,
                             Issuer = "Pawnder",
                             Iterations = 10,
                             Key = "This is my auth key",
-                            LastUpdated = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3242),
+                            LastUpdated = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7949),
                             Name = "Pawnder JWT",
                             OrganizationID = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                             PasswordResetTokenExpirationMinutes = 10,
@@ -142,13 +145,13 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         {
                             Id = new Guid("6ce12da2-cb73-4f0b-b9f0-46051621b3c6"),
                             AuthSchemeID = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3248),
+                            CreateDate = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7955),
                             ExpirationMinutes = 120,
                             HashLength = 8,
                             Issuer = "Audder",
                             Iterations = 10,
                             Key = "This is my auth key",
-                            LastUpdated = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3248),
+                            LastUpdated = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7955),
                             Name = "Audder_Clients",
                             OrganizationID = new Guid("0b674ac4-7079-4ad7-830a-c41cd6ab5204"),
                             PasswordResetTokenExpirationMinutes = 10,
@@ -160,24 +163,24 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedUTC")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -187,17 +190,17 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                            CreateDate = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3207),
+                            CreateDate = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7928),
                             Email = "mattlantz88@gmail.com",
-                            LastUpdated = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3208),
+                            LastUpdated = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7928),
                             Name = "Pawnder"
                         },
                         new
                         {
                             Id = new Guid("0b674ac4-7079-4ad7-830a-c41cd6ab5204"),
-                            CreateDate = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3212),
+                            CreateDate = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7932),
                             Email = "mattlantz88@gmail.com",
-                            LastUpdated = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3213),
+                            LastUpdated = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7933),
                             Name = "Audder"
                         });
                 });
@@ -206,29 +209,29 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ClaimsKeyId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedUTC")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("PasswordId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Value")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -241,29 +244,29 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AuthSettingsId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DefaultValue")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedUTC")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDefault")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -276,18 +279,18 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         {
                             Id = new Guid("7ef019bd-4155-4c25-85d8-5eee7427af8a"),
                             AuthSettingsId = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                            CreateDate = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3279),
+                            CreateDate = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7971),
                             IsDefault = false,
-                            LastUpdated = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3280),
+                            LastUpdated = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7972),
                             Name = "Name"
                         },
                         new
                         {
                             Id = new Guid("6598c3ca-417e-47ed-b796-66f94af855df"),
                             AuthSettingsId = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                            CreateDate = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3284),
+                            CreateDate = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7976),
                             IsDefault = false,
-                            LastUpdated = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3285),
+                            LastUpdated = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7977),
                             Name = "Role"
                         });
                 });
@@ -296,30 +299,30 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedUTC")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("bytea");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("Salt")
                         .IsRequired()
-                        .HasColumnType("bytea");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -332,9 +335,9 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("8358a66e-b015-44a6-9cc3-7b5c2b9f1d79"),
-                            CreateDate = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3332),
+                            CreateDate = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(8012),
                             ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastUpdated = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3333),
+                            LastUpdated = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(8013),
                             PasswordHash = new byte[] { 80, 97, 119, 110, 100, 101, 114, 50, 50, 33 },
                             Salt = new byte[] { 91, 156, 7, 89, 255, 32, 9, 14 },
                             UserId = new Guid("b9e2e173-f8c4-41ed-be88-ec1071920130")
@@ -345,30 +348,30 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedUTC")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("VerificationCode")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -379,44 +382,41 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AuthSettingsId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedUTC")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsOrganization")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("bit")
                         .HasDefaultValue(false);
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UsersOrganizationId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -426,13 +426,12 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("b9e2e173-f8c4-41ed-be88-ec1071920130"),
-                            AuthSettingsId = new Guid("6ce12da2-cb73-4f0b-b9f0-46051621b3c6"),
-                            CreateDate = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3310),
+                            CreateDate = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7994),
                             Email = "mattlantz88@gmail.com",
                             FirstName = "Pawnder",
                             IsOrganization = true,
                             LastName = "Organization",
-                            LastUpdated = new DateTime(2022, 11, 2, 1, 11, 13, 158, DateTimeKind.Utc).AddTicks(3311),
+                            LastUpdated = new DateTime(2022, 11, 7, 1, 25, 23, 766, DateTimeKind.Utc).AddTicks(7995),
                             UserName = "Pawnder",
                             UsersOrganizationId = new Guid("0b674ac4-7079-4ad7-830a-c41cd6ab5204")
                         });
@@ -441,10 +440,10 @@ namespace AuthHub.DAL.EntityFramework.Migrations
             modelBuilder.Entity("AuthSettingsToUsersMap", b =>
                 {
                     b.Property<Guid>("AuthSettingsId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("AuthSettingsId", "UserId");
 

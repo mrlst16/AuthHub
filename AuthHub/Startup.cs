@@ -3,12 +3,6 @@ using AuthHub.BLL.Common.Extensions;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
-using AuthHub.DAL.EntityFramework.Organizations;
-using AuthHub.DAL.EntityFramework.Passwords;
-using AuthHub.DAL.EntityFramework.Users;
-using AuthHub.Interfaces.Organizations;
-using AuthHub.Interfaces.Passwords;
-using AuthHub.Interfaces.Users;
 using AuthHub.Middleware;
 using AuthHub.ServiceRegistrations;
 using Common.AspDotNet.Extensions;
@@ -42,6 +36,7 @@ namespace AuthHub
             services.AddDbContext<AuthHubContext>(o =>
             {
                 var connectionString = Configuration.GetConnectionString("authhub");
+                o.UseSqlServer(connectionString);
             })
             .AddTransient<IAuthHubAuthenticationService, AuthenticationService>()
             .AddTransient<IAuthorizationHandler, OrganizationAuthHandler>()
