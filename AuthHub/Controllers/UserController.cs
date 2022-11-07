@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using Common.Models.Responses;
