@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using AuthHub.Interfaces.Tokens;
+using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
 using Common.Models.Responses;
-using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthHub.Api.Controllers
+namespace AuthHub.Controllers
 {
     [Route("api/token")]
     [ApiController]
@@ -25,13 +25,12 @@ namespace AuthHub.Api.Controllers
 
         [HttpGet("user")]
         public async Task<IActionResult> GetUserAuthToken(
-            [FromBody] Guid userId,
-            [FromBody] string password
+            [FromBody] SignInRequest request
         )
         {
             var response = new ApiResponse<Token>()
             {
-                Data = await _tokenService.GetToken(userId, password),
+                Data = await _tokenService.GetToken(request.AuthSettingsId, request.UserName, request.Password),
                 Success = true,
                 SuccessMessage = "Successfully retrieved token for user"
             };

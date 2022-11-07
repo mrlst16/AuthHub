@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using AuthHub.BLL.Common.Extensions;
+﻿using AuthHub.BLL.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace AuthHub.Middleware
 {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthHub.Api.Controllers
+namespace AuthHub.Controllers
 {
     [Route("api/password_reset")]
     [ApiController]

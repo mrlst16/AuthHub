@@ -5,6 +5,7 @@ using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using AuthSettingsModel = AuthHub.Models.Organizations.AuthSettings;
 
 namespace AuthHub.DAL.EntityFramework
 {
@@ -12,7 +13,7 @@ namespace AuthHub.DAL.EntityFramework
     {
         private readonly IConfiguration _configuration;
         public DbSet<Organization> Organizations;
-        public DbSet<AuthSettings> AuthSettings;
+        public DbSet<AuthSettingsModel> AuthSettings;
         public DbSet<User> Users;
         public DbSet<AuthScheme> AuthSchemes;
         public DbSet<Password> Passwords;
@@ -22,28 +23,26 @@ namespace AuthHub.DAL.EntityFramework
 
         public AuthHubContext()
         {
-            _configuration = GetConfigFromFile();
         }
 
         public AuthHubContext(DbContextOptions<AuthHubContext> options)
         : base(options)
         {
-            _configuration = GetConfigFromFile();
         }
 
-        protected IConfiguration GetConfigFromFile(string path = "appsettings.json")
-            =>
-                new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile(path, optional: false, reloadOnChange: true)
-                    .Build();
+        //protected IConfiguration GetConfigFromFile(string path = "appsettings.json")
+        //    =>
+        //        new ConfigurationBuilder()
+        //            .SetBasePath(Directory.GetCurrentDirectory())
+        //            .AddJsonFile(path, optional: false, reloadOnChange: true)
+        //            .Build();
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            string connectionString = _configuration.GetConnectionString("dopgsql");
-            optionsBuilder.UseNpgsql(connectionString);
-            optionsBuilder.EnableSensitiveDataLogging();
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    string connectionString = _configuration.GetConnectionString("authhub");
+        //    optionsBuilder.UseNpgsql(connectionString);
+        //    optionsBuilder.EnableSensitiveDataLogging();
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,7 +55,7 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<Organization>()
                 .HasKey(x => x.Id);
             modelBuilder.Entity<Organization>()
-                .HasMany<AuthSettings>(x => x.Settings);
+                .HasMany<AuthSettingsModel>(x => x.Settings);
             modelBuilder.Entity<Organization>()
                 .Property(x => x.Name)
                 .IsRequired();
@@ -65,34 +64,32 @@ namespace AuthHub.DAL.EntityFramework
                 .IsRequired();
 
             //AuthSettings Setup
-            modelBuilder.Entity<AuthSettings>()
+            modelBuilder.Entity<AuthSettingsModel>()
                 .HasKey(x => x.Id);
-            modelBuilder.Entity<AuthSettings>()
+            modelBuilder.Entity<AuthSettingsModel>()
                 .HasOne<AuthScheme>(x => x.AuthScheme);
-            modelBuilder.Entity<AuthSettings>()
+            modelBuilder.Entity<AuthSettingsModel>()
                 .HasMany<ClaimsKey>(x => x.AvailableClaimsKeys);
-            modelBuilder.Entity<AuthSettings>()
-                .HasMany(x => x.Users);
-            modelBuilder.Entity<AuthSettings>()
+            modelBuilder.Entity<AuthSettingsModel>()
                 .Property(x => x.ExpirationMinutes)
                 .IsRequired()
                 .HasDefaultValue(30);
-            modelBuilder.Entity<AuthSettings>()
+            modelBuilder.Entity<AuthSettingsModel>()
                 .Property(x => x.HashLength)
                 .IsRequired()
                 .HasDefaultValue(8);
-            modelBuilder.Entity<AuthSettings>()
+            modelBuilder.Entity<AuthSettingsModel>()
                 .Property(x => x.Iterations)
                 .IsRequired()
                 .HasDefaultValue(10);
-            modelBuilder.Entity<AuthSettings>()
+            modelBuilder.Entity<AuthSettingsModel>()
                 .Property(x => x.Name)
                 .IsRequired();
-            modelBuilder.Entity<AuthSettings>()
+            modelBuilder.Entity<AuthSettingsModel>()
                 .Property(x => x.PasswordResetTokenExpirationMinutes)
                 .IsRequired()
                 .HasDefaultValue(10);
-            modelBuilder.Entity<AuthSettings>()
+            modelBuilder.Entity<AuthSettingsModel>()
                 .Property(x => x.SaltLength)
                 .IsRequired()
                 .HasDefaultValue(8);
@@ -177,6 +174,24 @@ namespace AuthHub.DAL.EntityFramework
                 .IsRequired();
             #endregion
 
+            modelBuilder.Entity<AuthSettingsModel>()
+                .HasMany(p => p.Users)
+                .WithMany(p => p.AuthSettings)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AuthSettingsToUsersMap",
+                    j => j
+                        .HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_AuthSettingsToUsersMap_Users_UserId")
+                        .OnDelete(DeleteBehavior.ClientNoAction),
+                    j => j
+                        .HasOne<AuthSettingsModel>()
+                        .WithMany()
+                        .HasForeignKey("AuthSettingsId")
+                        .HasConstraintName("FK_AuthSettingsToUsersMap_AuthSettings_AuthSettingsId")
+                        .OnDelete(DeleteBehavior.ClientNoAction));
+
             #region Load Data
             //Load Static data
             modelBuilder.Entity<AuthScheme>()
@@ -204,8 +219,8 @@ namespace AuthHub.DAL.EntityFramework
                     Email = "mattlantz88@gmail.com"
                 });
 
-            modelBuilder.Entity<AuthSettings>()
-                .HasData(new AuthSettings()
+            modelBuilder.Entity<AuthSettingsModel>()
+                .HasData(new AuthSettingsModel()
                 {
                     Id = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                     OrganizationID = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
@@ -219,7 +234,7 @@ namespace AuthHub.DAL.EntityFramework
                     PasswordResetTokenExpirationMinutes = 10,
                     SaltLength = 8
                 },
-                    new AuthSettings()
+                    new AuthSettingsModel()
                     {
                         Id = Guid.Parse("6CE12DA2-CB73-4F0B-B9F0-46051621B3C6"),
                         OrganizationID = Guid.Parse("0B674AC4-7079-4AD7-830A-C41CD6AB5204"),
@@ -256,7 +271,6 @@ namespace AuthHub.DAL.EntityFramework
                     IsOrganization = true,
                     UserName = "Pawnder",
                     Email = "mattlantz88@gmail.com",
-                    AuthSettingsId = Guid.Parse("6CE12DA2-CB73-4F0B-B9F0-46051621B3C6"),
                     UsersOrganizationId = Guid.Parse("0B674AC4-7079-4AD7-830A-C41CD6AB5204"),
                     FirstName = "Pawnder",
                     LastName = "Organization",

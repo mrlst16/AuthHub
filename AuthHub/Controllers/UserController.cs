@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthHub.Api.Controllers
+namespace AuthHub.Controllers
 {
     [ApiController]
     [Route("api/user")]
@@ -26,10 +26,24 @@ namespace AuthHub.Api.Controllers
             _service = service;
         }
 
-        [HttpPatch("create")]
-        public async Task<IActionResult> CreateUser(
-            [FromBody] CreateUserRequest request
-            )
+        //[HttpPatch("save")]
+        //public async Task<IActionResult> Save(
+        //    [FromBody] CreateUserRequest request
+        //    )
+        //{
+        //    await _validator.ValidateAndThrowAsync(request);
+        //    var response = new ApiResponse<Guid>()
+        //    {
+        //        Data = await _service.CreateAsync(request),
+        //        SuccessMessage = "Successfully created user",
+        //        Success = true
+        //    };
+        //    return new OkObjectResult(response);
+        //}
+
+        [AllowAnonymous]
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
             await _validator.ValidateAndThrowAsync(request);
             var response = new ApiResponse<Guid>()
@@ -42,7 +56,7 @@ namespace AuthHub.Api.Controllers
         }
 
         [HttpGet("get")]
-        public async Task<IActionResult> GetUser(
+        public async Task<IActionResult> Get(
            [FromQuery] Guid id
            )
         {
@@ -57,7 +71,7 @@ namespace AuthHub.Api.Controllers
             var response = new ApiResponse<User>()
             {
                 Data = await _service.ReadAsync(id),
-                SuccessMessage = "Successfully created user",
+                SuccessMessage = "Successfully retrieved user",
                 Success = true
             };
             return new OkObjectResult(response);

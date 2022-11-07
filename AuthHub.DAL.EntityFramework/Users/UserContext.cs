@@ -1,4 +1,5 @@
 ﻿using AuthHub.Interfaces.Users;
+using AuthHub.Models.Organizations;
 using AuthHub.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,7 @@ namespace AuthHub.DAL.EntityFramework.Users
             _context = context;
         }
 
-        public async Task<User> Create(Guid organizationId, string authSettingsName, User user)
+        public async Task<User> Create(User user)
         {
             await SaveAsync(user);
             return user;
@@ -31,15 +32,6 @@ namespace AuthHub.DAL.EntityFramework.Users
         public async Task<User> Get(UserPointer userPointer)
             => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
 
-        public async Task<User> Update(Guid organizationId, string authSettingsName, User user)
-        {
-            await SaveAsync(user);
-            return user;
-        }
-
-        public async Task<User> Update(UserPointer pointer, User user)
-            => await Update(pointer.OrganizationID, pointer.AuthSettingsName, user);
-
         public async Task<User> GetAsync(Guid id)
             => (await _context.Users.SingleOrDefaultAsync(x => x.Id == id))!;
 
@@ -47,22 +39,47 @@ namespace AuthHub.DAL.EntityFramework.Users
         {
             var existingItem = item.Id == Guid.Empty
                     ? null :
-                            await _context.Users.SingleOrDefaultAsync(x => x.Id == item.Id);
+                            await _context
+                                .Users
+                                .Include(x => x.AuthSettings)
+                                .SingleOrDefaultAsync(x => x.Id == item.Id);
+            existingItem.AuthSettings ??= new List<AuthSettings>();
 
-            if (existingItem == null) await _context.Users.AddAsync(item);
+            //if (!existingItem?.AuthSettings?.Any() ?? false)
+            //{
+            //    var authSettings = await _context.AuthSettings.FirstAsync(x => x.Id == item.AuthSettingsId);
+            //    existingItem.AuthSettings.Append(authSettings);
+            //}
+            Guid result;
+            if (existingItem == null)
+            {
+                await _context.Users.AddAsync(item);
+                result = item.Id;
+            }
             else
             {
                 _context.Users.Update(existingItem);
-                return existingItem.Id;
+                result = existingItem.Id;
             }
 
             await _context.SaveChangesAsync();
-            return new Guid();
+            return result;
         }
 
-        public async Task<User> Get(Guid authSettingsId, string userName)
-            => (await _context
-                .Users
-                .SingleOrDefaultAsync(x => x.AuthSettingsId == authSettingsId && x.UserName == userName))!;
+        public async Task<User> Get(string userName)
+        {
+            User result = null;
+
+            try
+            {
+                result = await _context.Users.FirstOrDefaultAsync(x => x.UserName == userName && x.DeletedUTC == null);
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            return result;
+        }
     }
 }

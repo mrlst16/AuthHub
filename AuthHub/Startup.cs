@@ -29,15 +29,6 @@ namespace AuthHub
 {
     public class Startup
     {
-
-        private DbContextOptionsBuilder<AuthHubContext> AuthHubContextOptionsBuilder
-            => new DbContextOptionsBuilder<AuthHubContext>()
-#if DEBUG
-                .EnableSensitiveDataLogging()
-#endif
-                .EnableDetailedErrors()
-                .UseNpgsql(Configuration.GetConnectionString("dopgsql"));
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -48,21 +39,21 @@ namespace AuthHub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            _ = services.AddDbContext<AuthHubContext>(o => o = AuthHubContextOptionsBuilder)
-                .AddSingleton(x => new AuthHubContext(AuthHubContextOptionsBuilder.Options))
-                .AddTransient<IAuthHubAuthenticationService, AuthenticationService>()
-                .AddTransient<IAuthorizationHandler, OrganizationAuthHandler>()
-                .AddTransient<IUserContext, UserContext>()
-                .AddTransient<IClaimsKeyContext, ClaimsKeyContext>()
-                .AddTransient<IPasswordContext, PasswordsContext>()
-                .AddTransient<IOrganizationContext, OrganizationContext>()
-                .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
-                .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
-                .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
-                .AddAuthHubLoaders()
-                .AddAuthHubServices()
-                .AddOthers()
-                .AddCommon();
+            services.AddDbContext<AuthHubContext>(o =>
+            {
+                var connectionString = Configuration.GetConnectionString("authhub");
+            })
+            .AddTransient<IAuthHubAuthenticationService, AuthenticationService>()
+            .AddTransient<IAuthorizationHandler, OrganizationAuthHandler>()
+            .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
+            .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
+            .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
+            .AddAuthHubLoaders()
+            .AddAuthHubServices()
+            .AddAuthHubValidators()
+            .AddAuthHubContexts()
+            .AddOthers()
+            .AddCommon();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

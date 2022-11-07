@@ -62,7 +62,6 @@ namespace AuthHub.BLL.Organizations
             };
             var user = new User()
             {
-                AuthSettingsId = authSettingsId,
                 Email = request.Email,
                 UserName = request.Email,
                 FirstName = request.Name,
@@ -79,8 +78,7 @@ namespace AuthHub.BLL.Organizations
             ITokenGenerator tokenGenerator = _tokenGeneratorFactory(AuthSchemeEnum.JWT);
 
             (user.Password.PasswordHash, user.Password.Salt) = await tokenGenerator.NewHash(passwordRequest, authHubOrg);
-
-            await _userLoader.Create(authHubOrg.Id, passwordRequest.SettingsName, user);
+            await _userLoader.Create(user);
             user.Password.UserId = user.Id;
 
             await _passwordLoader.Set(passwordRequest.OrganizationID, passwordRequest.SettingsName, user.Password);

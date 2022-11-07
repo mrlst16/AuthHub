@@ -5,6 +5,6 @@ namespace AuthHub.Interfaces.Tokens
 {
     public interface ITokenService
     {
-        Task<Token> GetToken(Guid userId, string password);
+        Task<Token> GetToken(Guid authSettingsId, string userName, string password);
     }
 }

@@ -1,11 +1,11 @@
-﻿using AuthHub.Interfaces.Passwords;
+﻿using AuthHub.BLL.Common.Extensions;
+using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
-using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
-using Common.Interfaces.Repository;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,44 +16,32 @@ namespace AuthHub.BLL.Users
     public class UserService : IUserService
     {
         private readonly IUserLoader _loader;
-        private readonly IClaimsKeyLoader _claimsKeyLoader;
         private readonly Func<AuthSchemeEnum, ITokenGenerator> _tokenGeneratorFactory;
-        private readonly IPasswordLoader _passwordLoader;
-        private readonly ISRDRepository<AuthSettings, Guid> _authSettingsRepo;
-        private readonly ISRDRepository<AuthScheme, Guid> _authSchemeRepo;
-        private readonly ISRDRepository<ClaimsEntity, Guid> _claimsEntityRepo;
-        private readonly ISRDRepository<User, Guid> _userRepo;
+        private readonly IConfiguration _configuration;
+        private readonly IAuthSettingsLoader _authSettingsLoader;
 
         public UserService(
+            IConfiguration configuration,
             IUserLoader loader,
-            IClaimsKeyLoader claimsKeyLoader,
             Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratorFactory,
-            IPasswordLoader passwordLoader,
-            ISRDRepository<AuthSettings, Guid> authSettingsRepo,
-            ISRDRepository<AuthScheme, Guid> authSchemeRepo,
-            ISRDRepository<ClaimsEntity, Guid> claimsEntityRepo,
-            ISRDRepository<User, Guid> userRepo
+            IAuthSettingsLoader authSettingsLoader
             )
         {
             _loader = loader;
-            _claimsKeyLoader = claimsKeyLoader;
             _tokenGeneratorFactory = tokenGeneratorFactory;
-            _passwordLoader = passwordLoader;
-            _authSettingsRepo = authSettingsRepo;
-            _authSchemeRepo = authSchemeRepo;
-            _claimsEntityRepo = claimsEntityRepo;
-            _userRepo = userRepo;
+            _configuration = configuration;
+            _authSettingsLoader = authSettingsLoader;
         }
 
         public async Task<Guid> CreateAsync(CreateUserRequest item)
         {
-            var authSettings = await _authSettingsRepo.ReadAsync(item.AuthSettingsId);
-            var authScheme = await _authSchemeRepo.ReadAsync(authSettings.AuthSchemeID);
+            _configuration.AuthHubSettingsId();
 
-            var tokenGenerator = _tokenGeneratorFactory(authScheme);
+            var authSettings = await _authSettingsLoader.ReadAsync(_configuration.AuthHubSettingsId());
+            var tokenGenerator = _tokenGeneratorFactory(AuthSchemeEnum.JWT);
 
             (byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
-                    = await tokenGenerator.NewHash(item.Password, authSettings);
+                = await tokenGenerator.NewHash(item.Password, authSettings);
 
             var newUserId = Guid.NewGuid();
             var newPasswordId = Guid.NewGuid();
@@ -65,7 +53,6 @@ namespace AuthHub.BLL.Users
                 FirstName = item.FirstName,
                 LastName = item.LastName,
                 UserName = item.UserName,
-                AuthSettingsId = item.AuthSettingsId,
                 IsOrganization = false,
                 Password = new()
                 {

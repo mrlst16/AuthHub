@@ -14,7 +14,6 @@ namespace AuthHub.Tests.MockData
                 UserName = "mrlst16@mail.rmu.edu",
                 FirstName = "Test Organization 1",
                 LastName = "Test Organization 1",
-                AuthSettingsId = Guid.Parse("6CE12DA2-CB73-4F0B-B9F0-46051621B3C6"),
                 IsOrganization = true,
                 UsersOrganizationId = Guid.Parse("0B674AC4-7079-4AD7-830A-C41CD6AB5204"),
                 Password = new Password()

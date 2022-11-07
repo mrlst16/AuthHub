@@ -41,13 +41,11 @@ namespace AuthHub.BLL.Passwords
             var user = await _userLoader.GetAsync(userId);
             if (user == null) throw new UserNotFoundException(userId);
 
-            var authSettings = await _authSettingsLoader.ReadAsync(user.AuthSettingsId);
-
             var token = new PasswordResetToken()
             {
                 UserId = user.Id,
                 Email = user.Email,
-                ExpirationDate = _dateProvider.UTCNow.AddMinutes(authSettings.PasswordResetTokenExpirationMinutes),
+                ExpirationDate = _dateProvider.UTCNow.AddMinutes(15),
                 VerificationCode = StringHelper.RandomAlphanumericString(6)
             };
 

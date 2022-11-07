@@ -45,5 +45,15 @@ namespace AuthHub.BLL.Common.Extensions
 
             return true;
         }
+
+        public static bool TryParseAuthSettingsId(
+            this HttpRequest request,
+            out Guid result
+        )
+        {
+            result = Guid.Empty;
+
+            return true;
+        }
     }
 }

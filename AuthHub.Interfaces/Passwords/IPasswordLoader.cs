@@ -15,13 +15,12 @@ namespace AuthHub.Interfaces.Passwords
         Task AuthenticateAndUpdateToken(SetPasswordRequest request);
         Task<Password> GetByUserIdAsync(Guid userId);
         Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName);
-        Task<LoginChallengeResponse> GetLoginChallenge(Guid userId);
 
         /// <summary>
         /// Based on the userid, this method will get data to used to assemble a token
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>TokenAssemblyData object used to construct a token</returns>
-        Task<TokenAssemblyData> GetTokenAssemblyData(Guid userId);
+        Task<TokenAssemblyData> GetTokenAssemblyData(Guid authSettingsId, Guid userId);
     }
 }

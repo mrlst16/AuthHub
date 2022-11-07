@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AuthHub.Models.Users
+﻿namespace AuthHub.Models.Users
 {
     public class CreateUserRequest
     {
@@ -9,6 +7,5 @@ namespace AuthHub.Models.Users
         public string Password { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
-        public Guid AuthSettingsId { get; set; }
     }
 }

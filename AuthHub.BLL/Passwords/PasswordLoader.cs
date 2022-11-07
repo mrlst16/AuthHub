@@ -1,5 +1,4 @@
-﻿using AuthHub.BLL.Common.Exceptions;
-using AuthHub.Interfaces.Organizations;
+﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
@@ -8,6 +7,7 @@ using AuthHub.Models.QueryResultSets;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
 using Common.Helpers;
+using Common.Interfaces.Providers;
 using Common.Interfaces.Repository;
 using Common.Models.Exceptions;
 using System;
@@ -24,6 +24,7 @@ namespace AuthHub.BLL.Passwords
         private readonly ISRDRepository<Password, Guid> _passwordRepo;
         private readonly ISRDRepository<User, Guid> _userRepo;
         private readonly ISRDRepository<AuthSettings, Guid> _authSettingsRepo;
+        private readonly IDateProvider _dateProvider;
 
         public PasswordLoader(
             IPasswordContext passwordContext,
@@ -31,7 +32,8 @@ namespace AuthHub.BLL.Passwords
             IUserContext userContext,
             ISRDRepository<Password, Guid> passwordRepo,
             ISRDRepository<User, Guid> userRepo,
-            ISRDRepository<AuthSettings, Guid> authSettingsRepo
+            ISRDRepository<AuthSettings, Guid> authSettingsRepo,
+            IDateProvider dateProvider
             )
         {
             _passwordContext = passwordContext;
@@ -40,6 +42,7 @@ namespace AuthHub.BLL.Passwords
             _passwordRepo = passwordRepo;
             _userRepo = userRepo;
             _authSettingsRepo = authSettingsRepo;
+            _dateProvider = dateProvider;
         }
 
         public async Task AuthenticateAndUpdateToken(SetPasswordRequest request)
@@ -88,38 +91,20 @@ namespace AuthHub.BLL.Passwords
         public async Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName)
             => await _passwordContext.GetLoginChallenge(authSettingsId, userName);
 
-        public async Task<LoginChallengeResponse> GetLoginChallenge(Guid userId)
+        public async Task<TokenAssemblyData> GetTokenAssemblyData(Guid authSettingsId, Guid userId)
         {
-            var password = (await _passwordRepo.ReadAsync(x => x.UserId == userId))
-                .FirstOrDefault();
-            if (password == null) throw new PasswordNotFoundException(userId);
-            var result = new LoginChallengeResponse()
-            {
-                StoredPasswordHash = password.PasswordHash,
-                Salt = password.Salt,
-            };
+            var user = await _userContext.GetAsync(userId);
 
-            var user = await _userRepo.ReadAsync(userId);
-            var authSettings = await _authSettingsRepo.ReadAsync(user.AuthSettingsId);
-
-            result.Iterations = authSettings.Iterations;
-            result.Length = authSettings.HashLength;
-
-            return result;
-        }
-
-        public async Task<TokenAssemblyData> GetTokenAssemblyData(Guid userId)
-        {
-            var user = await _userRepo.ReadAsync(userId);
-            var password = (await _passwordRepo.ReadAsync(x => x.UserId == userId))
-                .FirstOrDefault();
-
-            var authSettings = await _authSettingsRepo.ReadAsync(user.AuthSettingsId);
+            var authSettings = user.AuthSettings.First(x => x.Id == authSettingsId);
 
             return new TokenAssemblyData()
             {
                 UserName = user.UserName,
-
+                Claims = user.Password.Claims,
+                Issuer = authSettings.Issuer,
+                ExpirationDate = _dateProvider.UTCNow.AddMinutes(authSettings.ExpirationMinutes),
+                Key = authSettings.Key,
+                OrganizationId = authSettings.OrganizationID
             };
         }
     }

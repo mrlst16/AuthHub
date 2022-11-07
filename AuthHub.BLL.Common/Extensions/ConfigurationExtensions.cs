@@ -34,6 +34,12 @@ namespace AuthHub.BLL.Common.Extensions
             };
         }
 
+        /// <summary>
+        /// Returns the auth hub organization info.  In this case, the organization is the application itself acting as the
+        /// organization
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns>AuthSettingsId, Issuer, Key</returns>
         public static (Guid, string, string) AuthHubAuthInfo(this IConfiguration configuration)
             => (configuration.AuthHubOrganizationId(), configuration.AuthHubIssuer(), configuration.AuthHubKey());
     }

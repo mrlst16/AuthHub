@@ -1,15 +1,9 @@
-﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Interfaces.AuthSetting;
-using AuthHub.Interfaces.Emails;
-using AuthHub.Interfaces.Organizations;
+﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
-using AuthHub.Interfaces.Users;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
-using Common.Interfaces.Helpers;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
@@ -20,31 +14,16 @@ namespace AuthHub.BLL.Passwords
         private readonly IPasswordLoader _loader;
         private readonly IOrganizationLoader _organizationLoader;
         private readonly Func<AuthSchemeEnum, ITokenGenerator> _tokenGeneratoryFactory;
-        private readonly IUserLoader _userLoader;
-        private readonly IAuthHubEmailLoader _authHubEmailLoader;
-        private readonly IApplicationConsistency _applicationHelper;
-        private readonly IConfiguration _configuration;
-        private readonly IAuthSettingsLoader _authSettingsLoader;
 
         public PasswordService(
             IPasswordLoader loader,
             IOrganizationLoader organizationLoader,
-            Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratoryFactory,
-            IUserLoader userLoader,
-            IAuthHubEmailLoader authHubEmailLoader,
-            IApplicationConsistency applicationHelper,
-            IConfiguration configuration,
-            IAuthSettingsLoader authSettingsLoader
+            Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratoryFactory
             )
         {
             _loader = loader;
             _organizationLoader = organizationLoader;
             _tokenGeneratoryFactory = tokenGeneratoryFactory;
-            _userLoader = userLoader;
-            _authHubEmailLoader = authHubEmailLoader;
-            _applicationHelper = applicationHelper;
-            _configuration = configuration;
-            _authSettingsLoader = authSettingsLoader;
         }
 
         public async Task<Password> Get(Guid organizationId, string authSettingsName, string username)
@@ -61,7 +40,6 @@ namespace AuthHub.BLL.Passwords
             where T : ITokenGenerator
         {
             var organization = await _organizationLoader.Get(request.OrganizationID);
-            var organizationSettings = organization.GetSettings(request.SettingsName);
             var tokenGenerator = _tokenGeneratoryFactory(AuthSchemeEnum.JWT);
             var (passwordHash, salt) = await tokenGenerator.NewHash(request, organization);
 

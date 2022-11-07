@@ -2,6 +2,7 @@
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.QueryResultSets;
 using AuthHub.Models.Tokens;
 using Common.Extensions;
 using Common.Interfaces.Helpers;
@@ -57,27 +58,27 @@ namespace AuthHub.BLL.Tokens
             return requestHash.BytesEqual(passwordInRepository);
         }
 
-        public async Task<Token> GetToken(Guid userId, string password)
+        public async Task<Token> GetToken(Guid authSettingsId, string userName, string password)
         {
-            var loginChallenge = await _passwordLoader.GetLoginChallenge(userId, password);
+            var loginChallenge = await _passwordLoader.GetLoginChallenge(authSettingsId, userName);
 
             if (!Authenticate
-                    (
-                        loginChallenge.StoredPasswordHash,
-                        password,
-                        loginChallenge.Salt,
-                        loginChallenge.Length,
-                        loginChallenge.Iterations
-                        )
-                    )
-                throw new Exception($"Username and Password are not a match for user {userId} while logging in as an ogranization");
+                (
+                    loginChallenge.StoredPasswordHash,
+                    password,
+                    loginChallenge.Salt,
+                    loginChallenge.Length,
+                    loginChallenge.Iterations
+                )
+               )
+                throw new Exception($"Username and Password are not a match for user {userName} while logging in as an ogranization");
 
-            var tad = await _passwordLoader.GetTokenAssemblyData(userId);
+            var tad = new TokenAssemblyData(); //await _passwordLoader.GetTokenAssemblyData(loginChallenge.UserId);
 
             if (
                 tad.Claims
                     .FirstOrDefault(x => string.Equals(x.Key, ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase)
-                        ) == null)
+                    ) == null)
                 tad.Claims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, tad.UserName));
 
             tad.Claims = tad?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();

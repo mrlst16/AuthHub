@@ -1,8 +1,10 @@
-﻿using AuthHub.BLL.Common.Emails;
+﻿using AuthHub.BLL.AuthSetting;
+using AuthHub.BLL.Common.Emails;
 using AuthHub.BLL.Common.Organizations;
 using AuthHub.BLL.Organizations;
 using AuthHub.BLL.Passwords;
 using AuthHub.BLL.Users;
+using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
@@ -19,6 +21,7 @@ namespace AuthHub.ServiceRegistrations
             services.AddTransient<IClaimsKeyLoader, ClaimsKeyLoader>();
             services.AddTransient<IPasswordLoader, PasswordLoader>();
             services.AddTransient<IOrganizationLoader, OrganizationLoader>();
+            services.AddTransient<IAuthSettingsLoader, AuthSettingsLoader>();
             services.AddTransient<IAuthHubOrganizationLoader, AuthHubOrganizationLoader>();
             services.AddTransient<IAuthHubEmailLoader, AuthHubEmailLoader>();
             return services;
