@@ -1,5 +1,4 @@
 ﻿using AuthHub.Interfaces.Users;
-using AuthHub.Models.Organizations;
 using AuthHub.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +17,8 @@ namespace AuthHub.DAL.EntityFramework.Users
 
         public async Task<User> Create(User user)
         {
-            await SaveAsync(user);
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
             return user;
         }
 
@@ -41,15 +41,7 @@ namespace AuthHub.DAL.EntityFramework.Users
                     ? null :
                             await _context
                                 .Users
-                                .Include(x => x.AuthSettings)
                                 .SingleOrDefaultAsync(x => x.Id == item.Id);
-            existingItem.AuthSettings ??= new List<AuthSettings>();
-
-            //if (!existingItem?.AuthSettings?.Any() ?? false)
-            //{
-            //    var authSettings = await _context.AuthSettings.FirstAsync(x => x.Id == item.AuthSettingsId);
-            //    existingItem.AuthSettings.Append(authSettings);
-            //}
             Guid result;
             if (existingItem == null)
             {
@@ -66,20 +58,19 @@ namespace AuthHub.DAL.EntityFramework.Users
             return result;
         }
 
-        public async Task<User> Get(string userName)
+        public async Task<User?> Get(string userName)
         {
-            User result = null;
-
             try
             {
-                result = await _context.Users.FirstOrDefaultAsync(x => x.UserName == userName && x.DeletedUTC == null);
-
+                var result = await _context
+                    .Users
+                    .FirstOrDefaultAsync(x => x.UserName == userName && x.DeletedUTC == null);
+                return result;
             }
             catch (Exception e)
             {
-
+                return null;
             }
-            return result;
         }
     }
 }

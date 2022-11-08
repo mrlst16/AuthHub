@@ -12,14 +12,14 @@ namespace AuthHub.DAL.EntityFramework
 {
     public class AuthHubContext : DbContext
     {
-        public DbSet<Organization> Organizations;
-        public DbSet<AuthSettingsModel> AuthSettings;
-        public DbSet<User> Users;
-        public DbSet<AuthScheme> AuthSchemes;
-        public DbSet<Password> Passwords;
-        public DbSet<ClaimsKey> ClaimsKeys;
-        public DbSet<ClaimsEntity> Claims;
-        public DbSet<PasswordResetToken> PasswordResetToken;
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<AuthSettingsModel> AuthSettings { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<AuthScheme> AuthSchemes { get; set; }
+        public DbSet<Password> Passwords { get; set; }
+        public DbSet<ClaimsKey> ClaimsKeys { get; set; }
+        public DbSet<ClaimsEntity> Claims { get; set; }
+        public DbSet<PasswordResetToken> PasswordResetToken { get; set; }
 
         public AuthHubContext()
         {

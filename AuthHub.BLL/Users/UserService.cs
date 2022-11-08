@@ -35,8 +35,6 @@ namespace AuthHub.BLL.Users
 
         public async Task<Guid> CreateAsync(CreateUserRequest item)
         {
-            _configuration.AuthHubSettingsId();
-
             var authSettings = await _authSettingsLoader.ReadAsync(_configuration.AuthHubSettingsId());
             var tokenGenerator = _tokenGeneratorFactory(AuthSchemeEnum.JWT);
 
