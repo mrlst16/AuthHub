@@ -1,5 +1,5 @@
-﻿using System;
-using AuthHub.Models.Organizations;
+﻿using AuthHub.Models.Organizations;
+using System;
 
 namespace AuthHub.Interfaces.AuthSetting
 {

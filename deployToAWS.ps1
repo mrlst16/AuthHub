@@ -1,1 +1,0 @@
-dotnet build AuthHub/AuthHub.csproj

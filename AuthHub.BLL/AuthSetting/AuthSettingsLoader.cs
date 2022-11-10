@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using AuthHub.Interfaces.AuthSetting;
+﻿using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Models.Organizations;
+using System;
+using System.Threading.Tasks;
 
 namespace AuthHub.BLL.AuthSetting
 {

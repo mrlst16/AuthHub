@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using AuthHub.BLL.Common.Tokens;
+﻿using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AuthHub.Controllers
 {

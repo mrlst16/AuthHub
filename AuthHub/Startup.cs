@@ -3,6 +3,7 @@ using AuthHub.BLL.Common.Extensions;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
+using AuthHub.Interfaces.Auth;
 using AuthHub.Middleware;
 using AuthHub.ServiceRegistrations;
 using Common.AspDotNet.Extensions;
@@ -38,13 +39,12 @@ namespace AuthHub
                 var connectionString = Configuration.GetConnectionString("authhub");
                 o.UseSqlServer(connectionString);
             })
-            .AddTransient<IAuthHubAuthenticationService, AuthenticationService>()
+            .AddTransient<IAuthenticationService, AuthenticationService>()
             .AddTransient<IAuthorizationHandler, OrganizationAuthHandler>()
             .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
             .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
             .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
             .AddAuthHubLoaders()
-            .AddAuthHubServices()
             .AddAuthHubValidators()
             .AddAuthHubContexts()
             .AddOthers()

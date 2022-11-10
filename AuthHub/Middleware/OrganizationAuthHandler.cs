@@ -1,4 +1,5 @@
 ﻿using AuthHub.BLL.Common.Extensions;
+using AuthHub.Interfaces.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
@@ -8,11 +9,11 @@ namespace AuthHub.Middleware
     public class OrganizationAuthHandler : AuthorizationHandler<OrganizationAuthRequirement>
     {
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IAuthHubAuthenticationService _authHubAuthenticationService;
+        private readonly IAuthenticationService _authHubAuthenticationService;
 
         public OrganizationAuthHandler(
             IHttpContextAccessor contextAccessor,
-            IAuthHubAuthenticationService authHubAuthenticationService
+            IAuthenticationService authHubAuthenticationService
             )
         {
             _contextAccessor = contextAccessor;
