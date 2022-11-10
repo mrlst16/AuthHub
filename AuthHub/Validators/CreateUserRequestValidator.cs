@@ -1,7 +1,6 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using FluentValidation;
-using System;
 using System.Threading.Tasks;
 
 namespace AuthHub.Validators
