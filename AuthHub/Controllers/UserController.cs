@@ -26,22 +26,7 @@ namespace AuthHub.Controllers
             _validator = validator;
             _service = service;
         }
-
-        //[HttpPatch("save")]
-        //public async Task<IActionResult> Save(
-        //    [FromBody] CreateUserRequest request
-        //    )
-        //{
-        //    await _validator.ValidateAndThrowAsync(request);
-        //    var response = new ApiResponse<Guid>()
-        //    {
-        //        Data = await _service.CreateAsync(request),
-        //        SuccessMessage = "Successfully created user",
-        //        Success = true
-        //    };
-        //    return new OkObjectResult(response);
-        //}
-
+        
         [AllowAnonymous]
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
