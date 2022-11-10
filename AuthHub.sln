@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.AspDotNet", "..\Comm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.EntityFramework", "..\Common\Common.EntityFramework\Common.EntityFramework.csproj", "{F072AE2F-E32D-4D20-9318-82D406950D1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub", "AuthHub\AuthHub.csproj", "{C6997D3A-2114-419D-A79B-A73FB5EABF55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.Api", "AuthHub\AuthHub.Api.csproj", "{C6997D3A-2114-419D-A79B-A73FB5EABF55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

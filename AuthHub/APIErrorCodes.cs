@@ -1,4 +1,4 @@
-﻿namespace AuthHub
+﻿namespace AuthHub.Api
 {
     public static class APIErrorCodes
     {

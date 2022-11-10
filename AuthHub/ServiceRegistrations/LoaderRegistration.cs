@@ -11,7 +11,7 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuthHub.ServiceRegistrations
+namespace AuthHub.Api.ServiceRegistrations
 {
     public static class LoaderRegistration
     {

@@ -1,9 +1,9 @@
-﻿using AuthHub.Interfaces.Users;
+﻿using System.Threading.Tasks;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using FluentValidation;
-using System.Threading.Tasks;
 
-namespace AuthHub.Validators
+namespace AuthHub.Api.Validators
 {
     public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
     {

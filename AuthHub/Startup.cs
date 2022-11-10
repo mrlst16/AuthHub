@@ -1,10 +1,11 @@
+using AuthHub.Api.Middleware;
+using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Auth;
 using AuthHub.BLL.Common.Extensions;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.Interfaces.Auth;
-using AuthHub.Middleware;
 using AuthHub.ServiceRegistrations;
 using Common.AspDotNet.Extensions;
 using Common.AspDotNet.Handlers;
@@ -20,7 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace AuthHub
+namespace AuthHub.Api
 {
     public class Startup
     {
@@ -44,10 +45,11 @@ namespace AuthHub
             .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
             .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
             .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
+            .AddAuthHubServices()
             .AddAuthHubLoaders()
             .AddAuthHubValidators()
             .AddAuthHubContexts()
-            .AddOthers()
+            .AddAuthHubOthers()
             .AddCommon();
 
             services.AddControllers();
@@ -104,6 +106,7 @@ namespace AuthHub
                 endpoints.MapControllers();
             });
 
+            
         }
     }
 }

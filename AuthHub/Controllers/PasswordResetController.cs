@@ -1,12 +1,12 @@
-﻿using AuthHub.Interfaces.Passwords;
+﻿using System.Threading.Tasks;
+using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace AuthHub.Controllers
+namespace AuthHub.Api.Controllers
 {
     [Route("api/password_reset")]
     [ApiController]

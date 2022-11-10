@@ -1,16 +1,15 @@
-﻿using AuthHub.Interfaces.Users;
+﻿using System.Threading.Tasks;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Users;
 using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace AuthHub.Controllers
+namespace AuthHub.Api.Controllers
 {
     [Route("api/user")]
-    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class UserController : Controller
     {
@@ -60,6 +59,13 @@ namespace AuthHub.Controllers
                 Success = true
             };
             return new OkObjectResult(response);
+        }
+
+        [HttpGet("balls")]
+        public IActionResult Get()
+        {
+
+            return Ok("Balls");
         }
     }
 }

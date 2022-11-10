@@ -1,9 +1,9 @@
-﻿using AuthHub.Models.Users;
-using AuthHub.Validators;
+﻿using AuthHub.Api.Validators;
+using AuthHub.Models.Users;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuthHub.ServiceRegistrations
+namespace AuthHub.Api.ServiceRegistrations
 {
     public static class ValidatorRegistrations
     {

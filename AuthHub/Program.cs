@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace AuthHub
+namespace AuthHub.Api
 {
     public class Program
     {

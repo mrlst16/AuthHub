@@ -1,10 +1,10 @@
-﻿using AuthHub.BLL.Common.Extensions;
+﻿using System.Threading.Tasks;
+using AuthHub.BLL.Common.Extensions;
 using AuthHub.Interfaces.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
 
-namespace AuthHub.Middleware
+namespace AuthHub.Api.Middleware
 {
     public class OrganizationAuthHandler : AuthorizationHandler<OrganizationAuthRequirement>
     {
