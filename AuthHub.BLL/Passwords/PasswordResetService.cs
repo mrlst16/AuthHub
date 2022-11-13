@@ -16,14 +16,14 @@ namespace AuthHub.BLL.Passwords
     public class PasswordResetService : IPasswordResetService
     {
         private readonly IUserLoader _userLoader;
-        private readonly IAuthHubEmailLoader _authHubEmailLoader;
+        private readonly IAuthHubEmailService _authHubEmailLoader;
         private readonly IAuthSettingsLoader _authSettingsLoader;
         private readonly IDateProvider _dateProvider;
         private readonly IPasswordResetTokenLoader _loader;
 
         public PasswordResetService(
             IUserLoader userLoader,
-            IAuthHubEmailLoader authHubEmailLoader,
+            IAuthHubEmailService authHubEmailLoader,
             IAuthSettingsLoader authSettingsLoader,
             IDateProvider dateProvider,
             IPasswordResetTokenLoader loader
@@ -50,7 +50,7 @@ namespace AuthHub.BLL.Passwords
             };
 
             await _loader.SaveAsync(token);
-            await _authHubEmailLoader.SendPasswordResetEmail(token);
+            await _authHubEmailLoader.SendPasswordResetEmail(token.Email, userId, token.VerificationCode);
         }
 
 

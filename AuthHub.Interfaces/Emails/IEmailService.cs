@@ -1,9 +1,7 @@
-﻿using AuthHub.Models.Users;
-
-namespace AuthHub.Interfaces.Emails
+﻿namespace AuthHub.Interfaces.Emails
 {
     public interface IEmailService
     {
-        Task SendResetPasswordEmail(UserPointer userPointer);
+        Task SendEmail(string to, string subject, string body);
     }
 }

@@ -23,7 +23,7 @@ namespace AuthHub.Api.ServiceRegistrations
             services.AddTransient<IOrganizationLoader, OrganizationLoader>();
             services.AddTransient<IAuthSettingsLoader, AuthSettingsLoader>();
             services.AddTransient<IAuthHubOrganizationLoader, AuthHubOrganizationLoader>();
-            services.AddTransient<IAuthHubEmailLoader, AuthHubEmailLoader>();
+            services.AddTransient<IAuthHubEmailService, AuthHubEmailService>();
             return services;
         }
     }

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthHub.Interfaces.Emails;
 
 namespace AuthHub.BLL.Users
 {
@@ -19,18 +20,21 @@ namespace AuthHub.BLL.Users
         private readonly Func<AuthSchemeEnum, ITokenGenerator> _tokenGeneratorFactory;
         private readonly IConfiguration _configuration;
         private readonly IAuthSettingsLoader _authSettingsLoader;
+        private readonly IAuthHubEmailService _emailService;
 
         public UserService(
             IConfiguration configuration,
             IUserLoader loader,
             Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratorFactory,
-            IAuthSettingsLoader authSettingsLoader
+            IAuthSettingsLoader authSettingsLoader,
+            IAuthHubEmailService emailService
             )
         {
             _loader = loader;
             _tokenGeneratorFactory = tokenGeneratorFactory;
             _configuration = configuration;
             _authSettingsLoader = authSettingsLoader;
+            _emailService = emailService;
         }
 
         public async Task<Guid> CreateAsync(CreateUserRequest item)
@@ -71,6 +75,7 @@ namespace AuthHub.BLL.Users
             };
 
             user.Id = await _loader.SaveAsync(user);
+            await _emailService.SendUserVerificationEmail(user.Email, user.Id, string.Empty);
             return user.Id;
         }
 
