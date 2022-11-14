@@ -4,11 +4,13 @@ using AuthHub.BLL.Common.Organizations;
 using AuthHub.BLL.Organizations;
 using AuthHub.BLL.Passwords;
 using AuthHub.BLL.Users;
+using AuthHub.BLL.Verification;
 using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
+using AuthHub.Interfaces.Verification;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthHub.Api.ServiceRegistrations
@@ -17,13 +19,14 @@ namespace AuthHub.Api.ServiceRegistrations
     {
         public static IServiceCollection AddAuthHubLoaders(this IServiceCollection services)
         {
-            services.AddTransient<IUserLoader, UserLoader>();
-            services.AddTransient<IClaimsKeyLoader, ClaimsKeyLoader>();
-            services.AddTransient<IPasswordLoader, PasswordLoader>();
-            services.AddTransient<IOrganizationLoader, OrganizationLoader>();
-            services.AddTransient<IAuthSettingsLoader, AuthSettingsLoader>();
-            services.AddTransient<IAuthHubOrganizationLoader, AuthHubOrganizationLoader>();
-            services.AddTransient<IAuthHubEmailService, AuthHubEmailService>();
+            services.AddTransient<IUserLoader, UserLoader>()
+                .AddTransient<IClaimsKeyLoader, ClaimsKeyLoader>()
+                .AddTransient<IPasswordLoader, PasswordLoader>()
+                .AddTransient<IOrganizationLoader, OrganizationLoader>()
+                .AddTransient<IAuthSettingsLoader, AuthSettingsLoader>()
+                .AddTransient<IAuthHubOrganizationLoader, AuthHubOrganizationLoader>()
+                .AddTransient<IAuthHubEmailService, AuthHubEmailService>()
+                .AddTransient<IVerificationCodeLoader, VerificationCodeLoader>();
             return services;
         }
     }

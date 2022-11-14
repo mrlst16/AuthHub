@@ -6,6 +6,7 @@ using AuthHub.BLL.Common.Tokens;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.Interfaces.Auth;
+using AuthHub.Models.Options;
 using Common.AspDotNet.Extensions;
 using Common.AspDotNet.Handlers;
 using Common.Interfaces.Repository;
@@ -49,7 +50,8 @@ namespace AuthHub.Api
             .AddAuthHubValidators()
             .AddAuthHubContexts()
             .AddAuthHubOthers()
-            .AddCommon();
+            .AddCommon()
+            .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
