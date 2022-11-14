@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using AuthHub.Interfaces.Verification;
+﻿using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Verification;
+using System;
+using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Verification
 {

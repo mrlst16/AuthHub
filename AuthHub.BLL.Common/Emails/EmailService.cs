@@ -1,8 +1,8 @@
 ﻿using AuthHub.Interfaces.Emails;
-using System.Net;
-using System.Net.Mail;
 using AuthHub.Models.Options;
 using Microsoft.Extensions.Options;
+using System.Net;
+using System.Net.Mail;
 
 namespace AuthHub.BLL.Common.Emails
 {

@@ -121,7 +121,7 @@ namespace AuthHub.DAL.EntityFramework
                 .IsRequired();
             modelBuilder.Entity<User>()
                 .HasMany<VerificationCode>(x => x.VerificationCodes)
-                .WithOne(x=> x.User);
+                .WithOne(x => x.User);
 
             //Passwords Setup
             modelBuilder.Entity<Password>()

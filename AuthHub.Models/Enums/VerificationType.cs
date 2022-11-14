@@ -1,5 +1,5 @@
-﻿using System;
-using Common.Models.Entities;
+﻿using Common.Models.Entities;
+using System;
 
 namespace AuthHub.Models.Enums
 {
@@ -13,7 +13,7 @@ namespace AuthHub.Models.Enums
         }
 
         public VerificationType(VerificationTypeEnum value)
-            :this()
+            : this()
         {
             Value = value;
         }

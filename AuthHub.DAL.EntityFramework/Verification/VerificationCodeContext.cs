@@ -24,7 +24,7 @@ namespace AuthHub.DAL.EntityFramework.Verification
         public async Task<VerificationCode> GetLatestByUserIdAndType(Guid userid, VerificationTypeEnum type)
         => _context.VerificationCodes
                 .Where(x => x.User.Id == userid && x.Type == type)
-                .OrderByDescending(x=> x.ExpirationDate)
+                .OrderByDescending(x => x.ExpirationDate)
                 .FirstOrDefault();
     }
 }

@@ -1,18 +1,18 @@
 ﻿using AuthHub.BLL.Common.Extensions;
 using AuthHub.Interfaces.AuthSetting;
+using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
+using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
+using AuthHub.Models.Verification;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthHub.Interfaces.Emails;
-using AuthHub.Interfaces.Verification;
-using AuthHub.Models.Verification;
 
 namespace AuthHub.BLL.Users
 {

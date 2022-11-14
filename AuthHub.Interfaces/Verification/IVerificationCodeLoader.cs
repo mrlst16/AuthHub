@@ -1,6 +1,6 @@
-﻿using System;
-using AuthHub.Models.Enums;
+﻿using AuthHub.Models.Enums;
 using AuthHub.Models.Verification;
+using System;
 
 namespace AuthHub.Interfaces.Verification
 {

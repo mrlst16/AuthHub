@@ -1,7 +1,7 @@
-﻿using System;
-using AuthHub.Models.Enums;
+﻿using AuthHub.Models.Enums;
 using AuthHub.Models.Users;
 using Common.Models.Entities;
+using System;
 
 namespace AuthHub.Models.Verification
 {

@@ -1,4 +1,5 @@
-﻿using AuthHub.BLL.Common.Helpers;
+﻿using System.Security.Claims;
+using AuthHub.BLL.Common.Helpers;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.BLL.Tokens;
 using AuthHub.Interfaces.Organizations;
@@ -10,9 +11,8 @@ using Common.Interfaces.Helpers;
 using Common.Interfaces.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Security.Claims;
 
-namespace AuthHub.ServiceRegistrations
+namespace AuthHub.Api.ServiceRegistrations
 {
     public static class OtherRegistrations
     {

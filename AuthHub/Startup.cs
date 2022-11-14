@@ -6,7 +6,6 @@ using AuthHub.BLL.Common.Tokens;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.Interfaces.Auth;
-using AuthHub.ServiceRegistrations;
 using Common.AspDotNet.Extensions;
 using Common.AspDotNet.Handlers;
 using Common.Interfaces.Repository;
@@ -106,7 +105,7 @@ namespace AuthHub.Api
                 endpoints.MapControllers();
             });
 
-            
+
         }
     }
 }
