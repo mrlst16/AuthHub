@@ -18,8 +18,11 @@ namespace AuthHub.BLL.Verification
             _context = context;
         }
 
-        public async Task Save(VerificationCode source)
-            => await _context.Save(source);
+        public async Task Create(VerificationCode source)
+            => await _context.Create(source);
+
+        public async Task Update(VerificationCode source)
+            => await _context.Update(source);
 
         public async Task<VerificationCode> GetLatestByUserIdAndType(Guid userid, VerificationType type)
             => await _context.GetLatestByUserIdAndType(userid, type);

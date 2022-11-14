@@ -1,6 +1,7 @@
 ﻿using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Verification;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Verification
 {
@@ -15,16 +16,32 @@ namespace AuthHub.DAL.EntityFramework.Verification
             _context = context;
         }
 
-        public async Task Save(VerificationCode source)
+        public async Task Create(VerificationCode source)
         {
             await _context.VerificationCodes.AddAsync(source);
             await _context.SaveChangesAsync();
         }
 
+        public async Task Update(VerificationCode source)
+        {
+            var existing = _context.VerificationCodes.First(x => x.Id == source.Id);
+            existing = source;
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<VerificationCode> GetLatestByUserIdAndType(Guid userid, VerificationTypeEnum type)
-        => _context.VerificationCodes
-                .Where(x => x.User.Id == userid && x.Type == type)
-                .OrderByDescending(x => x.ExpirationDate)
-                .FirstOrDefault();
+        {
+            var user = _context
+                .Users
+                .Include(x => x.VerificationCodes)
+                .ThenInclude(x => x.Type)
+                .FirstOrDefault(x => x.Id == userid && x.DeletedUTC == null);
+            var result = user.VerificationCodes
+                .OrderByDescending(x => x.CreateDate)
+                .FirstOrDefault(x => x.Type.Value == type);
+
+
+            return result;
+        }
     }
 }

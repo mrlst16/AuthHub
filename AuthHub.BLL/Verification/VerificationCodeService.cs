@@ -4,34 +4,40 @@ using AuthHub.Models.Verification;
 using Common.Interfaces.Providers;
 using System;
 using System.Threading.Tasks;
+using AuthHub.Interfaces.Users;
 
 namespace AuthHub.BLL.Verification
 {
     public class VerificationCodeService : IVerificationCodeService
     {
         private readonly IVerificationCodeLoader _verificationCodeLoader;
+        private readonly IUserLoader _userLoader;
         private readonly IDateProvider _dateProvider;
 
         public VerificationCodeService(
             IVerificationCodeLoader verificationCodeLoader,
+            IUserLoader userLoader,
             IDateProvider dateProvider
             )
         {
             _verificationCodeLoader = verificationCodeLoader;
+            _userLoader = userLoader;
             _dateProvider = dateProvider;
         }
 
         public async Task<VerificationCode> GenerateAndSaveUserVerificationCode(Guid userId)
         {
+            var user = await _userLoader.GetAsync(userId);
             var result = new VerificationCode()
             {
                 Id = Guid.NewGuid(),
                 Type = VerificationTypeEnum.UserEmail,
                 Code = GenerateCode(),
+                User = user,
                 ExpirationDate = _dateProvider.UTCNow.AddMinutes(30)
             };
 
-            await _verificationCodeLoader.Save(result);
+            await _verificationCodeLoader.Create(result);
             return result;
         }
 
@@ -41,11 +47,11 @@ namespace AuthHub.BLL.Verification
             if (codeRecord == null) return false;
 
             var currentDateTime = _dateProvider.UTCNow;
-            if (codeRecord.ExpirationDate > currentDateTime) return false;
+            if (codeRecord.ExpirationDate < currentDateTime) return false;
 
             codeRecord.VerificationDate = currentDateTime;
 
-            await _verificationCodeLoader.Save(codeRecord);
+            await _verificationCodeLoader.Update(codeRecord);
 
             return codeRecord?.Code == code;
         }

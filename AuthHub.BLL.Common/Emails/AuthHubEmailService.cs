@@ -30,7 +30,7 @@ namespace AuthHub.BLL.Common.Emails
 
         public async Task SendUserVerificationEmail(string email, Guid userid, string verificationCode)
         {
-            var url = $"{_hostUrl}/verification/user_email" +
+            var url = $"{_hostUrl}/api/verification/user_email" +
                       $"?userId={userid}" +
                       $"&code={verificationCode}";
             var link = $"<a href=\"{url}\">Verify Email</a>";
