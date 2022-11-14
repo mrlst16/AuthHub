@@ -3,6 +3,7 @@ using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
 using AuthHub.Models.Users;
+using AuthHub.Models.Verification;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -20,6 +21,8 @@ namespace AuthHub.DAL.EntityFramework
         public DbSet<ClaimsKey> ClaimsKeys { get; set; }
         public DbSet<ClaimsEntity> Claims { get; set; }
         public DbSet<PasswordResetToken> PasswordResetToken { get; set; }
+        public DbSet<VerificationType> VerificationTypes { get; set; }
+        public DbSet<VerificationCode> VerificationCodes { get; set; }
 
         public AuthHubContext()
         {
@@ -116,6 +119,9 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<User>()
                 .Property(x => x.Email)
                 .IsRequired();
+            modelBuilder.Entity<User>()
+                .HasMany<VerificationCode>(x => x.VerificationCodes)
+                .WithOne(x=> x.User);
 
             //Passwords Setup
             modelBuilder.Entity<Password>()
@@ -173,7 +179,6 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<PasswordResetToken>()
                 .Property(x => x.ExpirationDate)
                 .IsRequired();
-            #endregion
 
             modelBuilder.Entity<AuthSettingsModel>()
                 .HasMany(p => p.Users)
@@ -193,6 +198,17 @@ namespace AuthHub.DAL.EntityFramework
                         .HasConstraintName("FK_AuthSettingsToUsersMap_AuthSettings_AuthSettingsId")
                         .OnDelete(DeleteBehavior.ClientNoAction));
 
+            modelBuilder.Entity<VerificationType>()
+                .HasKey(x => x.Id);
+
+            modelBuilder.Entity<VerificationCode>()
+                .HasKey(x => x.Id);
+
+            modelBuilder.Entity<VerificationCode>()
+                .HasKey(x => x.Id);
+            modelBuilder.Entity<VerificationCode>()
+                .HasOne(x => x.Type);
+            #endregion
 
             #region Load Data
             //Load Static data
@@ -288,6 +304,22 @@ namespace AuthHub.DAL.EntityFramework
                     UserId = Guid.Parse("b9e2e173-f8c4-41ed-be88-ec1071920130"),
                     Claims = new List<ClaimsEntity>()
                 });
+
+            modelBuilder.Entity<VerificationType>()
+                .HasData(
+                    new VerificationType()
+                    {
+                        Id = Guid.Parse("b606fd56-6c9f-40ea-a274-1603d2ef9780"),
+                        Name = "UserEmail",
+                        Value = VerificationTypeEnum.UserEmail,
+                    },
+                    new VerificationType()
+                    {
+                        Id = Guid.Parse("8eb05bdc-0f09-437b-af5a-06e5ff017556"),
+                        Name = "PasswordReset",
+                        Value = VerificationTypeEnum.PasswordReset
+                    }
+                    );
         }
         #endregion
     }

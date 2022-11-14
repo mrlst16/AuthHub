@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthHub.Interfaces.Emails;
+using AuthHub.Interfaces.Verification;
+using AuthHub.Models.Verification;
 
 namespace AuthHub.BLL.Users
 {
@@ -21,13 +23,15 @@ namespace AuthHub.BLL.Users
         private readonly IConfiguration _configuration;
         private readonly IAuthSettingsLoader _authSettingsLoader;
         private readonly IAuthHubEmailService _emailService;
+        private readonly IVerificationCodeService _verificationCodeService;
 
         public UserService(
             IConfiguration configuration,
             IUserLoader loader,
             Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratorFactory,
             IAuthSettingsLoader authSettingsLoader,
-            IAuthHubEmailService emailService
+            IAuthHubEmailService emailService,
+            IVerificationCodeService verificationCodeService
             )
         {
             _loader = loader;
@@ -35,6 +39,7 @@ namespace AuthHub.BLL.Users
             _configuration = configuration;
             _authSettingsLoader = authSettingsLoader;
             _emailService = emailService;
+            _verificationCodeService = verificationCodeService;
         }
 
         public async Task<Guid> CreateAsync(CreateUserRequest item)
@@ -75,7 +80,8 @@ namespace AuthHub.BLL.Users
             };
 
             user.Id = await _loader.SaveAsync(user);
-            await _emailService.SendUserVerificationEmail(user.Email, user.Id, string.Empty);
+            VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
+            await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
             return user.Id;
         }
 
