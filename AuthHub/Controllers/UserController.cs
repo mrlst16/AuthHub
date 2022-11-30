@@ -59,12 +59,5 @@ namespace AuthHub.Api.Controllers
             };
             return new OkObjectResult(response);
         }
-
-        [HttpGet("balls")]
-        public IActionResult Get()
-        {
-
-            return Ok("Balls");
-        }
     }
 }
