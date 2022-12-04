@@ -13,7 +13,5 @@ namespace AuthHub.BLL.Common.Helpers
             => Encoding.UTF8.GetBytes(str);
         public string GetString(byte[] bytes)
             => Encoding.UTF8.GetString(bytes);
-
-
     }
 }

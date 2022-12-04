@@ -66,6 +66,8 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<Organization>()
                 .Property(x => x.Email)
                 .IsRequired();
+            modelBuilder.Entity<Organization>()
+                .HasOne<APIKeyAndSecretHash>(x => x.APIKeyAndSecretHash);
 
             //AuthSettings Setup
             modelBuilder.Entity<AuthSettingsModel>()
@@ -208,6 +210,10 @@ namespace AuthHub.DAL.EntityFramework
                 .HasKey(x => x.Id);
             modelBuilder.Entity<VerificationCode>()
                 .HasOne(x => x.Type);
+
+            modelBuilder.Entity<APIKeyAndSecretHash>()
+                .HasKey(x=> x.Id);
+
             #endregion
 
             #region Load Data
