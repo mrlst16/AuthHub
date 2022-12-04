@@ -1,7 +1,5 @@
-using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Auth;
-using AuthHub.BLL.Common.Extensions;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
@@ -10,8 +8,6 @@ using AuthHub.Models.Options;
 using Common.AspDotNet.Extensions;
 using Common.AspDotNet.Handlers;
 using Common.Interfaces.Repository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -41,7 +37,6 @@ namespace AuthHub.Api
                 o.UseSqlServer(connectionString);
             })
             .AddTransient<IAuthenticationService, AuthenticationService>()
-            .AddTransient<IAuthorizationHandler, OrganizationAuthHandler>()
             .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
             .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
             .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
@@ -58,17 +53,7 @@ namespace AuthHub.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthHub", Version = "v1" });
             });
-
-            services.AddAuthHubJWTAuthentication(Configuration.AuthHubKey(), Configuration.AuthHubIssuer());
-
-            services.AddAuthorization(x =>
-            {
-                x.AddPolicy(JwtBearerDefaults.AuthenticationScheme, y =>
-                {
-                    y.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-                    y.AddRequirements(new OrganizationAuthRequirement());
-                });
-            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,7 +77,12 @@ namespace AuthHub.Api
             {
                 ErrorHandlingMiddleware errorHandler = new ErrorHandlingMiddleware();
                 await errorHandler.Handle(context, next);
+            }).Use(async (context, next) =>
+            {
+                ErrorHandlingMiddleware errorHandler = new ErrorHandlingMiddleware();
+                await errorHandler.Handle(context, next);
             });
+
 
             app.UseHttpsRedirection();
 
