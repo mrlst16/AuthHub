@@ -1,3 +1,4 @@
+using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Auth;
 using AuthHub.BLL.Common.Tokens;
@@ -48,12 +49,20 @@ namespace AuthHub.Api
             .AddCommon()
             .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"));
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = APICredentialsAuthenticationHandler.Scheme;
+            })
+            .AddScheme<APICredentialsOptions, APICredentialsAuthenticationHandler>(
+                APICredentialsAuthenticationHandler.Scheme,
+                options => { });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthHub", Version = "v1" });
             });
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,12 +86,7 @@ namespace AuthHub.Api
             {
                 ErrorHandlingMiddleware errorHandler = new ErrorHandlingMiddleware();
                 await errorHandler.Handle(context, next);
-            }).Use(async (context, next) =>
-            {
-                ErrorHandlingMiddleware errorHandler = new ErrorHandlingMiddleware();
-                await errorHandler.Handle(context, next);
             });
-
 
             app.UseHttpsRedirection();
 
