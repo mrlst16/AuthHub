@@ -1,10 +1,14 @@
 using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Auth;
+using AuthHub.BLL.Common.Hashing;
 using AuthHub.BLL.Common.Tokens;
+using AuthHub.BLL.Passwords;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.Interfaces.Auth;
+using AuthHub.Interfaces.Hashing;
+using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Options;
 using Common.AspDotNet.Extensions;
 using Common.AspDotNet.Handlers;
@@ -41,6 +45,9 @@ namespace AuthHub.Api
             .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
             .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
             .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
+            .AddTransient<IApiCredentialsEvaluator, ApiCredentialsEvaluator>()
+            .AddTransient<IPasswordEvaluator, PasswordEvaluator>()
+            .AddTransient<IHasher, Hasher>()
             .AddAuthHubServices()
             .AddAuthHubLoaders()
             .AddAuthHubValidators()
