@@ -74,7 +74,7 @@ namespace AuthHub.Api.Middleware
             {
                 new Claim("OrganizationId", organizationId)
             };
-            var identity = new ClaimsIdentity(claims);
+            var identity = new ClaimsIdentity(claims, nameof(APICredentialsAuthenticationHandler));
             return new ClaimsPrincipal(identity);
         }
     }
