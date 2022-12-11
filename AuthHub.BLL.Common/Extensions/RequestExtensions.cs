@@ -15,7 +15,7 @@ namespace AuthHub.BLL.Common.Extensions
             }
             catch (Exception e)
             {
-                return (null, null);
+                throw new Exception();
             }
         }
 

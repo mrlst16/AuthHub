@@ -22,7 +22,9 @@ namespace AuthHub.DAL.EntityFramework.Organizations
                     .AddAsync(request);
 
         public async Task<Organization> Get(Guid id)
-            => await _context.Organizations.FirstAsync(x => x.Id == id);
+            => await _context.Organizations
+                .Include(x=> x.APIKeyAndSecretHash)
+                .FirstAsync(x => x.Id == id);
 
         public async Task<Organization> Get(string name)
             => await _context.Organizations.FirstAsync(x => x.Name == name);

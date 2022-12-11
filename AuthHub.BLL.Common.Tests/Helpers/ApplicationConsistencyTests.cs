@@ -1,4 +1,5 @@
-﻿using AuthHub.BLL.Common.Helpers;
+﻿using System;
+using AuthHub.BLL.Common.Helpers;
 using System.Collections.Generic;
 using Xunit;
 
@@ -29,7 +30,7 @@ namespace AuthHub.BLL.Common.Tests.Helpers
         public static IEnumerable<object[]> BytesData()
         => new List<object[]>()
         {
-            new object[]{ new byte[0], new byte[] { 1, 2,3}, false },
+            new object[]{ Array.Empty<byte>(), new byte[] { 1, 2,3}, false },
             new object[]{ new byte[] { 1,2,3}, new byte[] { 1, 2,3}, true },
         };
     }

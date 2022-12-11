@@ -1,17 +1,18 @@
 using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Auth;
-using AuthHub.BLL.Common.Extensions;
+using AuthHub.BLL.Common.Hashing;
 using AuthHub.BLL.Common.Tokens;
+using AuthHub.BLL.Passwords;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.Interfaces.Auth;
+using AuthHub.Interfaces.Hashing;
+using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Options;
 using Common.AspDotNet.Extensions;
 using Common.AspDotNet.Handlers;
 using Common.Interfaces.Repository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -41,10 +42,12 @@ namespace AuthHub.Api
                 o.UseSqlServer(connectionString);
             })
             .AddTransient<IAuthenticationService, AuthenticationService>()
-            .AddTransient<IAuthorizationHandler, OrganizationAuthHandler>()
             .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
             .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
             .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
+            .AddTransient<IApiCredentialsEvaluator, ApiCredentialsEvaluator>()
+            .AddTransient<IPasswordEvaluator, PasswordEvaluator>()
+            .AddTransient<IHasher, Hasher>()
             .AddAuthHubServices()
             .AddAuthHubLoaders()
             .AddAuthHubValidators()
@@ -53,22 +56,20 @@ namespace AuthHub.Api
             .AddCommon()
             .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"));
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = APICredentialsAuthenticationHandler.Scheme;
+            })
+            .AddScheme<APICredentialsOptions, APICredentialsAuthenticationHandler>(
+                APICredentialsAuthenticationHandler.Scheme,
+                options => { });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthHub", Version = "v1" });
             });
 
-            services.AddAuthHubJWTAuthentication(Configuration.AuthHubKey(), Configuration.AuthHubIssuer());
-
-            services.AddAuthorization(x =>
-            {
-                x.AddPolicy(JwtBearerDefaults.AuthenticationScheme, y =>
-                {
-                    y.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-                    y.AddRequirements(new OrganizationAuthRequirement());
-                });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

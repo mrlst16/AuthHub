@@ -66,6 +66,8 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<Organization>()
                 .Property(x => x.Email)
                 .IsRequired();
+            modelBuilder.Entity<Organization>()
+                .HasOne<APIKeyAndSecretHash>(x => x.APIKeyAndSecretHash);
 
             //AuthSettings Setup
             modelBuilder.Entity<AuthSettingsModel>()
@@ -208,6 +210,10 @@ namespace AuthHub.DAL.EntityFramework
                 .HasKey(x => x.Id);
             modelBuilder.Entity<VerificationCode>()
                 .HasOne(x => x.Type);
+
+            modelBuilder.Entity<APIKeyAndSecretHash>()
+                .HasKey(x => x.Id);
+
             #endregion
 
             #region Load Data
@@ -319,7 +325,18 @@ namespace AuthHub.DAL.EntityFramework
                         Name = "PasswordReset",
                         Value = VerificationTypeEnum.PasswordReset
                     }
-                    );
+                );
+
+            modelBuilder.Entity<APIKeyAndSecretHash>()
+                .HasData(new APIKeyAndSecretHash()
+                {
+                    Id = Guid.Parse("68ab7350-9368-45ec-bd90-14bbe71480bd"),
+                    OrganizationId = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
+                    Length = 10,
+                    Iterations = 10,
+                    Salt = new byte[] { 142, 34, 0, 28 },
+                    Hash = new byte[] { 82, 173, 66, 213, 53, 147, 34, 195, 227, 190 }
+                });
         }
         #endregion
     }

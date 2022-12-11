@@ -22,19 +22,6 @@ namespace AuthHub.Api.Controllers
         {
             _tokenService = tokenService;
         }
-
-        [HttpGet("user")]
-        public async Task<IActionResult> GetUserAuthToken(
-            [FromBody] SignInRequest request
-        )
-        {
-            var response = new ApiResponse<Token>()
-            {
-                Data = await _tokenService.GetToken(request.AuthSettingsId, request.UserName, request.Password),
-                Success = true,
-                SuccessMessage = "Successfully retrieved token for user"
-            };
-            return new OkObjectResult(response);
-        }
+        
     }
 }
