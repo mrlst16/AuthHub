@@ -1,8 +1,8 @@
-﻿using System.Text;
-using System.Threading.Tasks;
-using AuthHub.BLL.Common.Hashing;
+﻿using AuthHub.BLL.Common.Hashing;
 using AuthHub.BLL.Common.Helpers;
 using AuthHub.Tests.MockData;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace AuthHub.BLL.Common.Tests.Hashing

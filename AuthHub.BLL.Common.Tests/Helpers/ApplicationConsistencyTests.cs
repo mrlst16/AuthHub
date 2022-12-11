@@ -1,5 +1,5 @@
-﻿using System;
-using AuthHub.BLL.Common.Helpers;
+﻿using AuthHub.BLL.Common.Helpers;
+using System;
 using System.Collections.Generic;
 using Xunit;
 

@@ -1,5 +1,5 @@
-﻿using System;
-using Common.Models.Entities;
+﻿using Common.Models.Entities;
+using System;
 
 namespace AuthHub.Models.Organizations
 {

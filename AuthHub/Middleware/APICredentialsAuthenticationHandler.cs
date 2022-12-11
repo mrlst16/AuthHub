@@ -1,21 +1,18 @@
-﻿using System.Security.Authentication;
+﻿using AuthHub.Interfaces.Passwords;
+using AuthHub.Models.Constants;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
-using AuthHub.Models.Constants;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
 using System.Threading.Tasks;
-using AuthHub.Interfaces.Passwords;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
 
 namespace AuthHub.Api.Middleware
 {
     public class APICredentialsOptions : AuthenticationSchemeOptions
     {
-
     }
 
     public class APICredentialsAuthenticationHandler : AuthenticationHandler<APICredentialsOptions>

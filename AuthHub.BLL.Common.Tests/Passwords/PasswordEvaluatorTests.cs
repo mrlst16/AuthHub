@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using AuthHub.BLL.Common.Hashing;
+﻿using AuthHub.BLL.Common.Hashing;
 using AuthHub.BLL.Common.Helpers;
 using AuthHub.BLL.Common.Passwords;
 using AuthHub.Interfaces.Hashing;
 using AuthHub.Tests.MockData;
 using Common.Interfaces.Helpers;
-using Moq;
+using System.Threading.Tasks;
 using Xunit;
 using Assert = NUnit.Framework.Assert;
 

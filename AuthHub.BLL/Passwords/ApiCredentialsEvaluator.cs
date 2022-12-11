@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using AuthHub.Interfaces.Organizations;
+﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
+using System;
+using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Passwords
 {

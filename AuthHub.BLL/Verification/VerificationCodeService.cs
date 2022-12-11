@@ -1,10 +1,10 @@
-﻿using AuthHub.Interfaces.Verification;
+﻿using AuthHub.Interfaces.Users;
+using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Verification;
 using Common.Interfaces.Providers;
 using System;
 using System.Threading.Tasks;
-using AuthHub.Interfaces.Users;
 
 namespace AuthHub.BLL.Verification
 {
