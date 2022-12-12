@@ -67,6 +67,7 @@ namespace AuthHub.DAL.EntityFramework.Users
             {
                 var result = await _context
                     .Users
+                    .Include(x=> x.Password)
                     .FirstOrDefaultAsync(x => x.UserName == userName && x.DeletedUTC == null);
                 return result;
             }

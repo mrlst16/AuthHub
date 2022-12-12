@@ -39,7 +39,7 @@ namespace AuthHub.Api.Middleware
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (
-                !Request.Headers.TryGetValue(AuthHubHeaders.Username,
+                !Request.Headers.TryGetValue(AuthHubHeaders.AuthSettingsID,
                     out StringValues authSettingsIDStringValue))
                 return AuthenticateResult.Fail("AuthSettingsID is required");
 

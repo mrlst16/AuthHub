@@ -45,11 +45,8 @@ namespace AuthHub.BLL.Passwords
 
         public async Task<(bool, Guid)> EvaluateUsernameAndPassword(Guid authSettingsId, string username, string password)
         {
-            var userTask = _userLoader.GetAsync(username);
-            var authSettingsTask = _authSettingsLoader.ReadAsync(authSettingsId);
-            Task.WaitAll(userTask, authSettingsTask);
-            var user = userTask.Result;
-            var authSettings = authSettingsTask.Result;
+            var user = await _userLoader.GetAsync(username);
+            var authSettings = await _authSettingsLoader.ReadAsync(authSettingsId);
 
             if (user == null) return (false, user.Id);
 
