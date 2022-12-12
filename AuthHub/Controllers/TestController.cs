@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthHub.Api.Controllers
 {
     [APICredentials]
+    [UserCredentials]
     [ApiController]
     [Route("[controller]")]
     public class TestController : Controller
@@ -11,6 +12,7 @@ namespace AuthHub.Api.Controllers
         [HttpGet("balls")]
         public IActionResult Index()
         {
+            var user = User;
             return Ok("Balls!");
         }
     }

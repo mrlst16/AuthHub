@@ -19,10 +19,10 @@ namespace AuthHub.Api.Middleware
     {
         public const string Scheme = "AuthHubApiCredentials";
 
-        private readonly IApiCredentialsEvaluator _evaluator;
+        private readonly ICredentialsEvaluator _evaluator;
 
         public APICredentialsAuthenticationHandler(
-            IApiCredentialsEvaluator evaluator,
+            ICredentialsEvaluator evaluator,
             IOptionsMonitor<APICredentialsOptions> monitor,
             ILoggerFactory loggerFactory,
             UrlEncoder urlEncoder,
@@ -44,7 +44,7 @@ namespace AuthHub.Api.Middleware
                     out StringValues organizationIdStringValue))
                 return AuthenticateResult.Fail("OrganizationId is required");
             if (!Guid.TryParse(organizationIdStringValue, out Guid organizationId))
-                throw new BadHttpRequestException("OrganizationId must be a valid Guid");
+                throw new BadHttpRequestException("OrganizationId must be a valid Guid value");
             if (
                 !Request.Headers.TryGetValue(AuthHubHeaders.APIKey,
                     out StringValues apiKey))
@@ -54,7 +54,7 @@ namespace AuthHub.Api.Middleware
                     out StringValues apiSecret))
                 return AuthenticateResult.Fail("APISecret is required");
 
-            var authenticationResult = await _evaluator.Evaluate(organizationId, apiKey, apiSecret);
+            var authenticationResult = await _evaluator.EvaluateApiKeyAndSecret(organizationId, apiKey, apiSecret);
 
             if (!authenticationResult)
                 return AuthenticateResult.Fail("Not authenticated");

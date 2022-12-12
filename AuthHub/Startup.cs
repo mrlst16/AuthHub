@@ -45,7 +45,7 @@ namespace AuthHub.Api
             .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
             .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
             .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
-            .AddTransient<IApiCredentialsEvaluator, ApiCredentialsEvaluator>()
+            .AddTransient<ICredentialsEvaluator, CredentialsEvaluator>()
             .AddTransient<IPasswordEvaluator, PasswordEvaluator>()
             .AddTransient<IHasher, Hasher>()
             .AddAuthHubServices()
@@ -60,8 +60,11 @@ namespace AuthHub.Api
             {
                 options.DefaultAuthenticateScheme = APICredentialsAuthenticationHandler.Scheme;
             })
-            .AddScheme<APICredentialsOptions, APICredentialsAuthenticationHandler>(
-                APICredentialsAuthenticationHandler.Scheme,
+                .AddScheme<APICredentialsOptions, APICredentialsAuthenticationHandler>(
+                    APICredentialsAuthenticationHandler.Scheme,
+                    options => { })
+                .AddScheme<UserCredentialsOptions, UserCredentialsAuthenticationHandler>(
+                    UserCredentialsAuthenticationHandler.Scheme,
                 options => { });
 
             services.AddControllers();

@@ -12,7 +12,6 @@ namespace AuthHub.BLL.Common.Tests.Passwords
 {
     public class PasswordEvaluatorTests
     {
-
         private readonly PasswordEvaluator _passwordEvaluator;
         private readonly IHasher _hasher;
         private readonly IApplicationConsistency _applicationConsistency;

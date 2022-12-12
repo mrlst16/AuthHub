@@ -33,7 +33,10 @@ namespace AuthHub.DAL.EntityFramework.Users
             => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
 
         public async Task<User> GetAsync(Guid id)
-            => (await _context.Users.SingleOrDefaultAsync(x => x.Id == id))!;
+            => (await _context
+                .Users
+                .Include(x=> x.Password)
+                .SingleOrDefaultAsync(x => x.Id == id))!;
 
         public async Task<Guid> SaveAsync(User item)
         {
