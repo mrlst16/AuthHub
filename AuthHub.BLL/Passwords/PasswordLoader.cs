@@ -3,15 +3,12 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
-using AuthHub.Models.QueryResultSets;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Users;
-using Common.Helpers;
 using Common.Interfaces.Providers;
 using Common.Interfaces.Repository;
 using Common.Models.Exceptions;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Passwords
@@ -64,24 +61,6 @@ namespace AuthHub.BLL.Passwords
             return await _passwordContext.Set(organizationId, authSettingsname, request);
         }
 
-        public async Task<PasswordResetToken> GenerateAndSavePasswordResetToken(UserPointer userPointer)
-        {
-            var user = await _userContext.Get(userPointer);
-            var authSettings = await _organizationContext.GetSettings(userPointer.OrganizationID, userPointer.UserName);
-
-            var result = new PasswordResetToken()
-            {
-                UserId = user.Id,
-                Email = user.Email,
-                ExpirationDate = DateTime.UtcNow.AddMinutes(authSettings.PasswordResetTokenExpirationMinutes),
-                VerificationCode = StringHelper.RandomAlphanumericString(6)
-            };
-            await _passwordContext.SavePasswordResetToken(result);
-            return (result);
-        }
-
-
-
         public async Task<Password> GetByUserIdAsync(Guid userId)
             => await _passwordContext.GetByUserIdAsync(userId);
 
@@ -90,22 +69,5 @@ namespace AuthHub.BLL.Passwords
 
         public async Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName)
             => await _passwordContext.GetLoginChallenge(authSettingsId, userName);
-
-        public async Task<TokenAssemblyData> GetTokenAssemblyData(Guid authSettingsId, Guid userId)
-        {
-            var user = await _userContext.GetAsync(userId);
-
-            var authSettings = user.AuthSettings.First(x => x.Id == authSettingsId);
-
-            return new TokenAssemblyData()
-            {
-                UserName = user.UserName,
-                Claims = user.Password.Claims,
-                Issuer = authSettings.Issuer,
-                ExpirationDate = _dateProvider.UTCNow.AddMinutes(authSettings.ExpirationMinutes),
-                Key = authSettings.Key,
-                OrganizationId = authSettings.OrganizationID
-            };
-        }
     }
 }

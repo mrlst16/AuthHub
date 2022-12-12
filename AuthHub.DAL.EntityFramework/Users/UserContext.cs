@@ -22,20 +22,10 @@ namespace AuthHub.DAL.EntityFramework.Users
             return user;
         }
 
-        public async Task<User> Get(Guid organizationId, string authSettingsName, string username)
-            => _context
-                .AuthSettings
-                .First(x => x.OrganizationID == organizationId && x.Name == authSettingsName)
-                .Users
-                .First(x => x.UserName == username);
-
-        public async Task<User> Get(UserPointer userPointer)
-            => await Get(userPointer.OrganizationID, userPointer.AuthSettingsName, userPointer.UserName);
-
         public async Task<User> GetAsync(Guid id)
             => (await _context
                 .Users
-                .Include(x=> x.Password)
+                .Include(x => x.Password)
                 .SingleOrDefaultAsync(x => x.Id == id))!;
 
         public async Task<Guid> SaveAsync(User item)
@@ -67,7 +57,7 @@ namespace AuthHub.DAL.EntityFramework.Users
             {
                 var result = await _context
                     .Users
-                    .Include(x=> x.Password)
+                    .Include(x => x.Password)
                     .FirstOrDefaultAsync(x => x.UserName == userName && x.DeletedUTC == null);
                 return result;
             }

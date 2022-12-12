@@ -1,9 +1,9 @@
-﻿using AuthHub.Interfaces.Organizations;
+﻿using AuthHub.Interfaces.AuthSetting;
+using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
+using AuthHub.Interfaces.Users;
 using System;
 using System.Threading.Tasks;
-using AuthHub.Interfaces.AuthSetting;
-using AuthHub.Interfaces.Users;
 
 namespace AuthHub.BLL.Passwords
 {
@@ -50,7 +50,7 @@ namespace AuthHub.BLL.Passwords
 
             if (user == null) return (false, user.Id);
 
-            var authenticationResult =  _passwordEvaluator.EvaluateUsernameAndPasswordWithSalt(
+            var authenticationResult = _passwordEvaluator.EvaluateUsernameAndPasswordWithSalt(
                 username,
                 password,
                 authSettings.HashLength,

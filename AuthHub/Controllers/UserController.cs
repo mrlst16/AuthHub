@@ -59,17 +59,5 @@ namespace AuthHub.Api.Controllers
             };
             return new OkObjectResult(response);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> AssociateUserEndpoint()
-        {
-            var response = new ApiResponse<bool>()
-            {
-                Data = false,
-                SuccessMessage = "Successfully associated user with auth settings",
-                Success = true
-            };
-            return new OkObjectResult(response);
-        }
     }
 }
