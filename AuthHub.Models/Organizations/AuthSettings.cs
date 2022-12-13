@@ -1,10 +1,10 @@
 ﻿using AuthHub.Models.Enums;
 using AuthHub.Models.Passwords;
+using AuthHub.Models.Users;
 using Common.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using AuthHub.Models.Users;
 
 namespace AuthHub.Models.Organizations
 {

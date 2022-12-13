@@ -102,7 +102,7 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<AuthSettingsModel>()
                 .HasMany<User>()
                 .WithOne(x => x.AuthSettings)
-                .HasForeignKey(x=> x.AuthSettingsId);
+                .HasForeignKey(x => x.AuthSettingsId);
 
             //Users Setup
             modelBuilder.Entity<User>()

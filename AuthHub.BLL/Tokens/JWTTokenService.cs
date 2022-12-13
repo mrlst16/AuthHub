@@ -1,11 +1,10 @@
 ﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Passwords;
-using AuthHub.Models.QueryResultSets;
 using AuthHub.Models.Tokens;
-using Common.Extensions;
 using Common.Interfaces.Helpers;
+using Common.Interfaces.Providers;
 using Common.Interfaces.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -14,10 +13,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-using AuthHub.Interfaces.Users;
-using Common.Interfaces.Providers;
 
 namespace AuthHub.BLL.Tokens
 {

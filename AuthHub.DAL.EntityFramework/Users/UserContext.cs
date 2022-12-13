@@ -27,7 +27,7 @@ namespace AuthHub.DAL.EntityFramework.Users
                 .Users
                 .Include(x => x.AuthSettings)
                 .Include(x => x.Password)
-                .ThenInclude(x=> x.Claims)
+                .ThenInclude(x => x.Claims)
                 .SingleOrDefaultAsync(x => x.Id == id))!;
 
         public async Task<Guid> SaveAsync(User item)
