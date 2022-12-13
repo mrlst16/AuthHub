@@ -4,6 +4,7 @@ using AuthHub.DAL.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthHub.DAL.EntityFramework.Migrations
 {
     [DbContext(typeof(AuthHubContext))]
-    partial class AuthHubContextModelSnapshot : ModelSnapshot
+    [Migration("20221212061227_RemoveAuthSettingsToUserMappings")]
+    partial class RemoveAuthSettingsToUserMappings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,8 +53,8 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(5762),
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(5763),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7466),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7467),
                             Name = "JWT",
                             Value = 1
                         });
@@ -87,16 +89,16 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("b606fd56-6c9f-40ea-a274-1603d2ef9780"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6231),
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6231),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(8044),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(8044),
                             Name = "UserEmail",
                             Value = 0
                         },
                         new
                         {
                             Id = new Guid("8eb05bdc-0f09-437b-af5a-06e5ff017556"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6234),
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6235),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(8049),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(8049),
                             Name = "PasswordReset",
                             Value = 1
                         });
@@ -143,10 +145,10 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("68ab7350-9368-45ec-bd90-14bbe71480bd"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6257),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(8075),
                             Hash = new byte[] { 82, 173, 66, 213, 53, 147, 34, 195, 227, 190 },
                             Iterations = 10,
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6258),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(8076),
                             Length = 10,
                             OrganizationId = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                             Salt = new byte[] { 142, 34, 0, 28 }
@@ -222,13 +224,13 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         {
                             Id = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                             AuthSchemeID = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6047),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7838),
                             ExpirationMinutes = 120,
                             HashLength = 8,
                             Issuer = "Pawnder",
                             Iterations = 10,
                             Key = "This is my auth key",
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6048),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7839),
                             Name = "Pawnder JWT",
                             OrganizationID = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                             PasswordResetTokenExpirationMinutes = 10,
@@ -238,13 +240,13 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         {
                             Id = new Guid("6ce12da2-cb73-4f0b-b9f0-46051621b3c6"),
                             AuthSchemeID = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6057),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7849),
                             ExpirationMinutes = 120,
                             HashLength = 8,
                             Issuer = "Audder",
                             Iterations = 10,
                             Key = "This is my auth key",
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6057),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7850),
                             Name = "Audder_Clients",
                             OrganizationID = new Guid("0b674ac4-7079-4ad7-830a-c41cd6ab5204"),
                             PasswordResetTokenExpirationMinutes = 10,
@@ -283,17 +285,17 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6008),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7794),
                             Email = "mattlantz88@gmail.com",
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6009),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7795),
                             Name = "Pawnder"
                         },
                         new
                         {
                             Id = new Guid("0b674ac4-7079-4ad7-830a-c41cd6ab5204"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6016),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7802),
                             Email = "mattlantz88@gmail.com",
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6017),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7803),
                             Name = "Audder"
                         });
                 });
@@ -372,18 +374,18 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         {
                             Id = new Guid("7ef019bd-4155-4c25-85d8-5eee7427af8a"),
                             AuthSettingsId = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6083),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7881),
                             IsDefault = false,
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6083),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7882),
                             Name = "Name"
                         },
                         new
                         {
                             Id = new Guid("6598c3ca-417e-47ed-b796-66f94af855df"),
                             AuthSettingsId = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6091),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7888),
                             IsDefault = false,
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6091),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7889),
                             Name = "Role"
                         });
                 });
@@ -428,9 +430,9 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("8358a66e-b015-44a6-9cc3-7b5c2b9f1d79"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6141),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7954),
                             ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6141),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7955),
                             PasswordHash = new byte[] { 80, 97, 119, 110, 100, 101, 114, 50, 50, 33 },
                             Salt = new byte[] { 91, 156, 7, 89, 255, 32, 9, 14 },
                             UserId = new Guid("b9e2e173-f8c4-41ed-be88-ec1071920130")
@@ -477,12 +479,6 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthSettingsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AuthSettingsId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -519,23 +515,18 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthSettingsId");
-
-                    b.HasIndex("AuthSettingsId1");
-
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("b9e2e173-f8c4-41ed-be88-ec1071920130"),
-                            AuthSettingsId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreateDate = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6118),
+                            CreateDate = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7923),
                             Email = "mattlantz88@gmail.com",
                             FirstName = "Pawnder",
                             IsOrganization = true,
                             LastName = "Organization",
-                            LastUpdated = new DateTime(2022, 12, 13, 4, 27, 16, 729, DateTimeKind.Utc).AddTicks(6118),
+                            LastUpdated = new DateTime(2022, 12, 12, 6, 12, 25, 707, DateTimeKind.Utc).AddTicks(7924),
                             UserName = "Pawnder",
                             UsersOrganizationId = new Guid("0b674ac4-7079-4ad7-830a-c41cd6ab5204")
                         });
@@ -633,21 +624,6 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Users.User", b =>
-                {
-                    b.HasOne("AuthHub.Models.Organizations.AuthSettings", "AuthSettings")
-                        .WithMany()
-                        .HasForeignKey("AuthSettingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AuthHub.Models.Organizations.AuthSettings", null)
-                        .WithMany("Users")
-                        .HasForeignKey("AuthSettingsId1");
-
-                    b.Navigation("AuthSettings");
-                });
-
             modelBuilder.Entity("AuthHub.Models.Verification.VerificationCode", b =>
                 {
                     b.HasOne("AuthHub.Models.Enums.VerificationType", "Type")
@@ -666,8 +642,6 @@ namespace AuthHub.DAL.EntityFramework.Migrations
             modelBuilder.Entity("AuthHub.Models.Organizations.AuthSettings", b =>
                 {
                     b.Navigation("AvailableClaimsKeys");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("AuthHub.Models.Organizations.Organization", b =>

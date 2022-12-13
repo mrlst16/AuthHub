@@ -5,7 +5,7 @@ namespace AuthHub.Api.Attributes
 {
     public class APICredentialsAttribute : AuthorizeAttribute
     {
-        public APICredentialsAttribute(): base()
+        public APICredentialsAttribute() : base()
         {
             AuthenticationSchemes = APICredentialsAuthenticationHandler.Scheme;
         }

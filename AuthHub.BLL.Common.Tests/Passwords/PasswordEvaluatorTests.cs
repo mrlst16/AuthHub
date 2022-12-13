@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using AuthHub.BLL.Common.Hashing;
+﻿using AuthHub.BLL.Common.Hashing;
 using AuthHub.BLL.Common.Helpers;
 using AuthHub.BLL.Common.Passwords;
 using AuthHub.Interfaces.Hashing;
 using AuthHub.Tests.MockData;
 using Common.Interfaces.Helpers;
-using Moq;
+using System.Threading.Tasks;
 using Xunit;
 using Assert = NUnit.Framework.Assert;
 
@@ -13,7 +12,6 @@ namespace AuthHub.BLL.Common.Tests.Passwords
 {
     public class PasswordEvaluatorTests
     {
-
         private readonly PasswordEvaluator _passwordEvaluator;
         private readonly IHasher _hasher;
         private readonly IApplicationConsistency _applicationConsistency;
@@ -32,7 +30,6 @@ namespace AuthHub.BLL.Common.Tests.Passwords
         public async Task EvaluateUsernameAndPasswordWithSalt_Matches()
         {
             var storedHash = _hasher.HashUsernameAndPasswordWithSalt(
-                MockPasswordData.UserNameBytes,
                 MockPasswordData.PasswordBytes,
                 MockPasswordData.Salt1234,
                 10,

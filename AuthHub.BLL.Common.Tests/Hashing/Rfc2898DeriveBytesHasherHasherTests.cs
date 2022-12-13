@@ -1,8 +1,8 @@
-﻿using System.Text;
-using System.Threading.Tasks;
-using AuthHub.BLL.Common.Hashing;
+﻿using AuthHub.BLL.Common.Hashing;
 using AuthHub.BLL.Common.Helpers;
 using AuthHub.Tests.MockData;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace AuthHub.BLL.Common.Tests.Hashing
@@ -20,7 +20,6 @@ namespace AuthHub.BLL.Common.Tests.Hashing
         public async Task HashUsernameAndPasswordWithSalt_NotEmpty()
         {
             var result = _hasher.HashUsernameAndPasswordWithSalt(
-                MockPasswordData.UserNameBytes,
                 MockPasswordData.PasswordBytes,
                 MockPasswordData.Salt1234,
                 10,
@@ -34,7 +33,6 @@ namespace AuthHub.BLL.Common.Tests.Hashing
         public async Task HashUsernameAndPasswordWithSalt_TwoCallsSameArguments_Match()
         {
             var result1 = _hasher.HashUsernameAndPasswordWithSalt(
-                MockPasswordData.UserNameBytes,
                 MockPasswordData.PasswordBytes,
                 MockPasswordData.Salt1234,
                 10,
@@ -42,7 +40,6 @@ namespace AuthHub.BLL.Common.Tests.Hashing
             );
 
             var result2 = _hasher.HashUsernameAndPasswordWithSalt(
-                MockPasswordData.UserNameBytes,
                 MockPasswordData.PasswordBytes,
                 MockPasswordData.Salt1234,
                 10,
@@ -56,13 +53,11 @@ namespace AuthHub.BLL.Common.Tests.Hashing
         public async Task HashUsernameAndPasswordWithSalt_Harness()
         {
             var applicationConsistency = new ApplicationConsistency();
-            var userNameBytes = applicationConsistency.GetBytes("Pawnder");
             var passwordBytes = applicationConsistency.GetBytes("Pawnder22!");
 
             var salt = new byte[] { 142, 34, 0, 28 };
 
             var result = _hasher.HashUsernameAndPasswordWithSalt(
-                userNameBytes,
                 passwordBytes,
                 salt,
                 10,

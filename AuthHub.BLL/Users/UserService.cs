@@ -44,7 +44,11 @@ namespace AuthHub.BLL.Users
 
         public async Task<Guid> CreateAsync(CreateUserRequest item)
         {
-            var authSettings = await _authSettingsLoader.ReadAsync(_configuration.AuthHubSettingsId());
+            var authSettingsId = item.AuthSettingsID == Guid.Empty
+                ? _configuration.AuthHubSettingsId()
+                : item.AuthSettingsID;
+
+            var authSettings = await _authSettingsLoader.ReadAsync(authSettingsId);
             var tokenGenerator = _tokenGeneratorFactory(AuthSchemeEnum.JWT);
 
             (byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
@@ -56,6 +60,8 @@ namespace AuthHub.BLL.Users
             User user = new()
             {
                 Id = newUserId,
+                AuthSettings = authSettings,
+                AuthSettingsId = authSettingsId,
                 Email = item.Email,
                 FirstName = item.FirstName,
                 LastName = item.LastName,

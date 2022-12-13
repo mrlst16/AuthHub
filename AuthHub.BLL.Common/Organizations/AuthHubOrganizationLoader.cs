@@ -3,7 +3,6 @@ using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Organizations;
 using AuthHub.Models.Passwords;
-using AuthHub.Models.Users;
 using Microsoft.Extensions.Configuration;
 
 namespace AuthHub.BLL.Common.Organizations
@@ -49,8 +48,7 @@ namespace AuthHub.BLL.Common.Organizations
                             AvailableClaimsKeys = new List<ClaimsKey>(){_configuration.GetClaimsKey("role")},
                             ExpirationMinutes = 120,
                             Name = "audder_clients",
-                            OrganizationID = authHubOrgId,
-                            Users = new List<User>()
+                            OrganizationID = authHubOrgId
                         }
                     }
             };

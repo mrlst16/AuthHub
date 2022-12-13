@@ -99,6 +99,10 @@ namespace AuthHub.DAL.EntityFramework
                 .Property(x => x.SaltLength)
                 .IsRequired()
                 .HasDefaultValue(8);
+            modelBuilder.Entity<AuthSettingsModel>()
+                .HasMany<User>()
+                .WithOne(x => x.AuthSettings)
+                .HasForeignKey(x=> x.AuthSettingsId);
 
             //Users Setup
             modelBuilder.Entity<User>()
@@ -182,24 +186,7 @@ namespace AuthHub.DAL.EntityFramework
                 .Property(x => x.ExpirationDate)
                 .IsRequired();
 
-            modelBuilder.Entity<AuthSettingsModel>()
-                .HasMany(p => p.Users)
-                .WithMany(p => p.AuthSettings)
-                .UsingEntity<Dictionary<string, object>>(
-                    "AuthSettingsToUsersMap",
-                    j => j
-                        .HasOne<User>()
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_AuthSettingsToUsersMap_Users_UserId")
-                        .OnDelete(DeleteBehavior.ClientNoAction),
-                    j => j
-                        .HasOne<AuthSettingsModel>()
-                        .WithMany()
-                        .HasForeignKey("AuthSettingsId")
-                        .HasConstraintName("FK_AuthSettingsToUsersMap_AuthSettings_AuthSettingsId")
-                        .OnDelete(DeleteBehavior.ClientNoAction));
-
+            //Verification
             modelBuilder.Entity<VerificationType>()
                 .HasKey(x => x.Id);
 

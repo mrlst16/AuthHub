@@ -26,9 +26,8 @@ namespace AuthHub.BLL.Passwords
             byte[] salt,
             byte[] storedHash)
         {
-            var usernameBytes = _applicationConsistency.GetBytes(username);
             var passwordBytes = _applicationConsistency.GetBytes(password);
-            var hash = _hasher.HashUsernameAndPasswordWithSalt(usernameBytes, passwordBytes, salt, length, iterations);
+            var hash = _hasher.HashUsernameAndPasswordWithSalt(passwordBytes, salt, length, iterations);
 
             return _applicationConsistency.BytesEqual(hash, storedHash);
         }
