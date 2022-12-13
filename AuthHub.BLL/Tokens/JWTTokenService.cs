@@ -16,86 +16,61 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using AuthHub.Interfaces.Users;
+using Common.Interfaces.Providers;
 
 namespace AuthHub.BLL.Tokens
 {
     public class JWTTokenService : ITokenService
     {
-        private readonly IPasswordLoader _passwordLoader;
+        private readonly IUserLoader _userLoader;
         private readonly IConfiguration _configuration;
         private readonly IApplicationConsistency _applicationConsistency;
+        private readonly IDateProvider _dateProvider;
         private readonly IMapper<ClaimsEntity, Claim> _claimsMapper;
-
         public JWTTokenService(
-            IPasswordLoader passwordLoader,
+            IUserLoader userLoader,
             IConfiguration configuration,
             IApplicationConsistency applicationConsistency,
+            IDateProvider dateProvider,
             IMapper<ClaimsEntity, Claim> claimsMapper
             )
         {
-            _passwordLoader = passwordLoader;
+            _userLoader = userLoader;
             _configuration = configuration;
             _applicationConsistency = applicationConsistency;
+            _dateProvider = dateProvider;
             _claimsMapper = claimsMapper;
         }
 
-        public byte[] GenerateHash(byte[] password, byte[] salt, int length, int iterations = 100)
+        public async Task<Token> GetJWTUserToken(Guid userId)
         {
-            byte[] result = new byte[length];
-
-            using var derivedBytes = new Rfc2898DeriveBytes(password, salt, iterations);
-            result = derivedBytes.GetBytes(length);
-
-            return result;
-        }
-
-        public byte[] GenerateHash(string password, byte[] salt, int length, int iterations = 100)
-            => GenerateHash(_applicationConsistency.GetBytes(password), salt, length, iterations);
-
-        public bool Authenticate(byte[] passwordInRepository, string passwordPassed, byte[] salt, int length, int iterations = 100)
-        {
-            var requestHash = GenerateHash(passwordPassed, salt, length, iterations);
-            return requestHash.BytesEqual(passwordInRepository);
-        }
-
-        public async Task<Token> GetToken(Guid authSettingsId, string userName, string password)
-        {
-            var loginChallenge = await _passwordLoader.GetLoginChallenge(authSettingsId, userName);
-
-            if (!Authenticate
-                (
-                    loginChallenge.StoredPasswordHash,
-                    password,
-                    loginChallenge.Salt,
-                    loginChallenge.Length,
-                    loginChallenge.Iterations
-                )
-               )
-                throw new Exception($"Username and Password are not a match for user {userName} while logging in as an ogranization");
-
-            var tad = new TokenAssemblyData(); //await _passwordLoader.GetTokenAssemblyData(loginChallenge.UserId);
+            var user = await _userLoader.GetAsync(userId);
+            var authSettings = user.AuthSettings;
+            var password = user.Password;
+            var userClaims = user.Password.Claims;
 
             if (
-                tad.Claims
+                userClaims
                     .FirstOrDefault(x => string.Equals(x.Key, ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase)
                     ) == null)
-                tad.Claims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, tad.UserName));
+                userClaims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, user.UserName));
 
-            tad.Claims = tad?.Claims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
+            userClaims = userClaims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 
-            var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(tad.Key));
+            var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(authSettings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+            var expirationDate = _dateProvider.UTCNow.AddMinutes(authSettings.ExpirationMinutes);
             var token = new JwtSecurityToken(
-                issuer: tad.Issuer,
-                audience: tad.Issuer,
-                claims: tad?.Claims?.Select(_claimsMapper.Map) ?? new List<Claim>(),
-                expires: tad.ExpirationDate,
+                issuer: authSettings.Issuer,
+                audience: authSettings.Issuer,
+                claims: userClaims.Select(_claimsMapper.Map) ?? new List<Claim>(),
+                expires: expirationDate,
                 signingCredentials: credentials
             );
 
             var val = new JwtSecurityTokenHandler().WriteToken(token);
-            return new Token(val, token.ValidTo, tad.OrganizationId);
+            return new Token(val, token.ValidTo, authSettings.OrganizationID);
         }
     }
 }
