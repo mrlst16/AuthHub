@@ -4,6 +4,7 @@ using Common.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AuthHub.Models.Users;
 
 namespace AuthHub.Models.Organizations
 {
@@ -22,5 +23,6 @@ namespace AuthHub.Models.Organizations
         public int ExpirationMinutes { get; set; } = 30;
         public List<ClaimsKey> AvailableClaimsKeys { get; set; } = new List<ClaimsKey>();
         public int PasswordResetTokenExpirationMinutes { get; set; } = 120;
+        public List<User> Users { get; set; } = new List<User>();
     }
 }

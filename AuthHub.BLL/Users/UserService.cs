@@ -60,6 +60,8 @@ namespace AuthHub.BLL.Users
             User user = new()
             {
                 Id = newUserId,
+                AuthSettings = authSettings,
+                AuthSettingsId = authSettingsId,
                 Email = item.Email,
                 FirstName = item.FirstName,
                 LastName = item.LastName,

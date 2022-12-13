@@ -99,6 +99,10 @@ namespace AuthHub.DAL.EntityFramework
                 .Property(x => x.SaltLength)
                 .IsRequired()
                 .HasDefaultValue(8);
+            modelBuilder.Entity<AuthSettingsModel>()
+                .HasMany<User>()
+                .WithOne(x => x.AuthSettings)
+                .HasForeignKey(x=> x.AuthSettingsId);
 
             //Users Setup
             modelBuilder.Entity<User>()

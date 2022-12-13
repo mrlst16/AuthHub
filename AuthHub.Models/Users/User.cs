@@ -3,6 +3,7 @@ using AuthHub.Models.Verification;
 using Common.Models.Entities;
 using System;
 using System.Collections.Generic;
+using AuthHub.Models.Organizations;
 
 namespace AuthHub.Models.Users
 {
@@ -23,5 +24,7 @@ namespace AuthHub.Models.Users
         public string LastName { get; set; }
         public Password Password { get; set; } = new Password();
         public IEnumerable<VerificationCode> VerificationCodes { get; set; } = new List<VerificationCode>();
+        public AuthSettings AuthSettings { get; set; }
+        public Guid AuthSettingsId { get; set; }
     }
 }
