@@ -19,27 +19,7 @@ namespace AuthHub.Api.ServiceRegistrations
         public static IServiceCollection AddAuthHubOthers(this IServiceCollection services)
         {
             services.AddTransient<IApplicationConsistency, ApplicationConsistency>();
-            services.AddTransient((services) =>
-            {
-                return new Func<AuthSchemeEnum, ITokenService>((a) =>
-                {
-                    return a switch
-                    {
-                        AuthSchemeEnum.JWT => new JWTTokenService(
-                                                        services.GetService<IPasswordLoader>(),
-                                                        services.GetService<IConfiguration>(),
-                                                        services.GetService<IApplicationConsistency>(),
-                                                        services.GetService<IMapper<ClaimsEntity, Claim>>()
-                                                    ),
-                        _ => new JWTTokenService(
-                            services.GetService<IPasswordLoader>(),
-                            services.GetService<IConfiguration>(),
-                            services.GetService<IApplicationConsistency>(),
-                            services.GetService<IMapper<ClaimsEntity, Claim>>()
-                        )
-                    };
-                });
-            });
+
             services.AddTransient((services) =>
             {
                 return new Func<AuthSchemeEnum, ITokenGenerator>((a) =>

@@ -119,10 +119,6 @@ namespace AuthHub.DAL.EntityFramework
                 .Property(x => x.UserName)
                 .IsRequired();
             modelBuilder.Entity<User>()
-                .Property(x => x.IsOrganization)
-                .IsRequired()
-                .HasDefaultValue(false);
-            modelBuilder.Entity<User>()
                 .Property(x => x.Email)
                 .IsRequired();
             modelBuilder.Entity<User>()
@@ -274,19 +270,6 @@ namespace AuthHub.DAL.EntityFramework
                         AuthSettingsId = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                         Name = "Role"
                     });
-
-            modelBuilder.Entity<User>()
-                .HasData(new User()
-                {
-                    Id = Guid.Parse("b9e2e173-f8c4-41ed-be88-ec1071920130"),
-                    IsOrganization = true,
-                    UserName = "Pawnder",
-                    Email = "mattlantz88@gmail.com",
-                    UsersOrganizationId = Guid.Parse("0B674AC4-7079-4AD7-830A-C41CD6AB5204"),
-                    FirstName = "Pawnder",
-                    LastName = "Organization",
-                    Password = null
-                });
 
             modelBuilder.Entity<Password>()
                 .HasData(new Password()

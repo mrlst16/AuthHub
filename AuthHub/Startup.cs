@@ -1,12 +1,10 @@
 using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
-using AuthHub.BLL.Auth;
 using AuthHub.BLL.Common.Hashing;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.BLL.Passwords;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.DAL.EntityFramework.Generic;
-using AuthHub.Interfaces.Auth;
 using AuthHub.Interfaces.Hashing;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Options;
@@ -41,7 +39,6 @@ namespace AuthHub.Api
                 var connectionString = Configuration.GetConnectionString("authhub");
                 o.UseSqlServer(connectionString);
             })
-            .AddTransient<IAuthenticationService, AuthenticationService>()
             .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
             .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
             .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))

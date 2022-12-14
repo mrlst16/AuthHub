@@ -66,7 +66,6 @@ namespace AuthHub.BLL.Users
                 FirstName = item.FirstName,
                 LastName = item.LastName,
                 UserName = item.UserName,
-                IsOrganization = false,
                 Password = new()
                 {
                     Id = newPasswordId,
