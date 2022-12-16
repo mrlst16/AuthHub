@@ -2,11 +2,11 @@
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Requests;
 using Common.Extensions;
 using Common.Interfaces.Helpers;
 using System.Security.Cryptography;
-using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.BLL.Common.Tokens
 {

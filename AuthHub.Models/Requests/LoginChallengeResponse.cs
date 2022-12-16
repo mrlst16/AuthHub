@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using AuthHub.Models.Entities.Passwords;
+﻿using AuthHub.Models.Entities.Passwords;
+using System.Collections.Generic;
 
 namespace AuthHub.Models.Requests
 {

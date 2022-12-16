@@ -2,14 +2,14 @@
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Requests;
 using Common.Interfaces.Providers;
 using Common.Interfaces.Repository;
 using Common.Models.Exceptions;
 using System;
 using System.Threading.Tasks;
-using AuthHub.Models.Entities.Passwords;
-using AuthHub.Models.Entities.Users;
 
 namespace AuthHub.BLL.Passwords
 {

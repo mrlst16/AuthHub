@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using AuthHub.Models.Entities.Organizations;
+﻿using AuthHub.Models.Entities.Organizations;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Verification;
 using Common.Models.Entities;
+using System;
+using System.Collections.Generic;
 
 namespace AuthHub.Models.Entities.Users
 {

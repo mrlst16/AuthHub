@@ -1,7 +1,7 @@
 ﻿using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Requests;
 using System.Collections.Generic;
-using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.Interfaces.Tokens
 {

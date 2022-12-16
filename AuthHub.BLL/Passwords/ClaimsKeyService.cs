@@ -1,8 +1,8 @@
 ﻿using AuthHub.Interfaces.Passwords;
+using AuthHub.Models.Entities.Passwords;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.BLL.Passwords
 {

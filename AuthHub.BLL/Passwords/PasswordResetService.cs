@@ -3,11 +3,11 @@ using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
+using AuthHub.Models.Entities.Passwords;
 using Common.Helpers;
 using Common.Interfaces.Providers;
 using System;
 using System.Threading.Tasks;
-using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.BLL.Passwords
 {

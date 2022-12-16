@@ -4,14 +4,14 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Requests;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AuthHub.Models.Entities.Passwords;
-using AuthHub.Models.Entities.Users;
 
 namespace AuthHub.BLL.Organizations
 {

@@ -4,6 +4,8 @@ using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Interfaces.Verification;
+using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Requests;
@@ -12,8 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthHub.Models.Entities.Passwords;
-using AuthHub.Models.Entities.Users;
 
 namespace AuthHub.BLL.Users
 {
