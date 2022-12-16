@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Organizations;
+﻿using AuthHub.Models.Entities.Organizations;
 using System.ComponentModel.DataAnnotations;
 
 namespace AuthHub.Models.Requests

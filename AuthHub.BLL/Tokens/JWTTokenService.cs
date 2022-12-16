@@ -1,8 +1,8 @@
 ﻿using AuthHub.BLL.Common.Extensions;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
-using AuthHub.Models.Passwords;
 using AuthHub.Models.Tokens;
+using Common.Helpers;
 using Common.Interfaces.Helpers;
 using Common.Interfaces.Providers;
 using Common.Interfaces.Utilities;
@@ -14,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.BLL.Tokens
 {
@@ -39,7 +40,7 @@ namespace AuthHub.BLL.Tokens
             _claimsMapper = claimsMapper;
         }
 
-        public async Task<Token> GetJWTUserToken(Guid userId)
+        public async Task<Token> GetAsync(Guid userId)
         {
             var user = await _userLoader.GetAsync(userId);
             var authSettings = user.AuthSettings;
@@ -65,8 +66,13 @@ namespace AuthHub.BLL.Tokens
                 signingCredentials: credentials
             );
 
-            var val = new JwtSecurityTokenHandler().WriteToken(token);
-            return new Token(val, token.ValidTo, authSettings.OrganizationID);
+            var refreshToken = StringHelper.RandomAlphanumericString(64);
+
+            return new Token()
+            {
+                Value = new JwtSecurityTokenHandler().WriteToken(token),
+                ExpirationDate = expirationDate,
+            };
         }
     }
 }

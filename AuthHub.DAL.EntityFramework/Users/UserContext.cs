@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.Users;
-using AuthHub.Models.Users;
+using AuthHub.Models.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Users

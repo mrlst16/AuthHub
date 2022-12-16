@@ -1,7 +1,7 @@
 ﻿using AuthHub.Interfaces.Users;
-using AuthHub.Models.Users;
 using System;
 using System.Threading.Tasks;
+using AuthHub.Models.Entities.Users;
 
 namespace AuthHub.BLL.Users
 {

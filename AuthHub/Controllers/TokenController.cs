@@ -33,7 +33,7 @@ namespace AuthHub.Api.Controllers
 
             return new OkObjectResult(new ApiResponse<Token>()
             {
-                Data = await _tokenService.GetJWTUserToken(userId),
+                Data = await _tokenService.GetAsync(userId),
                 Success = true,
                 SuccessMessage = "Successfully verified user email"
             });

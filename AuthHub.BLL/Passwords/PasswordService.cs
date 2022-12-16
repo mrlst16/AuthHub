@@ -2,10 +2,10 @@
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Enums;
-using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
 using System;
 using System.Threading.Tasks;
+using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.BLL.Passwords
 {

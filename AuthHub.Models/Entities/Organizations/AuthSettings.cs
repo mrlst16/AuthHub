@@ -1,12 +1,12 @@
-﻿using AuthHub.Models.Enums;
-using AuthHub.Models.Passwords;
-using AuthHub.Models.Users;
+﻿using AuthHub.Models.Entities.Enums;
 using Common.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Users;
 
-namespace AuthHub.Models.Organizations
+namespace AuthHub.Models.Entities.Organizations
 {
     public class AuthSettings : EntityBase<Guid>
     {

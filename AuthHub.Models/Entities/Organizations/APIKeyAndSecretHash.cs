@@ -1,7 +1,7 @@
 ﻿using Common.Models.Entities;
 using System;
 
-namespace AuthHub.Models.Organizations
+namespace AuthHub.Models.Entities.Organizations
 {
     public class APIKeyAndSecretHash : EntityBase<Guid>
     {

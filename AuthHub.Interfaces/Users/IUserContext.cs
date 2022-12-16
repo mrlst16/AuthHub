@@ -1,5 +1,5 @@
-﻿using AuthHub.Models.Users;
-using System;
+﻿using System;
+using AuthHub.Models.Entities.Users;
 
 namespace AuthHub.Interfaces.Users
 {

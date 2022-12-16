@@ -1,7 +1,7 @@
-﻿using Common.Models.Entities;
-using System;
+﻿using System;
+using Common.Models.Entities;
 
-namespace AuthHub.Models.Passwords
+namespace AuthHub.Models.Entities.Passwords
 {
     public class ClaimsKey : EntityBase<Guid>
     {

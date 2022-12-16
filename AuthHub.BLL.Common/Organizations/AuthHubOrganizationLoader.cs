@@ -1,8 +1,8 @@
 ﻿using AuthHub.BLL.Common.Extensions;
 using AuthHub.Interfaces.Organizations;
+using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Enums;
-using AuthHub.Models.Organizations;
-using AuthHub.Models.Passwords;
 using Microsoft.Extensions.Configuration;
 
 namespace AuthHub.BLL.Common.Organizations

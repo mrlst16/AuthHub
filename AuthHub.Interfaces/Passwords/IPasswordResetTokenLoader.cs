@@ -1,6 +1,5 @@
-﻿
-using AuthHub.Models.Passwords;
-using System;
+﻿using System;
+using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.Interfaces.Passwords
 {

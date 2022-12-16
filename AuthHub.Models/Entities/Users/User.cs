@@ -1,11 +1,11 @@
-﻿using AuthHub.Models.Organizations;
-using AuthHub.Models.Passwords;
-using AuthHub.Models.Verification;
-using Common.Models.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Verification;
+using Common.Models.Entities;
 
-namespace AuthHub.Models.Users
+namespace AuthHub.Models.Entities.Users
 {
     public class User : EntityBase<Guid>
     {
