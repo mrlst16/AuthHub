@@ -9,7 +9,6 @@ using AuthHub.Interfaces.Hashing;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Options;
 using Common.AspDotNet.Extensions;
-using Common.AspDotNet.Handlers;
 using Common.Interfaces.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

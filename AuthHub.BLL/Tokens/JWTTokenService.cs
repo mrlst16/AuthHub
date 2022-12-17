@@ -2,7 +2,9 @@
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Passwords;
-using AuthHub.Models.Tokens;
+using AuthHub.Models.Entities.Tokens;
+using AuthHub.Models.Entities.Users;
+using AuthHub.Models.Exceptions;
 using Common.Helpers;
 using Common.Interfaces.Helpers;
 using Common.Interfaces.Providers;
@@ -43,8 +45,20 @@ namespace AuthHub.BLL.Tokens
         public async Task<Token> GetAsync(Guid userId)
         {
             var user = await _userLoader.GetAsync(userId);
-            var authSettings = user.AuthSettings;
-            var password = user.Password;
+            return await CreateAndSaveToken(user);
+        }
+
+        public async Task<Token> GetRefreshToken(Guid userId, string refreshToken)
+        {
+            var user = await _userLoader.GetAsync(userId);
+            if (user.Tokens.All(x => x.RefreshToken != refreshToken))
+                throw new UnauthorizedException();
+
+            return await GetAsync(userId);
+        }
+
+        private async Task<Token> CreateAndSaveToken(User user)
+        {
             var userClaims = user.Password.Claims;
 
             if (
@@ -55,24 +69,29 @@ namespace AuthHub.BLL.Tokens
 
             userClaims = userClaims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 
-            var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(authSettings.Key));
+            var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(user.AuthSettings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var expirationDate = _dateProvider.UTCNow.AddMinutes(authSettings.ExpirationMinutes);
+            var expirationDate = _dateProvider.UTCNow.AddMinutes(user.AuthSettings.ExpirationMinutes);
             var token = new JwtSecurityToken(
-                issuer: authSettings.Issuer,
-                audience: authSettings.Issuer,
+                issuer: user.AuthSettings.Issuer,
+                audience: user.AuthSettings.Issuer,
                 claims: userClaims.Select(_claimsMapper.Map) ?? new List<Claim>(),
                 expires: expirationDate,
                 signingCredentials: credentials
             );
 
-            var refreshToken = StringHelper.RandomAlphanumericString(64);
-
-            return new Token()
+            var result = new Token()
             {
+                Id = Guid.NewGuid(),
                 Value = new JwtSecurityTokenHandler().WriteToken(token),
                 ExpirationDate = expirationDate,
+                RefreshToken = StringHelper.RandomAlphanumericString(64),
+                UserId = user.Id
             };
+
+            user.Tokens.Add(result);
+            await _userLoader.SaveAsync(user);
+            return result;
         }
     }
 }
