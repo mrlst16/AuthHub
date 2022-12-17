@@ -1,6 +1,6 @@
 ﻿using AuthHub.Interfaces.Verification;
+using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
-using AuthHub.Models.Verification;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Verification

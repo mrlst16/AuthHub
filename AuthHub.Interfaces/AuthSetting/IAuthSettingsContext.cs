@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AuthHub.Models.Entities.Organizations;
+using System;
 
 namespace AuthHub.Interfaces.AuthSetting
 {
     public interface IAuthSettingsContext
     {
-        public Task<Models.Organizations.AuthSettings> GetAsync(Guid id);
+        public Task<AuthSettings> GetAsync(Guid id);
     }
 }

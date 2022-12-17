@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.Users;
-using AuthHub.Models.Users;
+using AuthHub.Models.Requests;
 using FluentValidation;
 using System.Threading.Tasks;
 

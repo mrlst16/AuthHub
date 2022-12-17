@@ -1,13 +1,15 @@
 ﻿using AuthHub.BLL.Common.Helpers;
+using AuthHub.Models.Entities.Enums;
+using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Tokens;
+using AuthHub.Models.Entities.Users;
+using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
-using AuthHub.Models.Organizations;
-using AuthHub.Models.Passwords;
-using AuthHub.Models.Users;
-using AuthHub.Models.Verification;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-using AuthSettingsModel = AuthHub.Models.Organizations.AuthSettings;
+using AuthSettingsModel = AuthHub.Models.Entities.Organizations.AuthSettings;
 
 namespace AuthHub.DAL.EntityFramework
 {
@@ -124,6 +126,10 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<User>()
                 .HasMany<VerificationCode>(x => x.VerificationCodes)
                 .WithOne(x => x.User);
+            modelBuilder.Entity<User>()
+                .HasMany<Token>(x => x.Tokens)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId);
 
             //Passwords Setup
             modelBuilder.Entity<Password>()

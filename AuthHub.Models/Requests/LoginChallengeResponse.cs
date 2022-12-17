@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Passwords;
+﻿using AuthHub.Models.Entities.Passwords;
 using System.Collections.Generic;
 
 namespace AuthHub.Models.Requests

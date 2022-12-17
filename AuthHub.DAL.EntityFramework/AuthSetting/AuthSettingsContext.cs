@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.AuthSetting;
-using AuthHub.Models.Organizations;
+using AuthHub.Models.Entities.Organizations;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.AuthSetting

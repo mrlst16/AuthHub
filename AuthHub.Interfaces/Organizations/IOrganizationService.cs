@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Organizations;
+﻿using AuthHub.Models.Entities.Organizations;
 using AuthHub.Models.Requests;
 using System;
 using System.Collections.Generic;

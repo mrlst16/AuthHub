@@ -1,7 +1,7 @@
 ﻿using AuthHub.Interfaces.Users;
 using AuthHub.Interfaces.Verification;
+using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
-using AuthHub.Models.Verification;
 using Common.Interfaces.Providers;
 using System;
 using System.Threading.Tasks;

@@ -1,11 +1,12 @@
-﻿using AuthHub.Models.Organizations;
-using AuthHub.Models.Passwords;
-using AuthHub.Models.Verification;
+﻿using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Tokens;
+using AuthHub.Models.Entities.Verification;
 using Common.Models.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace AuthHub.Models.Users
+namespace AuthHub.Models.Entities.Users
 {
     public class User : EntityBase<Guid>
     {
@@ -15,6 +16,7 @@ namespace AuthHub.Models.Users
         public string LastName { get; set; }
         public Password Password { get; set; } = new Password();
         public IEnumerable<VerificationCode> VerificationCodes { get; set; } = new List<VerificationCode>();
+        public List<Token> Tokens { get; set; } = new List<Token>();
         public AuthSettings AuthSettings { get; set; }
         public Guid AuthSettingsId { get; set; }
     }

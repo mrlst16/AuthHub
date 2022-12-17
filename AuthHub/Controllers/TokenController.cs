@@ -1,7 +1,7 @@
 ﻿using AuthHub.Api.Attributes;
 using AuthHub.Api.Helpers;
 using AuthHub.Interfaces.Tokens;
-using AuthHub.Models.Tokens;
+using AuthHub.Models.Entities.Tokens;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +33,24 @@ namespace AuthHub.Api.Controllers
 
             return new OkObjectResult(new ApiResponse<Token>()
             {
-                Data = await _tokenService.GetJWTUserToken(userId),
+                Data = await _tokenService.GetAsync(userId),
+                Success = true,
+                SuccessMessage = "Successfully verified user email"
+            });
+        }
+
+        [HttpGet("RefreshJWTUserToken")]
+        [APICredentials]
+        [UserCredentials]
+        public async Task<IActionResult> RefreshJWTUserToken(
+            [FromQuery] string refreshToken
+            )
+        {
+            var userId = User.GetUserId();
+
+            return new OkObjectResult(new ApiResponse<Token>()
+            {
+                Data = await _tokenService.GetRefreshToken(userId, refreshToken),
                 Success = true,
                 SuccessMessage = "Successfully verified user email"
             });

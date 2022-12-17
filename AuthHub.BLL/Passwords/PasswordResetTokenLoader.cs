@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.Passwords;
-using AuthHub.Models.Passwords;
+using AuthHub.Models.Entities.Passwords;
 using Common.Interfaces.Repository;
 using System;
 using System.Linq;

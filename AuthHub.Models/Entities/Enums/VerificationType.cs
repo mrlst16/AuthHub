@@ -1,7 +1,8 @@
-﻿using Common.Models.Entities;
+﻿using AuthHub.Models.Enums;
+using Common.Models.Entities;
 using System;
 
-namespace AuthHub.Models.Enums
+namespace AuthHub.Models.Entities.Enums
 {
     public class VerificationType : EntityBase<Guid>
     {

@@ -1,5 +1,5 @@
 ﻿using AuthHub.Api.Validators;
-using AuthHub.Models.Users;
+using AuthHub.Models.Requests;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 

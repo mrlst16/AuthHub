@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.Users;
-using AuthHub.Models.Users;
+using AuthHub.Models.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Users
@@ -28,6 +28,7 @@ namespace AuthHub.DAL.EntityFramework.Users
                 .Include(x => x.AuthSettings)
                 .Include(x => x.Password)
                 .ThenInclude(x => x.Claims)
+                .Include(x => x.Tokens)
                 .SingleOrDefaultAsync(x => x.Id == id))!;
 
         public async Task<Guid> SaveAsync(User item)

@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.Users;
-using AuthHub.Models.Users;
+using AuthHub.Models.Entities.Users;
 using System;
 using System.Threading.Tasks;
 

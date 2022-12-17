@@ -3,11 +3,11 @@ using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
+using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Enums;
-using AuthHub.Models.Organizations;
-using AuthHub.Models.Passwords;
 using AuthHub.Models.Requests;
-using AuthHub.Models.Users;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -66,7 +66,7 @@ namespace AuthHub.BLL.Organizations
                 UserName = request.Email,
                 FirstName = request.Name,
                 LastName = org.Name,
-                Password = new Models.Passwords.Password()
+                Password = new Password()
                 {
                     Claims = new List<ClaimsEntity>()
                     {
