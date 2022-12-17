@@ -22,20 +22,20 @@ namespace AuthHub.Api.Controllers
             _service = service;
         }
 
-        [HttpPost()]
-        public async Task<IActionResult> ResetPassword(
-            [FromBody] SetPasswordRequest request
-        )
-        {
-            await _service.ResetOrganizationPassword(request);
-            var response = new ApiResponse<bool>()
-            {
-                Data = true,
-                Success = true,
-                SuccessMessage = "Successfully reset password"
-            };
-            return new OkObjectResult(response);
-        }
+        //[HttpPost()]
+        //public async Task<IActionResult> ResetPassword(
+        //    [FromBody] SetPasswordRequest request
+        //)
+        //{
+        //    await _service.ResetOrganizationPassword(request);
+        //    var response = new ApiResponse<bool>()
+        //    {
+        //        Data = true,
+        //        Success = true,
+        //        SuccessMessage = "Successfully reset password"
+        //    };
+        //    return new OkObjectResult(response);
+        //}
 
         [HttpPost("request_user_password_reset")]
         public async Task<IActionResult> RequestPasswordResetForUser(

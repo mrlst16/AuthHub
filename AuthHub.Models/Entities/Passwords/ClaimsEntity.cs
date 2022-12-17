@@ -2,7 +2,7 @@
 using System;
 using System.Security.Claims;
 
-namespace AuthHub.Models.Passwords
+namespace AuthHub.Models.Entities.Passwords
 {
     public class ClaimsEntity : EntityBase<Guid>
     {

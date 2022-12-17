@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace AuthHub.Models.Passwords
+namespace AuthHub.Models.Entities.Passwords
 {
     public class Password : EntityBase<Guid>
     {

@@ -1,5 +1,6 @@
 ﻿using AuthHub.Interfaces.Users;
-using AuthHub.Models.Users;
+using AuthHub.Models.Entities.Users;
+using AuthHub.Models.Requests;
 using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;

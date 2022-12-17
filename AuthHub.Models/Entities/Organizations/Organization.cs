@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AuthHub.Models.Organizations
+namespace AuthHub.Models.Entities.Organizations
 {
     public class Organization : EntityBase<Guid>
     {

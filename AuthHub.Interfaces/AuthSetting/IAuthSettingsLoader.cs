@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Organizations;
+﻿using AuthHub.Models.Entities.Organizations;
 using System;
 
 namespace AuthHub.Interfaces.AuthSetting

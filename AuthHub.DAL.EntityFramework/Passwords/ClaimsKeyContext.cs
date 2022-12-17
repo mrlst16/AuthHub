@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.Passwords;
-using AuthHub.Models.Passwords;
+using AuthHub.Models.Entities.Passwords;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Passwords

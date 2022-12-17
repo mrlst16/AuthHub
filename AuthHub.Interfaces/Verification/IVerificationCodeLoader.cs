@@ -1,5 +1,5 @@
-﻿using AuthHub.Models.Enums;
-using AuthHub.Models.Verification;
+﻿using AuthHub.Models.Entities.Enums;
+using AuthHub.Models.Entities.Verification;
 using System;
 
 namespace AuthHub.Interfaces.Verification

@@ -3,9 +3,7 @@ using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Users;
-using AuthHub.Models.Passwords;
-using AuthHub.Models.Requests;
-using AuthHub.Models.Users;
+using AuthHub.Models.Entities.Passwords;
 using Common.Helpers;
 using Common.Interfaces.Providers;
 using System;
@@ -52,16 +50,5 @@ namespace AuthHub.BLL.Passwords
             await _loader.SaveAsync(token);
             await _authHubEmailLoader.SendPasswordResetEmail(token.Email, userId, token.VerificationCode);
         }
-
-
-        public async Task RequestOrganizationPasswordReset(UserPointer userPointer)
-        {
-        }
-
-
-        public async Task ResetOrganizationPassword(SetPasswordRequest request)
-        {
-        }
-
     }
 }

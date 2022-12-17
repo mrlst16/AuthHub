@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Users;
+﻿using AuthHub.Models.Entities.Users;
 using System;
 
 namespace AuthHub.Interfaces.Users

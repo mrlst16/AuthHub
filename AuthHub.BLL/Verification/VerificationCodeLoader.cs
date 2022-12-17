@@ -1,6 +1,6 @@
 ﻿using AuthHub.Interfaces.Verification;
-using AuthHub.Models.Enums;
-using AuthHub.Models.Verification;
+using AuthHub.Models.Entities.Enums;
+using AuthHub.Models.Entities.Verification;
 using System;
 using System.Threading.Tasks;
 

@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Organizations;
+﻿using AuthHub.Models.Entities.Organizations;
 
 namespace AuthHub.BLL.Common.Extensions
 {
