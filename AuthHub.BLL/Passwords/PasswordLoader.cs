@@ -4,10 +4,8 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Organizations;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Users;
-using AuthHub.Models.Requests;
 using Common.Interfaces.Providers;
 using Common.Interfaces.Repository;
-using Common.Models.Exceptions;
 using System;
 using System.Threading.Tasks;
 
@@ -42,17 +40,6 @@ namespace AuthHub.BLL.Passwords
             _dateProvider = dateProvider;
         }
 
-        public async Task AuthenticateAndUpdateToken(SetPasswordRequest request)
-        {
-            var token = await _passwordContext.GetPasswordResetToken(request.UserId);
-
-            if (token == null)
-                throw new HttpException("Unable to authenticate reset password token", 403);
-
-            if (!string.Equals(request.VerificationCode, token.VerificationCode, StringComparison.InvariantCulture))
-                throw new HttpException("Unable to authenticate reset password token", 403);
-        }
-
         public async Task<Password> Get(Guid organizationId, string authSettingsname, string username)
             => await _passwordContext.Get(organizationId, authSettingsname, username);
 
@@ -60,14 +47,5 @@ namespace AuthHub.BLL.Passwords
         {
             return await _passwordContext.Set(organizationId, authSettingsname, request);
         }
-
-        public async Task<Password> GetByUserIdAsync(Guid userId)
-            => await _passwordContext.GetByUserIdAsync(userId);
-
-        public async Task<Guid> Set(Password request)
-            => await _passwordContext.Set(request);
-
-        public async Task<LoginChallengeResponse> GetLoginChallenge(Guid authSettingsId, string userName)
-            => await _passwordContext.GetLoginChallenge(authSettingsId, userName);
     }
 }
