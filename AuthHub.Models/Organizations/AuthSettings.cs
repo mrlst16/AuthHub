@@ -1,12 +1,12 @@
-﻿using AuthHub.Models.Entities.Enums;
-using AuthHub.Models.Entities.Passwords;
-using AuthHub.Models.Entities.Users;
+﻿using AuthHub.Models.Passwords;
 using Common.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AuthHub.Models.Entities.Enums;
+using AuthHub.Models.Entities.Users;
 
-namespace AuthHub.Models.Entities.Organizations
+namespace AuthHub.Models.Organizations
 {
     public class AuthSettings : EntityBase<Guid>
     {
@@ -20,7 +20,6 @@ namespace AuthHub.Models.Entities.Organizations
         [MinLength(8)]
         public string Key { get; set; }
         public string Issuer { get; set; }
-        public string Audience { get; set; }
         public int ExpirationMinutes { get; set; } = 30;
         public List<ClaimsKey> AvailableClaimsKeys { get; set; } = new List<ClaimsKey>();
         public int PasswordResetTokenExpirationMinutes { get; set; } = 120;

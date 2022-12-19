@@ -13,7 +13,7 @@ namespace AuthHub.Api.ServiceRegistrations
         public static IServiceCollection AddAuthHubOthers(this IServiceCollection services)
         {
             services.AddTransient<IApplicationConsistency, ApplicationConsistency>();
-
+            services.AddTransient<ITokenGenerator, JWTTokenGenerator>();
             services.AddTransient((services) =>
             {
                 return new Func<AuthSchemeEnum, ITokenGenerator>((a) =>
