@@ -44,6 +44,7 @@ namespace AuthHub.Api.Controllers
             var result = new JWTAuthSettingsResponse()
             {
                 Issuer = authSettings.Issuer,
+                Audience = authSettings.Audience,
                 Key = authSettings.Key
             };
 

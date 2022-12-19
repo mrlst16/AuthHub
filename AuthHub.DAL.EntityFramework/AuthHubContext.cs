@@ -241,8 +241,9 @@ namespace AuthHub.DAL.EntityFramework
                     ExpirationMinutes = 120,
                     HashLength = 8,
                     Issuer = "Pawnder",
-                    Iterations = 10,
+                    Audience = "PawnderJWT",
                     Key = "This is my auth key",
+                    Iterations = 10,
                     Name = "Pawnder JWT",
                     PasswordResetTokenExpirationMinutes = 10,
                     SaltLength = 8
