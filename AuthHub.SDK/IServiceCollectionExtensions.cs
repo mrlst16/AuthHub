@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AuthHub.SDK.Interfaces;
 
 namespace AuthHub.SDK
 {
@@ -52,6 +53,15 @@ namespace AuthHub.SDK
                 section.GetValue<string>("Audience"),
                 section.GetValue<string>("Key")
             );
+        }
+
+        public static IServiceCollection AddAuthHubConnectors(
+            this IServiceCollection services,
+            IConfiguration configuration
+            )
+        {
+            services.AddTransient<IUserConnector>(x => new UserConnector(configuration));
+            return services;
         }
     }
 }
