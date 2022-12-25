@@ -43,7 +43,7 @@ namespace AuthHub.BLL.Users
             _verificationCodeService = verificationCodeService;
         }
 
-        public async Task<Guid> CreateAsync(CreateUserRequest item)
+        public async Task<User> CreateAsync(CreateUserRequest item)
         {
             var authSettingsId = item.AuthSettingsID == Guid.Empty
                 ? _configuration.AuthHubSettingsId()
@@ -88,7 +88,7 @@ namespace AuthHub.BLL.Users
             user.Id = await _loader.SaveAsync(user);
             VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
             await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
-            return user.Id;
+            return user;
         }
 
         public async Task<User> ReadAsync(Guid id)

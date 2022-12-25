@@ -30,7 +30,7 @@ namespace AuthHub.Api.Controllers
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
             await _validator.ValidateAndThrowAsync(request);
-            var response = new ApiResponse<Guid>()
+            var response = new ApiResponse<User>()
             {
                 Data = await _service.CreateAsync(request),
                 SuccessMessage = "Successfully created user",

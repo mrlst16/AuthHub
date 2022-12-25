@@ -1,12 +1,12 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace AuthHub.SDK
 {
-    public static class WebHostExtensions
+    public static class IServiceCollectionExtensions
     {
         private const string JWTAuthSettingsKey = "AuthHub:JWTAuthSettings";
 
