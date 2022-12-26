@@ -32,7 +32,7 @@ namespace AuthHub.SDK
             string json = JsonSerializer.Serialize(createUserRequest);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await Client.PostAsync("api/v2/user/create", content);
+            HttpResponseMessage response = await Client.PostAsync("api/user/create", content);
             string responseString = await response.Content.ReadAsStringAsync();
 
             User result = JsonSerializer.Deserialize<User>(responseString);

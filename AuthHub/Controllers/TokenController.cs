@@ -41,7 +41,6 @@ namespace AuthHub.Api.Controllers
 
         [HttpGet("RefreshJWTUserToken")]
         [APICredentials]
-        [UserCredentials]
         public async Task<IActionResult> RefreshJWTUserToken(
             [FromQuery] string refreshToken
             )
