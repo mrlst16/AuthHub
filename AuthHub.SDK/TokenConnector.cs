@@ -30,5 +30,16 @@ namespace AuthHub.SDK
                            ?? throw new Exception("Could not deserialize response body");
             return result;
         }
+
+        public async Task<Token> RefreshJWTTokenAsnyc(Guid userId, string refreshToken)
+        {
+            var path = $"api/token/RefreshJWTUserToken?userId={userId}&refreshToken={refreshToken}";
+            HttpResponseMessage response = await Client.GetAsync(path);
+            string responseString = await response.Content.ReadAsStringAsync();
+
+            Token result = JsonSerializer.Deserialize<Token>(responseString)
+                           ?? throw new Exception("Could not deserialize response body");
+            return result;
+        }
     }
 }

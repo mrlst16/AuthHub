@@ -43,11 +43,10 @@ namespace AuthHub.Api.Controllers
         [HttpGet("RefreshJWTUserToken")]
         [APICredentials]
         public async Task<IActionResult> RefreshJWTUserToken(
+            [FromQuery] Guid userId,
             [FromQuery] string refreshToken
-            )
+        )
         {
-            var userId = User.GetUserId();
-
             return new OkObjectResult(new ApiResponse<Token>()
             {
                 Data = await _tokenService(AuthSchemeEnum.JWT).GetRefreshToken(userId, refreshToken),
