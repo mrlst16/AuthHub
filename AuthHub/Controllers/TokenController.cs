@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AuthHub.Models.Enums;
 
 namespace AuthHub.Api.Controllers
 {
@@ -15,10 +16,10 @@ namespace AuthHub.Api.Controllers
     [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class TokenController : Controller
     {
-        private readonly ITokenService _tokenService;
+        private readonly Func<AuthSchemeEnum, ITokenService> _tokenService;
 
         public TokenController(
-            ITokenService tokenService
+            Func<AuthSchemeEnum, ITokenService> tokenService
             )
         {
             _tokenService = tokenService;
@@ -33,7 +34,7 @@ namespace AuthHub.Api.Controllers
 
             return new OkObjectResult(new ApiResponse<Token>()
             {
-                Data = await _tokenService.GetAsync(userId),
+                Data = await _tokenService(AuthSchemeEnum.JWT).GetAsync(userId),
                 Success = true,
                 SuccessMessage = "Successfully verified user email"
             });
@@ -49,7 +50,7 @@ namespace AuthHub.Api.Controllers
 
             return new OkObjectResult(new ApiResponse<Token>()
             {
-                Data = await _tokenService.GetRefreshToken(userId, refreshToken),
+                Data = await _tokenService(AuthSchemeEnum.JWT).GetRefreshToken(userId, refreshToken),
                 Success = true,
                 SuccessMessage = "Successfully verified user email"
             });
