@@ -25,6 +25,7 @@ namespace AuthHub.DAL.EntityFramework
         public DbSet<PasswordResetToken> PasswordResetToken { get; set; }
         public DbSet<VerificationType> VerificationTypes { get; set; }
         public DbSet<VerificationCode> VerificationCodes { get; set; }
+        public DbSet<Token> Tokens { get; set; }
 
         public AuthHubContext()
         {
