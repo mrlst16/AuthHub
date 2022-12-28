@@ -19,7 +19,7 @@ namespace AuthHub.BLL.Common.Emails
 
         public async Task SendEmail(string to, string subject, string body)
         {
-            using SmtpClient client = new SmtpClient(_options.ServerAddress, _options.Port)
+            using SmtpClient client = new(_options.ServerAddress, _options.Port)
             {
                 EnableSsl = true,
                 Credentials = new NetworkCredential(_options.FromEmail, _options.Password)

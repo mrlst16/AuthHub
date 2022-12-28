@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using AuthHub.BLL.Common.Emails;
-using AuthHub.BLL.Common.Tokens;
 using AuthHub.BLL.Organizations;
 using AuthHub.BLL.Passwords;
 using AuthHub.BLL.Tokens;
@@ -30,7 +29,7 @@ namespace AuthHub.Api.ServiceRegistrations
                 .AddTransient<IClaimsKeyService, ClaimsKeyService>()
                 .AddTransient<IOrganizationService, OrganizationService>()
                 .AddTransient<IPasswordService, PasswordService>()
-                .AddTransient<IEmailService, EmailService>()
+                .AddTransient<IEmailService, AWSEmailService>()
                 .AddTransient<IAuthHubEmailService, AuthHubEmailService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient((services) =>

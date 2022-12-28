@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.BLL.Common.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.Tests.MockData", "AuthHub.Tests.MockData\AuthHub.Tests.MockData.csproj", "{EF0DFB7F-2921-4643-B4D4-8ACB65DA42BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.SDK", "AuthHub.SDK\AuthHub.SDK.csproj", "{EF2524EC-367B-4A33-A221-968454385ADB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.SDK", "AuthHub.SDK\AuthHub.SDK.csproj", "{EF2524EC-367B-4A33-A221-968454385ADB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.SDK.Tests.Integration", "AuthHub.SDK.Tests.Integration\AuthHub.SDK.Tests.Integration.csproj", "{E458406F-AE09-4292-9335-08F74AF75941}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,6 +136,12 @@ Global
 		{EF2524EC-367B-4A33-A221-968454385ADB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF2524EC-367B-4A33-A221-968454385ADB}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
 		{EF2524EC-367B-4A33-A221-968454385ADB}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
+		{E458406F-AE09-4292-9335-08F74AF75941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E458406F-AE09-4292-9335-08F74AF75941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E458406F-AE09-4292-9335-08F74AF75941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E458406F-AE09-4292-9335-08F74AF75941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E458406F-AE09-4292-9335-08F74AF75941}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
+		{E458406F-AE09-4292-9335-08F74AF75941}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -147,6 +155,7 @@ Global
 		{F072AE2F-E32D-4D20-9318-82D406950D1E} = {9A50DB1C-D829-4B44-9EDD-426DD4813493}
 		{9DB87D32-F627-4D8F-B307-593E46697BB3} = {98DB08B2-3901-4E36-B005-824D5F7D0595}
 		{EF0DFB7F-2921-4643-B4D4-8ACB65DA42BE} = {98DB08B2-3901-4E36-B005-824D5F7D0595}
+		{E458406F-AE09-4292-9335-08F74AF75941} = {98DB08B2-3901-4E36-B005-824D5F7D0595}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {269FF6BF-D8F2-4568-A5A6-61255063C32F}
