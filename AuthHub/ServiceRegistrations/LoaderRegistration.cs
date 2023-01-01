@@ -21,7 +21,6 @@ namespace AuthHub.Api.ServiceRegistrations
         {
             services.AddTransient<IUserLoader, UserLoader>()
                 .AddTransient<IClaimsKeyLoader, ClaimsKeyLoader>()
-                .AddTransient<IPasswordLoader, PasswordLoader>()
                 .AddTransient<IOrganizationLoader, OrganizationLoader>()
                 .AddTransient<IAuthSettingsLoader, AuthSettingsLoader>()
                 .AddTransient<IAuthHubOrganizationLoader, AuthHubOrganizationLoader>()

@@ -5,7 +5,6 @@ using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Exceptions;
-using Common.Helpers;
 using Common.Interfaces.Helpers;
 using Common.Interfaces.Providers;
 using Common.Interfaces.Utilities;
@@ -17,6 +16,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Common.Helpers;
 
 namespace AuthHub.BLL.Tokens
 {

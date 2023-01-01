@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common\Common.csproj" />
+    <PackageReference Include="Common" Version="1.0.1" />
+    <PackageReference Include="Common.Extensions" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AuthHub.BLL.Common\AuthHub.BLL.Common.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
   </ItemGroup>

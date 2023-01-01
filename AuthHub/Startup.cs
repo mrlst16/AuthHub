@@ -8,8 +8,9 @@ using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.Interfaces.Hashing;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Options;
-using Common.AspDotNet.Extensions;
+using Common.Interfaces.Providers;
 using Common.Interfaces.Repository;
+using Common.Providers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -49,7 +50,7 @@ namespace AuthHub.Api
             .AddAuthHubValidators()
             .AddAuthHubContexts()
             .AddAuthHubOthers()
-            .AddCommon()
+            .AddTransient<IDateProvider, DateProvider>()
             .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"));
 
             services.AddAuthentication(options =>

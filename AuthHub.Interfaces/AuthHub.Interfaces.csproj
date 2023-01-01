@@ -6,7 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common.Interfaces\Common.Interfaces.csproj" />
+    <PackageReference Include="Common.Interfaces" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
   </ItemGroup>
 
