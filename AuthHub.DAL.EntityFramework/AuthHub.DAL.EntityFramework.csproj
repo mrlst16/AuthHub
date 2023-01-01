@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Common.EntityFramework" Version="1.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
@@ -38,8 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common.EntityFramework\Common.EntityFramework.csproj" />
-    <ProjectReference Include="..\..\Common\Common\Common.csproj" />
     <ProjectReference Include="..\AuthHub.BLL.Common\AuthHub.BLL.Common.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
