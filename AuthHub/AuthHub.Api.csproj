@@ -16,9 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common.AspDotNet\Common.AspDotNet.csproj" />
-    <ProjectReference Include="..\..\Common\Common.Extensions\Common.Extensions.csproj" />
-    <ProjectReference Include="..\..\Common\Common.Models\Common.Models.csproj" />
-    <ProjectReference Include="..\..\Common\Common\Common.csproj" />
     <ProjectReference Include="..\AuthHub.BLL\AuthHub.BLL.csproj" />
     <ProjectReference Include="..\AuthHub.DAL.EntityFramework\AuthHub.DAL.EntityFramework.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
