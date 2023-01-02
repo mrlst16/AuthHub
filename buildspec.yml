@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: latest
+    commands:
+      - export PATH="$PATH:/root/.dotnet/tools"
+      - dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
+      - dotnet codeartifact-creds install
+  pre_build:
+    commands:
+      -  dotnet nuget add source -n codeartifact https://mattylantz-477439744462.d.codeartifact.us-east-2.amazonaws.com/nuget/MattyLantz/"v3/index.json"
+  build:
+    commands:
+      - dotnet build
