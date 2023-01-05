@@ -10,7 +10,9 @@ phases:
       - dotnet codeartifact-creds install
   pre_build:
     commands:
-      -  dotnet nuget add source -n codeartifact https://mattylantz-477439744462.d.codeartifact.us-east-2.amazonaws.com/nuget/MattyLantz/"v3/index.json"
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 477439744462.dkr.ecr.us-east-2.amazonaws.com 
+      - dotnet nuget add source -n codeartifact https://mattylantz-477439744462.d.codeartifact.us-east-2.amazonaws.com/nuget/MattyLantz/"v3/index.json"
   build:
     commands:
+      - dotnet restore
       - dotnet build
