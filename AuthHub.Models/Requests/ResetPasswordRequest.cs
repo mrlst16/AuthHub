@@ -1,9 +1,11 @@
-﻿using AuthHub.Models.Entities.Passwords;
+﻿using System;
 
 namespace AuthHub.Models.Requests
 {
-    public class SetPasswordRequest : PasswordResetToken
+    public class ResetPasswordRequest
     {
+        public Guid UserId { get; set; }
         public string NewPassword { get; set; }
+        public string VerificationCode { get; set; }
     }
 }

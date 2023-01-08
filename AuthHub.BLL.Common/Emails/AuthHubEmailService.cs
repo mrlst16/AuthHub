@@ -17,9 +17,9 @@ namespace AuthHub.BLL.Common.Emails
             _hostUrl = configuration.GetValue<string>("AppSettings:Email:HostUrl");
         }
 
-        public async Task SendPasswordResetEmail(string email, Guid userid, string verificationCode)
+        public async Task SendPasswordResetEmail(string email, Guid userid, string resetPasswordFormUrl, string verificationCode)
         {
-            var url = $"{_hostUrl}/set_password" +
+            var url = $"{resetPasswordFormUrl}" +
             $"?userid={userid}" +
                       $"&email={email}" +
                       $"&token={verificationCode}";

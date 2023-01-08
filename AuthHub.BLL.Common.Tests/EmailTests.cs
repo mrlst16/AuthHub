@@ -1,6 +1,6 @@
-﻿using System.Net.Mail;
+﻿using System;
 using System.Net;
-using System;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -78,7 +78,7 @@ namespace AuthHub.BLL.Common.Tests
                 }
                 catch (Exception ex)
                 {
-                    
+
                 }
             }
         }

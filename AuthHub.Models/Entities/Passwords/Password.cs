@@ -1,7 +1,6 @@
 ﻿using Common.Models.Entities;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 
 namespace AuthHub.Models.Entities.Passwords
 {
@@ -11,16 +10,20 @@ namespace AuthHub.Models.Entities.Passwords
         public byte[] PasswordHash { get; set; }
         public byte[] Salt { get; set; }
         public List<ClaimsEntity> Claims { get; set; } = new List<ClaimsEntity>();
-        public DateTime ExpirationDate { get; set; }
+    }
 
-        public List<Claim> GetClaims()
-        {
-            List<Claim> result = new List<Claim>();
-            foreach (var serializableClaim in Claims)
+    public class PasswordArchive : EntityBase<Guid>
+    {
+        public Guid UserId { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] Salt { get; set; }
+
+        public static implicit operator PasswordArchive(Password source)
+            => new PasswordArchive()
             {
-                result.Add(serializableClaim);
-            }
-            return result;
-        }
+                PasswordHash = source.PasswordHash,
+                Salt = source.Salt,
+                UserId = source.UserId
+            };
     }
 }

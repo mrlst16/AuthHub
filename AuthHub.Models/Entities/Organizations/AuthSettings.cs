@@ -25,5 +25,6 @@ namespace AuthHub.Models.Entities.Organizations
         public List<ClaimsKey> AvailableClaimsKeys { get; set; } = new List<ClaimsKey>();
         public int PasswordResetTokenExpirationMinutes { get; set; } = 120;
         public List<User> Users { get; set; } = new List<User>();
+        public string PasswordResetFormUrl { get; set; }
     }
 }

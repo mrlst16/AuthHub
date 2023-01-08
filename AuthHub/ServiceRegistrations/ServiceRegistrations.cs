@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using AuthHub.BLL.Common.Emails;
+﻿using AuthHub.BLL.Common.Emails;
 using AuthHub.BLL.Organizations;
 using AuthHub.BLL.Passwords;
 using AuthHub.BLL.Tokens;
@@ -18,6 +17,7 @@ using Common.Interfaces.Providers;
 using Common.Interfaces.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
 
 namespace AuthHub.Api.ServiceRegistrations
 {

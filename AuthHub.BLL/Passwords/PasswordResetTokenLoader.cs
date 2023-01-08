@@ -21,7 +21,7 @@
 //        public async Task<Guid> SaveAsync(PasswordResetToken token)
 //            => await _passwordResetTokenRepo.SaveAsync(token);
 
-//        public async Task<PasswordResetToken> LookupByVerificationCode(string verificationCode)
+//        public async Task<PasswordResetToken> GetByVerificationCode(string verificationCode)
 //            => (await _passwordResetTokenRepo.ReadAsync(x => x.VerificationCode == verificationCode))
 //                .FirstOrDefault();
 //    }

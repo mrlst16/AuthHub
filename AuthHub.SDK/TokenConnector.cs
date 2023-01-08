@@ -1,8 +1,8 @@
-﻿using AuthHub.Models.Entities.Tokens;
+﻿using AuthHub.Models.Constants;
+using AuthHub.Models.Entities.Tokens;
 using AuthHub.SDK.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
-using AuthHub.Models.Constants;
 
 namespace AuthHub.SDK
 {

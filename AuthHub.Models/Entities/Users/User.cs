@@ -19,5 +19,6 @@ namespace AuthHub.Models.Entities.Users
         public List<Token> Tokens { get; set; } = new List<Token>();
         public AuthSettings AuthSettings { get; set; }
         public Guid AuthSettingsId { get; set; }
+        public List<PasswordArchive> PasswordArchives { get; set; } = new List<PasswordArchive>();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,28 +15,31 @@ namespace AuthHub.Api.Controllers
     public class PasswordResetController : Controller
     {
         private readonly IPasswordResetService _service;
+        private readonly IValidator<ResetPasswordRequest> _resetPasswordRequestValidator;
 
         public PasswordResetController(
-            IPasswordResetService service
+            IPasswordResetService service,
+            IValidator<ResetPasswordRequest> resetPasswordRequestValidator
             )
         {
             _service = service;
+            _resetPasswordRequestValidator = resetPasswordRequestValidator;
         }
 
-        //[HttpPost()]
-        //public async Task<IActionResult> ResetPassword(
-        //    [FromBody] SetPasswordRequest request
-        //)
-        //{
-        //    await _service.ResetOrganizationPassword(request);
-        //    var response = new ApiResponse<bool>()
-        //    {
-        //        Data = true,
-        //        Success = true,
-        //        SuccessMessage = "Successfully reset password"
-        //    };
-        //    return new OkObjectResult(response);
-        //}
+        [HttpPost()]
+        public async Task<IActionResult> ResetPassword(
+            [FromQuery] ResetPasswordRequest request
+        )
+        {
+            await _service.ResetUserPassword(request);
+            var response = new ApiResponse<bool>()
+            {
+                Data = true,
+                Success = true,
+                SuccessMessage = "Successfully reset password"
+            };
+            return new OkObjectResult(response);
+        }
 
         [HttpPost("request_user_password_reset")]
         public async Task<IActionResult> RequestPasswordResetForUser(

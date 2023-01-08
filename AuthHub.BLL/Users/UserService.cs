@@ -50,7 +50,7 @@ namespace AuthHub.BLL.Users
                 : item.AuthSettingsID;
 
             var authSettings = await _authSettingsLoader.ReadAsync(authSettingsId);
-            var tokenGenerator = _tokenGeneratorFactory(AuthSchemeEnum.JWT);
+            var tokenGenerator = _tokenGeneratorFactory(authSettings.AuthScheme);
 
             (byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
                 = await tokenGenerator.NewHash(item.Password, authSettings);

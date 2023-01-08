@@ -1,9 +1,9 @@
-﻿using System.Text;
-using System.Text.Json;
-using AuthHub.Models.Entities.Users;
+﻿using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Requests;
 using AuthHub.SDK.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System.Text;
+using System.Text.Json;
 
 namespace AuthHub.SDK
 {

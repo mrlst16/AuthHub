@@ -20,6 +20,7 @@ namespace AuthHub.DAL.EntityFramework
         public DbSet<User> Users { get; set; }
         public DbSet<AuthScheme> AuthSchemes { get; set; }
         public DbSet<Password> Passwords { get; set; }
+        public DbSet<PasswordArchive> PasswordArchives { get; set; }
         public DbSet<ClaimsKey> ClaimsKeys { get; set; }
         public DbSet<ClaimsEntity> Claims { get; set; }
         public DbSet<PasswordResetToken> PasswordResetToken { get; set; }
@@ -103,7 +104,7 @@ namespace AuthHub.DAL.EntityFramework
                 .IsRequired()
                 .HasDefaultValue(8);
             modelBuilder.Entity<AuthSettingsModel>()
-                .HasMany<User>()
+                .HasMany(x => x.Users)
                 .WithOne(x => x.AuthSettings)
                 .HasForeignKey(x => x.AuthSettingsId);
 
@@ -111,7 +112,7 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<User>()
                 .HasKey(x => x.Id);
             modelBuilder.Entity<User>()
-                .HasOne<Password>(x => x.Password);
+                .HasOne(x => x.Password);
             modelBuilder.Entity<User>()
                 .Property(x => x.FirstName)
                 .IsRequired();
@@ -131,6 +132,8 @@ namespace AuthHub.DAL.EntityFramework
                 .HasMany<Token>(x => x.Tokens)
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.PasswordArchives);
 
             //Passwords Setup
             modelBuilder.Entity<Password>()
@@ -145,9 +148,6 @@ namespace AuthHub.DAL.EntityFramework
                 .IsRequired();
             modelBuilder.Entity<Password>()
                 .Property(x => x.UserId)
-                .IsRequired();
-            modelBuilder.Entity<Password>()
-                .Property(x => x.ExpirationDate)
                 .IsRequired();
 
             //ClaimsKeys Setup

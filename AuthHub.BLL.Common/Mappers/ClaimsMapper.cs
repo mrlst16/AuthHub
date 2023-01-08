@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using AuthHub.Models.Entities.Passwords;
+﻿using AuthHub.Models.Entities.Passwords;
 using Common.Interfaces.Utilities;
+using System.Security.Claims;
 
 namespace AuthHub.BLL.Common.Mappers
 {
