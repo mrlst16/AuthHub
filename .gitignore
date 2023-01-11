@@ -51,3 +51,4 @@ packages/*
 /AuthHub.Database.SqlServer/AuthHub.Database.SqlServer.dbmdl
 /AuthHub.Database.SqlServer/AuthHub.Database.SqlServer.refactorlog
 /AuthHub.Database.SqlServer/AuthHub.Database.SqlServer.jfm
+/aws_credentials.csv

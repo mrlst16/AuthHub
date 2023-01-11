@@ -26,6 +26,7 @@ namespace AuthHub.DAL.EntityFramework.Users
             => (await _context
                 .Users
                 .Include(x => x.AuthSettings)
+                .Include(x => x.PasswordArchives)
                 .Include(x => x.Password)
                 .ThenInclude(x => x.Claims)
                 .Include(x => x.Tokens)

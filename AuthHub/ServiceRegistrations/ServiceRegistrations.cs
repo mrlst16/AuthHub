@@ -27,8 +27,6 @@ namespace AuthHub.Api.ServiceRegistrations
         {
             services.AddTransient<IUserService, UserService>()
                 .AddTransient<IClaimsKeyService, ClaimsKeyService>()
-                .AddTransient<IOrganizationService, OrganizationService>()
-                .AddTransient<IPasswordService, PasswordService>()
                 .AddTransient<IEmailService, AWSEmailService>()
                 .AddTransient<IAuthHubEmailService, AuthHubEmailService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
