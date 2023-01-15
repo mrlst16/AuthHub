@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Common.Hashing;
@@ -64,7 +65,10 @@ namespace AuthHub.Api
                     UserCredentialsAuthenticationHandler.Scheme,
                 options => { });
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(x =>
+            {
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthHub", Version = "v1" });

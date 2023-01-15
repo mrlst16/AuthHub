@@ -13,7 +13,6 @@ namespace AuthHub.Api.Controllers
 {
     [Route("api/token")]
     [ApiController]
-    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class TokenController : Controller
     {
         private readonly Func<AuthSchemeEnum, ITokenService> _tokenService;

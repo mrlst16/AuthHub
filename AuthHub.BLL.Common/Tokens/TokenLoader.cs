@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using AuthHub.Interfaces.Tokens;
+﻿using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Entities.Tokens;
 
-namespace AuthHub.BLL.Tokens
+namespace AuthHub.BLL.Common.Tokens
 {
     public class TokenLoader : ITokenLoader
     {

@@ -1,4 +1,5 @@
 ﻿using AuthHub.Interfaces.Users;
+using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -69,6 +70,19 @@ namespace AuthHub.DAL.EntityFramework.Users
             {
                 return null;
             }
+        }
+
+        public async Task AddToken(User user, Token token)
+        {
+            var existingItem =
+                await _context
+                    .Users
+                    .Include(x=>x.Tokens)
+                    .SingleOrDefaultAsync(x => x.Id == user.Id);
+            if(existingItem == null) return;
+            _context.Tokens.Add(token);
+            _context.Users.Update(existingItem);
+            await _context.SaveChangesAsync();
         }
     }
 }

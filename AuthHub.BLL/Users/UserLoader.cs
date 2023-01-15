@@ -2,6 +2,7 @@
 using AuthHub.Models.Entities.Users;
 using System;
 using System.Threading.Tasks;
+using AuthHub.Models.Entities.Tokens;
 
 namespace AuthHub.BLL.Users
 {
@@ -27,5 +28,8 @@ namespace AuthHub.BLL.Users
 
         public async Task<Guid> SaveAsync(User item)
             => await _userContext.SaveAsync(item);
+
+        public async Task AddToken(User user, Token token)
+            => await _userContext.AddToken(user, token);
     }
 }

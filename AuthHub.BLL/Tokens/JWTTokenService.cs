@@ -27,12 +27,15 @@ namespace AuthHub.BLL.Tokens
         private readonly IApplicationConsistency _applicationConsistency;
         private readonly IDateProvider _dateProvider;
         private readonly IMapper<ClaimsEntity, Claim> _claimsMapper;
+        private readonly ITokenLoader _tokenLoader;
+
         public JWTTokenService(
             IUserLoader userLoader,
             IConfiguration configuration,
             IApplicationConsistency applicationConsistency,
             IDateProvider dateProvider,
-            IMapper<ClaimsEntity, Claim> claimsMapper
+            IMapper<ClaimsEntity, Claim> claimsMapper,
+            ITokenLoader tokenLoader
             )
         {
             _userLoader = userLoader;
@@ -40,12 +43,15 @@ namespace AuthHub.BLL.Tokens
             _applicationConsistency = applicationConsistency;
             _dateProvider = dateProvider;
             _claimsMapper = claimsMapper;
+            _tokenLoader = tokenLoader;
         }
 
         public async Task<Token> GetAsync(Guid userId)
         {
             var user = await _userLoader.GetAsync(userId);
-            return await CreateAndSaveToken(user);
+            var result = await CreateAndSaveToken(user);
+            result.User = null;
+            return result;
         }
 
         public async Task<Token> GetRefreshToken(Guid userId, string refreshToken)
@@ -89,8 +95,7 @@ namespace AuthHub.BLL.Tokens
                 UserId = user.Id
             };
 
-            user.Tokens.Add(result);
-            await _userLoader.SaveAsync(user);
+            await _userLoader.AddToken(user, result);
             return result;
         }
     }

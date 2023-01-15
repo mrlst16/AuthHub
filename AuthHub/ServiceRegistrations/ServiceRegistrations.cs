@@ -27,7 +27,7 @@ namespace AuthHub.Api.ServiceRegistrations
         {
             services.AddTransient<IUserService, UserService>()
                 .AddTransient<IClaimsKeyService, ClaimsKeyService>()
-                .AddTransient<IEmailService, AWSEmailService>()
+                .AddTransient<IEmailService, EmailService>()
                 .AddTransient<IAuthHubEmailService, AuthHubEmailService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient((services) =>
@@ -41,7 +41,8 @@ namespace AuthHub.Api.ServiceRegistrations
                                 services.GetService<IConfiguration>(),
                                 services.GetService<IApplicationConsistency>(),
                                 services.GetService<IDateProvider>(),
-                                services.GetService<IMapper<ClaimsEntity, Claim>>()
+                                services.GetService<IMapper<ClaimsEntity, Claim>>(),
+                                services.GetService<ITokenLoader>()
                             ),
                             _ => null
                         };
