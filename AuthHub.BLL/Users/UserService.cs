@@ -86,8 +86,16 @@ namespace AuthHub.BLL.Users
             };
 
             user.Id = await _loader.SaveAsync(user);
-            VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
-            await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
+            try
+            {
+                VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
+                await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
+            }
+            catch (Exception e)
+            {
+                //Swallow this exception for now
+            }
+            
             return user;
         }
 

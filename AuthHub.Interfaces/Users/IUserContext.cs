@@ -1,5 +1,6 @@
 ﻿using AuthHub.Models.Entities.Users;
 using System;
+using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
 
 namespace AuthHub.Interfaces.Users
@@ -11,5 +12,7 @@ namespace AuthHub.Interfaces.Users
         Task<Guid> SaveAsync(User item);
         Task<User> Get(string userName);
         Task AddToken(User user, Token token);
+        Task UpdatePassword(User user, Password password, PasswordArchive archives);
+        Task Update(User user);
     }
 }

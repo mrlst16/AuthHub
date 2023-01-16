@@ -2,6 +2,7 @@
 using AuthHub.Models.Entities.Users;
 using System;
 using System.Threading.Tasks;
+using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
 
 namespace AuthHub.BLL.Users
@@ -31,5 +32,11 @@ namespace AuthHub.BLL.Users
 
         public async Task AddToken(User user, Token token)
             => await _userContext.AddToken(user, token);
+
+        public async Task UpdatePassword(User user, Password password, PasswordArchive archives)
+            => await _userContext.UpdatePassword(user, password, archives);
+
+        public async Task Update(User user)
+            => await _userContext.Update(user);
     }
 }

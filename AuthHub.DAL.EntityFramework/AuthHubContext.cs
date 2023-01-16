@@ -134,6 +134,10 @@ namespace AuthHub.DAL.EntityFramework
                 .HasForeignKey(x => x.UserId);
             modelBuilder.Entity<User>()
                 .HasMany(x => x.PasswordArchives);
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.PasswordResetTokens)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId);
 
             //Passwords Setup
             modelBuilder.Entity<Password>()

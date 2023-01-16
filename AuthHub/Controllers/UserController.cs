@@ -3,12 +3,13 @@ using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AuthHub.Api.Attributes;
 
 namespace AuthHub.Api.Controllers
 {
+    [APICredentials]
     [Route("api/user")]
     [ApiController]
     public class UserController : Controller
@@ -25,7 +26,6 @@ namespace AuthHub.Api.Controllers
             _service = service;
         }
 
-        [AllowAnonymous]
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {

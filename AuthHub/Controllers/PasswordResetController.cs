@@ -2,33 +2,29 @@
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
 using FluentValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AuthHub.Api.Attributes;
+using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.Api.Controllers
 {
     [Route("api/password_reset")]
     [ApiController]
-    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class PasswordResetController : Controller
     {
         private readonly IPasswordResetService _service;
-        private readonly IValidator<ResetPasswordRequest> _resetPasswordRequestValidator;
 
         public PasswordResetController(
-            IPasswordResetService service,
-            IValidator<ResetPasswordRequest> resetPasswordRequestValidator
+            IPasswordResetService service
             )
         {
             _service = service;
-            _resetPasswordRequestValidator = resetPasswordRequestValidator;
         }
 
-        [HttpPost()]
+        [HttpPost("reset_password")]
         public async Task<IActionResult> ResetPassword(
-            [FromQuery] ResetPasswordRequest request
+            [FromBody] ResetPasswordRequest request
         )
         {
             await _service.ResetUserPassword(request);
@@ -41,15 +37,16 @@ namespace AuthHub.Api.Controllers
             return new OkObjectResult(response);
         }
 
+        [APICredentials]
         [HttpPost("request_user_password_reset")]
         public async Task<IActionResult> RequestPasswordResetForUser(
             [FromBody] ResetUserPasswordRequest request
         )
         {
-            await _service.RequestPasswordResetForUser(request.UserId);
-            var response = new ApiResponse<bool>()
+            var result = await _service.RequestPasswordResetForUser(request.UserId);
+            var response = new ApiResponse<PasswordResetToken>()
             {
-                Data = true,
+                Data = result,
                 Success = true,
                 SuccessMessage = "Successfully requested a password reset token to be sent to your email"
             };

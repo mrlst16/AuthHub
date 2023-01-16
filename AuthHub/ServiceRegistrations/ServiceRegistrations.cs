@@ -30,6 +30,7 @@ namespace AuthHub.Api.ServiceRegistrations
                 .AddTransient<IEmailService, EmailService>()
                 .AddTransient<IAuthHubEmailService, AuthHubEmailService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
+                .AddTransient<IPasswordResetService, PasswordResetService>()
                 .AddTransient((services) =>
                 {
                     return new Func<AuthSchemeEnum, ITokenService>((a) =>
