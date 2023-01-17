@@ -1,5 +1,4 @@
 ﻿using AuthHub.BLL.AuthSetting;
-using AuthHub.BLL.Common.Emails;
 using AuthHub.BLL.Common.Organizations;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.BLL.Organizations;
@@ -7,7 +6,6 @@ using AuthHub.BLL.Passwords;
 using AuthHub.BLL.Users;
 using AuthHub.BLL.Verification;
 using AuthHub.Interfaces.AuthSetting;
-using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;

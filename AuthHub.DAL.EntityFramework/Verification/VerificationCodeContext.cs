@@ -18,6 +18,8 @@ namespace AuthHub.DAL.EntityFramework.Verification
 
         public async Task Create(VerificationCode source)
         {
+            source.Type = _context.VerificationTypes.FirstOrDefault(x => x.Value == source.Type.Value);
+
             await _context.VerificationCodes.AddAsync(source);
             await _context.SaveChangesAsync();
         }
@@ -39,7 +41,6 @@ namespace AuthHub.DAL.EntityFramework.Verification
             var result = user.VerificationCodes
                 .OrderByDescending(x => x.CreateDate)
                 .FirstOrDefault(x => x.Type.Value == type);
-
 
             return result;
         }

@@ -4,8 +4,6 @@ using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Enums;
 using Common.Models.Responses;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

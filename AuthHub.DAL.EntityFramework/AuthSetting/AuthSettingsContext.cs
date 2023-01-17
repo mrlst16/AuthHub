@@ -18,7 +18,7 @@ namespace AuthHub.DAL.EntityFramework.AuthSetting
         public async Task<AuthSettings> GetAsync(Guid id)
             => await _context
                 .AuthSettings
-                .Include(x=> x.AuthScheme)
+                .Include(x => x.AuthScheme)
                 .SingleOrDefaultAsync(x => x.Id == id);
     }
 }

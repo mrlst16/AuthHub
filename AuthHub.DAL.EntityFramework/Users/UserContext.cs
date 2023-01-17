@@ -104,7 +104,7 @@ namespace AuthHub.DAL.EntityFramework.Users
             //await _context.SaveChangesAsync();
 
             var exisitingPassword = _context.Passwords
-                .Include(x=> x.Claims)
+                .Include(x => x.Claims)
                 .FirstOrDefault(x => x.Id == password.Id);
             exisitingPassword = password;
             _context.Passwords.Update(exisitingPassword);
