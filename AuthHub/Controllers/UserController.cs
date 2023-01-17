@@ -1,11 +1,13 @@
-﻿using AuthHub.Interfaces.Users;
+﻿using AuthHub.Api.Attributes;
+using AuthHub.Api.Responses;
+using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Requests;
+using Common.Interfaces.Utilities;
 using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using AuthHub.Api.Attributes;
 
 namespace AuthHub.Api.Controllers
 {
@@ -16,23 +18,28 @@ namespace AuthHub.Api.Controllers
     {
         private readonly IValidator<CreateUserRequest> _validator;
         private readonly IUserService _service;
+        private readonly IMapper<User, UserResponse> _userResponseMapper;
 
         public UserController(
             IValidator<CreateUserRequest> validator,
-            IUserService service
+            IUserService service,
+            IMapper<User, UserResponse> userResponseMapper
             )
         {
             _validator = validator;
             _service = service;
+            _userResponseMapper = userResponseMapper;
         }
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
             await _validator.ValidateAndThrowAsync(request);
-            var response = new ApiResponse<User>()
+            var result = await _service.CreateAsync(request);
+
+            var response = new ApiResponse<UserResponse>()
             {
-                Data = await _service.CreateAsync(request),
+                Data = _userResponseMapper.Map(result),
                 SuccessMessage = "Successfully created user",
                 Success = true
             };

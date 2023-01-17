@@ -1,11 +1,11 @@
-﻿using AuthHub.Interfaces.Passwords;
+﻿using AuthHub.Api.Attributes;
+using AuthHub.Interfaces.Passwords;
+using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using AuthHub.Api.Attributes;
-using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.Api.Controllers
 {
@@ -14,12 +14,15 @@ namespace AuthHub.Api.Controllers
     public class PasswordResetController : Controller
     {
         private readonly IPasswordResetService _service;
+        private readonly IValidator<ResetPasswordRequest> _resetPasswordRequestValidator;
 
         public PasswordResetController(
-            IPasswordResetService service
+            IPasswordResetService service,
+            IValidator<ResetPasswordRequest> resetPasswordRequestValidator
             )
         {
             _service = service;
+            _resetPasswordRequestValidator = resetPasswordRequestValidator;
         }
 
         [HttpPost("reset_password")]
@@ -27,6 +30,7 @@ namespace AuthHub.Api.Controllers
             [FromBody] ResetPasswordRequest request
         )
         {
+            await _resetPasswordRequestValidator.ValidateAndThrowAsync(request);
             await _service.ResetUserPassword(request);
             var response = new ApiResponse<bool>()
             {
@@ -40,7 +44,7 @@ namespace AuthHub.Api.Controllers
         [APICredentials]
         [HttpPost("request_user_password_reset")]
         public async Task<IActionResult> RequestPasswordResetForUser(
-            [FromBody] ResetUserPasswordRequest request
+            [FromBody] RequestPasswordResetRequest request
         )
         {
             var result = await _service.RequestPasswordResetForUser(request.UserId);

@@ -69,7 +69,7 @@ namespace AuthHub.Api.Middleware
                 new Claim("UserId", userid.ToString())
             };
             var identity = new ClaimsIdentity(claims, nameof(UserCredentialsAuthenticationHandler));
-            
+
             var principal = new ClaimsPrincipal(identity);
 
             AuthenticationTicket ticket = new(principal, Scheme);

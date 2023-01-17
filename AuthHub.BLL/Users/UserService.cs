@@ -95,7 +95,7 @@ namespace AuthHub.BLL.Users
             {
                 //Swallow this exception for now
             }
-            
+
             return user;
         }
 

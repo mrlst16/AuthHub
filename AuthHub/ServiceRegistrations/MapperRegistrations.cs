@@ -1,0 +1,16 @@
+﻿using AuthHub.Api.FormatMappers;
+using AuthHub.Api.Responses;
+using AuthHub.Models.Entities.Users;
+using Common.Interfaces.Utilities;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace AuthHub.Api.ServiceRegistrations
+{
+    public static class MapperRegistrations
+    {
+        public static IServiceCollection AddFormatMappers(this IServiceCollection services)
+        =>
+            services
+                .AddTransient<IMapper<User, UserResponse>, UserResponseMapper>();
+    }
+}

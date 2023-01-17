@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Common.Hashing;
@@ -20,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace AuthHub.Api
 {
@@ -51,6 +51,7 @@ namespace AuthHub.Api
             .AddAuthHubValidators()
             .AddAuthHubContexts()
             .AddAuthHubOthers()
+            .AddFormatMappers()
             .AddTransient<IDateProvider, DateProvider>()
             .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"));
 

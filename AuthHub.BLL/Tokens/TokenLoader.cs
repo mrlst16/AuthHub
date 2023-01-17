@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using AuthHub.Interfaces.Tokens;
+﻿using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Entities.Tokens;
+using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Tokens
 {

@@ -1,6 +1,6 @@
-﻿using Common.Models.Entities;
+﻿using AuthHub.Models.Entities.Users;
+using Common.Models.Entities;
 using System;
-using AuthHub.Models.Entities.Users;
 
 namespace AuthHub.Models.Entities.Passwords
 {

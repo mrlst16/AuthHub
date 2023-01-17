@@ -2,7 +2,7 @@
 
 namespace AuthHub.Models.Requests
 {
-    public class ResetUserPasswordRequest
+    public class RequestPasswordResetRequest
     {
         public Guid UserId { get; set; }
     }

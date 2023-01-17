@@ -1,10 +1,8 @@
 ﻿using AuthHub.BLL.Common.Exceptions;
-using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
-using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Enums;
@@ -78,7 +76,7 @@ namespace AuthHub.BLL.Passwords
             Password password = user.Password;
             password.PasswordHash = passwordHash;
             password.Salt = salt;
-            
+
             await _userLoader.UpdatePassword(user, password, password);
         }
     }
