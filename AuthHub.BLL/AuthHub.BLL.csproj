@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Passwords\PasswordResetTokenLoader.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Common" Version="1.0.1" />
     <PackageReference Include="Common.Extensions" Version="1.0.1" />
   </ItemGroup>

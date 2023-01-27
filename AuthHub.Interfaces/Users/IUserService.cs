@@ -8,5 +8,6 @@ namespace AuthHub.Interfaces.Users
     {
         Task<User> CreateAsync(CreateUserRequest request);
         Task<User> ReadAsync(Guid id);
+        Task SendEmailVerificationEmail(Guid userid);
     }
 }
