@@ -3,7 +3,10 @@ using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Entities.Users;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using AuthHub.Models.Entities.Enums;
+using AuthHub.Models.Enums;
 
 namespace AuthHub.BLL.Users
 {
@@ -22,7 +25,18 @@ namespace AuthHub.BLL.Users
             => await _userContext.Create(user);
 
         public async Task<User> GetAsync(Guid id)
-            => await _userContext.GetAsync(id);
+        {
+            var result = await _userContext.GetAsync(id);
+
+            //Only return the user if the user is verified
+            if (!result.VerificationCodes.Any(
+                    x => x.Type == VerificationTypeEnum.UserEmail
+                         && x.VerificationDate != null
+                )
+               ) return null;
+                
+            return result;
+        }
 
         public async Task<User> GetAsync(string username)
             => await _userContext.Get(username);
