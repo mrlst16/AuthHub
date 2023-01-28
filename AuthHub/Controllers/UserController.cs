@@ -1,4 +1,5 @@
 ﻿using AuthHub.Api.Attributes;
+using AuthHub.Api.Helpers;
 using AuthHub.Api.Responses;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Users;
@@ -40,6 +41,23 @@ namespace AuthHub.Api.Controllers
             var response = new ApiResponse<UserResponse>()
             {
                 Data = _userResponseMapper.Map(result),
+                SuccessMessage = "Successfully created user",
+                Success = true
+            };
+            return new OkObjectResult(response);
+        }
+
+        [HttpGet("request_email_verification_code")]
+        public async Task<IActionResult> RequestEmailVerificationCode(
+            [FromBody] CreateUserRequest request
+            )
+        {
+            var userid = User.GetUserId();
+            await _service.SendEmailVerificationEmail(userid);
+
+            var response = new ApiResponse<bool>()
+            {
+                Data = true,
                 SuccessMessage = "Successfully created user",
                 Success = true
             };

@@ -9,6 +9,7 @@
         public string Username { get; set; }
         public string HostUrl { get; set; }
         public string FromName { get; set; }
+        public string ApiKey { get; set; }
 
         public EmailServiceOptions()
         {

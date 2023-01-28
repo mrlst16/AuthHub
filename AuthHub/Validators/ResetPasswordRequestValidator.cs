@@ -39,7 +39,7 @@ namespace AuthHub.Api.Validators
             CancellationToken cancellationToken
             )
         {
-            var user = await _userLoader.GetAsync(request.UserId);
+            var user = await _userLoader.GetAsync(request.UserId, false);
 
             if (user == null)
             {

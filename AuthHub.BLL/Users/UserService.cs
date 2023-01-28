@@ -99,6 +99,13 @@ namespace AuthHub.BLL.Users
             return user;
         }
 
+        public async Task SendEmailVerificationEmail(Guid userid)
+        {
+            var user = await _loader.GetAsync(userid, false);
+            VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
+            await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
+        }
+
         public async Task<User> ReadAsync(Guid id)
             => await _loader.GetAsync(id);
     }
