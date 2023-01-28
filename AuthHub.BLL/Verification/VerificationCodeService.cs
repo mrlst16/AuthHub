@@ -27,7 +27,7 @@ namespace AuthHub.BLL.Verification
 
         public async Task<VerificationCode> GenerateAndSaveUserVerificationCode(Guid userId)
         {
-            var user = await _userLoader.GetAsync(userId);
+            var user = await _userLoader.GetAsync(userId, false);
             var result = new VerificationCode()
             {
                 Id = Guid.NewGuid(),

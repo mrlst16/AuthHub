@@ -34,7 +34,7 @@ namespace AuthHub.DAL.EntityFramework.Users
                 .ThenInclude(x => x.Claims)
                 .Include(x => x.Tokens)
                 .Include(x => x.PasswordResetTokens)
-                .Include(x=> x.VerificationCodes)
+                .Include(x => x.VerificationCodes)
                 .SingleOrDefaultAsync(x => x.Id == id))!;
 
         public async Task<Guid> SaveAsync(User item)

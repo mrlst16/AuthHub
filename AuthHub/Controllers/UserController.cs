@@ -1,4 +1,5 @@
 ﻿using AuthHub.Api.Attributes;
+using AuthHub.Api.Helpers;
 using AuthHub.Api.Responses;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Users;
@@ -8,9 +9,6 @@ using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using AuthHub.Api.Helpers;
-using AuthHub.BLL.Common.Extensions;
-using AuthHub.Interfaces.Emails;
 
 namespace AuthHub.Api.Controllers
 {

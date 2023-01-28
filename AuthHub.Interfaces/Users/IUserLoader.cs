@@ -8,7 +8,7 @@ namespace AuthHub.Interfaces.Users
     public interface IUserLoader
     {
         Task<User> Create(User user);
-        Task<User> GetAsync(Guid id);
+        Task<User> GetAsync(Guid id, bool requireVerification = true);
         Task<User> GetAsync(string username);
         Task<Guid> SaveAsync(User item);
         Task AddToken(User user, Token token);
