@@ -31,7 +31,7 @@ namespace AuthHub.DAL.EntityFramework.Users
                 .ThenInclude(x => x.AuthScheme)
                 .Include(x => x.PasswordArchives)
                 .Include(x => x.Password)
-                .ThenInclude(x => x.Claims)
+                .ThenInclude(x => x.Claims.Where(x=> x.DeletedUTC == null))
                 .Include(x => x.Tokens)
                 .Include(x => x.PasswordResetTokens)
                 .Include(x => x.VerificationCodes)
