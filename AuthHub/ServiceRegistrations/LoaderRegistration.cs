@@ -1,4 +1,5 @@
 ﻿using AuthHub.BLL.AuthSetting;
+using AuthHub.BLL.Claims;
 using AuthHub.BLL.Common.Organizations;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.BLL.Organizations;
@@ -6,6 +7,7 @@ using AuthHub.BLL.Passwords;
 using AuthHub.BLL.Users;
 using AuthHub.BLL.Verification;
 using AuthHub.Interfaces.AuthSetting;
+using AuthHub.Interfaces.Claims;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
@@ -25,6 +27,7 @@ namespace AuthHub.Api.ServiceRegistrations
                 .AddTransient<IAuthSettingsLoader, AuthSettingsLoader>()
                 .AddTransient<IAuthHubOrganizationLoader, AuthHubOrganizationLoader>()
                 .AddTransient<ITokenLoader, TokenLoader>()
+                .AddTransient<IClaimsLoader, ClaimsLoader>()
                 .AddTransient<IVerificationCodeLoader, VerificationCodeLoader>();
             return services;
         }
