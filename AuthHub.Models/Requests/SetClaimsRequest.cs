@@ -4,6 +4,6 @@ namespace AuthHub.Models.Requests
 {
     public class SetClaimsRequest
     {
-        public IDictionary<string, string> Claims { get; set; }
+        public List<KeyValuePair<string, string>> Claims { get; set; }
     }
 }

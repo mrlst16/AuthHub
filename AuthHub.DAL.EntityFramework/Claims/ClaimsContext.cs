@@ -23,6 +23,7 @@ namespace AuthHub.DAL.EntityFramework.Claims
         {
             var user = await _context.Users
                 .Include(x => x.Password)
+                .ThenInclude(x=> x.Claims)
                 .Include(x => x.AuthSettings)
                 .ThenInclude(x => x.AvailableClaimsKeys)
                 .FirstOrDefaultAsync(x => x.Id == userId);
@@ -58,6 +59,7 @@ namespace AuthHub.DAL.EntityFramework.Claims
             foreach (var claimsEntity in user.Password.Claims.Where(x => keysToDelete.Contains(x.Key)))
             {
                 claimsEntity.DeletedUTC = _dateProvider.UTCNow;
+                _context.Claims.Update(claimsEntity);
             }
 
             //Step 3
@@ -74,9 +76,7 @@ namespace AuthHub.DAL.EntityFramework.Claims
                     PasswordId = user.Password.Id
                 });
 
-            user.Password.Claims.AddRange(newClaims);
-
-            _context.Users.Update(user);
+            _context.Claims.AddRange(newClaims);
             _context.SaveChanges(false);
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AuthHub.Api.Attributes;
 using AuthHub.Api.Helpers;
 using AuthHub.Interfaces.Claims;
@@ -22,14 +23,18 @@ namespace AuthHub.Api.Controllers
         {
             _claimsService = claimsService;
         }
-        
+
         [HttpPost("set")]
         public async Task<IActionResult> AddClaims(
             [FromBody] SetClaimsRequest request
             )
         {
             var userid = User.GetUserId();
-            await _claimsService.SetClaims(userid, request.Claims);
+            await _claimsService.SetClaims(
+                userid, 
+                request.Claims.ToDictionary(x => x.Key, y => y.Value)
+            );
+            
             var response = new ApiResponse<bool>()
             {
                 Data = true,
