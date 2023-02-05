@@ -1,6 +1,5 @@
 ﻿using AuthHub.Interfaces.Claims;
 using AuthHub.Models.Entities.Passwords;
-using AuthHub.Models.Entities.Users;
 using Common.Interfaces.Providers;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +40,13 @@ namespace AuthHub.DAL.EntityFramework.Claims
             //2.Add the claims that don't currently exist
             //note: Everything else leave alone
 
+            //Here are all of the available keys
+            var keys = user.AuthSettings.AvailableClaimsKeys.Where(x => claims.Keys.Contains(x.Name));
+            var availableKeyNames = keys?.Select(x => x.Name) ?? new List<string>();
+
+            if (claims.Keys.Any(x => !availableKeyNames.Contains(x)))
+                throw new Exception("Some claims passed are not available");
+
             //Step 1
             var existingKeys = user.Password.Claims
                 .Where(x => x.DeletedUTC == null)
@@ -56,9 +62,6 @@ namespace AuthHub.DAL.EntityFramework.Claims
 
             //Step 3
             var keysToAdd = claims.Keys.Where(x => !existingKeys.Contains(x));
-
-            //Here are all of the available 
-            var keys = user.AuthSettings.AvailableClaimsKeys.Where(x => claims.Keys.Contains(x.Name));
 
             var newClaims = keys
                 .Where(x => keysToAdd.Contains(x.Name))
