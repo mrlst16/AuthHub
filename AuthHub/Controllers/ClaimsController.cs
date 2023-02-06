@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AuthHub.Api.Attributes;
 using AuthHub.Api.Helpers;
+using AuthHub.BLL.Common.Extensions;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthHub.Api.Controllers
 {
     [APICredentials]
-    [UserCredentials]
     [Route("api/claims")]
     [ApiController]
     public class ClaimsController : Controller
@@ -29,9 +29,8 @@ namespace AuthHub.Api.Controllers
             [FromBody] SetClaimsRequest request
             )
         {
-            var userid = User.GetUserId();
             await _claimsService.SetClaims(
-                userid, 
+                request.UserId, 
                 request.Claims.ToDictionary(x => x.Key, y => y.Value)
             );
             
