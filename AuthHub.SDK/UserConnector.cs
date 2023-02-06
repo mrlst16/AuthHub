@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace AuthHub.SDK
 {
-    internal class UserConnector : ConnectorBase, IUserConnector
+    public class UserConnector : ConnectorBase, IUserConnector
     {
         public UserConnector(string baseUrl, Guid authSettingsId, string apiKey, string apiSecret) : base(baseUrl, authSettingsId, apiKey, apiSecret)
         {
