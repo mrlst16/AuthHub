@@ -1,8 +1,4 @@
 services:
-  api:
-    build: .
-    ports:
-      - 8000:8000
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
@@ -14,3 +10,13 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=ChloeDog@2021
+  api:
+    build: 
+      context: .
+      dockerfile: AuthHubDockerfile
+    ports:
+      - 8000:8000
+  webproxy:
+    build: 
+      context: .
+      dockerfile: WebProxyDockerfile
