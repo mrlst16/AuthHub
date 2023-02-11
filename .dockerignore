@@ -1,0 +1,16 @@
+.git
+.github
+.vs
+AuthHub.Admin
+AuthHub.Api.Tests.Integration
+AuthHub.BLL.Common.Tests
+AuthHub.BLL.Tests
+AuthHub.Database.SqlServer
+AuthHub.SDK
+AuthHub.SDK.Tests.Integration
+AuthHub.Tests.MockData
+authub-web-ui
+C:\Users\mrlst\OneDrive\Documents\Repos\AuthHub\AuthHub.DAL.EntityFramework\appsettings.Development.json
+C:\Users\mrlst\OneDrive\Documents\Repos\AuthHub\AuthHub.DAL.EntityFramework\appsettings.json
+out
+.volumes

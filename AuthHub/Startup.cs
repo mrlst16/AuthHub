@@ -42,7 +42,6 @@ namespace AuthHub.Api
             })
             .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
             .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
-            .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
             .AddTransient<ICredentialsEvaluator, CredentialsEvaluator>()
             .AddTransient<IPasswordEvaluator, PasswordEvaluator>()
             .AddTransient<IHasher, Hasher>()

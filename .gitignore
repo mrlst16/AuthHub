@@ -54,3 +54,6 @@ packages/*
 /aws_credentials.csv
 
 */appsettings.json
+/githubnuget.ps1
+/nuget.config
+.volumes
