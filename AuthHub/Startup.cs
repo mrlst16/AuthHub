@@ -104,7 +104,7 @@ namespace AuthHub.Api
                 await errorHandler.Handle(context, next);
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

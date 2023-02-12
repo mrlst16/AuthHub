@@ -3,7 +3,6 @@ WORKDIR /App
 COPY . ./
 COPY nuget.config ./
 ENV PATH="${PATH}:/root/.dotnet/tools"
-ENV ASPNETCORE_ENVIRONMENT="Docker"
 RUN dotnet publish -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
