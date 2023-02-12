@@ -14,8 +14,12 @@ services:
     build: 
       context: .
       dockerfile: AuthHubDockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - 8000:8000
+    depends_on:
+      - mssql
   webproxy:
     build: 
       context: .

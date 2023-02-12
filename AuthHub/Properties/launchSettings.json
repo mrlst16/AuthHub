@@ -7,6 +7,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:50930;http://localhost:50931"
+    },
+    "AuthHub.Api2": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Docker"
+      },
+      "applicationUrl": "https://localhost:50930;http://localhost:50931"
     }
   }
 }
