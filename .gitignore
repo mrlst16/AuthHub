@@ -58,3 +58,4 @@ packages/*
 /githubnuget.ps1
 /nuget.config
 .volumes
+volumes

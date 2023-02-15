@@ -27,7 +27,7 @@ namespace AuthHub.Api
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
-                        Thread.Sleep(30000);
+                        Thread.Sleep(10000);
                     }
                 }
             }
