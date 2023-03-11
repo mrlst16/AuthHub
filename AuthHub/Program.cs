@@ -23,11 +23,12 @@ namespace AuthHub.Api
                         var context = scope.ServiceProvider.GetRequiredService<AuthHubContext>();
                         context.Database.Migrate();
                         tryAgain = false;
+                        Console.WriteLine("Migrations applied");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
-                        Thread.Sleep(10000);
+                        Thread.Sleep(3000);
                     }
                 }
             }
