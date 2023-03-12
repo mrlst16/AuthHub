@@ -17,8 +17,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
-      - 80:80
-      - 8001:443
+      - 8080:80
+      - 443:443
     depends_on:
       - mssql
   webproxy:
@@ -26,4 +26,6 @@ services:
       context: .
       dockerfile: WebProxyDockerfile
     ports:
-      - 8080:8080
+      - 80:8080
+    volumes:
+      - .volumes/nginx/logs:/var/log/nginx
