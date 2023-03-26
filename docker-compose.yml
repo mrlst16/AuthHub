@@ -30,3 +30,5 @@ services:
       - 8080:8080
     volumes:
       - .volumes/nginx/logs:/var/log/nginx
+    depends_on:
+      - api
