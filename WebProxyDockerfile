@@ -1,0 +1,10 @@
+FROM nginx as base
+# copy config
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+# copy the index page (for example)
+COPY ./.nginx/index.html /usr/share/nginx/html/index.html
+# copy the ssl (tsl) keys
+# COPY ./.nginx/privkey.pem /etc/letsencrypt/live/audder.com/fullchain.pem
+# COPY ./.nginx/fullchain.pem /etc/letsencrypt/live/audder.com/privkey.pem
+# COPY ./.nginx/chain.pem /etc/letsencrypt/live/audder.com/chain.pem
+# COPY ./.nginx/cert.pem /etc/letsencrypt/live/audder.com/cert.pem

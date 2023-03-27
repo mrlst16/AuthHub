@@ -1,0 +1,2 @@
+2023/03/21 18:31:25 [error] 29#29: *1 connect() failed (113: No route to host) while connecting to upstream, client: 108.184.64.179, server: , request: "POST /api/user/create HTTP/1.1", upstream: "http://172.20.0.4:8080/api/user/create", host: "audder.com"
+2023/03/21 18:35:33 [error] 29#29: *3 connect() failed (113: No route to host) while connecting to upstream, client: 94.253.124.162, server: , request: "GET / HTTP/1.1", upstream: "http://172.20.0.4:8080/", host: "147.182.196.52:80"

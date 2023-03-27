@@ -25,12 +25,17 @@ namespace AuthHub.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public IConfiguration Configuration { get; protected set; }
 
-        public IConfiguration Configuration { get; }
+        public Startup()
+        {
+            Configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false)
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: false)
+                .Build();
+
+            Console.WriteLine($"Connection String: {Configuration.GetConnectionString("authhub")}");
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -42,7 +47,6 @@ namespace AuthHub.Api
             })
             .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
             .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
-            .AddTransient(typeof(ISRDRepository<,>), typeof(AuthHubRepository<,>))
             .AddTransient<ICredentialsEvaluator, CredentialsEvaluator>()
             .AddTransient<IPasswordEvaluator, PasswordEvaluator>()
             .AddTransient<IHasher, Hasher>()
@@ -100,7 +104,7 @@ namespace AuthHub.Api
                 await errorHandler.Handle(context, next);
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

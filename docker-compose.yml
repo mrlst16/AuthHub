@@ -1,0 +1,34 @@
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1433:1433
+    volumes:
+      - .volumes/data:/var/opt/mssql/data
+      - .volumes/log:/var/opt/mssql/log
+      - .volumes/secrets:/var/opt/mssql/secrets
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=ChloeDog@2021
+    user: root
+  api:
+    build:
+      context: .
+      dockerfile: AuthHubDockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - mssql
+  webproxy:
+    build:
+      context: .
+      dockerfile: WebProxyDockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - .volumes/nginx/logs:/var/log/nginx
+    depends_on:
+      - api

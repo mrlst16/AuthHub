@@ -12,19 +12,19 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthHub.DAL.EntityFramework.Migrations
 {
     [DbContext(typeof(AuthHubContext))]
-    [Migration("20221214030009_RemoveOrganizationIdFromUser")]
-    partial class RemoveOrganizationIdFromUser
+    [Migration("20230212172158_AddPawnderData")]
+    partial class AddPawnderData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("AuthHub.Models.Enums.AuthScheme", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Enums.AuthScheme", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,14 +53,14 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6183),
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6183),
+                            CreateDate = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1357),
+                            LastUpdated = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1357),
                             Name = "JWT",
                             Value = 1
                         });
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Enums.VerificationType", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Enums.VerificationType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,22 +89,22 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("b606fd56-6c9f-40ea-a274-1603d2ef9780"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6724),
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6725),
+                            CreateDate = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1583),
+                            LastUpdated = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1583),
                             Name = "UserEmail",
                             Value = 0
                         },
                         new
                         {
                             Id = new Guid("8eb05bdc-0f09-437b-af5a-06e5ff017556"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6728),
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6728),
+                            CreateDate = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1591),
+                            LastUpdated = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1591),
                             Name = "PasswordReset",
                             Value = 1
                         });
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Organizations.APIKeyAndSecretHash", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Organizations.APIKeyAndSecretHash", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,21 +145,24 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("68ab7350-9368-45ec-bd90-14bbe71480bd"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6742),
+                            CreateDate = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1628),
                             Hash = new byte[] { 82, 173, 66, 213, 53, 147, 34, 195, 227, 190 },
                             Iterations = 10,
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6742),
+                            LastUpdated = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1629),
                             Length = 10,
                             OrganizationId = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                             Salt = new byte[] { 142, 34, 0, 28 }
                         });
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Organizations.AuthSettings", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Organizations.AuthSettings", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Audience")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("AuthSchemeID")
                         .HasColumnType("uniqueidentifier");
@@ -201,6 +204,9 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.Property<Guid>("OrganizationID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("PasswordResetFormUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PasswordResetTokenExpirationMinutes")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -223,38 +229,23 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
+                            Audience = "PawnderJWT",
                             AuthSchemeID = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6601),
+                            CreateDate = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1481),
                             ExpirationMinutes = 120,
                             HashLength = 8,
                             Issuer = "Pawnder",
                             Iterations = 10,
                             Key = "This is my auth key",
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6601),
+                            LastUpdated = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1482),
                             Name = "Pawnder JWT",
                             OrganizationID = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                            PasswordResetTokenExpirationMinutes = 10,
-                            SaltLength = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("6ce12da2-cb73-4f0b-b9f0-46051621b3c6"),
-                            AuthSchemeID = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6615),
-                            ExpirationMinutes = 120,
-                            HashLength = 8,
-                            Issuer = "Audder",
-                            Iterations = 10,
-                            Key = "This is my auth key",
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6615),
-                            Name = "Audder_Clients",
-                            OrganizationID = new Guid("0b674ac4-7079-4ad7-830a-c41cd6ab5204"),
                             PasswordResetTokenExpirationMinutes = 10,
                             SaltLength = 8
                         });
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Organizations.Organization", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Organizations.Organization", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -285,22 +276,14 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6569),
+                            CreateDate = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1133),
                             Email = "mattlantz88@gmail.com",
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6570),
+                            LastUpdated = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1136),
                             Name = "Pawnder"
-                        },
-                        new
-                        {
-                            Id = new Guid("0b674ac4-7079-4ad7-830a-c41cd6ab5204"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6576),
-                            Email = "mattlantz88@gmail.com",
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6576),
-                            Name = "Audder"
                         });
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Passwords.ClaimsEntity", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.ClaimsEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -335,7 +318,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.ToTable("Claims");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Passwords.ClaimsKey", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.ClaimsKey", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -374,23 +357,23 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         {
                             Id = new Guid("7ef019bd-4155-4c25-85d8-5eee7427af8a"),
                             AuthSettingsId = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6635),
+                            CreateDate = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1547),
                             IsDefault = false,
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6636),
+                            LastUpdated = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1548),
                             Name = "Name"
                         },
                         new
                         {
                             Id = new Guid("6598c3ca-417e-47ed-b796-66f94af855df"),
                             AuthSettingsId = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6641),
+                            CreateDate = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1563),
                             IsDefault = false,
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6642),
+                            LastUpdated = new DateTime(2023, 2, 12, 17, 21, 57, 580, DateTimeKind.Utc).AddTicks(1563),
                             Name = "Role"
                         });
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Passwords.Password", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.Password", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -400,9 +383,6 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedUTC")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastUpdated")
@@ -425,21 +405,40 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         .IsUnique();
 
                     b.ToTable("Passwords");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8358a66e-b015-44a6-9cc3-7b5c2b9f1d79"),
-                            CreateDate = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6656),
-                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastUpdated = new DateTime(2022, 12, 14, 3, 0, 8, 170, DateTimeKind.Utc).AddTicks(6656),
-                            PasswordHash = new byte[] { 80, 97, 119, 110, 100, 101, 114, 50, 50, 33 },
-                            Salt = new byte[] { 91, 156, 7, 89, 255, 32, 9, 14 },
-                            UserId = new Guid("b9e2e173-f8c4-41ed-be88-ec1071920130")
-                        });
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Passwords.PasswordResetToken", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.PasswordArchive", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedUTC")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Salt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PasswordArchives");
+                });
+
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.PasswordResetToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -470,19 +469,52 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("PasswordResetToken");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Users.User", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Tokens.Token", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedUTC")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tokens");
+                });
+
+            modelBuilder.Entity("AuthHub.Models.Entities.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AuthSettingsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AuthSettingsId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
@@ -514,12 +546,10 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasIndex("AuthSettingsId");
 
-                    b.HasIndex("AuthSettingsId1");
-
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Verification.VerificationCode", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Verification.VerificationCode", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -558,24 +588,24 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.ToTable("VerificationCodes");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Organizations.APIKeyAndSecretHash", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Organizations.APIKeyAndSecretHash", b =>
                 {
-                    b.HasOne("AuthHub.Models.Organizations.Organization", null)
+                    b.HasOne("AuthHub.Models.Entities.Organizations.Organization", null)
                         .WithOne("APIKeyAndSecretHash")
-                        .HasForeignKey("AuthHub.Models.Organizations.APIKeyAndSecretHash", "OrganizationId")
+                        .HasForeignKey("AuthHub.Models.Entities.Organizations.APIKeyAndSecretHash", "OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Organizations.AuthSettings", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Organizations.AuthSettings", b =>
                 {
-                    b.HasOne("AuthHub.Models.Enums.AuthScheme", "AuthScheme")
+                    b.HasOne("AuthHub.Models.Entities.Enums.AuthScheme", "AuthScheme")
                         .WithMany()
                         .HasForeignKey("AuthSchemeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AuthHub.Models.Organizations.Organization", null)
+                    b.HasOne("AuthHub.Models.Entities.Organizations.Organization", null)
                         .WithMany("Settings")
                         .HasForeignKey("OrganizationID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -584,55 +614,82 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.Navigation("AuthScheme");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Passwords.ClaimsEntity", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.ClaimsEntity", b =>
                 {
-                    b.HasOne("AuthHub.Models.Passwords.Password", null)
+                    b.HasOne("AuthHub.Models.Entities.Passwords.Password", null)
                         .WithMany("Claims")
                         .HasForeignKey("PasswordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Passwords.ClaimsKey", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.ClaimsKey", b =>
                 {
-                    b.HasOne("AuthHub.Models.Organizations.AuthSettings", null)
+                    b.HasOne("AuthHub.Models.Entities.Organizations.AuthSettings", null)
                         .WithMany("AvailableClaimsKeys")
                         .HasForeignKey("AuthSettingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Passwords.Password", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.Password", b =>
                 {
-                    b.HasOne("AuthHub.Models.Users.User", null)
+                    b.HasOne("AuthHub.Models.Entities.Users.User", null)
                         .WithOne("Password")
-                        .HasForeignKey("AuthHub.Models.Passwords.Password", "UserId")
+                        .HasForeignKey("AuthHub.Models.Entities.Passwords.Password", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Users.User", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.PasswordArchive", b =>
                 {
-                    b.HasOne("AuthHub.Models.Organizations.AuthSettings", "AuthSettings")
-                        .WithMany()
+                    b.HasOne("AuthHub.Models.Entities.Users.User", null)
+                        .WithMany("PasswordArchives")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.PasswordResetToken", b =>
+                {
+                    b.HasOne("AuthHub.Models.Entities.Users.User", "User")
+                        .WithMany("PasswordResetTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AuthHub.Models.Entities.Tokens.Token", b =>
+                {
+                    b.HasOne("AuthHub.Models.Entities.Users.User", "User")
+                        .WithMany("Tokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AuthHub.Models.Entities.Users.User", b =>
+                {
+                    b.HasOne("AuthHub.Models.Entities.Organizations.AuthSettings", "AuthSettings")
+                        .WithMany("Users")
                         .HasForeignKey("AuthSettingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AuthHub.Models.Organizations.AuthSettings", null)
-                        .WithMany("Users")
-                        .HasForeignKey("AuthSettingsId1");
-
                     b.Navigation("AuthSettings");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Verification.VerificationCode", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Verification.VerificationCode", b =>
                 {
-                    b.HasOne("AuthHub.Models.Enums.VerificationType", "Type")
+                    b.HasOne("AuthHub.Models.Entities.Enums.VerificationType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId");
 
-                    b.HasOne("AuthHub.Models.Users.User", "User")
+                    b.HasOne("AuthHub.Models.Entities.Users.User", "User")
                         .WithMany("VerificationCodes")
                         .HasForeignKey("UserId");
 
@@ -641,28 +698,34 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Organizations.AuthSettings", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Organizations.AuthSettings", b =>
                 {
                     b.Navigation("AvailableClaimsKeys");
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Organizations.Organization", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Organizations.Organization", b =>
                 {
                     b.Navigation("APIKeyAndSecretHash");
 
                     b.Navigation("Settings");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Passwords.Password", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Passwords.Password", b =>
                 {
                     b.Navigation("Claims");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Users.User", b =>
+            modelBuilder.Entity("AuthHub.Models.Entities.Users.User", b =>
                 {
                     b.Navigation("Password");
+
+                    b.Navigation("PasswordArchives");
+
+                    b.Navigation("PasswordResetTokens");
+
+                    b.Navigation("Tokens");
 
                     b.Navigation("VerificationCodes");
                 });

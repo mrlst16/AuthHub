@@ -1,0 +1,14 @@
+.git
+.github
+.vs
+AuthHub.Admin
+AuthHub.Api.Tests.Integration
+AuthHub.BLL.Common.Tests
+AuthHub.BLL.Tests
+AuthHub.Database.SqlServer
+AuthHub.SDK
+AuthHub.SDK.Tests.Integration
+AuthHub.Tests.MockData
+authub-web-ui
+out
+.volumes
