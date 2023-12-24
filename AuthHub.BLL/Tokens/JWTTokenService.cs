@@ -72,7 +72,7 @@ namespace AuthHub.BLL.Tokens
                     .FirstOrDefault(x => string.Equals(x.Key, ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase)
                     ) == null)
                 userClaims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, user.UserName));
-
+            userClaims.Add(new ClaimsEntity("Id", user.Id.ToString(), Guid.Empty));
             userClaims = userClaims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 
             var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(user.AuthSettings.Key));
@@ -80,7 +80,7 @@ namespace AuthHub.BLL.Tokens
             var expirationDate = _dateProvider.UTCNow.AddMinutes(user.AuthSettings.ExpirationMinutes);
             var token = new JwtSecurityToken(
                 issuer: user.AuthSettings.Issuer,
-                audience: user.AuthSettings.Issuer,
+                audience: user.AuthSettings.Audience,
                 claims: userClaims.Select(_claimsMapper.Map) ?? new List<Claim>(),
                 expires: expirationDate,
                 signingCredentials: credentials
