@@ -8,7 +8,7 @@
       },
       "applicationUrl": "https://localhost:50930;http://localhost:50931"
     },
-    "AuthHub.Api2": {
+    "Run With Docker": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
