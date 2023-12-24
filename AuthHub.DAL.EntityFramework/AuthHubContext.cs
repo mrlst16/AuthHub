@@ -1,5 +1,4 @@
-﻿using AuthHub.BLL.Common.Helpers;
-using AuthHub.Models.Entities.Enums;
+﻿using AuthHub.Models.Entities.Enums;
 using AuthHub.Models.Entities.Organizations;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
@@ -7,7 +6,6 @@ using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 using AuthSettingsModel = AuthHub.Models.Entities.Organizations.AuthSettings;
 
@@ -201,7 +199,7 @@ namespace AuthHub.DAL.EntityFramework
                 .HasData(new Organization()
                 {
                     Id = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                    Name = "Pawnder",
+                    Name = "HomeEc",
                     Email = "mattlantz88@gmail.com"
                 });
 
@@ -223,11 +221,11 @@ namespace AuthHub.DAL.EntityFramework
                     AuthSchemeID = Guid.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
                     ExpirationMinutes = 120,
                     HashLength = 8,
-                    Issuer = "Pawnder",
-                    Audience = "PawnderJWT",
+                    Issuer = "HomeEc",
+                    Audience = "HomeEcJWT",
                     Key = "This is my auth key",
                     Iterations = 10,
-                    Name = "Pawnder JWT",
+                    Name = "HomeEc JWT",
                     PasswordResetTokenExpirationMinutes = 10,
                     SaltLength = 8
                 });
