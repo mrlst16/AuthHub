@@ -40,21 +40,6 @@ namespace AuthHub.SDK
             return services;
         }
 
-        public static IServiceCollection AddAuthHubJWTAuthentication(
-            this IServiceCollection services,
-            IConfiguration configuration
-        )
-        {
-            var section = configuration.GetSection("AuthHub:JWT");
-            if (section == null) return services;
-
-            return services.AddAuthHubJWTAuthentication(
-                section.GetValue<string>("Issuer"),
-                section.GetValue<string>("Audience"),
-                section.GetValue<string>("Key")
-            );
-        }
-
         public static IServiceCollection AddAuthHubConnectors(
             this IServiceCollection services,
             IConfiguration configuration

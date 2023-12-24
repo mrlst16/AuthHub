@@ -38,10 +38,10 @@ namespace AuthHub.SDK
             get
             {
                 HttpClient result = new HttpClient();
+                result.BaseAddress = new Uri(_baseUrl);
                 result.DefaultRequestHeaders.Add(AuthHubHeaders.AuthSettingsID, _authSettingsId.ToString());
                 result.DefaultRequestHeaders.Add(AuthHubHeaders.APIKey, _apiKey);
                 result.DefaultRequestHeaders.Add(AuthHubHeaders.APISecret, _apiSecret);
-                result.DefaultRequestHeaders.Add("Content-Type", "application/json");
                 return result;
             }
         }

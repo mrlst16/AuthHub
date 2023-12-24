@@ -1,15 +1,17 @@
 ﻿using AuthHub.Models.Constants;
-using AuthHub.Models.Entities.Tokens;
+using AuthHub.Models.Tokens;
 using AuthHub.SDK.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
+using Common.Models.Responses;
 
 namespace AuthHub.SDK
 {
     public class TokenConnector : ConnectorBase, ITokenConnector
     {
 
-        public TokenConnector(string baseUrl, Guid authSettingsId, string apiKey, string apiSecret) : base(baseUrl, authSettingsId, apiKey, apiSecret)
+        public TokenConnector(string baseUrl, Guid authSettingsId, string apiKey, string apiSecret)
+            : base(baseUrl, authSettingsId, apiKey, apiSecret)
         {
         }
 
@@ -17,7 +19,7 @@ namespace AuthHub.SDK
         {
         }
 
-        public async Task<Token> GetJWTTokenAsnyc(string username, string password)
+        public async Task<Token> GetJWTTokenAsync(string username, string password)
         {
             HttpClient client = Client;
             client.DefaultRequestHeaders.Add(AuthHubHeaders.Username, username);
@@ -26,9 +28,16 @@ namespace AuthHub.SDK
             HttpResponseMessage response = await client.GetAsync("api/token/JWTUserToken");
             string responseString = await response.Content.ReadAsStringAsync();
 
-            Token result = JsonSerializer.Deserialize<Token>(responseString)
+            ApiResponse<Token> result = JsonSerializer
+                                            .Deserialize<ApiResponse<Token>>(
+                                                responseString, 
+                                                    new JsonSerializerOptions()
+                                                    {
+                                                        PropertyNameCaseInsensitive = true
+                                                    }
+                                                )
                            ?? throw new Exception("Could not deserialize response body");
-            return result;
+            return result.Data;
         }
 
         public async Task<Token> RefreshJWTTokenAsnyc(Guid userId, string refreshToken)
