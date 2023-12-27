@@ -9,6 +9,7 @@ using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AuthHub.Models.Responses;
 
 namespace AuthHub.Api.Controllers
 {

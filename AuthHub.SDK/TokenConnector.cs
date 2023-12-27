@@ -10,8 +10,8 @@ namespace AuthHub.SDK
     public class TokenConnector : ConnectorBase, ITokenConnector
     {
 
-        public TokenConnector(string baseUrl, Guid authSettingsId, string apiKey, string apiSecret)
-            : base(baseUrl, authSettingsId, apiKey, apiSecret)
+        public TokenConnector(string baseUrl, Guid authSettingsId, string apiKey, string apiSecret, Guid organizationId)
+            : base(baseUrl, authSettingsId, apiKey, apiSecret, organizationId)
         {
         }
 
@@ -28,27 +28,14 @@ namespace AuthHub.SDK
             HttpResponseMessage response = await client.GetAsync("api/token/JWTUserToken");
             string responseString = await response.Content.ReadAsStringAsync();
 
-            ApiResponse<Token> result = JsonSerializer
-                                            .Deserialize<ApiResponse<Token>>(
-                                                responseString, 
-                                                    new JsonSerializerOptions()
-                                                    {
-                                                        PropertyNameCaseInsensitive = true
-                                                    }
-                                                )
-                           ?? throw new Exception("Could not deserialize response body");
-            return result.Data;
+            return await Deserialize<Token>(response);
         }
 
-        public async Task<Token> RefreshJWTTokenAsnyc(Guid userId, string refreshToken)
+        public async Task<Token> RefreshJWTTokenAsync(Guid userId, string refreshToken)
         {
             var path = $"api/token/RefreshJWTUserToken?userId={userId}&refreshToken={refreshToken}";
             HttpResponseMessage response = await Client.GetAsync(path);
-            string responseString = await response.Content.ReadAsStringAsync();
-
-            Token result = JsonSerializer.Deserialize<Token>(responseString)
-                           ?? throw new Exception("Could not deserialize response body");
-            return result;
+            return await Deserialize<Token>(response);
         }
     }
 }

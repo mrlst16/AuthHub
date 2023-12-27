@@ -3,7 +3,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { OrganizationSignup } from './pages/organization/organization_signup';
+import { OrganizationSignin } from './pages/organization/organization_signin';
 import { HomeSplash } from './pages/homesplash';
 import { MemberSignup } from './pages/member/member_signup';
 import { OrganizationHome } from './pages/organization/organization_home';
@@ -16,7 +16,7 @@ root.render(
   <Routes>
   <Route path='/organization' element={<OrganizationHome />}>
       <Route>
-        <Route path='signup' element={<OrganizationSignup />} />
+        <Route path='signin' element={<OrganizationSignin />} />
       </Route>
     </Route>
     <Route path='/member' element={<App />}>

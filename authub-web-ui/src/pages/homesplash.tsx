@@ -12,27 +12,7 @@ export function HomeSplash(){
                   <div className="container">
                     <div className="row">
                       <div className="col col-6 text-center">
-                        <a href="organization/signup">Sign Up</a>
-                      </div>
-                      <div className="col col-6 text-center">
                         <a href="organization/signin">Sign In</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col col-6">
-              <div className="card">
-                <div className="card-title text-center fs-1">Members</div>
-                <div className="card-body">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col col-6 text-center">
-                        <a href="member/signup">Sign Up</a>
-                      </div>
-                      <div className="col col-6 text-center">
-                        <a href="member/signin">Sign In</a>
                       </div>
                     </div>
                   </div>

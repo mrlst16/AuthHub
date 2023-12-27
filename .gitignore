@@ -60,3 +60,5 @@ packages/*
 .volumes
 volumes
 *.pem
+*.csv
+*.xlsx

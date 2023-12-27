@@ -1,4 +1,6 @@
-﻿namespace AuthHub.Api.Responses
+﻿using System;
+
+namespace AuthHub.Models.Responses
 {
     public class UserResponse
     {
