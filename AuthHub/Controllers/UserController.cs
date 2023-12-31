@@ -20,12 +20,12 @@ namespace AuthHub.Api.Controllers
     {
         private readonly IValidator<CreateUserRequest> _validator;
         private readonly IUserService _service;
-        private readonly IMapper<User, UserResponse> _userResponseMapper;
+        private readonly IMapper<User, UserIdResponse> _userResponseMapper;
 
         public UserController(
             IValidator<CreateUserRequest> validator,
             IUserService service,
-            IMapper<User, UserResponse> userResponseMapper
+            IMapper<User, UserIdResponse> userResponseMapper
             )
         {
             _validator = validator;
@@ -39,7 +39,7 @@ namespace AuthHub.Api.Controllers
             await _validator.ValidateAndThrowAsync(request);
             var result = await _service.CreateAsync(request);
 
-            var response = new ApiResponse<UserResponse>()
+            var response = new ApiResponse<UserIdResponse>()
             {
                 Data = _userResponseMapper.Map(result),
                 SuccessMessage = "Successfully created user",
@@ -65,12 +65,12 @@ namespace AuthHub.Api.Controllers
             return new OkObjectResult(response);
         }
 
-        [HttpGet("get")]
+        [HttpGet]
         public async Task<IActionResult> Get(
-           [FromQuery] Guid id
+           [FromQuery] Guid userId
            )
         {
-            if (id == Guid.Empty)
+            if (userId == Guid.Empty)
                 return new BadRequestObjectResult(new ApiResponse<bool>()
                 {
                     Data = false,
@@ -78,9 +78,9 @@ namespace AuthHub.Api.Controllers
                     FailureMessage = "No Id was passed"
                 });
 
-            var response = new ApiResponse<User>()
+            var response = new ApiResponse<UserResponse>()
             {
-                Data = await _service.ReadAsync(id),
+                Data = await _service.ReadAsync(userId),
                 SuccessMessage = "Successfully retrieved user",
                 Success = true
             };

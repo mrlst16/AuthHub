@@ -59,7 +59,12 @@ namespace AuthHub.Api.Middleware
             var (authenticationResult, userid) = await _evaluator.EvaluateUsernameAndPassword(authSettingsId, username, password);
 
             if (!authenticationResult)
+            {
+                if(userid == Guid.Empty)
+                    return AuthenticateResult.Fail("Username does not exist");
+
                 return AuthenticateResult.Fail("Not authenticated");
+            }
 
             //Set up the principal
             Claim[] claims = new Claim[]

@@ -54,7 +54,7 @@ namespace AuthHub.SDK
             }
         }
 
-        protected async Task<T> Deserialize<T>(HttpResponseMessage response)
+        protected async Task<ApiResponse<T>> Deserialize<T>(HttpResponseMessage response)
         {
             string responseString = await response.Content.ReadAsStringAsync();
 
@@ -64,7 +64,7 @@ namespace AuthHub.SDK
                 {
                     PropertyNameCaseInsensitive = true
                 });
-            return result.Data;
+            return result;
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using AuthHub.Models.Tokens;
+using Common.Models.Responses;
 
 namespace AuthHub.SDK.Interfaces
 {
     public interface ITokenConnector
     {
-        Task<Token> GetJWTTokenAsync(string username, string password);
-        Task<Token> RefreshJWTTokenAsync(Guid userId, string refreshToken);
+        Task<ApiResponse<Token>> GetJWTTokenAsync(string username, string password);
+        Task<ApiResponse<Token>> RefreshJWTTokenAsync(Guid userId, string refreshToken);
     }
 }

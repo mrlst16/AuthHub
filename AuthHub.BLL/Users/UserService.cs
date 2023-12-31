@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthHub.Models.Responses;
+using Common.Interfaces.Utilities;
 
 namespace AuthHub.BLL.Users
 {
@@ -25,14 +27,15 @@ namespace AuthHub.BLL.Users
         private readonly IAuthSettingsLoader _authSettingsLoader;
         private readonly IAuthHubEmailService _emailService;
         private readonly IVerificationCodeService _verificationCodeService;
-
+        private readonly IMapper<User, UserResponse> _userMapper;
         public UserService(
             IConfiguration configuration,
             IUserLoader loader,
             Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratorFactory,
             IAuthSettingsLoader authSettingsLoader,
             IAuthHubEmailService emailService,
-            IVerificationCodeService verificationCodeService
+            IVerificationCodeService verificationCodeService,
+            IMapper<User, UserResponse> userMapper
             )
         {
             _loader = loader;
@@ -41,6 +44,7 @@ namespace AuthHub.BLL.Users
             _authSettingsLoader = authSettingsLoader;
             _emailService = emailService;
             _verificationCodeService = verificationCodeService;
+            _userMapper = userMapper;
         }
 
         public async Task<User> CreateAsync(CreateUserRequest item)
@@ -106,7 +110,10 @@ namespace AuthHub.BLL.Users
             await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
         }
 
-        public async Task<User> ReadAsync(Guid id)
-            => await _loader.GetAsync(id);
+        public async Task<UserResponse> ReadAsync(Guid id)
+        {
+            var entity = await _loader.GetAsync(id);
+            return _userMapper.Map(entity);
+        }
     }
 }

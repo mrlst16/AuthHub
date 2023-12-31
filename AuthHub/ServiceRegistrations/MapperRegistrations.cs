@@ -1,5 +1,6 @@
 ﻿using AuthHub.Api.FormatMappers;
 using AuthHub.Api.Responses;
+using AuthHub.BLL.Common.Mappers;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Responses;
@@ -13,7 +14,8 @@ namespace AuthHub.Api.ServiceRegistrations
         public static IServiceCollection AddFormatMappers(this IServiceCollection services)
         =>
             services
-                .AddTransient<IMapper<User, UserResponse>, UserResponseMapper>()
-                .AddTransient<IMapper<PasswordResetToken, RequestPasswordResetTokenResponse>, RequestPasswordResetTokenResponseMapper>();
+                .AddTransient<IMapper<User, UserIdResponse>, UserIdResponseMapper>()
+                .AddTransient<IMapper<PasswordResetToken, RequestPasswordResetTokenResponse>, RequestPasswordResetTokenResponseMapper>()
+                .AddTransient<IMapper<User, UserResponse>, UserResponseMapper>();
     }
 }

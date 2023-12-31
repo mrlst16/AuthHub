@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\mrlst\OneDrive\Documents\Repos\AuthHub\AuthHub\bin\Release\net6.0\publish\</_PublishTargetUrl>
-    <History>True|2023-12-24T05:01:11.4389387Z;</History>
+    <History>True|2023-12-31T03:06:58.0270666Z;True|2023-12-30T19:02:41.7508515-08:00;True|2023-12-23T21:01:11.4389387-08:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>

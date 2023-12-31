@@ -19,19 +19,23 @@ namespace AuthHub.SDK
         {
         }
 
-        public async Task<Token> GetJWTTokenAsync(string username, string password)
+        public async Task<ApiResponse<Token>> GetJWTTokenAsync(string username, string password)
         {
             HttpClient client = Client;
             client.DefaultRequestHeaders.Add(AuthHubHeaders.Username, username);
             client.DefaultRequestHeaders.Add(AuthHubHeaders.Password, password);
-
+            var headers =  client.DefaultRequestHeaders.Select(x => new
+            {
+                Key = x.Key,
+                Value = x.Value.First()
+            });
             HttpResponseMessage response = await client.GetAsync("api/token/JWTUserToken");
             string responseString = await response.Content.ReadAsStringAsync();
 
             return await Deserialize<Token>(response);
         }
 
-        public async Task<Token> RefreshJWTTokenAsync(Guid userId, string refreshToken)
+        public async Task<ApiResponse<Token>> RefreshJWTTokenAsync(Guid userId, string refreshToken)
         {
             var path = $"api/token/RefreshJWTUserToken?userId={userId}&refreshToken={refreshToken}";
             HttpResponseMessage response = await Client.GetAsync(path);

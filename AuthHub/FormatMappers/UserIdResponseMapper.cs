@@ -5,10 +5,10 @@ using Common.Interfaces.Utilities;
 
 namespace AuthHub.Api.FormatMappers
 {
-    public class UserResponseMapper : IMapper<User, UserResponse>
+    public class UserIdResponseMapper : IMapper<User, UserIdResponse>
     {
-        public UserResponse Map(User source)
-            => new UserResponse()
+        public UserIdResponse Map(User source)
+            => new UserIdResponse()
             {
                 UserId = source.Id
             };

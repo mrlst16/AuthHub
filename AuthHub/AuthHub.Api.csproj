@@ -11,6 +11,10 @@
     <StartupObject>AuthHub.Api.Program</StartupObject>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Common" Version="1.0.1" />
     <PackageReference Include="FluentValidation" Version="11.2.1" />

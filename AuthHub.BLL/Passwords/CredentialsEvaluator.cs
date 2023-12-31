@@ -48,7 +48,8 @@ namespace AuthHub.BLL.Passwords
             var user = await _userLoader.GetAsync(username);
             var authSettings = await _authSettingsLoader.ReadAsync(authSettingsId);
 
-            if (user == null) return (false, user.Id);
+            if (user == null)
+                throw new Exception("Username was not found");
 
             var authenticationResult = _passwordEvaluator.EvaluateUsernameAndPasswordWithSalt(
                 username,
@@ -58,6 +59,8 @@ namespace AuthHub.BLL.Passwords
                 user.Password.Salt,
                 user.Password.PasswordHash
             );
+            if (!authenticationResult)
+                throw new Exception("Invalid username and password combination.");
             return (authenticationResult, user.Id);
         }
     }
