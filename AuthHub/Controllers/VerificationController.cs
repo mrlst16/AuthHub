@@ -32,5 +32,12 @@ namespace AuthHub.Api.Controllers
                 SuccessMessage = "Successfully verified user email"
             });
         }
+
+        [HttpGet("request_phone_code")]
+        public async Task<IActionResult> RequestPhoneCodeAsync()
+        {
+
+            return new OkObjectResult(new ApiResponse<string>());
+        }
     }
 }

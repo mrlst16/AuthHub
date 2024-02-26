@@ -29,7 +29,7 @@ namespace AuthHub.BLL.Users
             if (!requiresVerification) return result;
 
             //Only return the user if the user is verified
-            if (!result.VerificationCodes.Any(
+            if (result.AuthSettings.RequireVerification && !result.VerificationCodes.Any(
                     x => x.Type == VerificationTypeEnum.UserEmail
                          && x.VerificationDate != null
                 )

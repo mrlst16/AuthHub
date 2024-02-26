@@ -26,5 +26,7 @@ namespace AuthHub.Models.Entities.Organizations
         public int PasswordResetTokenExpirationMinutes { get; set; } = 120;
         public List<User> Users { get; set; } = new List<User>();
         public string PasswordResetFormUrl { get; set; }
+        public bool RequireVerification { get; set; } = true;
+
     }
 }

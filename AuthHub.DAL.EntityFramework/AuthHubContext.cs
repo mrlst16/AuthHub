@@ -227,7 +227,8 @@ namespace AuthHub.DAL.EntityFramework
                     Iterations = 10,
                     Name = "HomeEc JWT",
                     PasswordResetTokenExpirationMinutes = 10,
-                    SaltLength = 8
+                    SaltLength = 8,
+                    RequireVerification = false
                 });
 
             modelBuilder.Entity<ClaimsKey>()
