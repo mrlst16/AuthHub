@@ -119,9 +119,11 @@ namespace AuthHub.DAL.EntityFramework.Users
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddPasswordArchive(User user, Password password)
+        public async Task<User> GetByPhoneNumberAsync(string phoneNumber)
         {
-
+            return _context.Users
+                .Include(x=> x.AuthSettings)
+                .FirstOrDefault(x=> x.PhoneNumber == phoneNumber);
         }
     }
 }

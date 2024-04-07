@@ -4,6 +4,7 @@ using AuthHub.SDK.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 using Common.Models.Responses;
+using AuthHub.Models.Entities.Users;
 
 namespace AuthHub.SDK
 {
@@ -38,6 +39,13 @@ namespace AuthHub.SDK
         public async Task<ApiResponse<Token>> RefreshJWTTokenAsync(Guid userId, string refreshToken)
         {
             var path = $"api/token/RefreshJWTUserToken?userId={userId}&refreshToken={refreshToken}";
+            HttpResponseMessage response = await Client.GetAsync(path);
+            return await Deserialize<Token>(response);
+        }
+
+        public async Task<ApiResponse<Token>> GetJWTUserTokenPhoneLogin(string phoneNumber, string verificationCode)
+        {
+            var path = $"api/token/JWTUserTokenPhoneLogin?phoneNumber={phoneNumber}&verificationCode={verificationCode}";
             HttpResponseMessage response = await Client.GetAsync(path);
             return await Deserialize<Token>(response);
         }

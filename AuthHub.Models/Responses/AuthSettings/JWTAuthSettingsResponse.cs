@@ -1,4 +1,4 @@
-﻿namespace AuthHub.Models.Responses
+﻿namespace AuthHub.Models.Responses.AuthSettings
 {
     public class JWTAuthSettingsResponse
     {

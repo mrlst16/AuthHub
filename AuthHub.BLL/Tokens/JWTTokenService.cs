@@ -17,6 +17,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AuthHub.Interfaces.Verification;
+using AuthHub.Models.Entities.Enums;
+using AuthHub.Models.Entities.Verification;
+using AuthHub.Models.Enums;
 
 namespace AuthHub.BLL.Tokens
 {
@@ -28,6 +32,7 @@ namespace AuthHub.BLL.Tokens
         private readonly IDateProvider _dateProvider;
         private readonly IMapper<ClaimsEntity, Claim> _claimsMapper;
         private readonly ITokenLoader _tokenLoader;
+        private readonly IVerificationCodeLoader _verificationCodeLoader;
 
         public JWTTokenService(
             IUserLoader userLoader,
@@ -35,7 +40,8 @@ namespace AuthHub.BLL.Tokens
             IApplicationConsistency applicationConsistency,
             IDateProvider dateProvider,
             IMapper<ClaimsEntity, Claim> claimsMapper,
-            ITokenLoader tokenLoader
+            ITokenLoader tokenLoader,
+            IVerificationCodeLoader verificationCodeLoader
             )
         {
             _userLoader = userLoader;
@@ -44,6 +50,7 @@ namespace AuthHub.BLL.Tokens
             _dateProvider = dateProvider;
             _claimsMapper = claimsMapper;
             _tokenLoader = tokenLoader;
+            _verificationCodeLoader = verificationCodeLoader;
         }
 
         public async Task<Token> GetAsync(Guid userId)
@@ -52,6 +59,24 @@ namespace AuthHub.BLL.Tokens
             var result = await CreateAndSaveToken(user);
             result.User = null;
             return result;
+        }
+
+        public async Task<Token> GetByPhoneVerificationCode(string phoneNumber, string verificationCode)
+        {
+            User user = await _userLoader.GetByPhoneNumberAsync(phoneNumber);
+            if (user == null)
+                throw new Exception($"Cannot find user by phone number {phoneNumber}");
+
+            VerificationCode code =
+                await _verificationCodeLoader.GetLatestByUserIdAndType(user.Id, VerificationTypeEnum.PhoneLogin);
+            if (code == null)
+                throw new Exception($"No verification code exists for user {user.Id}");
+            if (code.ExpirationDate < _dateProvider.UTCNow)
+                throw new Exception($"Verification code {code.Id} is expired");
+            if (code.Code != verificationCode)
+                throw new Exception($"Verification code {verificationCode} is invalid");
+
+            return await CreateAndSaveToken(user);
         }
 
         public async Task<Token> GetRefreshToken(Guid userId, string refreshToken)

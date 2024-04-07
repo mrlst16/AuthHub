@@ -9,6 +9,8 @@ using Common.Interfaces.Helpers;
 using Common.Interfaces.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
+using AuthHub.BLL;
+using AuthHub.Interfaces.Verification;
 
 namespace AuthHub.Api.ServiceRegistrations
 {
@@ -18,6 +20,7 @@ namespace AuthHub.Api.ServiceRegistrations
         {
             services.AddTransient<IApplicationConsistency, ApplicationConsistency>();
             services.AddTransient<ITokenGenerator, JWTTokenGenerator>();
+            services.AddTransient<IPhoneService, VonagePhoneService>();
             services.AddTransient<IMapper<ClaimsEntity, Claim>, ClaimsMapper>();
             services.AddTransient((services) =>
             {

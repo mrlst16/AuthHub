@@ -1,5 +1,5 @@
 ﻿using AuthHub.Models.Entities.Users;
-using AuthHub.Models.Responses;
+using AuthHub.Models.Responses.User;
 using Common.Models.Responses;
 
 namespace AuthHub.SDK.Interfaces

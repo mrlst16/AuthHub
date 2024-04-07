@@ -1,7 +1,7 @@
 ﻿using AuthHub.Api.Attributes;
 using AuthHub.Api.Helpers;
 using AuthHub.Interfaces.Organizations;
-using AuthHub.Models.Responses;
+using AuthHub.Models.Responses.AuthSettings;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

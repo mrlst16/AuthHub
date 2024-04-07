@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System.Text;
 using System.Text.Json;
 using Common.Models.Responses;
-using AuthHub.Models.Responses;
+using AuthHub.Models.Responses.User;
 
 namespace AuthHub.SDK
 {

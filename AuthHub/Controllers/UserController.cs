@@ -9,7 +9,7 @@ using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using AuthHub.Models.Responses;
+using AuthHub.Models.Responses.User;
 
 namespace AuthHub.Api.Controllers
 {
@@ -49,7 +49,7 @@ namespace AuthHub.Api.Controllers
         }
 
         [HttpGet("request_email_verification_code")]
-        public async Task<IActionResult> RequestEmailVerificationCode(
+        public async Task<IActionResult> RequestEmailVerificationCodeAsync(
             [FromBody] CreateUserRequest request
             )
         {
@@ -66,7 +66,7 @@ namespace AuthHub.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(
+        public async Task<IActionResult> GetAsync(
            [FromQuery] Guid userId
            )
         {

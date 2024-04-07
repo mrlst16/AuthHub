@@ -7,5 +7,6 @@ namespace AuthHub.SDK.Interfaces
     {
         Task<ApiResponse<Token>> GetJWTTokenAsync(string username, string password);
         Task<ApiResponse<Token>> RefreshJWTTokenAsync(Guid userId, string refreshToken);
+        Task<ApiResponse<Token>> GetJWTUserTokenPhoneLogin(string phoneNumber, string verificationCode);
     }
 }

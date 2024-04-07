@@ -14,8 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthHub.Models.Responses;
 using Common.Interfaces.Utilities;
+using AuthHub.Models.Responses.User;
 
 namespace AuthHub.BLL.Users
 {
@@ -71,6 +71,7 @@ namespace AuthHub.BLL.Users
                 FirstName = item.FirstName,
                 LastName = item.LastName,
                 UserName = item.UserName,
+                PhoneNumber = item.PhoneNumber,
                 Password = new()
                 {
                     Id = newPasswordId,

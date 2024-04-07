@@ -44,8 +44,9 @@ namespace AuthHub.Api.ServiceRegistrations
                                 services.GetService<IApplicationConsistency>(),
                                 services.GetService<IDateProvider>(),
                                 services.GetService<IMapper<ClaimsEntity, Claim>>(),
-                                services.GetService<ITokenLoader>()
-                            ),
+                                services.GetService<ITokenLoader>(),
+                                services.GetService<IVerificationCodeLoader>()
+                                ),
                             _ => null
                         };
                     });

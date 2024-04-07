@@ -3,6 +3,7 @@
     public enum VerificationTypeEnum
     {
         UserEmail,
-        PasswordReset
+        PasswordReset,
+        PhoneLogin
     }
 }

@@ -4,6 +4,7 @@ using AuthHub.DAL.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthHub.DAL.EntityFramework.Migrations
 {
     [DbContext(typeof(AuthHubContext))]
-    partial class AuthHubContextModelSnapshot : ModelSnapshot
+    [Migration("20240405022305_AddPhoneToUser")]
+    partial class AddPhoneToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,8 +53,8 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7457),
-                            LastUpdated = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7458),
+                            CreateDate = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3065),
+                            LastUpdated = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3065),
                             Name = "JWT",
                             Value = 1
                         });
@@ -87,26 +89,18 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("b606fd56-6c9f-40ea-a274-1603d2ef9780"),
-                            CreateDate = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7513),
-                            LastUpdated = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7513),
+                            CreateDate = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3120),
+                            LastUpdated = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3121),
                             Name = "UserEmail",
                             Value = 0
                         },
                         new
                         {
                             Id = new Guid("8eb05bdc-0f09-437b-af5a-06e5ff017556"),
-                            CreateDate = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7515),
-                            LastUpdated = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7516),
+                            CreateDate = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3122),
+                            LastUpdated = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3123),
                             Name = "PasswordReset",
                             Value = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("4df175eb-9255-49b9-8125-855dcffdd94e"),
-                            CreateDate = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7517),
-                            LastUpdated = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7518),
-                            Name = "PhoneLogin",
-                            Value = 2
                         });
                 });
 
@@ -151,10 +145,10 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("68ab7350-9368-45ec-bd90-14bbe71480bd"),
-                            CreateDate = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7530),
+                            CreateDate = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3137),
                             Hash = new byte[] { 82, 173, 66, 213, 53, 147, 34, 195, 227, 190 },
                             Iterations = 10,
-                            LastUpdated = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7530),
+                            LastUpdated = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3138),
                             Length = 10,
                             OrganizationId = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                             Salt = new byte[] { 142, 34, 0, 28 }
@@ -240,13 +234,13 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                             Id = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                             Audience = "HomeEcJWT",
                             AuthSchemeID = new Guid("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                            CreateDate = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7477),
+                            CreateDate = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3082),
                             ExpirationMinutes = 120,
                             HashLength = 8,
                             Issuer = "HomeEc",
                             Iterations = 10,
                             Key = "This is my auth key",
-                            LastUpdated = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7477),
+                            LastUpdated = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3082),
                             Name = "HomeEc JWT",
                             OrganizationID = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                             PasswordResetTokenExpirationMinutes = 10,
@@ -286,9 +280,9 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = new Guid("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                            CreateDate = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7232),
+                            CreateDate = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(2902),
                             Email = "mattlantz88@gmail.com",
-                            LastUpdated = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7250),
+                            LastUpdated = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(2907),
                             Name = "HomeEc"
                         });
                 });
@@ -367,18 +361,18 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         {
                             Id = new Guid("7ef019bd-4155-4c25-85d8-5eee7427af8a"),
                             AuthSettingsId = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                            CreateDate = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7496),
+                            CreateDate = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3102),
                             IsDefault = false,
-                            LastUpdated = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7496),
+                            LastUpdated = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3103),
                             Name = "Name"
                         },
                         new
                         {
                             Id = new Guid("6598c3ca-417e-47ed-b796-66f94af855df"),
                             AuthSettingsId = new Guid("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                            CreateDate = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7500),
+                            CreateDate = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3106),
                             IsDefault = false,
-                            LastUpdated = new DateTime(2024, 4, 5, 2, 33, 43, 235, DateTimeKind.Utc).AddTicks(7500),
+                            LastUpdated = new DateTime(2024, 4, 5, 2, 23, 4, 611, DateTimeKind.Utc).AddTicks(3106),
                             Name = "Role"
                         });
                 });

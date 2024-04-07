@@ -52,5 +52,14 @@ namespace AuthHub.BLL.Users
 
         public async Task Update(User user)
             => await _userContext.Update(user);
+
+        public async Task<User> GetByPhoneNumberAsync(string phoneNumber)
+        {
+            //We are NOT requiring verification of the phone since this is part of phone login
+            //And it wouldn't make sense because we are going to require the phone number on login
+            //which acts as a verification
+
+            return await _userContext.GetByPhoneNumberAsync(phoneNumber);
+        }
     }
 }

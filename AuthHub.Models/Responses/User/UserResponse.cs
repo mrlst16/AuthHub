@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuthHub.Models.Responses
+namespace AuthHub.Models.Responses.User
 {
     public class UserResponse
     {

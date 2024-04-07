@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using AuthHub.BLL;
 
 namespace AuthHub.Api
 {
@@ -57,7 +58,8 @@ namespace AuthHub.Api
             .AddAuthHubOthers()
             .AddFormatMappers()
             .AddTransient<IDateProvider, DateProvider>()
-            .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"));
+            .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"))
+            .Configure<VonagePhoneServiceOptions>(Configuration.GetSection("AppSettings:VonagePhoneService"));
 
             services.AddAuthentication(options =>
             {

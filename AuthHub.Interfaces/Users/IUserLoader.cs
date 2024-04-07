@@ -10,6 +10,7 @@ namespace AuthHub.Interfaces.Users
         Task<User> Create(User user);
         Task<User> GetAsync(Guid id, bool requireVerification = true);
         Task<User> GetAsync(string username);
+        Task<User> GetByPhoneNumberAsync(string phoneNumber);
         Task<Guid> SaveAsync(User item);
         Task AddToken(User user, Token token);
         Task UpdatePassword(User user, Password password, PasswordArchive archives);

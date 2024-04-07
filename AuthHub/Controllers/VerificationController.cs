@@ -3,6 +3,10 @@ using AuthHub.Models.Enums;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AuthHub.Models.Entities.Verification;
+using AuthHub.Models.Requests;
+using AuthHub.Models.Responses.Verification;
+using FluentValidation;
 
 namespace AuthHub.Api.Controllers
 {
@@ -10,13 +14,16 @@ namespace AuthHub.Api.Controllers
     [ApiController]
     public class VerificationController : Controller
     {
-        public IVerificationCodeService _service { get; set; }
+        private readonly IVerificationCodeService _service;
+        private readonly IValidator<PhoneLoginCodeRequest> _phoneLoginCodeRequestValidator;
 
         public VerificationController(
-            IVerificationCodeService service
+            IVerificationCodeService service,
+            IValidator<PhoneLoginCodeRequest> phoneLoginCodeRequestValidator
             )
         {
             _service = service;
+            _phoneLoginCodeRequestValidator = phoneLoginCodeRequestValidator;
         }
 
         [HttpGet("user_email")]
@@ -33,11 +40,18 @@ namespace AuthHub.Api.Controllers
             });
         }
 
-        [HttpGet("request_phone_code")]
-        public async Task<IActionResult> RequestPhoneCodeAsync()
+        [HttpGet("request_phone_login_code")]
+        public async Task<IActionResult> RequestPhoneCodeAsync(
+            [FromQuery] PhoneLoginCodeRequest request
+        )
         {
+            await _phoneLoginCodeRequestValidator.ValidateAndThrowAsync(request);
 
-            return new OkObjectResult(new ApiResponse<string>());
+            return new OkObjectResult(new ApiResponse<VerificationCodeResponse>()
+            {
+                Data = await _service.GenerateSendAndSavePhoneLoginCode(request.PhoneNumber),
+                Success = true,
+            });
         }
     }
 }

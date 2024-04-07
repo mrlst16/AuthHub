@@ -52,5 +52,18 @@ namespace AuthHub.Api.Controllers
             });
         }
 
+        [HttpGet("JWTUserTokenPhoneLogin")]
+        public async Task<IActionResult> GetJWTUserTokenPhoneLogin(
+            [FromQuery] string phoneNumber,
+            [FromQuery] string verificationCode
+            )
+        {
+            return new OkObjectResult(new ApiResponse<Token>()
+            {
+                Data = await _tokenService(AuthSchemeEnum.JWT).GetByPhoneVerificationCode(phoneNumber, verificationCode),
+                Success = true,
+                SuccessMessage = "Successfully verified user email"
+            });
+        }
     }
 }

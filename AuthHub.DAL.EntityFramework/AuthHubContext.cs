@@ -259,6 +259,12 @@ namespace AuthHub.DAL.EntityFramework
                         Id = Guid.Parse("8eb05bdc-0f09-437b-af5a-06e5ff017556"),
                         Name = "PasswordReset",
                         Value = VerificationTypeEnum.PasswordReset
+                    },
+                    new VerificationType()
+                    {
+                        Id = Guid.Parse("4df175eb-9255-49b9-8125-855dcffdd94e"),
+                        Name = "PhoneLogin",
+                        Value = VerificationTypeEnum.PhoneLogin
                     }
                 );
 

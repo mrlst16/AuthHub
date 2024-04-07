@@ -11,6 +11,7 @@ namespace AuthHub.Api.ServiceRegistrations
         {
             services.AddTransient<IValidator<CreateUserRequest>, CreateUserRequestValidator>();
             services.AddTransient<IValidator<ResetPasswordRequest>, ResetPasswordRequestValidator>();
+            services.AddTransient<IValidator<PhoneLoginCodeRequest>, PhoneLoginCodeRequestValidator>();
             return services;
         }
     }

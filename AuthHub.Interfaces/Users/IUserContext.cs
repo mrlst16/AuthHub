@@ -14,5 +14,6 @@ namespace AuthHub.Interfaces.Users
         Task AddToken(User user, Token token);
         Task UpdatePassword(User user, Password password, PasswordArchive archives);
         Task Update(User user);
+        Task<User> GetByPhoneNumberAsync(string phoneNumber);
     }
 }
