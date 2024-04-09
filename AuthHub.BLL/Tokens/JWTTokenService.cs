@@ -1,9 +1,12 @@
 ﻿using AuthHub.BLL.Common.Extensions;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
+using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Entities.Users;
+using AuthHub.Models.Entities.Verification;
+using AuthHub.Models.Enums;
 using AuthHub.Models.Exceptions;
 using Common.Helpers;
 using Common.Interfaces.Helpers;
@@ -17,10 +20,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AuthHub.Interfaces.Verification;
-using AuthHub.Models.Entities.Enums;
-using AuthHub.Models.Entities.Verification;
-using AuthHub.Models.Enums;
 
 namespace AuthHub.BLL.Tokens
 {

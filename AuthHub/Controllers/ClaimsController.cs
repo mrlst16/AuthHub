@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AuthHub.Api.Attributes;
-using AuthHub.Api.Helpers;
-using AuthHub.BLL.Common.Extensions;
+﻿using AuthHub.Api.Attributes;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Models.Requests;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AuthHub.Api.Controllers
 {
@@ -30,10 +28,10 @@ namespace AuthHub.Api.Controllers
             )
         {
             await _claimsService.SetClaims(
-                request.UserId, 
+                request.UserId,
                 request.Claims.ToDictionary(x => x.Key, y => y.Value)
             );
-            
+
             var response = new ApiResponse<bool>()
             {
                 Data = true,

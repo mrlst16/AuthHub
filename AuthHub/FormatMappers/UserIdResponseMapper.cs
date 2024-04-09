@@ -1,5 +1,4 @@
-﻿using AuthHub.Api.Responses;
-using AuthHub.Models.Entities.Users;
+﻿using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Responses.User;
 using Common.Interfaces.Utilities;
 

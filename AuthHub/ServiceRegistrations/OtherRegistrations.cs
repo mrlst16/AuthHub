@@ -1,16 +1,16 @@
-﻿using AuthHub.BLL.Common.Helpers;
+﻿using AuthHub.BLL;
+using AuthHub.BLL.Common.Helpers;
 using AuthHub.BLL.Common.Mappers;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
+using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Enums;
 using Common.Interfaces.Helpers;
 using Common.Interfaces.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
-using AuthHub.BLL;
-using AuthHub.Interfaces.Verification;
 
 namespace AuthHub.Api.ServiceRegistrations
 {

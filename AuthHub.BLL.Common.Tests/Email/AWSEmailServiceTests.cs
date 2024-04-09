@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AuthHub.BLL.Common.Emails;
+﻿using AuthHub.BLL.Common.Emails;
 using AuthHub.Models.Options;
 using Microsoft.Extensions.Options;
 using Moq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace AuthHub.BLL.Common.Tests.Email

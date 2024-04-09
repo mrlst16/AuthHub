@@ -1,10 +1,9 @@
 ﻿using AuthHub.Models.Constants;
 using AuthHub.Models.Tokens;
 using AuthHub.SDK.Interfaces;
-using Microsoft.Extensions.Configuration;
-using System.Text.Json;
+using AuthHub.SDK.Options;
 using Common.Models.Responses;
-using AuthHub.Models.Entities.Users;
+using Microsoft.Extensions.Options;
 
 namespace AuthHub.SDK
 {
@@ -16,7 +15,8 @@ namespace AuthHub.SDK
         {
         }
 
-        public TokenConnector(IConfiguration configuration) : base(configuration)
+        public TokenConnector(IOptions<AuthHubConnectorOptions> options)
+            : base(options)
         {
         }
 
@@ -25,7 +25,7 @@ namespace AuthHub.SDK
             HttpClient client = Client;
             client.DefaultRequestHeaders.Add(AuthHubHeaders.Username, username);
             client.DefaultRequestHeaders.Add(AuthHubHeaders.Password, password);
-            var headers =  client.DefaultRequestHeaders.Select(x => new
+            var headers = client.DefaultRequestHeaders.Select(x => new
             {
                 Key = x.Key,
                 Value = x.Value.First()

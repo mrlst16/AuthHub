@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
-using AuthHub.Models.Requests;
+﻿using AuthHub.Models.Requests;
 using AuthHub.SDK.Interfaces;
-using Microsoft.Extensions.Configuration;
+using AuthHub.SDK.Options;
+using Microsoft.Extensions.Options;
+using System.Net.Http.Json;
 
 namespace AuthHub.SDK
 {
     public class ClaimsConnector : ConnectorBase, IClaimsConnector
     {
-        public ClaimsConnector(string baseUrl, Guid authSettingsId, string apiKey, string apiSecret, Guid organizationId) 
+        public ClaimsConnector(string baseUrl, Guid authSettingsId, string apiKey, string apiSecret, Guid organizationId)
             : base(baseUrl, authSettingsId, apiKey, apiSecret, organizationId)
         {
         }
 
-        public ClaimsConnector(IConfiguration configuration) : base(configuration)
+        public ClaimsConnector(IOptions<AuthHubConnectorOptions> options)
+            : base(options)
         {
         }
 

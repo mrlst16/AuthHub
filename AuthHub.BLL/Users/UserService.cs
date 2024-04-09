@@ -9,13 +9,13 @@ using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Requests;
+using AuthHub.Models.Responses.User;
+using Common.Interfaces.Utilities;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Common.Interfaces.Utilities;
-using AuthHub.Models.Responses.User;
 
 namespace AuthHub.BLL.Users
 {

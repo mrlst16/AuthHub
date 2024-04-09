@@ -122,8 +122,8 @@ namespace AuthHub.DAL.EntityFramework.Users
         public async Task<User> GetByPhoneNumberAsync(string phoneNumber)
         {
             return _context.Users
-                .Include(x=> x.AuthSettings)
-                .FirstOrDefault(x=> x.PhoneNumber == phoneNumber);
+                .Include(x => x.AuthSettings)
+                .FirstOrDefault(x => x.PhoneNumber == phoneNumber);
         }
     }
 }

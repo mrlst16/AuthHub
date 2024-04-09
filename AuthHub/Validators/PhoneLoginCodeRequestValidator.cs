@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using AuthHub.Interfaces.Users;
+﻿using AuthHub.Interfaces.Users;
 using AuthHub.Models.Requests;
 using FluentValidation;
+using System.Threading.Tasks;
 
 namespace AuthHub.Api.Validators
 {
-    public class PhoneLoginCodeRequestValidator: AbstractValidator<PhoneLoginCodeRequest>
+    public class PhoneLoginCodeRequestValidator : AbstractValidator<PhoneLoginCodeRequest>
     {
         private readonly IUserContext _userContext;
         public PhoneLoginCodeRequestValidator(

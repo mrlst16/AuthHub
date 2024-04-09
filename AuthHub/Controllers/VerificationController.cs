@@ -1,12 +1,11 @@
 ﻿using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Enums;
-using Common.Models.Responses;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Responses.Verification;
+using Common.Models.Responses;
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AuthHub.Api.Controllers
 {

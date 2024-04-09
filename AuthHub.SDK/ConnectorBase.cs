@@ -1,7 +1,7 @@
 ﻿using AuthHub.Models.Constants;
-using AuthHub.Models.Responses;
+using AuthHub.SDK.Options;
 using Common.Models.Responses;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace AuthHub.SDK
@@ -30,14 +30,15 @@ namespace AuthHub.SDK
         }
 
         protected ConnectorBase(
-            IConfiguration configuration
+            IOptions<AuthHubConnectorOptions> options
+            ) : this(
+                options.Value.BaseUrl,
+                options.Value.AuthSettingsId,
+                options.Value.APIKey,
+                options.Value.APISecret,
+                options.Value.OrganizationId
             )
         {
-            var section = configuration.GetSection("AuthHub:API");
-            _authSettingsId = section.GetValue<Guid>("AuthSettingsId");
-            _apiKey = section.GetValue<string>("APIKey");
-            _apiSecret = section.GetValue<string>("APISecret");
-            _organizationId = section.GetValue<Guid>("OrganizationId");
         }
 
         protected HttpClient Client

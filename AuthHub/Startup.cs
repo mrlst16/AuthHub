@@ -1,15 +1,14 @@
 using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
+using AuthHub.BLL;
 using AuthHub.BLL.Common.Hashing;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.BLL.Passwords;
 using AuthHub.DAL.EntityFramework;
-using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.Interfaces.Hashing;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Options;
 using Common.Interfaces.Providers;
-using Common.Interfaces.Repository;
 using Common.Providers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
-using AuthHub.BLL;
+using AuthHub.SDK;
 
 namespace AuthHub.Api
 {
@@ -57,6 +56,7 @@ namespace AuthHub.Api
             .AddAuthHubContexts()
             .AddAuthHubOthers()
             .AddFormatMappers()
+            .AddAuthHubConnectors(Configuration)
             .AddTransient<IDateProvider, DateProvider>()
             .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"))
             .Configure<VonagePhoneServiceOptions>(Configuration.GetSection("AppSettings:VonagePhoneService"));

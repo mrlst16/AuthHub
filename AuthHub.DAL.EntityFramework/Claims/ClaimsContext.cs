@@ -23,7 +23,7 @@ namespace AuthHub.DAL.EntityFramework.Claims
         {
             var user = await _context.Users
                 .Include(x => x.Password)
-                .ThenInclude(x=> x.Claims)
+                .ThenInclude(x => x.Claims)
                 .Include(x => x.AuthSettings)
                 .ThenInclude(x => x.AvailableClaimsKeys)
                 .FirstOrDefaultAsync(x => x.Id == userId);

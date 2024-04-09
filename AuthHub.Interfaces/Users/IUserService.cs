@@ -1,7 +1,7 @@
 ﻿using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Requests;
-using System;
 using AuthHub.Models.Responses.User;
+using System;
 
 namespace AuthHub.Interfaces.Users
 {

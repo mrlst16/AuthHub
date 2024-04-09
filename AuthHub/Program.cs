@@ -1,9 +1,9 @@
-using System.Threading;
 using AuthHub.DAL.EntityFramework;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Threading;
 
 namespace AuthHub.Api
 {

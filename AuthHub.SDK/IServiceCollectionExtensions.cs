@@ -1,4 +1,5 @@
 ﻿using AuthHub.SDK.Interfaces;
+using AuthHub.SDK.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,8 +10,6 @@ namespace AuthHub.SDK
 {
     public static class IServiceCollectionExtensions
     {
-        private const string JWTAuthSettingsKey = "AuthHub:JWTAuthSettings";
-
         public static IServiceCollection AddAuthHubJWTAuthentication(
             this IServiceCollection services,
             string issuer,
@@ -45,7 +44,12 @@ namespace AuthHub.SDK
             IConfiguration configuration
             )
         {
-            services.AddTransient<IUserConnector>(x => new UserConnector(configuration));
+            var section = configuration.GetSection("AuthHub");
+            services.Configure<AuthHubConnectorOptions>(section)
+                .AddTransient<IUserConnector, UserConnector>()
+                .AddTransient<ITokenConnector, TokenConnector>()
+                .AddTransient<IVerificationConnector, VerificationConnector>()
+                .AddTransient<IClaimsConnector, ClaimsConnector>();
             return services;
         }
     }

@@ -60,7 +60,7 @@ namespace AuthHub.Api.Middleware
 
             if (!authenticationResult)
             {
-                if(userid == Guid.Empty)
+                if (userid == Guid.Empty)
                     return AuthenticateResult.Fail("Username does not exist");
 
                 return AuthenticateResult.Fail("Not authenticated");

@@ -1,7 +1,7 @@
 ﻿using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
-using System;
 using AuthHub.Models.Responses.Verification;
+using System;
 
 namespace AuthHub.Interfaces.Verification
 {

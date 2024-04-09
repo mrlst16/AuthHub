@@ -1,6 +1,6 @@
-﻿using System;
+﻿using AuthHub.Models.Entities.Passwords;
+using System;
 using System.Collections.Generic;
-using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.Interfaces.Claims
 {

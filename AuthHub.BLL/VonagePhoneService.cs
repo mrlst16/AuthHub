@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using AuthHub.Interfaces.Verification;
+﻿using AuthHub.Interfaces.Verification;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 using Vonage;
 using Vonage.Messaging;
 using Vonage.Request;
@@ -20,7 +15,7 @@ namespace AuthHub.BLL
         public string ApiSecret { get; set; }
     }
 
-    public class VonagePhoneService: IPhoneService
+    public class VonagePhoneService : IPhoneService
     {
         private readonly VonagePhoneServiceOptions _options;
 

@@ -1,13 +1,11 @@
-﻿using System;
+﻿using AuthHub.Interfaces.Claims;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using AuthHub.Interfaces.Claims;
 
 namespace AuthHub.BLL.Claims
 {
-    public class ClaimsService: IClaimsService
+    public class ClaimsService : IClaimsService
     {
         private IClaimsLoader _loader;
 

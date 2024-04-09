@@ -32,6 +32,7 @@
     <ProjectReference Include="..\AuthHub.DAL.EntityFramework\AuthHub.DAL.EntityFramework.csproj" />
     <ProjectReference Include="..\AuthHub.Interfaces\AuthHub.Interfaces.csproj" />
     <ProjectReference Include="..\AuthHub.Models\AuthHub.Models.csproj" />
+    <ProjectReference Include="..\AuthHub.SDK\AuthHub.SDK.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,14 @@
 ﻿using AuthHub.Api.Attributes;
 using AuthHub.Api.Helpers;
-using AuthHub.Api.Responses;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Requests;
+using AuthHub.Models.Responses.User;
 using Common.Interfaces.Utilities;
 using Common.Models.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using AuthHub.Models.Responses.User;
 
 namespace AuthHub.Api.Controllers
 {

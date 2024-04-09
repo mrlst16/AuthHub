@@ -1,8 +1,8 @@
-﻿using AuthHub.Models.Entities.Users;
-using AuthHub.Models.Responses.Verification;
+﻿using AuthHub.Models.Responses.Verification;
 using AuthHub.SDK.Interfaces;
+using AuthHub.SDK.Options;
 using Common.Models.Responses;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace AuthHub.SDK
 {
@@ -12,7 +12,8 @@ namespace AuthHub.SDK
         {
         }
 
-        public VerificationConnector(IConfiguration configuration) : base(configuration)
+        public VerificationConnector(IOptions<AuthHubConnectorOptions> options)
+            : base(options)
         {
         }
 

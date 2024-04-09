@@ -1,29 +1,30 @@
-﻿using AuthHub.Models.Entities.Users;
-using AuthHub.Models.Requests;
+﻿using AuthHub.Models.Requests;
+using AuthHub.Models.Responses.User;
 using AuthHub.SDK.Interfaces;
-using Microsoft.Extensions.Configuration;
+using AuthHub.SDK.Options;
+using Common.Models.Responses;
+using Microsoft.Extensions.Options;
 using System.Text;
 using System.Text.Json;
-using Common.Models.Responses;
-using AuthHub.Models.Responses.User;
 
 namespace AuthHub.SDK
 {
     public class UserConnector : ConnectorBase, IUserConnector
     {
         public UserConnector(
-            string baseUrl, 
+            string baseUrl,
             Guid authSettingsId,
-            string apiKey, 
+            string apiKey,
             string apiSecret,
             Guid organizationId
             ) : base(baseUrl, authSettingsId, apiKey, apiSecret, organizationId)
         {
         }
 
-        public UserConnector(IConfiguration configuration) : base(configuration)
+        public UserConnector(IOptions<AuthHubConnectorOptions> options)
+            : base(options)
         {
-        } 
+        }
 
         public async Task<ApiResponse<UserIdResponse>> SignUpAsync(string email, string username, string password, string firstName, string lastName)
         {
