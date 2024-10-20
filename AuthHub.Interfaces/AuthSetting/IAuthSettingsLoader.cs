@@ -5,6 +5,6 @@ namespace AuthHub.Interfaces.AuthSetting
 {
     public interface IAuthSettingsLoader
     {
-        Task<AuthSettings> ReadAsync(Guid id);
+        Task<AuthSettings> ReadAsync(int id);
     }
 }

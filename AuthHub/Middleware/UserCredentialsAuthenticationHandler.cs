@@ -43,8 +43,8 @@ namespace AuthHub.Api.Middleware
                     out StringValues authSettingsIDStringValue))
                 return AuthenticateResult.Fail("AuthSettingsID is required");
 
-            if (!Guid.TryParse(authSettingsIDStringValue, out Guid authSettingsId))
-                return AuthenticateResult.Fail("AuthSettingsID must be a valid Guid value");
+            if (!int.TryParse(authSettingsIDStringValue, out int authSettingsId))
+                return AuthenticateResult.Fail("AuthSettingsID must be a valid int value");
 
             if (
                 !Request.Headers.TryGetValue(AuthHubHeaders.Username,
@@ -60,7 +60,7 @@ namespace AuthHub.Api.Middleware
 
             if (!authenticationResult)
             {
-                if(userid == Guid.Empty)
+                if(userid <= 0)
                     return AuthenticateResult.Fail("Username does not exist");
 
                 return AuthenticateResult.Fail("Not authenticated");

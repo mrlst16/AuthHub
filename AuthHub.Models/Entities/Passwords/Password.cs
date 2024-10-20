@@ -4,17 +4,17 @@ using System.Collections.Generic;
 
 namespace AuthHub.Models.Entities.Passwords
 {
-    public class Password : EntityBase<Guid>
+    public class Password : EntityBase<int>
     {
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] Salt { get; set; }
         public List<ClaimsEntity> Claims { get; set; } = new List<ClaimsEntity>();
     }
 
-    public class PasswordArchive : EntityBase<Guid>
+    public class PasswordArchive : EntityBase<int>
     {
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] Salt { get; set; }
 

@@ -27,7 +27,7 @@ namespace AuthHub.BLL.Passwords
             _passwordEvaluator = passwordEvaluator;
         }
 
-        public async Task<bool> EvaluateApiKeyAndSecret(Guid organizationId, string apiKey, string apiSecret)
+        public async Task<bool> EvaluateApiKeyAndSecret(int organizationId, string apiKey, string apiSecret)
         {
             var organization = await _organizationLoader.Get(organizationId);
             if (organization.APIKeyAndSecretHash == null)
@@ -43,7 +43,7 @@ namespace AuthHub.BLL.Passwords
                 );
         }
 
-        public async Task<(bool, Guid)> EvaluateUsernameAndPassword(Guid authSettingsId, string username, string password)
+        public async Task<(bool, int)> EvaluateUsernameAndPassword(int authSettingsId, string username, string password)
         {
             var user = await _userLoader.GetAsync(username);
             var authSettings = await _authSettingsLoader.ReadAsync(authSettingsId);

@@ -17,7 +17,7 @@ namespace AuthHub.BLL.Common.Emails
             _hostUrl = configuration.GetValue<string>("AppSettings:Email:HostUrl");
         }
 
-        public async Task SendPasswordResetEmail(string email, Guid userid, string resetPasswordFormUrl, string verificationCode)
+        public async Task SendPasswordResetEmail(string email, int userid, string resetPasswordFormUrl, string verificationCode)
         {
             var url = $"{resetPasswordFormUrl}" +
             $"?userid={userid}" +
@@ -28,7 +28,7 @@ namespace AuthHub.BLL.Common.Emails
             await _emailService.SendEmail(email, "AuthHub Reset Email", link);
         }
 
-        public async Task SendUserVerificationEmail(string email, Guid userid, string verificationCode)
+        public async Task SendUserVerificationEmail(string email, int userid, string verificationCode)
         {
             var url = $"{_hostUrl}/api/verification/user_email" +
                       $"?userId={userid}" +

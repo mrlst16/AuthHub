@@ -26,7 +26,7 @@ namespace AuthHub.BLL.Passwords
             _tokenGeneratoryFactory = tokenGeneratoryFactory;
         }
 
-        public async Task<Password> Get(Guid organizationId, string authSettingsName, string username)
+        public async Task<Password> Get(int organizationId, string authSettingsName, string username)
             => await _loader.Get(organizationId, authSettingsName, username);
 
         public async Task<(bool, Password)> Set<T>(PasswordRequest request)

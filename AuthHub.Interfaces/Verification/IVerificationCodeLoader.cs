@@ -8,6 +8,6 @@ namespace AuthHub.Interfaces.Verification
     {
         Task Create(VerificationCode source);
         Task Update(VerificationCode source);
-        Task<VerificationCode> GetLatestByUserIdAndType(Guid userid, VerificationType type);
+        Task<VerificationCode> GetLatestByUserIdAndType(int userid, VerificationType type);
     }
 }

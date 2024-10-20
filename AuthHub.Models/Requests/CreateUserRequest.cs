@@ -4,7 +4,7 @@ namespace AuthHub.Models.Requests
 {
     public class CreateUserRequest
     {
-        public Guid AuthSettingsID { get; set; }
+        public int AuthSettingsID { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string UserName { get; set; }

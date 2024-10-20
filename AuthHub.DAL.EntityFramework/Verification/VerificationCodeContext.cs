@@ -31,7 +31,7 @@ namespace AuthHub.DAL.EntityFramework.Verification
             await _context.SaveChangesAsync();
         }
 
-        public async Task<VerificationCode> GetLatestByUserIdAndType(Guid userid, VerificationTypeEnum type)
+        public async Task<VerificationCode> GetLatestByUserIdAndType(int userid, VerificationTypeEnum type)
         {
             var user = _context
                 .Users

@@ -28,6 +28,8 @@ namespace AuthHub.BLL.Users
         private readonly IAuthHubEmailService _emailService;
         private readonly IVerificationCodeService _verificationCodeService;
         private readonly IMapper<User, UserResponse> _userMapper;
+        private readonly IUserContext _userContext;
+
         public UserService(
             IConfiguration configuration,
             IUserLoader loader,
@@ -35,7 +37,8 @@ namespace AuthHub.BLL.Users
             IAuthSettingsLoader authSettingsLoader,
             IAuthHubEmailService emailService,
             IVerificationCodeService verificationCodeService,
-            IMapper<User, UserResponse> userMapper
+            IMapper<User, UserResponse> userMapper,
+            IUserContext userContext
             )
         {
             _loader = loader;
@@ -45,11 +48,12 @@ namespace AuthHub.BLL.Users
             _emailService = emailService;
             _verificationCodeService = verificationCodeService;
             _userMapper = userMapper;
+            _userContext = userContext;
         }
 
         public async Task<User> CreateAsync(CreateUserRequest item)
         {
-            var authSettingsId = item.AuthSettingsID == Guid.Empty
+            var authSettingsId = item.AuthSettingsID <= 0
                 ? _configuration.AuthHubSettingsId()
                 : item.AuthSettingsID;
 
@@ -59,12 +63,8 @@ namespace AuthHub.BLL.Users
             (byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
                 = await tokenGenerator.NewHash(item.Password, authSettings);
 
-            var newUserId = Guid.NewGuid();
-            var newPasswordId = Guid.NewGuid();
-
             User user = new()
             {
-                Id = newUserId,
                 AuthSettings = authSettings,
                 AuthSettingsId = authSettingsId,
                 Email = item.Email,
@@ -74,21 +74,19 @@ namespace AuthHub.BLL.Users
                 PhoneNumber = item.PhoneNumber,
                 Password = new()
                 {
-                    Id = newPasswordId,
-                    UserId = newUserId,
                     PasswordHash = passwordHash,
                     Salt = salt,
                     Claims = claimsKeys.Where(x => x.IsDefault)
                         .Select(x => new ClaimsEntity()
                         {
-                            Id = Guid.NewGuid(),
                             Value = x.DefaultValue,
                             Key = x.Name,
                             ClaimsKeyId = x.Id,
-                            PasswordId = newPasswordId
                         }).ToList()
                 }
             };
+
+
 
             user.Id = await _loader.SaveAsync(user);
             try
@@ -104,14 +102,14 @@ namespace AuthHub.BLL.Users
             return user;
         }
 
-        public async Task SendEmailVerificationEmail(Guid userid)
+        public async Task SendEmailVerificationEmail(int userid)
         {
             var user = await _loader.GetAsync(userid, false);
             VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
             await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
         }
 
-        public async Task<UserResponse> ReadAsync(Guid id)
+        public async Task<UserResponse> ReadAsync(int id)
         {
             var entity = await _loader.GetAsync(id);
             return _userMapper.Map(entity);

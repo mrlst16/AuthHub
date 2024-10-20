@@ -8,7 +8,7 @@
         {
         }
 
-        public UserNotFoundException(Guid userId)
+        public UserNotFoundException(int userId)
             : base($"User {userId} not found")
         {
         }

@@ -6,6 +6,6 @@ namespace AuthHub.Interfaces.Passwords
 {
     public interface IClaimsKeyService
     {
-        Task<IEnumerable<ClaimsKey>> GetAsync(Guid authSettingsId);
+        Task<IEnumerable<ClaimsKey>> GetAsync(int authSettingsId);
     }
 }

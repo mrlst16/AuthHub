@@ -14,12 +14,12 @@ namespace AuthHub.DAL.EntityFramework.Passwords
             _authHubContext = authHubContext;
         }
 
-        public Task<(bool, Password)> Set(Guid organizationId, string authSettingsname, Password request)
+        public Task<(bool, Password)> Set(int organizationId, string authSettingsname, Password request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Password> Get(Guid organizationId, string authSettingsname, string username)
+        public Task<Password> Get(int organizationId, string authSettingsname, string username)
         {
             throw new NotImplementedException();
         }

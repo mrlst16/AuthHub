@@ -198,7 +198,7 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<Organization>()
                 .HasData(new Organization()
                 {
-                    Id = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
+                    Id = int.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                     Name = "HomeEc",
                     Email = "mattlantz88@gmail.com"
                 });
@@ -206,7 +206,7 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<AuthScheme>()
                 .HasData(new AuthScheme()
                 {
-                    Id = Guid.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
+                    Id = int.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
                     Name = "JWT",
                     Value = AuthSchemeEnum.JWT,
                     CreateDate = DateTime.UtcNow,
@@ -216,9 +216,9 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<AuthSettingsModel>()
                 .HasData(new AuthSettingsModel()
                 {
-                    Id = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                    OrganizationID = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                    AuthSchemeID = Guid.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
+                    Id = int.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
+                    OrganizationID = int.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
+                    AuthSchemeID = int.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
                     ExpirationMinutes = 120,
                     HashLength = 8,
                     Issuer = "HomeEc",
@@ -235,14 +235,14 @@ namespace AuthHub.DAL.EntityFramework
                 .HasData(
                     new ClaimsKey()
                     {
-                        Id = Guid.Parse("7ef019bd-4155-4c25-85d8-5eee7427af8a"),
-                        AuthSettingsId = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
+                        Id = int.Parse("7ef019bd-4155-4c25-85d8-5eee7427af8a"),
+                        AuthSettingsId = int.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                         Name = "Name"
                     },
                     new ClaimsKey()
                     {
-                        Id = Guid.Parse("6598c3ca-417e-47ed-b796-66f94af855df"),
-                        AuthSettingsId = Guid.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
+                        Id = int.Parse("6598c3ca-417e-47ed-b796-66f94af855df"),
+                        AuthSettingsId = int.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
                         Name = "Role"
                     });
 
@@ -250,19 +250,19 @@ namespace AuthHub.DAL.EntityFramework
                 .HasData(
                     new VerificationType()
                     {
-                        Id = Guid.Parse("b606fd56-6c9f-40ea-a274-1603d2ef9780"),
+                        Id = int.Parse("b606fd56-6c9f-40ea-a274-1603d2ef9780"),
                         Name = "UserEmail",
                         Value = VerificationTypeEnum.UserEmail,
                     },
                     new VerificationType()
                     {
-                        Id = Guid.Parse("8eb05bdc-0f09-437b-af5a-06e5ff017556"),
+                        Id = int.Parse("8eb05bdc-0f09-437b-af5a-06e5ff017556"),
                         Name = "PasswordReset",
                         Value = VerificationTypeEnum.PasswordReset
                     },
                     new VerificationType()
                     {
-                        Id = Guid.Parse("4df175eb-9255-49b9-8125-855dcffdd94e"),
+                        Id = int.Parse("4df175eb-9255-49b9-8125-855dcffdd94e"),
                         Name = "PhoneLogin",
                         Value = VerificationTypeEnum.PhoneLogin
                     }
@@ -271,8 +271,8 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<APIKeyAndSecretHash>()
                 .HasData(new APIKeyAndSecretHash()
                 {
-                    Id = Guid.Parse("68ab7350-9368-45ec-bd90-14bbe71480bd"),
-                    OrganizationId = Guid.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
+                    Id = int.Parse("68ab7350-9368-45ec-bd90-14bbe71480bd"),
+                    OrganizationId = int.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
                     Length = 10,
                     Iterations = 10,
                     Salt = new byte[] { 142, 34, 0, 28 },

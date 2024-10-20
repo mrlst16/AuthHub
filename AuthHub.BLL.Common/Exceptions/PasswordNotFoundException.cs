@@ -3,7 +3,7 @@
     public class PasswordNotFoundException : NotFoundException
     {
 
-        public PasswordNotFoundException(Guid id)
+        public PasswordNotFoundException(int id)
         {
 
         }

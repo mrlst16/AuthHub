@@ -38,7 +38,7 @@ namespace AuthHub.BLL.Passwords
             _emailService = emailService;
         }
 
-        public async Task<PasswordResetToken> RequestPasswordResetForUser(Guid userId)
+        public async Task<PasswordResetToken> RequestPasswordResetForUser(int userId)
         {
             User user = await _userLoader.GetAsync(userId);
             if (user == null) throw new UserNotFoundException(userId);
@@ -67,7 +67,6 @@ namespace AuthHub.BLL.Passwords
         public async Task ResetUserPassword(ResetPasswordRequest request)
         {
             User user = await _userLoader.GetAsync(request.UserId);
-            Guid newPasswordId = Guid.NewGuid();
             ITokenGenerator tokenGenerator = _tokenGeneratorFactory(user.AuthSettings.AuthScheme);
 
             (byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)

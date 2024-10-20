@@ -5,7 +5,7 @@ namespace AuthHub.Interfaces.Passwords
 {
     public interface IPasswordResetTokenLoader
     {
-        Task<Guid> SaveAsync(PasswordResetToken token);
+        Task<int> SaveAsync(PasswordResetToken token);
         Task<PasswordResetToken> GetByVerificationCode(string verificationCode);
     }
 }

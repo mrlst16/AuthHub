@@ -8,6 +8,6 @@ namespace AuthHub.Interfaces.Claims
 {
     public interface IClaimsService
     {
-        Task SetClaims(Guid userId, IDictionary<string, string> claims);
+        Task SetClaims(int userId, IDictionary<string, string> claims);
     }
 }

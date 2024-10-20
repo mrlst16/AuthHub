@@ -4,6 +4,6 @@ namespace AuthHub.Models.Responses.User
 {
     public class UserIdResponse
     {
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace AuthHub.SDK
     public class TokenConnector : ConnectorBase, ITokenConnector
     {
 
-        public TokenConnector(string baseUrl, Guid authSettingsId, string apiKey, string apiSecret, Guid organizationId)
+        public TokenConnector(string baseUrl, int authSettingsId, string apiKey, string apiSecret, int organizationId)
             : base(baseUrl, authSettingsId, apiKey, apiSecret, organizationId)
         {
         }
@@ -36,7 +36,7 @@ namespace AuthHub.SDK
             return await Deserialize<Token>(response);
         }
 
-        public async Task<ApiResponse<Token>> RefreshJWTTokenAsync(Guid userId, string refreshToken)
+        public async Task<ApiResponse<Token>> RefreshJWTTokenAsync(int userId, string refreshToken)
         {
             var path = $"api/token/RefreshJWTUserToken?userId={userId}&refreshToken={refreshToken}";
             HttpResponseMessage response = await Client.GetAsync(path);

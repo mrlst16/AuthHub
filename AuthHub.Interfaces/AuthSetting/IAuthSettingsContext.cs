@@ -5,6 +5,6 @@ namespace AuthHub.Interfaces.AuthSetting
 {
     public interface IAuthSettingsContext
     {
-        public Task<AuthSettings> GetAsync(Guid id);
+        public Task<AuthSettings> GetAsync(int id);
     }
 }

@@ -18,7 +18,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AuthHub.Interfaces.Verification;
-using AuthHub.Models.Entities.Enums;
 using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
 
@@ -53,7 +52,7 @@ namespace AuthHub.BLL.Tokens
             _verificationCodeLoader = verificationCodeLoader;
         }
 
-        public async Task<Token> GetAsync(Guid userId)
+        public async Task<Token> GetAsync(int userId)
         {
             var user = await _userLoader.GetAsync(userId);
             var result = await CreateAndSaveToken(user);
@@ -79,7 +78,7 @@ namespace AuthHub.BLL.Tokens
             return await CreateAndSaveToken(user);
         }
 
-        public async Task<Token> GetRefreshToken(Guid userId, string refreshToken)
+        public async Task<Token> GetRefreshToken(int userId, string refreshToken)
         {
             var user = await _userLoader.GetAsync(userId);
             if (user.Tokens.All(x => x.RefreshToken != refreshToken))
@@ -97,7 +96,12 @@ namespace AuthHub.BLL.Tokens
                     .FirstOrDefault(x => string.Equals(x.Key, ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase)
                     ) == null)
                 userClaims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, user.UserName));
-            userClaims.Add(new ClaimsEntity("Id", user.Id.ToString(), Guid.Empty));
+            userClaims.Add(new ClaimsEntity()
+                {
+                    Key = "Id",
+                    Value = user.Id.ToString()
+                }
+            );
             userClaims = userClaims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 
             var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(user.AuthSettings.Key));
@@ -113,7 +117,6 @@ namespace AuthHub.BLL.Tokens
 
             var result = new Token()
             {
-                Id = Guid.NewGuid(),
                 Value = new JwtSecurityTokenHandler().WriteToken(token),
                 ExpirationDate = expirationDate,
                 RefreshToken = StringHelper.RandomAlphanumericString(64),

@@ -8,11 +8,11 @@ namespace AuthHub.Interfaces.Organizations
     public interface IOrganizationService
     {
         Task<Organization> Create(CreateOrganizationRequest request);
-        Task<Organization> Get(Guid organizationId);
+        Task<Organization> Get(int organizationId);
         Task<Organization> Get(string name);
         Task<IList<Organization>> GetAll();
         Task<(bool, Organization)> Update(Organization request);
-        Task<(bool, AuthSettings)> UpdateSettings(Guid organizationId, AuthSettings request);
-        Task<AuthSettings> GetSettings(Guid organizationId, string name);
+        Task<(bool, AuthSettings)> UpdateSettings(int organizationId, AuthSettings request);
+        Task<AuthSettings> GetSettings(int organizationId, string name);
     }
 }

@@ -6,6 +6,6 @@ namespace AuthHub.Interfaces.Passwords;
 
 public interface IPasswordResetService
 {
-    Task<PasswordResetToken> RequestPasswordResetForUser(Guid userId);
+    Task<PasswordResetToken> RequestPasswordResetForUser(int userId);
     Task ResetUserPassword(ResetPasswordRequest request);
 }

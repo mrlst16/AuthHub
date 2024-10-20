@@ -1,19 +1,19 @@
 ﻿using AuthHub.Models.Entities.Enums;
 using AuthHub.Models.Entities.Users;
-using AuthHub.Models.Passwords;
 using Common.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.Models.Organizations
 {
-    public class AuthSettings : EntityBase<Guid>
+    public class AuthSettings : EntityBase<int>
     {
         public string Name { get; set; }
-        public Guid OrganizationID { get; set; }
+        public int OrganizationID { get; set; }
         public AuthScheme AuthScheme { get; set; }
-        public Guid AuthSchemeID { get; set; }
+        public int AuthSchemeID { get; set; }
         public int SaltLength { get; set; }
         public int HashLength { get; set; }
         public int Iterations { get; set; }

@@ -23,7 +23,7 @@ namespace AuthHub.BLL.Users
         public async Task<User> Create(User user)
             => await _userContext.Create(user);
 
-        public async Task<User> GetAsync(Guid id, bool requiresVerification = true)
+        public async Task<User> GetAsync(int id, bool requiresVerification = true)
         {
             var result = await _userContext.GetAsync(id);
             if (!requiresVerification) return result;
@@ -41,7 +41,7 @@ namespace AuthHub.BLL.Users
         public async Task<User> GetAsync(string username)
             => await _userContext.Get(username);
 
-        public async Task<Guid> SaveAsync(User item)
+        public async Task<int> SaveAsync(User item)
             => await _userContext.SaveAsync(item);
 
         public async Task AddToken(User user, Token token)

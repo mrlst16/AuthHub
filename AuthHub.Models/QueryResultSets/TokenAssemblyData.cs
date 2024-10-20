@@ -1,6 +1,6 @@
-﻿using AuthHub.Models.Passwords;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AuthHub.Models.Entities.Passwords;
 
 namespace AuthHub.Models.QueryResultSets
 {

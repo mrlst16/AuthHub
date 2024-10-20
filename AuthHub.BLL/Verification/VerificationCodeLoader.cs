@@ -24,7 +24,7 @@ namespace AuthHub.BLL.Verification
         public async Task Update(VerificationCode source)
             => await _context.Update(source);
 
-        public async Task<VerificationCode> GetLatestByUserIdAndType(Guid userid, VerificationType type)
+        public async Task<VerificationCode> GetLatestByUserIdAndType(int userid, VerificationType type)
             => await _context.GetLatestByUserIdAndType(userid, type);
 
         

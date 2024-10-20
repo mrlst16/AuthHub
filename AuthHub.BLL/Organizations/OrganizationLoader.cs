@@ -20,7 +20,7 @@ namespace AuthHub.BLL.Organizations
         public async Task Create(Organization request)
             => await _organizationContext.Create(request);
 
-        public async Task<Organization> Get(Guid id)
+        public async Task<Organization> Get(int id)
             => await _organizationContext.Get(id);
 
         public async Task<Organization> Get(string name)
@@ -29,16 +29,16 @@ namespace AuthHub.BLL.Organizations
         public async Task<IList<Organization>> GetAll()
             => await _organizationContext.GetAll();
 
-        public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
+        public async Task<AuthSettings> GetSettings(int organizationId, string name)
             => await _organizationContext.GetSettings(organizationId, name);
 
-        public async Task<AuthSettings> GetSettings(Guid authSettingsId)
+        public async Task<AuthSettings> GetSettings(int authSettingsId)
             => await _organizationContext.GetSettings(authSettingsId);
 
         public async Task<(bool, Organization)> Update(Organization request)
             => await _organizationContext.Update(request);
 
-        public async Task<(bool, AuthSettings)> UpdateSettings(Guid organizationId, AuthSettings request)
+        public async Task<(bool, AuthSettings)> UpdateSettings(int organizationId, AuthSettings request)
             => await _organizationContext.UpdateSettings(organizationId, request);
     }
 }

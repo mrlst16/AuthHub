@@ -5,6 +5,6 @@ namespace AuthHub.Interfaces.Claims
 {
     public interface IClaimsContext
     {
-        Task SetClaims(Guid userId, IDictionary<string, string> claims);
+        Task SetClaims(int userId, IDictionary<string, string> claims);
     }
 }

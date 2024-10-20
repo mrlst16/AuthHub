@@ -43,8 +43,8 @@ namespace AuthHub.Api.Middleware
                 !Request.Headers.TryGetValue(AuthHubHeaders.OrganizationID,
                     out StringValues organizationIdStringValue))
                 return AuthenticateResult.Fail("OrganizationId is required");
-            if (!Guid.TryParse(organizationIdStringValue, out Guid organizationId))
-                throw new BadHttpRequestException("OrganizationId must be a valid Guid value");
+            if (!int.TryParse(organizationIdStringValue, out int organizationId))
+                throw new BadHttpRequestException("OrganizationId must be a valid int value");
             if (
                 !Request.Headers.TryGetValue(AuthHubHeaders.APIKey,
                     out StringValues apiKey))

@@ -24,7 +24,7 @@ namespace AuthHub.DAL.EntityFramework.Users
             return user;
         }
 
-        public async Task<User> GetAsync(Guid id)
+        public async Task<User> GetAsync(int id)
             => (await _context
                 .Users
                 .Include(x => x.AuthSettings)
@@ -38,14 +38,14 @@ namespace AuthHub.DAL.EntityFramework.Users
                 .ThenInclude(x => x.Type)
                 .SingleOrDefaultAsync(x => x.Id == id))!;
 
-        public async Task<Guid> SaveAsync(User item)
+        public async Task<int> SaveAsync(User item)
         {
-            var existingItem = item.Id == Guid.Empty
+            var existingItem = item.Id == 0
                     ? null :
                             await _context
                                 .Users
                                 .SingleOrDefaultAsync(x => x.Id == item.Id);
-            Guid result;
+            int result;
             if (existingItem == null)
             {
                 await _context.Users.AddAsync(item);

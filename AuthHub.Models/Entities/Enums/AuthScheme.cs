@@ -4,7 +4,7 @@ using System;
 
 namespace AuthHub.Models.Entities.Enums
 {
-    public class AuthScheme : EntityBase<Guid>
+    public class AuthScheme : EntityBase<int>
     {
         public string Name { get; set; }
         public AuthSchemeEnum Value { get; set; }

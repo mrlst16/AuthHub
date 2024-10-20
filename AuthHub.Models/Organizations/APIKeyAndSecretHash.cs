@@ -3,9 +3,9 @@ using System;
 
 namespace AuthHub.Models.Organizations
 {
-    public class APIKeyAndSecretHash : EntityBase<Guid>
+    public class APIKeyAndSecretHash : EntityBase<int>
     {
-        public Guid OrganizationId { get; set; }
+        public int OrganizationId { get; set; }
         public byte[] Hash { get; set; }
         public byte[] Salt { get; set; }
         public int Length { get; set; }

@@ -27,10 +27,10 @@ namespace AuthHub.Api.Controllers
         [APICredentials]
         [HttpGet("auth_settings")]
         public async Task<IActionResult> GetAuthSettings(
-            [FromQuery] Guid authSettingsId
+            [FromQuery] int authSettingsId
             )
         {
-            if (authSettingsId == null || authSettingsId == Guid.Empty)
+            if (authSettingsId == null || authSettingsId <= 0)
                 throw new BadHttpRequestException("AuthSettingsId must be provided");
 
             var organizationId = User.GetOrganizationId();

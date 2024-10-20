@@ -28,7 +28,7 @@ namespace AuthHub.Api.Controllers
 
         [HttpGet("user_email")]
         public async Task<IActionResult> Index(
-            [FromQuery] Guid userId,
+            [FromQuery] int userId,
             [FromQuery] string code
             )
         {

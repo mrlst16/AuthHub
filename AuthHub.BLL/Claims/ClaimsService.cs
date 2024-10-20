@@ -18,7 +18,7 @@ namespace AuthHub.BLL.Claims
             _loader = loader;
         }
 
-        public async Task SetClaims(Guid userId, IDictionary<string, string> claims)
+        public async Task SetClaims(int userId, IDictionary<string, string> claims)
             => await _loader.SetClaims(userId, claims);
     }
 }

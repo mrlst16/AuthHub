@@ -40,7 +40,7 @@ namespace AuthHub.Api.Controllers
         [HttpGet("RefreshJWTUserToken")]
         [APICredentials]
         public async Task<IActionResult> RefreshJWTUserToken(
-            [FromQuery] Guid userId,
+            [FromQuery] int userId,
             [FromQuery] string refreshToken
         )
         {

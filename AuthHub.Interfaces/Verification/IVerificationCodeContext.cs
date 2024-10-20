@@ -7,7 +7,7 @@ namespace AuthHub.Interfaces.Verification
     public interface IVerificationCodeContext
     {
         Task Create(VerificationCode source);
-        Task<VerificationCode> GetLatestByUserIdAndType(Guid userid, VerificationTypeEnum type);
+        Task<VerificationCode> GetLatestByUserIdAndType(int userid, VerificationTypeEnum type);
         Task Update(VerificationCode source);
     }
 }

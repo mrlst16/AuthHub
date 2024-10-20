@@ -4,9 +4,9 @@ using System;
 
 namespace AuthHub.Models.Entities.Tokens
 {
-    public class Token : EntityBase<Guid>
+    public class Token : EntityBase<int>
     {
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
         public string Value { get; set; }
         public string RefreshToken { get; set; }

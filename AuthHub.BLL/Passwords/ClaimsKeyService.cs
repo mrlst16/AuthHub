@@ -18,7 +18,7 @@ namespace AuthHub.BLL.Passwords
         }
 
 
-        public async Task<IEnumerable<ClaimsKey>> GetAsync(Guid id)
+        public async Task<IEnumerable<ClaimsKey>> GetAsync(int id)
             => await _loader.GetAsync(id);
 
         public async Task SaveAsync(IEnumerable<ClaimsKey> item)

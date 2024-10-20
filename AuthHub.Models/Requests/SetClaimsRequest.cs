@@ -5,7 +5,7 @@ namespace AuthHub.Models.Requests
 {
     public class SetClaimsRequest
     {
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public List<KeyValuePair<string, string>> Claims { get; set; }
     }
 }

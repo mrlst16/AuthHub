@@ -35,12 +35,11 @@ namespace AuthHub.BLL.Verification
             _verificationCodeResponseMapper = verificationCodeResponseMapper;
         }
 
-        public async Task<VerificationCode> GenerateAndSaveUserVerificationCode(Guid userId)
+        public async Task<VerificationCode> GenerateAndSaveUserVerificationCode(int userId)
         {
             var user = await _userLoader.GetAsync(userId, false);
             var result = new VerificationCode()
             {
-                Id = Guid.NewGuid(),
                 Type = VerificationTypeEnum.UserEmail,
                 Code = GenerateCode(),
                 User = user,
@@ -56,7 +55,6 @@ namespace AuthHub.BLL.Verification
             var user = await _userLoader.GetByPhoneNumberAsync(phoneNumber);
             var result = new VerificationCode()
             {
-                Id = Guid.NewGuid(),
                 Type = VerificationTypeEnum.PhoneLogin,
                 Code = Generate6DigitCode(),
                 User = user,
@@ -68,7 +66,7 @@ namespace AuthHub.BLL.Verification
             return _verificationCodeResponseMapper.Map(result);
         }
 
-        public async Task<bool> VerifyAndRecordCode(Guid userid, VerificationTypeEnum type, string code)
+        public async Task<bool> VerifyAndRecordCode(int userid, VerificationTypeEnum type, string code)
         {
             var codeRecord = await _verificationCodeLoader.GetLatestByUserIdAndType(userid, type);
             if (codeRecord == null) return false;

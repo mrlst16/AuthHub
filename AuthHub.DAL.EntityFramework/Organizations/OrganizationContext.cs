@@ -21,7 +21,7 @@ namespace AuthHub.DAL.EntityFramework.Organizations
                     .Set<Organization>()
                     .AddAsync(request);
 
-        public async Task<Organization> Get(Guid id)
+        public async Task<Organization> Get(int id)
             => await _context.Organizations
                 .Include(x => x.APIKeyAndSecretHash)
                 .FirstAsync(x => x.Id == id);
@@ -32,7 +32,7 @@ namespace AuthHub.DAL.EntityFramework.Organizations
         public async Task<IList<Organization>> GetAll()
             => _context.Organizations.ToList();
 
-        public async Task<AuthSettings> GetSettings(Guid organizationId, string name)
+        public async Task<AuthSettings> GetSettings(int organizationId, string name)
             => (await _context.Organizations.FirstAsync(x => x.Id == organizationId))
                 .Settings.First(x => x.Name == name);
 
@@ -42,13 +42,13 @@ namespace AuthHub.DAL.EntityFramework.Organizations
             return (true, request);
         }
 
-        public async Task<(bool, AuthSettings)> UpdateSettings(Guid organizationId, AuthSettings request)
+        public async Task<(bool, AuthSettings)> UpdateSettings(int organizationId, AuthSettings request)
         {
             _context.AuthSettings.Update(request);
             return (true, request);
         }
 
-        public async Task<AuthSettings> GetSettings(Guid authSettingsId)
+        public async Task<AuthSettings> GetSettings(int authSettingsId)
             => await _context.AuthSettings.FirstAsync(x => x.Id == authSettingsId);
     }
 }

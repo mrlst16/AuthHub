@@ -19,7 +19,7 @@ namespace AuthHub.DAL.EntityFramework.Claims
             _dateProvider = dateProvider;
         }
 
-        public async Task SetClaims(Guid userId, IDictionary<string, string> claims)
+        public async Task SetClaims(int userId, IDictionary<string, string> claims)
         {
             var user = await _context.Users
                 .Include(x => x.Password)
@@ -69,7 +69,6 @@ namespace AuthHub.DAL.EntityFramework.Claims
                 .Where(x => keysToAdd.Contains(x.Name))
                 .Select(x => new ClaimsEntity()
                 {
-                    Id = Guid.NewGuid(),
                     Key = x.Name,
                     Value = claims.First(y => y.Key == x.Name).Value,
                     ClaimsKeyId = x.Id,

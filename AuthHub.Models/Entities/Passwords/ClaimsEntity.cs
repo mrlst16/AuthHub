@@ -4,10 +4,10 @@ using System.Security.Claims;
 
 namespace AuthHub.Models.Entities.Passwords
 {
-    public class ClaimsEntity : EntityBase<Guid>
+    public class ClaimsEntity : EntityBase<int>
     {
-        public Guid ClaimsKeyId { get; set; }
-        public Guid PasswordId { get; set; }
+        public int ClaimsKeyId { get; set; }
+        public int PasswordId { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
 
@@ -15,7 +15,7 @@ namespace AuthHub.Models.Entities.Passwords
         {
         }
 
-        public ClaimsEntity(string key, string value, Guid claimsKeyId)
+        public ClaimsEntity(string key, string value, int claimsKeyId)
             : this()
         {
             Key = key;

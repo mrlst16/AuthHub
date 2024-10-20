@@ -4,7 +4,7 @@ using System;
 
 namespace AuthHub.Models.Entities.Enums
 {
-    public class VerificationType : EntityBase<Guid>
+    public class VerificationType : EntityBase<int>
     {
         public string Name { get; set; }
         public VerificationTypeEnum Value { get; set; }

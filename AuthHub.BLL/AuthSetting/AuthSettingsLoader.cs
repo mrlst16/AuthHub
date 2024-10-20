@@ -17,7 +17,7 @@ namespace AuthHub.BLL.AuthSetting
             _context = context;
         }
 
-        public async Task<AuthSettings> ReadAsync(Guid id)
+        public async Task<AuthSettings> ReadAsync(int id)
             => await _context.GetAsync(id);
     }
 }

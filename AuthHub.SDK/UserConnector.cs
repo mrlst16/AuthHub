@@ -13,10 +13,10 @@ namespace AuthHub.SDK
     {
         public UserConnector(
             string baseUrl, 
-            Guid authSettingsId,
+            int authSettingsId,
             string apiKey, 
             string apiSecret,
-            Guid organizationId
+            int organizationId
             ) : base(baseUrl, authSettingsId, apiKey, apiSecret, organizationId)
         {
         }
@@ -44,14 +44,14 @@ namespace AuthHub.SDK
             return await Deserialize<UserIdResponse>(response);
         }
 
-        public async Task<ApiResponse<bool>> VerifyUserEmail(Guid userId, string verificationCode)
+        public async Task<ApiResponse<bool>> VerifyUserEmail(int userId, string verificationCode)
         {
             var path = $"api/verification/user_email?userId={userId}&code={verificationCode}";
             HttpResponseMessage response = await Client.GetAsync(path);
             return await Deserialize<bool>(response);
         }
 
-        public async Task<ApiResponse<UserResponse>> GetUserAsync(Guid userId)
+        public async Task<ApiResponse<UserResponse>> GetUserAsync(int userId)
         {
             var path = $"api/user?userId={userId}";
             HttpResponseMessage response = await Client.GetAsync(path);

@@ -8,7 +8,7 @@ namespace AuthHub.Interfaces.Users
     public interface IUserService
     {
         Task<User> CreateAsync(CreateUserRequest request);
-        Task<UserResponse> ReadAsync(Guid id);
-        Task SendEmailVerificationEmail(Guid userid);
+        Task<UserResponse> ReadAsync(int id);
+        Task SendEmailVerificationEmail(int userid);
     }
 }

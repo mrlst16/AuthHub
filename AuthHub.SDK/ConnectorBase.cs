@@ -9,17 +9,17 @@ namespace AuthHub.SDK
     public abstract class ConnectorBase
     {
         protected readonly string _baseUrl;
-        protected readonly Guid _authSettingsId;
+        protected readonly int _authSettingsId;
         protected readonly string _apiKey;
         protected readonly string _apiSecret;
-        protected readonly Guid _organizationId;
+        protected readonly int _organizationId;
 
         protected ConnectorBase(
             string baseUrl,
-            Guid authSettingsId,
+            int authSettingsId,
             string apiKey,
             string apiSecret,
-            Guid organizationId
+            int organizationId
             )
         {
             _baseUrl = baseUrl;
@@ -34,10 +34,10 @@ namespace AuthHub.SDK
             )
         {
             var section = configuration.GetSection("AuthHub:API");
-            _authSettingsId = section.GetValue<Guid>("AuthSettingsId");
+            _authSettingsId = section.GetValue<int>("AuthSettingsId");
             _apiKey = section.GetValue<string>("APIKey");
             _apiSecret = section.GetValue<string>("APISecret");
-            _organizationId = section.GetValue<Guid>("OrganizationId");
+            _organizationId = section.GetValue<int>("OrganizationId");
         }
 
         protected HttpClient Client

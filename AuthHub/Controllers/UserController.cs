@@ -67,10 +67,10 @@ namespace AuthHub.Api.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAsync(
-           [FromQuery] Guid userId
+           [FromQuery] int userId
            )
         {
-            if (userId == Guid.Empty)
+            if (userId <= 0)
                 return new BadRequestObjectResult(new ApiResponse<bool>()
                 {
                     Data = false,

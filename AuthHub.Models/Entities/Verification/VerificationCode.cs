@@ -5,7 +5,7 @@ using System;
 
 namespace AuthHub.Models.Entities.Verification
 {
-    public class VerificationCode : EntityBase<Guid>
+    public class VerificationCode : EntityBase<int>
     {
         public User User { get; set; }
         public string Code { get; set; }

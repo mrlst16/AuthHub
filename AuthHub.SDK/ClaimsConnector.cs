@@ -12,7 +12,7 @@ namespace AuthHub.SDK
 {
     public class ClaimsConnector : ConnectorBase, IClaimsConnector
     {
-        public ClaimsConnector(string baseUrl, Guid authSettingsId, string apiKey, string apiSecret, Guid organizationId) 
+        public ClaimsConnector(string baseUrl, int authSettingsId, string apiKey, string apiSecret, int organizationId) 
             : base(baseUrl, authSettingsId, apiKey, apiSecret, organizationId)
         {
         }

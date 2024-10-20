@@ -25,7 +25,7 @@ namespace AuthHub.DAL.EntityFramework.Passwords
             await _authHubContext.ClaimsKeys.AddRangeAsync(item.Where(x => nonExisting.Contains(x)));
         }
 
-        public async Task<IEnumerable<ClaimsKey>> GetAsync(Guid authSettingsId)
+        public async Task<IEnumerable<ClaimsKey>> GetAsync(int authSettingsId)
             => _authHubContext.ClaimsKeys.Where(x => x.AuthSettingsId == authSettingsId);
     }
 }
