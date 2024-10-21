@@ -34,7 +34,7 @@ namespace AuthHub.BLL.Common.Emails
             // The port you will connect to on the Amazon SES SMTP endpoint. We
             // are choosing port 587 because we will use STARTTLS to encrypt
             // the connection.
-            // Create and build a new MailMessage object
+            // CreateAsync and build a new MailMessage object
             MailMessage message = new MailMessage();
             message.IsBodyHtml = true;
             message.From = new MailAddress(_options.FromEmail, _options.FromName);

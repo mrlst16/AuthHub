@@ -1,8 +1,6 @@
 ﻿using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Entities.Users;
-using System;
-using AuthHub.Models.Requests;
 
 namespace AuthHub.Interfaces.Users
 {

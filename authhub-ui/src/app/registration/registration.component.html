@@ -1,0 +1,9 @@
+<div>
+    <h1>Sign up for Audder</h1>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <label for="organization-name">Organization Name</label>
+        <input id="organization-name" type="text" formControlName="Name"/>
+        
+        <button type="submit" [disabled]="!form.valid">Sign Up</button>
+    </form>
+</div>

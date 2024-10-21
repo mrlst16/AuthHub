@@ -52,7 +52,7 @@ namespace AuthHub.BLL.Common.Tests
                 "<a href='https://aws.amazon.com/ses'>Amazon SES</a> SMTP interface " +
                 "using the .NET System.Net.Mail library.</p>";
 
-            // Create and build a new MailMessage object
+            // CreateAsync and build a new MailMessage object
             MailMessage message = new MailMessage();
             message.IsBodyHtml = true;
             message.From = new MailAddress(FROM, FROMNAME);

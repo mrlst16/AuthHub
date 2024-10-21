@@ -7,9 +7,9 @@ namespace AuthHub.Interfaces.Organizations
 {
     public interface IOrganizationService
     {
-        Task<Organization> Create(CreateOrganizationRequest request);
-        Task<Organization> Get(int organizationId);
-        Task<Organization> Get(string name);
+        Task<Organization> CreateAsync(CreateOrganizationRequest request);
+        Task<Organization> GetAsync(int organizationId);
+        Task<Organization> GetAsync(string name);
         Task<IList<Organization>> GetAll();
         Task<(bool, Organization)> Update(Organization request);
         Task<(bool, AuthSettings)> UpdateSettings(int organizationId, AuthSettings request);

@@ -5,6 +5,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Style", "IDE0022:Use block body for methods", Justification = "<Pending>", Scope = "member", Target = "~M:AuthHub.DAL.EntityFramework.Users.UserContext.Get(System.int,System.String,System.String)~System.Threading.Tasks.Task{AuthHub.Models.Users.User}")]
-[assembly: SuppressMessage("Style", "IDE0022:Use block body for methods", Justification = "<Pending>", Scope = "member", Target = "~M:AuthHub.DAL.EntityFramework.Users.UserContext.Get(AuthHub.Models.Users.UserPointer)~System.Threading.Tasks.Task{AuthHub.Models.Users.User}")]
-[assembly: SuppressMessage("Style", "IDE0058:Expression value is never used", Justification = "<Pending>", Scope = "member", Target = "~M:AuthHub.DAL.EntityFramework.EFHelper`2.Create(`0)~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Style", "IDE0022:Use block body for methods", Justification = "<Pending>", Scope = "member", Target = "~M:AuthHub.DAL.EntityFramework.Users.UserContext.GetAsync(System.int,System.String,System.String)~System.Threading.Tasks.Task{AuthHub.Models.Users.User}")]
+[assembly: SuppressMessage("Style", "IDE0022:Use block body for methods", Justification = "<Pending>", Scope = "member", Target = "~M:AuthHub.DAL.EntityFramework.Users.UserContext.GetAsync(AuthHub.Models.Users.UserPointer)~System.Threading.Tasks.Task{AuthHub.Models.Users.User}")]
+[assembly: SuppressMessage("Style", "IDE0058:Expression value is never used", Justification = "<Pending>", Scope = "member", Target = "~M:AuthHub.DAL.EntityFramework.EFHelper`2.CreateAsync(`0)~System.Threading.Tasks.Task")]

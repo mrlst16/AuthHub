@@ -115,7 +115,7 @@
 //                .Returns(loginChallengeResponse);
 
 //            _userLoader
-//                .Get(authSettings.Id, Arg.Any<string>())
+//                .GetAsync(authSettings.Id, Arg.Any<string>())
 //                .Returns(user);
 
 //            var result = await _generator.GetTokenForAudderClients("mrlst16@mail.rmu.edu", "Matty33!");

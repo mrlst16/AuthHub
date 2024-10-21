@@ -40,8 +40,8 @@
 //            _dateProvider = dateProvider;
 //        }
 
-//        public async Task<Password> Get(int organizationId, string authSettingsname, string username)
-//            => await _passwordContext.Get(organizationId, authSettingsname, username);
+//        public async Task<Password> GetAsync(int organizationId, string authSettingsname, string username)
+//            => await _passwordContext.GetAsync(organizationId, authSettingsname, username);
 
 //        public async Task<(bool, Password)> Set(int organizationId, string authSettingsname, Password request)
 //        {

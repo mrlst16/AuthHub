@@ -41,7 +41,7 @@ namespace AuthHub.BLL.Organizations
             _tokenGeneratorFactory = tokenGeneratorFactory;
         }
 
-        public async Task<Organization> Create(CreateOrganizationRequest request)
+        public async Task<Organization> CreateAsync(CreateOrganizationRequest request)
         {
             var org = new Organization()
             {
@@ -84,10 +84,10 @@ namespace AuthHub.BLL.Organizations
             return org;
         }
 
-        public async Task<Organization> Get(int organizationId)
+        public async Task<Organization> GetAsync(int organizationId)
             => await _organizationLoader.Get(organizationId);
 
-        public async Task<Organization> Get(string name)
+        public async Task<Organization> GetAsync(string name)
             => await _organizationLoader.Get(name);
 
         public async Task<IList<Organization>> GetAll()

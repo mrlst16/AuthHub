@@ -35,7 +35,7 @@ namespace AuthHub.Api.Controllers
 
             var organizationId = User.GetOrganizationId();
 
-            var organization = await _organizationService.Get(organizationId);
+            var organization = await _organizationService.GetAsync(organizationId);
             var authSettings = organization.Settings.FirstOrDefault(x => x.Id == authSettingsId);
 
             if (authSettings == null)
