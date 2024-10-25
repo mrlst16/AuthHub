@@ -10,8 +10,8 @@
   <ItemGroup>
     <PackageReference Include="Common.Extensions" Version="1.0.1" />
     <PackageReference Include="Common.Interfaces" Version="1.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
-    <PackageReference Include="SendGrid" Version="9.28.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
   </ItemGroup>
 
   <ItemGroup>
