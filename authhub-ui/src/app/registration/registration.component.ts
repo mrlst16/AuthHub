@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { CreateOrganizationRequest } from '../models/requests/CreateOrganizationRequest';
+import { registerOrganization } from '../store/registrration/registration.actions';
 
 @Component({
   selector: 'app-registration',
@@ -9,16 +12,23 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class RegistrationComponent {
 
   form = this.formBuilder.group({
-    Name: ['', Validators.required]
+    Name: ['', Validators.required],
+    Password: ['', Validators.required],
+    ConfirmPassword: ['', Validators.required],
+    Email: ['', Validators.required]
   })
 
   constructor(
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly store: Store
   ){
     
   }
 
   onSubmit(){
     console.log(this.form)
+    let createOrganizationReqest: CreateOrganizationRequest = new CreateOrganizationRequest(this.form.value)
+    console.log("createOrganizationReqest", createOrganizationReqest);
+    this.store.dispatch(registerOrganization({request: createOrganizationReqest}));
   }
 }

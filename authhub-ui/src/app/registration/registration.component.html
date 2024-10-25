@@ -3,7 +3,19 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <label for="organization-name">Organization Name</label>
         <input id="organization-name" type="text" formControlName="Name"/>
-        
+        <br />
+
+        <label for="organization-password">Password</label>
+        <input id="organization-password" type="password" formControlName="Password"/>
+        <br />
+
+        <label for="organization-confirm-password">Confirm Password</label>
+        <input id="organization-confirm-password" type="password" formControlName="ConfirmPassword"/>
+        <br />
+
+        <label for="organization-email">Email</label>
+        <input id="organization-email" type="text" formControlName="Email"/>
+        <br />
         <button type="submit" [disabled]="!form.valid">Sign Up</button>
     </form>
 </div>

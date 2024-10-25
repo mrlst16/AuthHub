@@ -7,7 +7,10 @@ import { RegistrationComponent } from './registration/registration.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+import { EffectsModule, provideEffects } from '@ngrx/effects';
+import * as registerEffects from './store/registrration/registration.effects';
+import { registerOrganizationReducer } from './store/registrration/registration.reducers';
+import { provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,10 +22,11 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([])
+    StoreModule.forRoot(registerOrganizationReducer),
+    EffectsModule.forRoot(registerEffects),
+    
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
