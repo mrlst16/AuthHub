@@ -194,90 +194,38 @@ namespace AuthHub.DAL.EntityFramework
             #endregion
 
             #region Load Data
-            //Load Client data
-            modelBuilder.Entity<Organization>()
-                .HasData(new Organization()
-                {
-                    Id = int.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                    Name = "HomeEc",
-                    Email = "mattlantz88@gmail.com"
-                });
-
             modelBuilder.Entity<AuthScheme>()
                 .HasData(new AuthScheme()
                 {
-                    Id = int.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
+                    Id = 1,
                     Name = "JWT",
                     Value = AuthSchemeEnum.JWT,
                     CreateDate = DateTime.UtcNow,
                     LastUpdated = DateTime.UtcNow
                 });
 
-            modelBuilder.Entity<AuthSettingsModel>()
-                .HasData(new AuthSettingsModel()
-                {
-                    Id = int.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                    OrganizationID = int.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                    AuthSchemeID = int.Parse("2269d512-b2ec-47aa-82bd-ae68df0993f2"),
-                    ExpirationMinutes = 120,
-                    HashLength = 8,
-                    Issuer = "HomeEc",
-                    Audience = "HomeEcJWT",
-                    Key = "This is my auth key",
-                    Iterations = 10,
-                    Name = "HomeEc JWT",
-                    PasswordResetTokenExpirationMinutes = 10,
-                    SaltLength = 8,
-                    RequireVerification = false
-                });
-
-            modelBuilder.Entity<ClaimsKey>()
-                .HasData(
-                    new ClaimsKey()
-                    {
-                        Id = int.Parse("7ef019bd-4155-4c25-85d8-5eee7427af8a"),
-                        AuthSettingsId = int.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                        Name = "Name"
-                    },
-                    new ClaimsKey()
-                    {
-                        Id = int.Parse("6598c3ca-417e-47ed-b796-66f94af855df"),
-                        AuthSettingsId = int.Parse("48f46ec0-a09e-4d76-a1d0-385c0c813b1f"),
-                        Name = "Role"
-                    });
-
             modelBuilder.Entity<VerificationType>()
                 .HasData(
                     new VerificationType()
                     {
-                        Id = int.Parse("b606fd56-6c9f-40ea-a274-1603d2ef9780"),
+                        Id = 1,
                         Name = "UserEmail",
                         Value = VerificationTypeEnum.UserEmail,
                     },
                     new VerificationType()
                     {
-                        Id = int.Parse("8eb05bdc-0f09-437b-af5a-06e5ff017556"),
+                        Id = 2,
                         Name = "PasswordReset",
                         Value = VerificationTypeEnum.PasswordReset
                     },
                     new VerificationType()
                     {
-                        Id = int.Parse("4df175eb-9255-49b9-8125-855dcffdd94e"),
+                        Id = 3,
                         Name = "PhoneLogin",
                         Value = VerificationTypeEnum.PhoneLogin
                     }
                 );
 
-            modelBuilder.Entity<APIKeyAndSecretHash>()
-                .HasData(new APIKeyAndSecretHash()
-                {
-                    Id = int.Parse("68ab7350-9368-45ec-bd90-14bbe71480bd"),
-                    OrganizationId = int.Parse("bcb980b4-b5b9-4bd6-9810-569dcd62feca"),
-                    Length = 10,
-                    Iterations = 10,
-                    Salt = new byte[] { 142, 34, 0, 28 },
-                    Hash = new byte[] { 82, 173, 66, 213, 53, 147, 34, 195, 227, 190 }
-                });
         }
         #endregion
     }

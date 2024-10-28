@@ -12,27 +12,7 @@ namespace AuthHub.Api
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            //https://www.twilio.com/blog/containerize-your-aspdotnet-core-application-and-sql-server-with-docker
-            using (var scope = host.Services.CreateScope())
-            {
-                bool tryAgain = true;
-                while (tryAgain)
-                {
-                    try
-                    {
-                        var context = scope.ServiceProvider.GetRequiredService<AuthHubContext>();
-                        context.Database.Migrate();
-                        tryAgain = false;
-                        Console.WriteLine("Migrations applied");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        Thread.Sleep(3000);
-                    }
-                }
-            }
-
+            ApplyMigrations(host);
             host.Run();
         }
 
@@ -42,5 +22,32 @@ namespace AuthHub.Api
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static void ApplyMigrations(IHost host)
+        {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Docker")
+            {
+                //https://www.twilio.com/blog/containerize-your-aspdotnet-core-application-and-sql-server-with-docker
+                using (var scope = host.Services.CreateScope())
+                {
+                    bool tryAgain = true;
+                    while (tryAgain)
+                    {
+                        try
+                        {
+                            var context = scope.ServiceProvider.GetRequiredService<AuthHubContext>();
+                            context.Database.Migrate();
+                            tryAgain = false;
+                            Console.WriteLine("Migrations applied");
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Thread.Sleep(3000);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
