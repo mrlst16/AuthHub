@@ -16,10 +16,12 @@ namespace AuthHub.DAL.EntityFramework.Organizations
         }
 
         public async Task Create(Organization request)
-            =>
-                await _context
-                    .Set<Organization>()
-                    .AddAsync(request);
+        {
+            await _context
+                .Set<Organization>()
+                .AddAsync(request);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task<Organization> Get(int id)
             => await _context.Organizations
@@ -50,5 +52,13 @@ namespace AuthHub.DAL.EntityFramework.Organizations
 
         public async Task<AuthSettings> GetSettings(int authSettingsId)
             => await _context.AuthSettings.FirstAsync(x => x.Id == authSettingsId);
+
+        public async Task<bool> OrganizationExistsAsync(string name)
+        {
+            string lowerCaseName = name;
+            return await _context.Organizations.FirstOrDefaultAsync(
+                x => x.Name.ToLower() == lowerCaseName
+                ) != null;
+        }
     }
 }

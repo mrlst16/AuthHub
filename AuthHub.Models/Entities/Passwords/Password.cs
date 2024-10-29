@@ -1,6 +1,7 @@
 ﻿using Common.Models.Entities;
 using System;
 using System.Collections.Generic;
+using AuthHub.Models.Entities.Organizations;
 
 namespace AuthHub.Models.Entities.Passwords
 {
@@ -9,6 +10,7 @@ namespace AuthHub.Models.Entities.Passwords
         public int UserId { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] Salt { get; set; }
+        public Organization Organization { get; set; }
         public List<ClaimsEntity> Claims { get; set; } = new List<ClaimsEntity>();
     }
 

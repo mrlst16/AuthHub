@@ -11,12 +11,14 @@ import { EffectsModule, provideEffects } from '@ngrx/effects';
 import * as registerEffects from './store/registrration/registration.effects';
 import { registerOrganizationReducer } from './store/registrration/registration.reducers';
 import { provideHttpClient } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavigationComponent,
     RegistrationComponent,
-    NavigationComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,

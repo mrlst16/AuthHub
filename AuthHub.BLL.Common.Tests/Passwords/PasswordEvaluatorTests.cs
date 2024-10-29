@@ -29,7 +29,7 @@ namespace AuthHub.BLL.Common.Tests.Passwords
         [Fact]
         public async Task EvaluateUsernameAndPasswordWithSalt_Matches()
         {
-            var storedHash = _hasher.HashUsernameAndPasswordWithSalt(
+            var storedHash = _hasher.HashPasswordWithSalt(
                 MockPasswordData.PasswordBytes,
                 MockPasswordData.Salt1234,
                 10,

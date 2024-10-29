@@ -19,7 +19,7 @@ namespace AuthHub.BLL.Common.Tests.Hashing
         [Fact]
         public async Task HashUsernameAndPasswordWithSalt_NotEmpty()
         {
-            var result = _hasher.HashUsernameAndPasswordWithSalt(
+            var result = _hasher.HashPasswordWithSalt(
                 MockPasswordData.PasswordBytes,
                 MockPasswordData.Salt1234,
                 10,
@@ -32,14 +32,14 @@ namespace AuthHub.BLL.Common.Tests.Hashing
         [Fact]
         public async Task HashUsernameAndPasswordWithSalt_TwoCallsSameArguments_Match()
         {
-            var result1 = _hasher.HashUsernameAndPasswordWithSalt(
+            var result1 = _hasher.HashPasswordWithSalt(
                 MockPasswordData.PasswordBytes,
                 MockPasswordData.Salt1234,
                 10,
                 10
             );
 
-            var result2 = _hasher.HashUsernameAndPasswordWithSalt(
+            var result2 = _hasher.HashPasswordWithSalt(
                 MockPasswordData.PasswordBytes,
                 MockPasswordData.Salt1234,
                 10,
@@ -57,7 +57,7 @@ namespace AuthHub.BLL.Common.Tests.Hashing
 
             var salt = new byte[] { 142, 34, 0, 28 };
 
-            var result = _hasher.HashUsernameAndPasswordWithSalt(
+            var result = _hasher.HashPasswordWithSalt(
                 passwordBytes,
                 salt,
                 10,

@@ -14,5 +14,6 @@ namespace AuthHub.Interfaces.Organizations
         Task<(bool, Organization)> Update(Organization request);
         Task<(bool, AuthSettings)> UpdateSettings(int organizationId, AuthSettings request);
         Task<AuthSettings> GetSettings(int authSettingsId);
+        Task<bool> OrganizationExistsAsync(string name);
     }
 }

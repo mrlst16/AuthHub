@@ -12,7 +12,6 @@ namespace AuthHub.BLL.Common.Tokens
 {
     public class JWTTokenGenerator : ITokenGenerator
     {
-        private readonly IOrganizationLoader _organizationLoader;
         private readonly IApplicationConsistency _applicationConsistency;
 
         public JWTTokenGenerator(
@@ -20,7 +19,6 @@ namespace AuthHub.BLL.Common.Tokens
             IApplicationConsistency applicationConsistency
             )
         {
-            _organizationLoader = organizationLoader;
             _applicationConsistency = applicationConsistency;
         }
 

@@ -1,0 +1,14 @@
+<div>
+    <h1>Log In</h1>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <label for="organization-name">Organization Name</label>
+        <input id="organization-name" type="text" formControlName="Name"/>
+        <br />
+
+        <label for="organization-password">Password</label>
+        <input id="organization-password" type="password" formControlName="Password"/>
+        <br />
+
+        <button type="submit" [disabled]="!form.valid">Log In</button>
+    </form>
+</div>

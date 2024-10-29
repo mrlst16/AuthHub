@@ -8,11 +8,11 @@ namespace AuthHub.Api.ServiceRegistrations
     public static class ValidatorRegistrations
     {
         public static IServiceCollection AddAuthHubValidators(this IServiceCollection services)
-        {
-            services.AddTransient<IValidator<CreateUserRequest>, CreateUserRequestValidator>();
-            services.AddTransient<IValidator<ResetPasswordRequest>, ResetPasswordRequestValidator>();
-            services.AddTransient<IValidator<PhoneLoginCodeRequest>, PhoneLoginCodeRequestValidator>();
-            return services;
-        }
+         =>
+            services
+                .AddTransient<IValidator<CreateUserRequest>, CreateUserRequestValidator>()
+                .AddTransient<IValidator<ResetPasswordRequest>, ResetPasswordRequestValidator>()
+                .AddTransient<IValidator<PhoneLoginCodeRequest>, PhoneLoginCodeRequestValidator>()
+                .AddTransient<IValidator<CreateOrganizationRequest>, CreateOrganizationRequestValidator>();
     }
 }
