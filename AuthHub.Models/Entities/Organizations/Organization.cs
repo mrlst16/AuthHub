@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Tokens;
 
 namespace AuthHub.Models.Entities.Organizations
 {
@@ -13,5 +14,6 @@ namespace AuthHub.Models.Entities.Organizations
         public byte[] PasswordSalt { get; set; }
         public List<AuthSettings> Settings { get; set; } = new List<AuthSettings>();
         public APIKeyAndSecretHash APIKeyAndSecretHash { get; set; }
+        public OrganizationToken Token { get; set; }
     }
 }

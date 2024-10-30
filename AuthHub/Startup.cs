@@ -59,6 +59,7 @@ namespace AuthHub.Api
             .AddFormatMappers()
             .AddTransient<IDateProvider, DateProvider>()
             .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"))
+            .Configure<OrganizationsAuthOptions>(Configuration.GetSection("AppSettings:OrganizationAuth"))
             .Configure<VonagePhoneServiceOptions>(Configuration.GetSection("AppSettings:VonagePhoneService"));
 
             services.AddAuthentication(options =>

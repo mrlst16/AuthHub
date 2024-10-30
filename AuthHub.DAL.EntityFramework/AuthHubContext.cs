@@ -14,6 +14,7 @@ namespace AuthHub.DAL.EntityFramework
     public class AuthHubContext : DbContext
     {
         public DbSet<Organization> Organizations { get; set; }
+        public DbSet<OrganizationToken> OrganizationTokens { get; set; }
         public DbSet<AuthSettingsModel> AuthSettings { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<AuthScheme> AuthSchemes { get; set; }
@@ -55,6 +56,13 @@ namespace AuthHub.DAL.EntityFramework
                 .IsRequired();
             modelBuilder.Entity<Organization>()
                 .HasOne<APIKeyAndSecretHash>(x => x.APIKeyAndSecretHash);
+
+            modelBuilder.Entity<OrganizationToken>()
+                .HasKey(x=> x.Id);
+            modelBuilder.Entity<OrganizationToken>()
+                .HasOne(x => x.Organization)
+                .WithOne(x => x.Token)
+                .HasForeignKey<OrganizationToken>(x => x.OrganizationId);
 
             //AuthSettings Setup
             modelBuilder.Entity<AuthSettingsModel>()

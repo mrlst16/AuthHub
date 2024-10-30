@@ -7,9 +7,15 @@ namespace AuthHub.BLL.Common.Hashing
 {
     public class Hasher : IHasher
     {
+        public byte[] HashPasswordWithSalt(string password, byte[] salt, int length, int iterations = 100)
+        {
+            using var derivedBytes = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256);
+            return derivedBytes.GetBytes(length);
+        }
+
         public byte[] HashPasswordWithSalt(byte[] password, byte[] salt, int length, int iterations = 100)
         {
-            using var derivedBytes = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA3_512);
+            using var derivedBytes = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256);
             return derivedBytes.GetBytes(length);
         }
 
@@ -17,7 +23,7 @@ namespace AuthHub.BLL.Common.Hashing
         {
             var salt = RandomNumberGenerator.GetBytes(saltLength);
 
-            using var derivedBytes = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA3_512);
+            using var derivedBytes = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256);
 
             return (derivedBytes.GetBytes(length), salt);
         }

@@ -1,5 +1,6 @@
 ﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Tokens;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Organizations
@@ -59,6 +60,12 @@ namespace AuthHub.DAL.EntityFramework.Organizations
             return await _context.Organizations.FirstOrDefaultAsync(
                 x => x.Name.ToLower() == lowerCaseName
                 ) != null;
+        }
+
+        public async Task SaveOrganizationToken(OrganizationToken token)
+        {
+            _context.OrganizationTokens
+                .Attach(token);
         }
     }
 }

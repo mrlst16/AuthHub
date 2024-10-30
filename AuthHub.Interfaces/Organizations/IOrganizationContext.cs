@@ -1,4 +1,5 @@
 ﻿using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Tokens;
 using System;
 using System.Collections.Generic;
 
@@ -15,5 +16,6 @@ namespace AuthHub.Interfaces.Organizations
         Task<(bool, AuthSettings)> UpdateSettings(int organizationId, AuthSettings request);
         Task<AuthSettings> GetSettings(int authSettingsId);
         Task<bool> OrganizationExistsAsync(string name);
+        Task SaveOrganizationToken(OrganizationToken token);
     }
 }
