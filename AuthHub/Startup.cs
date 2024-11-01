@@ -1,15 +1,14 @@
+using System.Text;
 using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Common.Hashing;
 using AuthHub.BLL.Common.Tokens;
 using AuthHub.BLL.Passwords;
 using AuthHub.DAL.EntityFramework;
-using AuthHub.DAL.EntityFramework.Generic;
 using AuthHub.Interfaces.Hashing;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Options;
 using Common.Interfaces.Providers;
-using Common.Interfaces.Repository;
 using Common.Providers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +19,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using AuthHub.Api.Helpers;
 using AuthHub.BLL;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AuthHub.Api
 {
@@ -66,16 +68,37 @@ namespace AuthHub.Api
             {
                 options.DefaultAuthenticateScheme = APICredentialsAuthenticationHandler.Scheme;
             })
-                .AddScheme<APICredentialsOptions, APICredentialsAuthenticationHandler>(
-                    APICredentialsAuthenticationHandler.Scheme,
-                    options => { })
-                .AddScheme<UserCredentialsOptions, UserCredentialsAuthenticationHandler>(
-                    UserCredentialsAuthenticationHandler.Scheme,
-                options => { });
+            .AddScheme<APICredentialsOptions, APICredentialsAuthenticationHandler>(
+                APICredentialsAuthenticationHandler.Scheme,
+                options => { })
+            .AddScheme<UserCredentialsOptions, UserCredentialsAuthenticationHandler>(
+                UserCredentialsAuthenticationHandler.Scheme,
+            options => { });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = Configuration.GetValue<string>("AppSettings:OrganizationAuth:Issuer"),
+                    ValidAudience = Configuration.GetValue<string>("AppSettings:OrganizationAuth:Audience"),
+                    IssuerSigningKey = new SymmetricSecurityKey
+                        (Encoding.UTF8.GetBytes(Configuration.GetValue<string>("AppSettings:OrganizationAuth:Key"))),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true
+                };
+            });
 
             services.AddControllers().AddJsonOptions(x =>
             {
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                x.JsonSerializerOptions.PropertyNamingPolicy = new CapitalizedNamingPolicy();
             });
             services.AddSwaggerGen(c =>
             {

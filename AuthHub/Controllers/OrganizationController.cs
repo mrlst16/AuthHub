@@ -1,15 +1,19 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using AuthHub.Api.Helpers;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Entities.Organizations;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Tokens;
 using Common.Models.Responses;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthHub.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class OrganizationController : Controller
     {
         private readonly IOrganizationService _service;
@@ -24,6 +28,7 @@ namespace AuthHub.Api.Controllers
             _createOrganizationRequestValidator = createOrganizationRequestValidator;
         }
 
+        [AllowAnonymous]
         [HttpPost("create")]
         public async Task<IActionResult> CreateAsync(
             [FromBody] CreateOrganizationRequest request
@@ -36,6 +41,7 @@ namespace AuthHub.Api.Controllers
             });
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(
             [FromBody] OrganizationLoginRequest request
@@ -45,6 +51,15 @@ namespace AuthHub.Api.Controllers
             {
                 Data = await _service.LoginAsync(request)
             });
+        }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> TestAsync(
+        )
+        {
+            var user = User;
+            var orgId = User.GetOrganizationId();
+            return new OkObjectResult(orgId);
         }
     }
 }

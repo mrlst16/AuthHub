@@ -11,4 +11,9 @@
 
         <button type="submit" [disabled]="!form.valid">Log In</button>
     </form>
+
+    <div *ngIf="token$ | async as token">
+        Token is here:
+        {{token.Value}}
+    </div>
 </div>

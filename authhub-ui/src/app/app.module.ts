@@ -8,8 +8,8 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule, provideEffects } from '@ngrx/effects';
-import * as registerEffects from './store/registrration/registration.effects';
-import { registerOrganizationReducer } from './store/registrration/registration.reducers';
+import * as organizationEffects from './store/organization/organization.effects';
+import { organizationReducer } from './store/organization/organization.reducers';
 import { provideHttpClient } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 
@@ -24,9 +24,8 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    StoreModule.forRoot(registerOrganizationReducer),
-    EffectsModule.forRoot(registerEffects),
-    
+    StoreModule.forRoot({organization: organizationReducer}),
+    EffectsModule.forRoot(organizationEffects)
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

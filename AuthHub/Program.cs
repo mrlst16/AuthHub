@@ -12,7 +12,7 @@ namespace AuthHub.Api
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            ApplyMigrations(host);
+            //ApplyMigrations(host);
             host.Run();
         }
 
