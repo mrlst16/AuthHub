@@ -1,1 +1,13 @@
-<p>api-keys works!</p>
+<div>
+    <h2>Api Keys</h2>
+    <button
+    (click)="generate()">
+        Generate New Api Key
+    </button>
+
+    <div *ngIf="(key$ | async) as key">
+        <p>Copy this api key and secret in a secured location.  For security purposes, as soon as this page refreshes it will no longer be available</p>
+        <div>ApiKey: {{key.ApiKey}}</div>
+        <div>Secret: {{key.Secret}}</div>
+    </div>
+</div>

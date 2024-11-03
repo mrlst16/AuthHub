@@ -14,6 +14,7 @@ namespace AuthHub.Api.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
+    [ApiController]
     public class OrganizationController : Controller
     {
         private readonly IOrganizationService _service;

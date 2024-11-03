@@ -1,10 +1,12 @@
-﻿using AuthHub.DAL.EntityFramework.AuthSetting;
+﻿using AuthHub.DAL.EntityFramework.ApiKeys;
+using AuthHub.DAL.EntityFramework.AuthSetting;
 using AuthHub.DAL.EntityFramework.Claims;
 using AuthHub.DAL.EntityFramework.Organizations;
 using AuthHub.DAL.EntityFramework.Passwords;
 using AuthHub.DAL.EntityFramework.Tokens;
 using AuthHub.DAL.EntityFramework.Users;
 using AuthHub.DAL.EntityFramework.Verification;
+using AuthHub.Interfaces.APIKeys;
 using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Interfaces.Organizations;
@@ -27,6 +29,7 @@ namespace AuthHub.Api.ServiceRegistrations
                 .AddTransient<IAuthSettingsContext, AuthSettingsContext>()
                 .AddTransient<ITokenContext, TokenContext>()
                 .AddTransient<IClaimsContext, ClaimsContext>()
+                .AddTransient<IApiKeyContext, ApiKeyContext>()
                 .AddTransient<IVerificationCodeContext, VerificationCodeContext>();
 
             return services;
