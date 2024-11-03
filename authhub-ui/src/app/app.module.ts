@@ -11,20 +11,29 @@ import * as organizationEffects from './store/organization/organization.effects'
 import { organizationReducer } from './store/organization/organization.reducers';
 import { provideHttpClient } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
+import { apiKeyReducer } from './store/apikey/apikey.reducer';
+import { ApiKeysComponent } from './api-keys/api-keys.component';
+import * as apiKeyEffects from './store/apikey/apikeys.effects'
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     RegistrationComponent,
-    LoginComponent
+    LoginComponent,
+    ApiKeysComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({organization: organizationReducer}),
-    EffectsModule.forRoot(organizationEffects)
+    StoreModule.forRoot(
+      {
+        organization: organizationReducer, 
+        apikey: apiKeyReducer
+      },
+    ),
+    EffectsModule.forRoot(organizationEffects, apiKeyEffects)
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

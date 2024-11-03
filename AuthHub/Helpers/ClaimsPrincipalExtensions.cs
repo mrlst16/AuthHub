@@ -15,8 +15,8 @@ namespace AuthHub.Api.Helpers
 
         public static int GetOrganizationId(this ClaimsPrincipal User)
         {
-            var claims = User.Identities.Where(x => x.Name == nameof(APICredentialsAuthenticationHandler));
-            var claim = claims.SelectMany(x => x.Claims).FirstOrDefault(x => x.Type == "OrganizationId");
+            var claims = User.Identities.First().Claims;
+            var claim = claims.FirstOrDefault(x => x.Type == "OrganizationId");
             return int.TryParse(claim.Value, out int res) ? res : -1;
         }
     }

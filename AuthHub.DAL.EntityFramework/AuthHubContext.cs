@@ -25,6 +25,8 @@ namespace AuthHub.DAL.EntityFramework
         public DbSet<PasswordResetToken> PasswordResetToken { get; set; }
         public DbSet<VerificationType> VerificationTypes { get; set; }
         public DbSet<VerificationCode> VerificationCodes { get; set; }
+        public DbSet<APIKeyAndSecretHash> ApiKeyAndSecrets { get; set; }
+
         public DbSet<Token> Tokens { get; set; }
 
         public AuthHubContext()
@@ -55,7 +57,7 @@ namespace AuthHub.DAL.EntityFramework
                 .Property(x => x.Email)
                 .IsRequired();
             modelBuilder.Entity<Organization>()
-                .HasOne<APIKeyAndSecretHash>(x => x.APIKeyAndSecretHash);
+                .HasMany<APIKeyAndSecretHash>(x => x.APIKeyAndSecretHash);
 
             modelBuilder.Entity<OrganizationToken>()
                 .HasKey(x=> x.Id);

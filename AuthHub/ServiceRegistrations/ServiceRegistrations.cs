@@ -16,8 +16,10 @@ using Common.Interfaces.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
+using AuthHub.BLL.ApiKeys;
 using AuthHub.BLL.Claims;
 using AuthHub.BLL.Organizations;
+using AuthHub.Interfaces.APIKeys;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Interfaces.Organizations;
 
@@ -35,6 +37,7 @@ namespace AuthHub.Api.ServiceRegistrations
                 .AddTransient<IPasswordResetService, PasswordResetService>()
                 .AddTransient<IClaimsService, ClaimsService>()
                 .AddTransient<IOrganizationService, OrganizationService>()
+                .AddTransient<IAPIKeyService, ApiKeyService>()
                 .AddTransient((services) =>
                 {
                     return new Func<AuthSchemeEnum, ITokenService>((a) =>

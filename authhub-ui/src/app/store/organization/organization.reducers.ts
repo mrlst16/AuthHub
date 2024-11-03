@@ -22,8 +22,6 @@ export const organizationReducer = createReducer(
         }
     }),
     on(loginOrganizationSuccess, (state, {response})=>{
-        console.log("loginOrganizationSuccess")
-        console.log("response", response)
         return {
             ...state,
             Token: response

@@ -5,7 +5,7 @@ import { OrganizationService } from "src/app/services/OrganizationService";
 import { loginOrganization, loginOrganizationSuccess, registerOrganization, registerOrganizationError, registerOrganizationSuccess } from "./organization.actions";
 import { Organization } from "src/app/models/Organization";
 import { Token } from "src/app/models/Token";
-import { LocalStorageService } from "src/app/services/LocalStorageService";
+import { AuthenticationService } from "src/app/services/AuthenticationService";
 
 export const registerOrganizationEffect = createEffect(
     (
@@ -31,7 +31,7 @@ export const loginOrganizationEffect = createEffect(
     (
         actions$ = inject(Actions), 
         service = inject(OrganizationService),
-        localStorageService = inject(LocalStorageService)
+        authenticationService = inject(AuthenticationService)
     )=> {
         return actions$.pipe(
             ofType(loginOrganization),
@@ -39,7 +39,7 @@ export const loginOrganizationEffect = createEffect(
                 return service.login(request).pipe(
                     map((response)=> {
                         const token: Token = response.Data as Token;
-                        localStorageService.SaveToken(token)
+                        authenticationService.SaveToken(token)
                         console.log("response", response)
                         return loginOrganizationSuccess({response: token})
                     }),

@@ -13,7 +13,7 @@ namespace AuthHub.Models.Entities.Organizations
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public List<AuthSettings> Settings { get; set; } = new List<AuthSettings>();
-        public APIKeyAndSecretHash APIKeyAndSecretHash { get; set; }
+        public List<APIKeyAndSecretHash> APIKeyAndSecretHash { get; set; }
         public OrganizationToken Token { get; set; }
     }
 }
