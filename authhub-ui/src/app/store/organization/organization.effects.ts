@@ -5,14 +5,20 @@ import { OrganizationService } from "src/app/services/OrganizationService";
 import { loginOrganization, loginOrganizationSuccess, registerOrganization, registerOrganizationError, registerOrganizationSuccess } from "./organization.actions";
 import { Organization } from "src/app/models/Organization";
 import { Token } from "src/app/models/Token";
+import { LocalStorageService } from "src/app/services/LocalStorageService";
 
 export const registerOrganizationEffect = createEffect(
-    (actions$ = inject(Actions), service = inject(OrganizationService))=> {
+    (
+        actions$ = inject(Actions),
+        service = inject(OrganizationService)
+    )=> {
         return actions$.pipe(
             ofType(registerOrganization),
             exhaustMap(({request})=> {
                 return service.register(request).pipe(
-                    map((response)=> registerOrganizationSuccess({response: response.Data as Organization})),
+                    map((response)=> {
+                        return registerOrganizationSuccess({response: response.Data as Organization})
+                    }),
                     // catchError(({error})=> registerOrganizationError(error))
                 )
             })
@@ -22,14 +28,20 @@ export const registerOrganizationEffect = createEffect(
 });
 
 export const loginOrganizationEffect = createEffect(
-    (actions$ = inject(Actions), service = inject(OrganizationService))=> {
+    (
+        actions$ = inject(Actions), 
+        service = inject(OrganizationService),
+        localStorageService = inject(LocalStorageService)
+    )=> {
         return actions$.pipe(
             ofType(loginOrganization),
             switchMap(({request})=> {
                 return service.login(request).pipe(
                     map((response)=> {
+                        const token: Token = response.Data as Token;
+                        localStorageService.SaveToken(token)
                         console.log("response", response)
-                        return loginOrganizationSuccess({response: response.Data as Token})
+                        return loginOrganizationSuccess({response: token})
                     }),
                     catchError(({error})=> {
                         console.log("error", error)

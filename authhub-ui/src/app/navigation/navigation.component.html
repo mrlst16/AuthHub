@@ -1,4 +1,9 @@
 <nav>
-    <a href="register">Register</a>
-    <a href="login">Login</a>
+    <ul *ngIf="!(token$ | async)">
+        <li><a href="register">Register</a></li>
+        <li><a href="login">Login</a></li>
+    </ul>
+    <ul *ngIf="(token$ | async)">
+        <li><a href="api-keys">Api Keys</a></li>
+    </ul>
 </nav>

@@ -20,7 +20,7 @@ export class LoginComponent {
     Password: ['', Validators.required]
   })
 
-  token$: Observable<Token>;
+  token$: Observable<Token | null>;
 
   constructor(
     private formBuilder: FormBuilder,
