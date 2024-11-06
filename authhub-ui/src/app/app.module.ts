@@ -7,13 +7,19 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import * as organizationEffects from './store/organization/organization.effects';
-import { organizationReducer } from './store/organization/organization.reducers';
 import { provideHttpClient } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
-import { apiKeyReducer } from './store/apikey/apikey.reducer';
 import { ApiKeysComponent } from './api-keys/api-keys.component';
+import { ClaimsTemplateListComponent } from './claims-template-list/claims-template-list.component';
+
+//Reducers
+import { organizationReducer } from './store/organization/organization.reducers';
+import { apiKeyReducer } from './store/apikey/apikey.reducer';
+import { claimsReducer } from './store/claims/claims.reducers';
+//Effects
+import * as organizationEffects from './store/organization/organization.effects';
 import * as apiKeyEffects from './store/apikey/apikeys.effects'
+import * as claimsEffects from './store/claims/claims.effects'
 
 @NgModule({
   declarations: [
@@ -21,7 +27,8 @@ import * as apiKeyEffects from './store/apikey/apikeys.effects'
     NavigationComponent,
     RegistrationComponent,
     LoginComponent,
-    ApiKeysComponent
+    ApiKeysComponent,
+    ClaimsTemplateListComponent
   ],
   imports: [
     BrowserModule,
@@ -30,10 +37,11 @@ import * as apiKeyEffects from './store/apikey/apikeys.effects'
     StoreModule.forRoot(
       {
         organization: organizationReducer, 
-        apikey: apiKeyReducer
+        apikey: apiKeyReducer,
+        claims: claimsReducer
       },
     ),
-    EffectsModule.forRoot(organizationEffects, apiKeyEffects)
+    EffectsModule.forRoot(organizationEffects, apiKeyEffects, claimsEffects)
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

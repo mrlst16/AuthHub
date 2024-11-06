@@ -89,7 +89,7 @@ namespace AuthHub.BLL.Tokens
 
         private async Task<Token> CreateAndSaveToken(User user)
         {
-            var userClaims = user.Password.Claims;
+            var userClaims = user.Claims;
 
             if (
                 userClaims

@@ -1,0 +1,23 @@
+<div>
+    Claims Templates
+
+    <ul>
+        <li *ngFor="let template of templates$ | async as templates">
+            <a>{{template.Name}}</a>
+        </li>
+    </ul>
+
+    <div>
+        <form [formGroup]="form" (ngSubmit)="addClaimsTemplate()">
+            <label for="name">Name</label>
+            <input id="name" type="text" formControlName="Name"/>
+            <br />
+    
+            <label for="description">Description</label>
+            <input id="description" type="text" formControlName="Description"/>
+            <br />
+    
+            <button type="submit" [disabled]="!form.valid">Add Claims Template</button>
+        </form>
+    </div>
+</div>

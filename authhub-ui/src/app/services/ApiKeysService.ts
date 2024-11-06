@@ -17,12 +17,10 @@ export class ApiKeysService{
     }
 
     GenerateApiKey() : Observable<ApiResponse<ApiKey>>{
-        let headers = this.authenticationService.GetAuthorizationHeader();
-        console.log("headers", headers)
         return this.http.post<ApiResponse<ApiKey>>(
             `${environment.apiUrl}/api/api-key/generate`, 
             null, 
-            {headers: headers}
+            {headers: this.authenticationService.GetAuthorizationHeader()}
         );
     }
 }

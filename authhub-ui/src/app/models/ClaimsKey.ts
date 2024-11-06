@@ -16,12 +16,3 @@ export class ClaimsKeyModel implements ClaimsKey {
         public isDefault: boolean
     ) {}
 }
-
-// Usage example
-const exampleClaimsKey: ClaimsKey = {
-    id: 1,
-    name: 'Example Claim',
-    defaultValue: 'Default Value',
-    authSettingsId: 1,
-    isDefault: true
-};

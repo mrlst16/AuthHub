@@ -8,11 +8,12 @@ using AuthHub.Models.Requests;
 using AuthHub.Models.Requests.Claims;
 using AuthHub.Models.Responses.Claims;
 using Common.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthHub.Api.Controllers
 {
-    [APICredentials]
+    [Authorize]
     [Route("api/claims")]
     [ApiController]
     public class ClaimsController : Controller

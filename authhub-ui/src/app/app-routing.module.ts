@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
 import { ApiKeysComponent } from './api-keys/api-keys.component';
+import { ClaimsTemplateListComponent } from './claims-template-list/claims-template-list.component';
 
 const routes: Routes = [
   { path: "register", component: RegistrationComponent},
   { path: "login", component: LoginComponent},
-  { path: "api-keys", component: ApiKeysComponent}
+  { path: "api-keys", component: ApiKeysComponent},
+  { path: "claims-templates", component: ClaimsTemplateListComponent}
 ];
 
 @NgModule({
