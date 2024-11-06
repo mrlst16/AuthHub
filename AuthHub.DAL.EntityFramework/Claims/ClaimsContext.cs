@@ -1,6 +1,5 @@
 ﻿using AuthHub.Interfaces.Claims;
 using AuthHub.Models.Entities.Claims;
-using AuthHub.Models.Entities.Passwords;
 using Common.Extensions;
 using Common.Interfaces.Providers;
 using Microsoft.EntityFrameworkCore;
@@ -110,6 +109,7 @@ namespace AuthHub.DAL.EntityFramework.Claims
                 }).ToList();
             }
 
+            await _context.ClaimsTemplates.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity.Id;
         }

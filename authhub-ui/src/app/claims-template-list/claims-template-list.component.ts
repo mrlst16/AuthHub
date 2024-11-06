@@ -33,6 +33,6 @@ export class ClaimsTemplateListComponent {
 
   public addClaimsTemplate(){
     let request: AddClaimsTemplateRequest = new AddClaimsTemplateRequest(this.form.value)
-    this.store.dispatch(addClaimsTemplate(request))
+    this.store.dispatch(addClaimsTemplate({request: request}))
   }
 }
