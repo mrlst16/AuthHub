@@ -1,5 +1,5 @@
-﻿using AuthHub.Models.Entities.Enums;
-using AuthHub.Models.Entities.Passwords;
+﻿using AuthHub.Models.Entities.Claims;
+using AuthHub.Models.Entities.Enums;
 using AuthHub.Models.Entities.Users;
 using Common.Models.Entities;
 using System;

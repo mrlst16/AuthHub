@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { LocalStorageService } from "./LocalStorageService";
 import { Token } from "../models/Token";
 import { HttpHeaders } from "@angular/common/http";
+import { Observable, of } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,15 @@ export class AuthenticationService{
 
     SaveToken(token: Token){
         this.localStorageService.Save("token", token);
+    }
+
+    RemoveToken(){
+        this.localStorageService.Remove("token");
+    }
+
+    RemoveTokenObservable(): Observable<any>{
+        this.RemoveToken();
+        return of();
     }
 
     GetToken() : Token | null{

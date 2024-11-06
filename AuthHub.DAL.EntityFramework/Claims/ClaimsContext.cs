@@ -1,5 +1,7 @@
 ﻿using AuthHub.Interfaces.Claims;
+using AuthHub.Models.Entities.Claims;
 using AuthHub.Models.Entities.Passwords;
+using Common.Extensions;
 using Common.Interfaces.Providers;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,11 +21,15 @@ namespace AuthHub.DAL.EntityFramework.Claims
             _dateProvider = dateProvider;
         }
 
+        public async Task<ClaimsTemplate> GetClaimsTemplateAsync(int organizationId, string name)
+            => await _context.ClaimsTemplates
+                .Include(x => x.ClaimsKeys)
+                .FirstOrDefaultAsync(x=> x.OrganizationId == organizationId && x.Name == name);
+
         public async Task SetClaims(int userId, IDictionary<string, string> claims)
         {
             var user = await _context.Users
-                .Include(x => x.Password)
-                .ThenInclude(x=> x.Claims)
+                .Include(x=> x.Claims)
                 .Include(x => x.AuthSettings)
                 .ThenInclude(x => x.AvailableClaimsKeys)
                 .FirstOrDefaultAsync(x => x.Id == userId);
@@ -49,14 +55,14 @@ namespace AuthHub.DAL.EntityFramework.Claims
                 throw new Exception("Some claims passed are not available");
 
             //Step 1
-            var existingKeys = user.Password.Claims
+            var existingKeys = user.Claims
                 .Where(x => x.DeletedUTC == null)
                 .Select(x => x.Key);
 
 
             //Step 2
             var keysToDelete = existingKeys.Where(x => !claims.Keys.Contains(x));
-            foreach (var claimsEntity in user.Password.Claims.Where(x => keysToDelete.Contains(x.Key)))
+            foreach (var claimsEntity in user.Claims.Where(x => keysToDelete.Contains(x.Key)))
             {
                 claimsEntity.DeletedUTC = _dateProvider.UTCNow;
                 _context.Claims.Update(claimsEntity);
@@ -72,11 +78,43 @@ namespace AuthHub.DAL.EntityFramework.Claims
                     Key = x.Name,
                     Value = claims.First(y => y.Key == x.Name).Value,
                     ClaimsKeyId = x.Id,
-                    PasswordId = user.Password.Id
                 });
 
             _context.Claims.AddRange(newClaims);
             _context.SaveChanges(false);
         }
+
+        public async Task<int?> AddClaimsTemplateAsync(
+            int organizationId,
+            string name,
+            string description, 
+            IDictionary<string, string> keysAndDefaultValues
+            )
+        {
+            if (_context.ClaimsTemplates.Contains(x => x.Name == name && x.OrganizationId == organizationId))
+                throw new Exception($"Claims Template {name} already exists in organization with id of {organizationId}");
+
+            ClaimsTemplate entity = new ClaimsTemplate()
+            {
+                OrganizationId = organizationId,
+                Name = name,
+                Description = description,
+            };
+            
+            if (keysAndDefaultValues != null && keysAndDefaultValues.Any())
+            {
+                entity.ClaimsKeys = keysAndDefaultValues.Select(x => new ClaimsKey()
+                {
+                    Name = x.Key,
+                    DefaultValue = x.Value
+                }).ToList();
+            }
+
+            await _context.SaveChangesAsync();
+            return entity.Id;
+        }
+
+        public async Task<IEnumerable<ClaimsTemplate>> GetClaimsTemplateListAsync(int organizationId)
+            => _context.ClaimsTemplates.Where(x => x.OrganizationId == organizationId);
     }
 }

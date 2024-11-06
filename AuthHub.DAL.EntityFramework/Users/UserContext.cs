@@ -31,7 +31,7 @@ namespace AuthHub.DAL.EntityFramework.Users
                 .ThenInclude(x => x.AuthScheme)
                 .Include(x => x.PasswordArchives)
                 .Include(x => x.Password)
-                .ThenInclude(x => x.Claims.Where(x => x.DeletedUTC == null))
+                .Include(x => x.Claims.Where(x => x.DeletedUTC == null))
                 .Include(x => x.Tokens)
                 .Include(x => x.PasswordResetTokens)
                 .Include(x => x.VerificationCodes)
@@ -106,7 +106,6 @@ namespace AuthHub.DAL.EntityFramework.Users
             //await _context.SaveChangesAsync();
 
             var exisitingPassword = _context.Passwords
-                .Include(x => x.Claims)
                 .FirstOrDefault(x => x.Id == password.Id);
             exisitingPassword = password;
             _context.Passwords.Update(exisitingPassword);

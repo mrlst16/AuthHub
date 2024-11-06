@@ -22,7 +22,6 @@ export class ApiKeysComponent {
   }
 
   generate(){
-    console.log("generate")
     this.store.dispatch(generateApiKey())
   }
 }

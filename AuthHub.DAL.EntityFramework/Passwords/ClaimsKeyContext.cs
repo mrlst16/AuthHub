@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.Passwords;
-using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Claims;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Passwords
@@ -24,8 +24,5 @@ namespace AuthHub.DAL.EntityFramework.Passwords
             var nonExisting = await _authHubContext.ClaimsKeys.Where(x => !ids.Contains(x.Id)).ToListAsync();
             await _authHubContext.ClaimsKeys.AddRangeAsync(item.Where(x => nonExisting.Contains(x)));
         }
-
-        public async Task<IEnumerable<ClaimsKey>> GetAsync(int authSettingsId)
-            => _authHubContext.ClaimsKeys.Where(x => x.AuthSettingsId == authSettingsId);
     }
 }

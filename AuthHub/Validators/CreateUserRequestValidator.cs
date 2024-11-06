@@ -26,12 +26,6 @@ namespace AuthHub.Api.Validators
                 .WithMessage("Password cannot be empty")
                 .WithErrorCode(APIErrorCodes.FieldMissing);
 
-            RuleFor(x => x.FirstName)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("FirstName cannot be empty")
-                .WithErrorCode(APIErrorCodes.FieldMissing);
-
             RuleFor(x => x.Email)
                 .NotNull()
                 .NotEmpty()

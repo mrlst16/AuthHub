@@ -29,9 +29,7 @@ namespace AuthHub.SDK
         {
             CreateUserRequest createUserRequest = new()
             {
-                AuthSettingsID = _authSettingsId,
-                FirstName = firstName,
-                LastName = lastName,
+                AuthSettingsId = _authSettingsId,
                 UserName = username,
                 Password = password,
                 Email = email

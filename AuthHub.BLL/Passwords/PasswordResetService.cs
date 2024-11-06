@@ -3,6 +3,7 @@ using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
+using AuthHub.Models.Entities.Claims;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Enums;

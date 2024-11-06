@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Entities.Claims;
 
 namespace AuthHub.Models.Entities.Passwords
 {
@@ -11,7 +12,6 @@ namespace AuthHub.Models.Entities.Passwords
         public byte[] PasswordHash { get; set; }
         public byte[] Salt { get; set; }
         public Organization Organization { get; set; }
-        public List<ClaimsEntity> Claims { get; set; } = new List<ClaimsEntity>();
     }
 
     public class PasswordArchive : EntityBase<int>

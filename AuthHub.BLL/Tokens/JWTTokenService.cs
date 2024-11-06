@@ -1,7 +1,6 @@
 ﻿using AuthHub.BLL.Common.Extensions;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
-using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Exceptions;
@@ -20,6 +19,7 @@ using System.Threading.Tasks;
 using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
+using AuthHub.Models.Entities.Claims;
 
 namespace AuthHub.BLL.Tokens
 {

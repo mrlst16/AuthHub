@@ -2,7 +2,7 @@ import { inject } from "@angular/core";
 import { createEffect, Actions, ofType } from "@ngrx/effects";
 import { catchError, exhaustMap, map, mergeMap, of, switchMap, throwError } from "rxjs";
 import { OrganizationService } from "src/app/services/OrganizationService";
-import { loginOrganization, loginOrganizationSuccess, registerOrganization, registerOrganizationError, registerOrganizationSuccess } from "./organization.actions";
+import { loginOrganization, loginOrganizationSuccess, logoutOrganization, logoutOrganizationSuccess, registerOrganization, registerOrganizationError, registerOrganizationSuccess } from "./organization.actions";
 import { Organization } from "src/app/models/Organization";
 import { Token } from "src/app/models/Token";
 import { AuthenticationService } from "src/app/services/AuthenticationService";
@@ -48,6 +48,23 @@ export const loginOrganizationEffect = createEffect(
                         return throwError(error);
                     })
                 )
+            })
+        )
+}, {
+    functional: true
+});
+
+
+export const logoutOrganizationEffect = createEffect(
+    (
+        actions$ = inject(Actions), 
+        authenticationService = inject(AuthenticationService)
+    )=> {
+        return actions$.pipe(
+            ofType(logoutOrganization),
+            switchMap(()=> {
+                authenticationService.RemoveToken();
+                return of().pipe(map(()=> logoutOrganizationSuccess()));
             })
         )
 }, {

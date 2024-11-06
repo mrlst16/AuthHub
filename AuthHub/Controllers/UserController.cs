@@ -37,7 +37,7 @@ namespace AuthHub.Api.Controllers
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
             await _validator.ValidateAndThrowAsync(request);
-            var result = await _service.CreateAsync(request);
+            var result = await _service.CreateAsync(User.GetOrganizationId(), request);
 
             var response = new ApiResponse<UserIdResponse>()
             {

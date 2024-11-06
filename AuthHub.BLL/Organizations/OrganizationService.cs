@@ -5,13 +5,12 @@ using AuthHub.Models.Requests;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AuthHub.Interfaces.Hashing;
-using AuthHub.Interfaces.Tokens;
 using Common.Interfaces.Helpers;
-using AuthHub.BLL.Common.Mappers;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using AuthHub.Models.Entities.Tokens;
+using AuthHub.Models.Enums;
 using AuthHub.Models.Options;
 using Common.Interfaces.Providers;
 using Microsoft.Extensions.Options;
@@ -52,7 +51,23 @@ namespace AuthHub.BLL.Organizations
                 Name = request.Name,
                 Email = request.Email,
                 PasswordHash = passwordHash,
-                PasswordSalt = salt
+                PasswordSalt = salt,
+                Settings = new List<AuthSettings>()
+                {
+                    new AuthSettings()
+                    {
+                        Audience = $"{request.Name}_Audience",
+                        AuthScheme = AuthSchemeEnum.JWT,
+                        ExpirationMinutes = 60 * 24 * 7,
+                        HashLength = 128,
+                        Iterations = 100,
+                        Name = $"{request.Name}_AuthSettings",
+                        Issuer = $"{request.Name}_Issuer",
+                        RequireVerification = false,
+                        SaltLength = 10,
+                        Key = StringHelper.RandomAlphanumericString(64)
+                    }
+                }
             };
             await _context.Create(org);
 

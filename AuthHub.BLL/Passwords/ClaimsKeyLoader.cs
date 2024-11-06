@@ -1,5 +1,5 @@
 ﻿using AuthHub.Interfaces.Passwords;
-using AuthHub.Models.Entities.Passwords;
+using AuthHub.Models.Entities.Claims;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,11 +16,5 @@ namespace AuthHub.BLL.Passwords
         {
             _context = context;
         }
-
-        public async Task SaveAsync(IEnumerable<ClaimsKey> item)
-            => await _context.SaveAsync(item);
-
-        public async Task<IEnumerable<ClaimsKey>> GetAsync(int id)
-            => await _context.GetAsync(id);
     }
 }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AuthHub.BLL.Common.Exceptions;
 using AuthHub.Interfaces.Claims;
+using AuthHub.Models.Entities.Claims;
 
 namespace AuthHub.BLL.Claims
 {
@@ -16,6 +18,22 @@ namespace AuthHub.BLL.Claims
             )
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<ClaimsEntity>> GetClaimsFromTemplate(int organizationId, string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return new List<ClaimsEntity>();
+            ClaimsTemplate template = await _context.GetClaimsTemplateAsync(organizationId, name);
+            if (template == null)
+                throw new NotFoundException($"Claims template ${name} does not exist");
+
+            return template.ClaimsKeys.Select(x => new ClaimsEntity()
+            {
+                ClaimsKeyId = x.Id,
+                Key = x.Name,
+                Value = x.DefaultValue
+            });
         }
 
         public async Task SetClaims(int userId, IDictionary<string, string> claims)

@@ -41,10 +41,10 @@ namespace AuthHub.Api.Middleware
             if (
                 !Request.Headers.TryGetValue(AuthHubHeaders.AuthSettingsID,
                     out StringValues authSettingsIDStringValue))
-                return AuthenticateResult.Fail("AuthSettingsID is required");
+                return AuthenticateResult.Fail("AuthSettingsId is required");
 
             if (!int.TryParse(authSettingsIDStringValue, out int authSettingsId))
-                return AuthenticateResult.Fail("AuthSettingsID must be a valid int value");
+                return AuthenticateResult.Fail("AuthSettingsId must be a valid int value");
 
             if (
                 !Request.Headers.TryGetValue(AuthHubHeaders.Username,
@@ -69,7 +69,7 @@ namespace AuthHub.Api.Middleware
             //Set up the principal
             Claim[] claims = new Claim[]
             {
-                new Claim("AuthSettingsID", authSettingsIDStringValue),
+                new Claim("AuthSettingsId", authSettingsIDStringValue),
                 new Claim("Username", username),
                 new Claim("UserId", userid.ToString())
             };

@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using AuthHub.Models.Entities.Claims;
 
 namespace AuthHub.Interfaces.Claims
 {
     public interface IClaimsContext
     {
         Task SetClaims(int userId, IDictionary<string, string> claims);
+        Task<IEnumerable<ClaimsTemplate>> GetClaimsTemplateListAsync(int organizationId);
+        Task<ClaimsTemplate> GetClaimsTemplateAsync(int organizationId, string name);
+        Task<int?> AddClaimsTemplateAsync(
+            int organizationId,
+            string name,
+            string description,
+            IDictionary<string, string> keysAndDefaultValues
+        );
     }
 }

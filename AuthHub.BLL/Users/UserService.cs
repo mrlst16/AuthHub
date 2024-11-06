@@ -1,21 +1,21 @@
-﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Interfaces.AuthSetting;
+﻿using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Interfaces.Verification;
-using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Requests;
-using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthHub.Interfaces.Claims;
 using Common.Interfaces.Utilities;
 using AuthHub.Models.Responses.User;
+using AuthHub.Models.Entities.Claims;
 
 namespace AuthHub.BLL.Users
 {
@@ -23,41 +23,37 @@ namespace AuthHub.BLL.Users
     {
         private readonly IUserLoader _loader;
         private readonly Func<AuthSchemeEnum, ITokenGenerator> _tokenGeneratorFactory;
-        private readonly IConfiguration _configuration;
         private readonly IAuthSettingsLoader _authSettingsLoader;
         private readonly IAuthHubEmailService _emailService;
         private readonly IVerificationCodeService _verificationCodeService;
         private readonly IMapper<User, UserResponse> _userMapper;
         private readonly IUserContext _userContext;
+        private readonly IClaimsLoader _claimsLoader;
 
         public UserService(
-            IConfiguration configuration,
             IUserLoader loader,
             Func<AuthSchemeEnum, ITokenGenerator> tokenGeneratorFactory,
             IAuthSettingsLoader authSettingsLoader,
             IAuthHubEmailService emailService,
             IVerificationCodeService verificationCodeService,
             IMapper<User, UserResponse> userMapper,
-            IUserContext userContext
+            IUserContext userContext,
+            IClaimsLoader claimsLoader
             )
         {
             _loader = loader;
             _tokenGeneratorFactory = tokenGeneratorFactory;
-            _configuration = configuration;
             _authSettingsLoader = authSettingsLoader;
             _emailService = emailService;
             _verificationCodeService = verificationCodeService;
             _userMapper = userMapper;
             _userContext = userContext;
+            _claimsLoader = claimsLoader;
         }
 
-        public async Task<User> CreateAsync(CreateUserRequest item)
+        public async Task<User> CreateAsync(int organizationId, CreateUserRequest item)
         {
-            var authSettingsId = item.AuthSettingsID <= 0
-                ? _configuration.AuthHubSettingsId()
-                : item.AuthSettingsID;
-
-            var authSettings = await _authSettingsLoader.ReadAsync(authSettingsId);
+            var authSettings = await _authSettingsLoader.ReadAsync(item.AuthSettingsId);
             var tokenGenerator = _tokenGeneratorFactory(authSettings.AuthScheme);
 
             (byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
@@ -66,27 +62,17 @@ namespace AuthHub.BLL.Users
             User user = new()
             {
                 AuthSettings = authSettings,
-                AuthSettingsId = authSettingsId,
+                AuthSettingsId = item.AuthSettingsId,
                 Email = item.Email,
-                FirstName = item.FirstName,
-                LastName = item.LastName,
                 UserName = item.UserName,
                 PhoneNumber = item.PhoneNumber,
                 Password = new()
                 {
                     PasswordHash = passwordHash,
-                    Salt = salt,
-                    Claims = claimsKeys.Where(x => x.IsDefault)
-                        .Select(x => new ClaimsEntity()
-                        {
-                            Value = x.DefaultValue,
-                            Key = x.Name,
-                            ClaimsKeyId = x.Id,
-                        }).ToList()
-                }
+                    Salt = salt
+                },
+                Claims = (await _claimsLoader.GetClaimsFromTemplate(organizationId, item.ClaimsTemplateName)).ToList()
             };
-
-
 
             user.Id = await _loader.SaveAsync(user);
             try

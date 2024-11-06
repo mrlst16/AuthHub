@@ -8,7 +8,6 @@ using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Interfaces.Verification;
-using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Enums;
 using Common.Interfaces.Helpers;
 using Common.Interfaces.Providers;
@@ -22,6 +21,7 @@ using AuthHub.BLL.Organizations;
 using AuthHub.Interfaces.APIKeys;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Interfaces.Organizations;
+using AuthHub.Models.Entities.Claims;
 
 namespace AuthHub.Api.ServiceRegistrations
 {

@@ -11,3 +11,7 @@ export const registerOrganizationError = createAction("[Organization] Register E
 export const loginOrganization = createAction("[Organization] Login", props<{request: OrganizationLoginRequest}>());
 export const loginOrganizationSuccess = createAction("[Organization] Login Success", props<{response: Token}>());
 export const loginOrganizationError = createAction("[Organization] Login Error");
+
+export const logoutOrganization = createAction("[Organization] Logout");
+export const logoutOrganizationSuccess = createAction("[Organization] Logout Success");
+export const logoutOrganizationError = createAction("[Organization] Logout Error");

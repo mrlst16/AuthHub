@@ -4,6 +4,7 @@
         <li><a href="login">Login</a></li>
     </ul>
     <ul *ngIf="(token$ | async)">
+        <button (click)="logout()">Logout</button>
         <li><a href="api-keys">Api Keys</a></li>
     </ul>
 </nav>

@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Entities.Passwords;
+﻿using AuthHub.Models.Entities.Claims;
 using Common.Interfaces.Utilities;
 using System.Security.Claims;
 

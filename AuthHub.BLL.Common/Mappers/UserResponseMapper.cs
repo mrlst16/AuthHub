@@ -16,8 +16,6 @@ namespace AuthHub.BLL.Common.Mappers
             {
                 Id = source.Id,
                 Email = source.Email,
-                FirstName = source.FirstName,
-                LastName = source.LastName,
                 UserName = source.UserName
             };
     }

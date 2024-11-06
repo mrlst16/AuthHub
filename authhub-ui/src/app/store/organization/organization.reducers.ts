@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { initalState } from "../AuthHubState";
-import { loginOrganization, loginOrganizationSuccess, registerOrganization, registerOrganizationSuccess } from "./organization.actions";
+import { loginOrganization, loginOrganizationSuccess, logoutOrganization, logoutOrganizationSuccess, registerOrganization, registerOrganizationSuccess } from "./organization.actions";
 
 
 export const organizationReducer = createReducer(
@@ -25,6 +25,16 @@ export const organizationReducer = createReducer(
         return {
             ...state,
             Token: response
+        }
+    }),
+    on(logoutOrganization, (state)=>{
+        console.log("logoutOrganization")
+        return {
+        }
+    }),
+    on(logoutOrganizationSuccess, (state)=>{
+        console.log("logoutOrganizationSuccess")
+        return {
         }
     })
  )

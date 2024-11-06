@@ -1,4 +1,4 @@
-﻿using AuthHub.Models.Entities.Passwords;
+﻿using AuthHub.Models.Entities.Claims;
 using Microsoft.Extensions.Configuration;
 
 namespace AuthHub.BLL.Common.Extensions
@@ -19,7 +19,6 @@ namespace AuthHub.BLL.Common.Extensions
             {
                 Name = name,
                 Id = configuration.GetValue<int>($"AppSettings:AuthHubClaimsKeys:{name}"),
-                AuthSettingsId = configuration.AuthHubSettingsId()
             };
 
         public static ClaimsEntity CreateClaimsEntity(this IConfiguration configuration, string name, string value, int? id = null)

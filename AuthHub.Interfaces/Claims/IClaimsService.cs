@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AuthHub.Models.Responses.Claims;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,14 @@ namespace AuthHub.Interfaces.Claims
     public interface IClaimsService
     {
         Task SetClaims(int userId, IDictionary<string, string> claims);
+        Task<int?> AddClaimsTemplateAsync(
+            int organizationId,
+            string name,
+            string description,
+            IDictionary<string, string> keysAndDefaultValues
+        );
+
+        Task<ClaimsTemplateResponse> GetClaimsTemplateAsync(int organizationId, string name);
+        Task<IEnumerable<ClaimsTemplateListItem>> GetClaimsTemplateListAsync(int organizationId);
     }
 }
