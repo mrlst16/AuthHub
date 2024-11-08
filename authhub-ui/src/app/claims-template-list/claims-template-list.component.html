@@ -3,7 +3,7 @@
 
     <ul>
         <li *ngFor="let template of templates$ | async as templates">
-            <a>{{template.Name}}</a>
+            <a [routerLink]="['/claims-template', template.Name]">{{template.Name}}</a>
         </li>
     </ul>
 

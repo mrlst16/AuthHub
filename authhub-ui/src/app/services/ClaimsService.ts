@@ -1,11 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiResponse } from "../models/responses/ApiResponse";
-import { ClaimesTemplateListItem } from "../models/ClaimsTemplateListItem";
+import { ClaimsTemplateListItem } from "../models/ClaimsTemplateListItem";
 import { HttpClient } from "@angular/common/http";
 import { AuthenticationService } from "./AuthenticationService";
 import { environment } from "src/environments/environment";
 import { AddClaimsTemplateRequest } from "../models/requests/AddClaimsTemplateRequest";
+import { ClaimsTemplate } from "../models/ClaimsTemplate";
+import { AddClaimsKeysRequest } from "../models/requests/AddClaimsKeysRequest";
+import { RemoveClaimsKeysRequest } from "../models/requests/RemoveClaimsKeysRequest";
 
 @Injectable({
     providedIn: 'root'
@@ -18,8 +21,8 @@ export class ClaimsService{
     ){
     }
 
-    GetClaimsTemplateList(): Observable<ApiResponse<ClaimesTemplateListItem[]>> {
-        return this.http.get<ApiResponse<ClaimesTemplateListItem[]>>(
+    GetClaimsTemplateList(): Observable<ApiResponse<ClaimsTemplateListItem[]>> {
+        return this.http.get<ApiResponse<ClaimsTemplateListItem[]>>(
             `${environment.apiUrl}/api/claims/list_templates`,
             {headers: this.authenticationService.GetAuthorizationHeader()}
         );
@@ -30,6 +33,31 @@ export class ClaimsService{
             `${environment.apiUrl}/api/claims/template`,
             request,
             {headers: this.authenticationService.GetAuthorizationHeader()}
+        );
+    }
+
+    GetClaimsTemplate(name: string): Observable<ApiResponse<ClaimsTemplate>> {
+        return this.http.get<ApiResponse<ClaimsTemplate>>(
+            `${environment.apiUrl}/api/claims/template?name=${name}`,
+            {headers: this.authenticationService.GetAuthorizationHeader()}
+        );
+    }
+
+    AddClaimsKey(request: AddClaimsKeysRequest):Observable<ApiResponse<boolean>>{
+        return this.http.post<ApiResponse<boolean>>(
+            `${environment.apiUrl}/api/claims/keys`,
+            request,
+            {headers: this.authenticationService.GetAuthorizationHeader()}
+        );
+    }
+
+    RemoveClaimsKey(request: RemoveClaimsKeysRequest):Observable<ApiResponse<boolean>>{
+        return this.http.delete<ApiResponse<boolean>>(
+            `${environment.apiUrl}/api/claims/keys`,
+            {
+                body: request,
+                headers: this.authenticationService.GetAuthorizationHeader()
+            }
         );
     }
 }

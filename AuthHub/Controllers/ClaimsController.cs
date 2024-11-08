@@ -46,6 +46,16 @@ namespace AuthHub.Api.Controllers
             return new OkObjectResult(response);
         }
 
+        #region Claims Templates
+        [HttpGet("list_templates")]
+        public async Task<IActionResult> GetListTemplatesAsync()
+        {
+            return new OkObjectResult(new ApiResponse<IEnumerable<ClaimsTemplateListItem>>()
+            {
+                Data = await _service.GetClaimsTemplateListAsync(User.GetOrganizationId())
+            });
+        }
+
         [HttpGet("template")]
         public async Task<IActionResult> GetTemplateByNameAsync(
             [FromQuery] string name
@@ -67,14 +77,34 @@ namespace AuthHub.Api.Controllers
                 Data = await _service.AddClaimsTemplateAsync(User.GetOrganizationId(), request.Name, request.Description, request.Keys)
             });
         }
+        #endregion
 
-        [HttpGet("list_templates")]
-        public async Task<IActionResult> GetListTemplatesAsync()
+        #region Claims Keys
+        [HttpPost("keys")]
+        public async Task<IActionResult> AddClaimsKeyAsync(
+            [FromBody] AddClaimsKeysRequest request
+            )
         {
-            return new OkObjectResult(new ApiResponse<IEnumerable<ClaimsTemplateListItem>>()
+            return new OkObjectResult(new ApiResponse<bool>()
             {
-                Data = await _service.GetClaimsTemplateListAsync(User.GetOrganizationId())
+                Data = await _service.AddClaimsKeysAsync(
+                    User.GetOrganizationId(),
+                    request.TemplateName,
+                    request.Keys?.ToDictionary((k)=> k.Name, (v)=> v.DefaultValue)
+                    )
             });
         }
+
+        [HttpDelete("keys")]
+        public async Task<IActionResult> DeleteClaimsKeysAsync(
+            [FromBody] RemoveClaimsKeysRequest request
+            )
+        {
+            return new OkObjectResult(new ApiResponse<bool>()
+            {
+                Data = await _service.DeleteClaimsKeysAsync(User.GetOrganizationId(), request.TemplateName, request.KeyNames)
+            });
+        }
+        #endregion
     }
 }

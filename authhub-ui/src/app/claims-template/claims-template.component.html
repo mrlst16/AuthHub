@@ -1,0 +1,29 @@
+<div>
+    <h1>
+        Claims Template {{name}}
+    </h1>
+
+    <div>
+        <ul>
+            <li *ngFor="let key of keys$ | async">
+                {{key.Name}}
+                <a (click)="removeClaimsKey(key.Name)">Remove</a>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <h3>Add Claims Key</h3>
+        <form [formGroup]="form" (ngSubmit)="addClaimsKey()">
+            <label for="name">Name</label>
+            <input id="name" type="text" formControlName="name"/>
+            <br />
+    
+            <label for="defaultValue">Default Value</label>
+            <input id="defaultValue" type="text" formControlName="defaultValue"/>
+            <br />
+    
+            <button type="submit" [disabled]="!form.valid">Add Claims Key</button>
+        </form>
+    </div>
+</div>

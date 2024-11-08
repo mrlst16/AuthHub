@@ -18,6 +18,14 @@ namespace AuthHub.Interfaces.Claims
         );
 
         Task<ClaimsTemplateResponse> GetClaimsTemplateAsync(int organizationId, string name);
+        
         Task<IEnumerable<ClaimsTemplateListItem>> GetClaimsTemplateListAsync(int organizationId);
+
+        Task<bool> AddClaimsKeysAsync(
+            int organizationId,
+            string templateName,
+            IDictionary<string, string> keysAndDefaultValues
+        );
+        Task<bool> DeleteClaimsKeysAsync(int organizationId, string templateName, IEnumerable<string> keyNames);
     }
 }

@@ -116,5 +116,72 @@ namespace AuthHub.DAL.EntityFramework.Claims
 
         public async Task<IEnumerable<ClaimsTemplate>> GetClaimsTemplateListAsync(int organizationId)
             => _context.ClaimsTemplates.Where(x => x.OrganizationId == organizationId);
+
+        public async Task<bool> AddClaimsKeysAsync(
+            int organizationId, 
+            string templateName, 
+            IDictionary<string, string> keysAndDefaultValues
+            )
+        {
+            ClaimsTemplate? template = _context.ClaimsTemplates
+                .FirstOrDefault(x=>
+                    x.OrganizationId == organizationId
+                    && x.Name == templateName);
+
+            if (template == null)
+            {
+                throw new Exception($"Template with name ${templateName} in Organization ${organizationId} not found");
+            }
+
+            template.ClaimsKeys ??= new List<ClaimsKey>();
+
+            //TODO: Show which keys are already existing in the error message
+            //TODO: Move this to a validator in the controller layer
+            if (template.ClaimsKeys
+                .Select(x => x.Name)
+                .Any(x => keysAndDefaultValues.Keys.Contains(x))
+                )
+            {
+                throw new Exception("One or more of the keys being added already exists");
+            }
+
+            IEnumerable<ClaimsKey> keys = keysAndDefaultValues.Select((kvp) => new ClaimsKey()
+            {
+                Name = kvp.Value,
+                DefaultValue = kvp.Value
+            });
+
+
+            template.ClaimsKeys.AddRange(keys);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Returns true if anything was deleted
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <param name="templateName"></param>
+        /// <param name="keyNames"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteClaimsKeysAsync(int organizationId, string templateName, IEnumerable<string> keyNames)
+        {
+            ClaimsTemplate template = await _context.ClaimsTemplates
+                .Include(x => x.ClaimsKeys)
+                .FirstOrDefaultAsync(x => x.OrganizationId == organizationId && x.Name == templateName);
+
+            if (template == null || template.ClaimsKeys.None()) return false;
+
+            bool templateContainsAnyKeys = template.ClaimsKeys.Any(x => keyNames.Contains(x.Name));
+            if (!templateContainsAnyKeys) return false;
+
+            template.ClaimsKeys.RemoveAll(x => keyNames.Contains(x.Name));
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

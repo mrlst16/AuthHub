@@ -1,4 +1,4 @@
-export class ClaimesTemplateListItem{
+export class ClaimsTemplateListItem{
     Name? : string
     Description? : string
 }

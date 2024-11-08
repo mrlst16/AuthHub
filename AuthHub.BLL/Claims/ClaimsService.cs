@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Models.Entities.Claims;
+using AuthHub.Models.Entities.Organizations;
 using AuthHub.Models.Responses.Claims;
 
 namespace AuthHub.BLL.Claims
@@ -51,5 +52,17 @@ namespace AuthHub.BLL.Claims
                 })
             };
         }
+
+        public async Task<bool> AddClaimsKeysAsync(
+            int organizationId,
+            string templateName,
+            IDictionary<string, string> keysAndDefaultValues
+            ) => await _context.AddClaimsKeysAsync(organizationId, templateName, keysAndDefaultValues);
+
+        public async Task<bool> DeleteClaimsKeysAsync(
+            int organizationId, 
+            string templateName,
+            IEnumerable<string> keyNames
+            ) => await _context.DeleteClaimsKeysAsync(organizationId, templateName, keyNames);
     }
 }

@@ -14,5 +14,7 @@ namespace AuthHub.Interfaces.Claims
             string description,
             IDictionary<string, string> keysAndDefaultValues
         );
+        Task<bool> AddClaimsKeysAsync(int organizationId, string templateName, IDictionary<string, string> keysAndDefaultValues);
+        Task<bool> DeleteClaimsKeysAsync(int organizationId, string templateName, IEnumerable<string> keyNames);
     }
 }

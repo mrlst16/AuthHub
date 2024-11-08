@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { claimsTemplateSelector } from '../store/claims/claims.selectors';
-import { ClaimesTemplateListItem } from '../models/ClaimsTemplateListItem';
+import { claimsTemplateListItemsSelector } from '../store/claims/claims.selectors';
+import { ClaimsTemplateListItem } from '../models/ClaimsTemplateListItem';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AddClaimsTemplateRequest } from '../models/requests/AddClaimsTemplateRequest';
 import { addClaimsTemplate, getClaimsTemplates } from '../store/claims/claims.actions';
@@ -14,7 +14,7 @@ import { addClaimsTemplate, getClaimsTemplates } from '../store/claims/claims.ac
 })
 export class ClaimsTemplateListComponent {
 
-  templates$: Observable<ClaimesTemplateListItem[]>;
+  templates$: Observable<ClaimsTemplateListItem[]>;
   form = this.formBuilder.group({
     Name: ['', Validators.required],
     Description: ['']
@@ -24,7 +24,7 @@ export class ClaimsTemplateListComponent {
     private readonly store: Store,
     private readonly formBuilder: FormBuilder
   ){
-    this.templates$ = this.store.select(claimsTemplateSelector)
+    this.templates$ = this.store.select(claimsTemplateListItemsSelector)
   }
 
   ngOnInit(){

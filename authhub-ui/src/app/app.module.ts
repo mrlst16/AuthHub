@@ -20,6 +20,8 @@ import { claimsReducer } from './store/claims/claims.reducers';
 import * as organizationEffects from './store/organization/organization.effects';
 import * as apiKeyEffects from './store/apikey/apikeys.effects'
 import * as claimsEffects from './store/claims/claims.effects'
+import { ClaimsTemplateComponent } from './claims-template/claims-template.component';
+import { RouterLink } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -28,11 +30,13 @@ import * as claimsEffects from './store/claims/claims.effects'
     RegistrationComponent,
     LoginComponent,
     ApiKeysComponent,
-    ClaimsTemplateListComponent
+    ClaimsTemplateListComponent,
+    ClaimsTemplateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterLink,
     ReactiveFormsModule,
     StoreModule.forRoot(
       {
