@@ -62,7 +62,7 @@ namespace AuthHub.BLL.Common.Tokens
 
         public async Task<(byte[], byte[])> NewHash(PasswordRequest passwordRequest, Organization organization)
         {
-            var settings = organization.GetSettings(passwordRequest.SettingsName);
+            var settings = organization.Settings;
             var salt = RandomSalt(settings.SaltLength);
             return (GenerateHash(passwordRequest.Password, salt, settings.HashLength, settings.Iterations), salt);
         }

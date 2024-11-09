@@ -36,8 +36,7 @@ namespace AuthHub.DAL.EntityFramework.Organizations
             => _context.Organizations.ToList();
 
         public async Task<AuthSettings> GetSettings(int organizationId, string name)
-            => (await _context.Organizations.FirstAsync(x => x.Id == organizationId))
-                .Settings.First(x => x.Name == name);
+            => await _context.AuthSettings.FirstOrDefaultAsync(x=> x.OrganizationID == organizationId);
 
         public async Task<(bool, Organization)> Update(Organization request)
         {

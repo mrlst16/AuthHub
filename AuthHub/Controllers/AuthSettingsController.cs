@@ -25,7 +25,7 @@ namespace AuthHub.Api.Controllers
         }
 
         [APICredentials]
-        [HttpGet("auth_settings")]
+        [HttpGet()]
         public async Task<IActionResult> GetAuthSettings(
             [FromQuery] int authSettingsId
             )
@@ -36,7 +36,7 @@ namespace AuthHub.Api.Controllers
             var organizationId = User.GetOrganizationId();
 
             var organization = await _organizationService.GetAsync(organizationId);
-            var authSettings = organization.Settings.FirstOrDefault(x => x.Id == authSettingsId);
+            var authSettings = organization.Settings;
 
             if (authSettings == null)
                 throw new BadHttpRequestException("No AuthSettings found");

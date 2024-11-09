@@ -51,7 +51,8 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<Organization>()
                 .HasKey(x => x.Id);
             modelBuilder.Entity<Organization>()
-                .HasMany<AuthSettingsModel>(x => x.Settings);
+                .HasOne<AuthSettingsModel>(x => x.Settings)
+                .WithOne(x=> x.Organization);
             modelBuilder.Entity<Organization>()
                 .Property(x => x.Name)
                 .IsRequired();

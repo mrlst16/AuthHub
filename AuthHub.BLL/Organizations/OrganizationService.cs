@@ -52,21 +52,18 @@ namespace AuthHub.BLL.Organizations
                 Email = request.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = salt,
-                Settings = new List<AuthSettings>()
+                Settings = new AuthSettings()
                 {
-                    new AuthSettings()
-                    {
-                        Audience = $"{request.Name}_Audience",
-                        AuthScheme = AuthSchemeEnum.JWT,
-                        ExpirationMinutes = 60 * 24 * 7,
-                        HashLength = 128,
-                        Iterations = 100,
-                        Name = $"{request.Name}_AuthSettings",
-                        Issuer = $"{request.Name}_Issuer",
-                        RequireVerification = false,
-                        SaltLength = 10,
-                        Key = StringHelper.RandomAlphanumericString(64)
-                    }
+                    Audience = $"{request.Name}_Audience",
+                    AuthScheme = AuthSchemeEnum.JWT,
+                    ExpirationMinutes = 60 * 24 * 7,
+                    HashLength = 128,
+                    Iterations = 100,
+                    Name = $"{request.Name}_AuthSettings",
+                    Issuer = $"{request.Name}_Issuer",
+                    RequireVerification = false,
+                    SaltLength = 10,
+                    Key = StringHelper.RandomAlphanumericString(64)
                 }
             };
             await _context.Create(org);
@@ -76,19 +73,6 @@ namespace AuthHub.BLL.Organizations
 
         public async Task<Organization> GetAsync(int organizationId)
             => await _context.Get(organizationId);
-
-        public async Task<Organization> GetAsync(string name)
-            => await _context.Get(name);
-
-        public async Task<IList<Organization>> GetAll()
-            => await _context.GetAll();
-
-        public async Task<AuthSettings> GetSettings(int organizationId, string name)
-            => await _context.GetSettings(organizationId, name);
-        public async Task<(bool, Organization)> Update(Organization request)
-            => await _context.Update(request);
-        public async Task<(bool, AuthSettings)> UpdateSettings(int organizationId, AuthSettings request)
-            => await _context.UpdateSettings(organizationId, request);
 
         public async Task<Token> LoginAsync(OrganizationLoginRequest request)
         {
