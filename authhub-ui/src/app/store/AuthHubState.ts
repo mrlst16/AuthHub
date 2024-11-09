@@ -1,5 +1,5 @@
 import { ApiKey } from "../models/ApiKey";
-import { ClaimsKey } from "../models/ClaimsKey";
+import { AuthSettings } from "../models/AuthSettings";
 import { ClaimsTemplate } from "../models/ClaimsTemplate";
 import { ClaimsTemplateListItem } from "../models/ClaimsTemplateListItem";
 import { Organization } from "../models/Organization";
@@ -11,6 +11,7 @@ export class AuthHubState{
     Key?: ApiKey
     ClaimsTemplates?: ClaimsTemplateListItem[]
     ClaimsTemplate?: ClaimsTemplate
+    AuthSettings?: AuthSettings
 }
 
 export const initalState: AuthHubState = {

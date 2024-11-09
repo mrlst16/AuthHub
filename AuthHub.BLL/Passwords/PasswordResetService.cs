@@ -60,7 +60,7 @@ namespace AuthHub.BLL.Passwords
             }
             catch (Exception e)
             {
-                //Swalloe
+                //Swallow
             }
             return token;
         }

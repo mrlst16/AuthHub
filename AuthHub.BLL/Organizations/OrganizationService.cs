@@ -59,7 +59,6 @@ namespace AuthHub.BLL.Organizations
                     ExpirationMinutes = 60 * 24 * 7,
                     HashLength = 128,
                     Iterations = 100,
-                    Name = $"{request.Name}_AuthSettings",
                     Issuer = $"{request.Name}_Issuer",
                     RequireVerification = false,
                     SaltLength = 10,

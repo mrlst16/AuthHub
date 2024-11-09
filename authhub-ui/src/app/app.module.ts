@@ -11,17 +11,21 @@ import { provideHttpClient } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { ApiKeysComponent } from './api-keys/api-keys.component';
 import { ClaimsTemplateListComponent } from './claims-template-list/claims-template-list.component';
+import { ClaimsTemplateComponent } from './claims-template/claims-template.component';
+import { RouterLink } from '@angular/router';
+import { AuthSettingsComponent } from './auth-settings/auth-settings.component';
 
 //Reducers
 import { organizationReducer } from './store/organization/organization.reducers';
 import { apiKeyReducer } from './store/apikey/apikey.reducer';
 import { claimsReducer } from './store/claims/claims.reducers';
+import { authSettingsReducer } from './store/auth-settings/auth-settings.reducers';
+
 //Effects
 import * as organizationEffects from './store/organization/organization.effects';
 import * as apiKeyEffects from './store/apikey/apikeys.effects'
 import * as claimsEffects from './store/claims/claims.effects'
-import { ClaimsTemplateComponent } from './claims-template/claims-template.component';
-import { RouterLink } from '@angular/router';
+import * as authSettingsEffects from './store/auth-settings/auth-settings.effects'
 
 @NgModule({
   declarations: [
@@ -31,7 +35,8 @@ import { RouterLink } from '@angular/router';
     LoginComponent,
     ApiKeysComponent,
     ClaimsTemplateListComponent,
-    ClaimsTemplateComponent
+    ClaimsTemplateComponent,
+    AuthSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -42,10 +47,11 @@ import { RouterLink } from '@angular/router';
       {
         organization: organizationReducer, 
         apikey: apiKeyReducer,
-        claims: claimsReducer
+        claims: claimsReducer,
+        authSettings: authSettingsReducer
       },
     ),
-    EffectsModule.forRoot(organizationEffects, apiKeyEffects, claimsEffects)
+    EffectsModule.forRoot(organizationEffects, apiKeyEffects, claimsEffects, authSettingsEffects)
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

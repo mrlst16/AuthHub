@@ -1,21 +1,18 @@
 import { AuthSchemeEnum } from "./AuthSchemeEnum";
 import { ClaimsKey } from "./ClaimsKey";
 
-export interface AuthSettings {
-    id: number; // Assuming EntityBase<int> translates to an `id` property
-    name: string;
-    organizationId: number;
-    authScheme: AuthSchemeEnum; // Ensure AuthScheme is defined elsewhere
-    authSchemeId: number;
-    saltLength: number;
-    hashLength: number;
-    iterations: number;
-    key: string; // You might want to handle MinLength validation in your forms
-    issuer: string;
-    audience: string;
-    expirationMinutes?: number; // Optional property with default value
-    availableClaimsKeys?: ClaimsKey[]; // Ensure ClaimsKey is defined elsewhere
-    passwordResetTokenExpirationMinutes?: number; // Optional property with default value
-    passwordResetFormUrl?: string;
-    requireVerification?: boolean; // Optional property with default value
+export class AuthSettings {
+    Id?: number; // Assuming EntityBase<int> translates to an `id` property
+    Name?: string;
+    AuthScheme?: AuthSchemeEnum; // Ensure AuthScheme is defined elsewhere
+    SaltLength?: number;
+    HashLength?: number;
+    Iterations?: number;
+    Key?: string; // You might want to handle MinLength validation in your forms
+    Issuer?: string;
+    Audience?: string;
+    ExpirationMinutes?: number; // Optional property with default value
+    PasswordResetTokenExpirationMinutes?: number; // Optional property with default value
+    PasswordResetFormUrl?: string;
+    RequireVerification?: boolean; // Optional property with default value
 }

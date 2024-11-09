@@ -16,9 +16,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 using AuthHub.BLL.ApiKeys;
+using AuthHub.BLL.AuthSetting;
 using AuthHub.BLL.Claims;
 using AuthHub.BLL.Organizations;
+using AuthHub.DAL.EntityFramework.AuthSetting;
 using AuthHub.Interfaces.APIKeys;
+using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Models.Entities.Claims;
@@ -38,6 +41,7 @@ namespace AuthHub.Api.ServiceRegistrations
                 .AddTransient<IClaimsService, ClaimsService>()
                 .AddTransient<IOrganizationService, OrganizationService>()
                 .AddTransient<IAPIKeyService, ApiKeyService>()
+                .AddTransient<IAuthSettingsService, AuthSettingsService>()
                 .AddTransient((services) =>
                 {
                     return new Func<AuthSchemeEnum, ITokenService>((a) =>

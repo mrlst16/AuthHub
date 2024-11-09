@@ -10,7 +10,6 @@ namespace AuthHub.Models.Entities.Organizations
 {
     public class AuthSettings : EntityBase<int>
     {
-        public string Name { get; set; }
         public int OrganizationID { get; set; }
         public AuthScheme AuthScheme { get; set; }
         public int AuthSchemeID { get; set; }

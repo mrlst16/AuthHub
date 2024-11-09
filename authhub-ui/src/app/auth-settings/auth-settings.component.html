@@ -1,0 +1,30 @@
+
+<div *ngIf="authSettings$ | async as settings">
+    <h2>Auth Settings</h2>
+    <table>
+        <tr>
+            <td>Key</td>
+            <td>{{settings.Key}}</td>
+        </tr>
+        <tr>
+            <td>Issuer</td>
+            <td>{{settings.Issuer}}</td>
+        </tr>
+        <tr>
+            <td>Audience</td>
+            <td>{{settings.Audience}}</td>
+        </tr>
+        <tr>
+            <td>Expiration Minutes</td>
+            <td>{{settings.ExpirationMinutes}}</td>
+        </tr>
+        <tr>
+            <td>Hash Length</td>
+            <td>{{settings.HashLength}}</td>
+        </tr>
+        <tr>
+            <td>Salt Length</td>
+            <td>{{settings.SaltLength}}</td>
+        </tr>
+    </table>
+</div>

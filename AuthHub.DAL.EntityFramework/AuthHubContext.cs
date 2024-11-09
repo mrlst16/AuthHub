@@ -89,9 +89,6 @@ namespace AuthHub.DAL.EntityFramework
                 .IsRequired()
                 .HasDefaultValue(10);
             modelBuilder.Entity<AuthSettingsModel>()
-                .Property(x => x.Name)
-                .IsRequired();
-            modelBuilder.Entity<AuthSettingsModel>()
                 .Property(x => x.PasswordResetTokenExpirationMinutes)
                 .IsRequired()
                 .HasDefaultValue(10);

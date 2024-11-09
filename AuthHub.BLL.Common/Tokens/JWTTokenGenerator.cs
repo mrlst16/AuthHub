@@ -1,5 +1,4 @@
-﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Interfaces.Organizations;
+﻿using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Entities.Claims;
 using AuthHub.Models.Entities.Organizations;
