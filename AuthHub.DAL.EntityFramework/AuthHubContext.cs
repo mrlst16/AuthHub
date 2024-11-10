@@ -75,8 +75,6 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<AuthSettingsModel>()
                 .HasOne<AuthScheme>(x => x.AuthScheme);
             modelBuilder.Entity<AuthSettingsModel>()
-                .HasMany<ClaimsKey>(x => x.AvailableClaimsKeys);
-            modelBuilder.Entity<AuthSettingsModel>()
                 .Property(x => x.ExpirationMinutes)
                 .IsRequired()
                 .HasDefaultValue(30);
@@ -89,17 +87,9 @@ namespace AuthHub.DAL.EntityFramework
                 .IsRequired()
                 .HasDefaultValue(10);
             modelBuilder.Entity<AuthSettingsModel>()
-                .Property(x => x.PasswordResetTokenExpirationMinutes)
-                .IsRequired()
-                .HasDefaultValue(10);
-            modelBuilder.Entity<AuthSettingsModel>()
                 .Property(x => x.SaltLength)
                 .IsRequired()
                 .HasDefaultValue(8);
-            modelBuilder.Entity<AuthSettingsModel>()
-                .HasMany(x => x.Users)
-                .WithOne(x => x.AuthSettings)
-                .HasForeignKey(x => x.AuthSettingsId);
 
             //Users Setup
             modelBuilder.Entity<User>()

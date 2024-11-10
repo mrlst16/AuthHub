@@ -35,8 +35,5 @@ namespace AuthHub.BLL.Claims
                 Value = x.DefaultValue
             });
         }
-
-        public async Task SetClaims(int userId, IDictionary<string, string> claims)
-            => await _context.SetClaims(userId, claims);
     }
 }

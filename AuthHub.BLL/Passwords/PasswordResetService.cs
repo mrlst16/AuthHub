@@ -56,7 +56,7 @@ namespace AuthHub.BLL.Passwords
             await _userLoader.SaveAsync(user);
             try
             {
-                await _authHubEmailLoader.SendPasswordResetEmail(token.Email, userId, user.AuthSettings.PasswordResetFormUrl, token.VerificationCode);
+                //await _authHubEmailLoader.SendPasswordResetEmail(token.Email, userId, user.AuthSettings.PasswordResetFormUrl, token.VerificationCode);
             }
             catch (Exception e)
             {
@@ -70,14 +70,7 @@ namespace AuthHub.BLL.Passwords
             User user = await _userLoader.GetAsync(request.UserId);
             ITokenGenerator tokenGenerator = _tokenGeneratorFactory(user.AuthSettings.AuthScheme);
 
-            (byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
-                = await tokenGenerator.NewHash(request.NewPassword, user.AuthSettings);
-
-            Password password = user.Password;
-            password.PasswordHash = passwordHash;
-            password.Salt = salt;
-
-            await _userLoader.UpdatePassword(user, password, password);
+            //TODO: this was gutted
         }
     }
 }

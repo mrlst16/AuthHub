@@ -9,7 +9,6 @@ namespace AuthHub.Interfaces.Claims
 {
     public interface IClaimsService
     {
-        Task SetClaims(int userId, IDictionary<string, string> claims);
         Task<int?> AddClaimsTemplateAsync(
             int organizationId,
             string name,

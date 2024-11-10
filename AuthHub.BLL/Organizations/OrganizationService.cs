@@ -60,7 +60,6 @@ namespace AuthHub.BLL.Organizations
                     HashLength = 128,
                     Iterations = 100,
                     Issuer = $"{request.Name}_Issuer",
-                    RequireVerification = false,
                     SaltLength = 10,
                     Key = StringHelper.RandomAlphanumericString(64)
                 }

@@ -28,13 +28,6 @@ namespace AuthHub.BLL.Users
             var result = await _userContext.GetAsync(id);
             if (!requiresVerification) return result;
 
-            //Only return the user if the user is verified
-            if (result.AuthSettings.RequireVerification && !result.VerificationCodes.Any(
-                    x => x.Type == VerificationTypeEnum.UserEmail
-                         && x.VerificationDate != null
-                )
-               ) return null;
-
             return result;
         }
 

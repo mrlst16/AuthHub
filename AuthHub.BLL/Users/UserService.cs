@@ -56,36 +56,36 @@ namespace AuthHub.BLL.Users
             var authSettings = await _authSettingsLoader.ReadAsync(item.AuthSettingsId);
             var tokenGenerator = _tokenGeneratorFactory(authSettings.AuthScheme);
 
-            (byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
-                = await tokenGenerator.NewHash(item.Password, authSettings);
+            //(byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
+            //    = await tokenGenerator.NewHash(item.Password, authSettings);
 
-            User user = new()
-            {
-                AuthSettings = authSettings,
-                AuthSettingsId = item.AuthSettingsId,
-                Email = item.Email,
-                UserName = item.UserName,
-                PhoneNumber = item.PhoneNumber,
-                Password = new()
-                {
-                    PasswordHash = passwordHash,
-                    Salt = salt
-                },
-                Claims = (await _claimsLoader.GetClaimsFromTemplate(organizationId, item.ClaimsTemplateName)).ToList()
-            };
+            //User user = new()
+            //{
+            //    AuthSettings = authSettings,
+            //    AuthSettingsId = item.AuthSettingsId,
+            //    Email = item.Email,
+            //    UserName = item.UserName,
+            //    PhoneNumber = item.PhoneNumber,
+            //    Password = new()
+            //    {
+            //        PasswordHash = passwordHash,
+            //        Salt = salt
+            //    },
+            //    Claims = (await _claimsLoader.GetClaimsFromTemplate(organizationId, item.ClaimsTemplateName)).ToList()
+            //};
 
-            user.Id = await _loader.SaveAsync(user);
-            try
-            {
-                VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
-                await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
-            }
-            catch (Exception e)
-            {
-                //Swallow this exception for now
-            }
+            //user.Id = await _loader.SaveAsync(user);
+            //try
+            //{
+            //    VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
+            //    await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
+            //}
+            //catch (Exception e)
+            //{
+            //    //Swallow this exception for now
+            //}
 
-            return user;
+            return null;
         }
 
         public async Task SendEmailVerificationEmail(int userid)

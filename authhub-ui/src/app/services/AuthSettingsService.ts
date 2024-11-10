@@ -23,4 +23,12 @@ export class AuthSettingsService{
             {headers: this.authenticationService.GetAuthorizationHeader()}
         );
     }
+
+    SaveAuthSettings(request: AuthSettings) : Observable<ApiResponse<boolean>>{
+        return this.http.patch<ApiResponse<boolean>>(
+            `${environment.apiUrl}/api/auth-settings`,
+            request,
+            {headers: this.authenticationService.GetAuthorizationHeader()}
+        );
+    }
 }

@@ -1,30 +1,110 @@
 
 <div *ngIf="authSettings$ | async as settings">
     <h2>Auth Settings</h2>
-    <table>
-        <tr>
-            <td>Key</td>
-            <td>{{settings.Key}}</td>
-        </tr>
-        <tr>
-            <td>Issuer</td>
-            <td>{{settings.Issuer}}</td>
-        </tr>
-        <tr>
-            <td>Audience</td>
-            <td>{{settings.Audience}}</td>
-        </tr>
-        <tr>
-            <td>Expiration Minutes</td>
-            <td>{{settings.ExpirationMinutes}}</td>
-        </tr>
-        <tr>
-            <td>Hash Length</td>
-            <td>{{settings.HashLength}}</td>
-        </tr>
-        <tr>
-            <td>Salt Length</td>
-            <td>{{settings.SaltLength}}</td>
-        </tr>
-    </table>
+    <form [formGroup]="form">
+        <table>
+            <tr>
+                <td>Key</td>
+                <td *ngIf="!editing.key">
+                    {{settings.Key}}
+                </td>
+                <td *ngIf="editing.key">
+                    <input type="text" value="{{settings.Key}}" formControlName="key"/></td>
+                <td *ngIf="!editing.key">
+                    <a (click)="editing.key = true">Edit</a>
+                </td>
+                <td *ngIf="editing.key">
+                    <a (click)="saveAuthSettings()">Save</a>
+                </td>
+                <td *ngIf="editing.key">
+                    <a (click)="editing.key = false">Cancel</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Issuer</td>
+                <td *ngIf="!editing.issuer">
+                    {{settings.Issuer}}
+                </td>
+                <td *ngIf="editing.issuer">
+                    <input type="text" value="{{settings.Issuer}}" formControlName="issuer"/></td>
+                <td *ngIf="!editing.issuer">
+                    <a (click)="editing.issuer = true">Edit</a>
+                </td>
+                <td *ngIf="editing.issuer">
+                    <a (click)="saveAuthSettings()">Save</a>
+                </td>
+                <td *ngIf="editing.issuer">
+                    <a (click)="editing.issuer = false">Cancel</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Audience</td>
+                <td *ngIf="!editing.audience">
+                    {{settings.Audience}}
+                </td>
+                <td *ngIf="editing.audience">
+                    <input type="text" value="{{settings.Audience}}" formControlName="audience"/></td>
+                <td *ngIf="!editing.audience">
+                    <a (click)="editing.audience = true">Edit</a>
+                </td>
+                <td *ngIf="editing.audience">
+                    <a (click)="saveAuthSettings()">Save</a>
+                </td>
+                <td *ngIf="editing.audience">
+                    <a (click)="editing.audience = false">Cancel</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Expiration Minutes</td>
+                <td *ngIf="!editing.expirationMinutes">
+                    {{settings.ExpirationMinutes}}
+                </td>
+                <td *ngIf="editing.expirationMinutes">
+                    <input type="text" value="{{settings.ExpirationMinutes}}" formControlName="expirationMinutes"/></td>
+                <td *ngIf="!editing.expirationMinutes">
+                    <a (click)="editing.expirationMinutes = true">Edit</a>
+                </td>
+                <td *ngIf="editing.expirationMinutes">
+                    <a (click)="saveAuthSettings()">Save</a>
+                </td>
+                <td *ngIf="editing.expirationMinutes">
+                    <a (click)="editing.expirationMinutes = false">Cancel</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Hash Length</td>
+                <td *ngIf="!editing.hashLength">
+                    {{settings.HashLength}}
+                </td>
+                <td *ngIf="editing.hashLength">
+                    <input type="text" value="{{settings.HashLength}}" formControlName="hashLength"/></td>
+                <td *ngIf="!editing.hashLength">
+                    <a (click)="editing.hashLength = true">Edit</a>
+                </td>
+                <td *ngIf="editing.hashLength">
+                    <a (click)="saveAuthSettings()">Save</a>
+                </td>
+                <td *ngIf="editing.hashLength">
+                    <a (click)="editing.hashLength = false">Cancel</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Salt Length</td>
+                <td *ngIf="!editing.saltLength">
+                    {{settings.SaltLength}}
+                </td>
+                <td *ngIf="editing.saltLength">
+                    <input type="text" value="{{settings.SaltLength}}" formControlName="saltLength"/></td>
+                <td *ngIf="!editing.saltLength">
+                    <a (click)="editing.saltLength = true">Edit</a>
+                </td>
+                <td *ngIf="editing.saltLength">
+                    <a (click)="saveAuthSettings()">Save</a>
+                </td>
+                <td *ngIf="editing.saltLength">
+                    <a (click)="editing.saltLength = false">Cancel</a>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>

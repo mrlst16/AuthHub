@@ -9,7 +9,6 @@ namespace AuthHub.Interfaces.Claims
 {
     public interface IClaimsLoader
     {
-        Task SetClaims(int userId, IDictionary<string, string> claims);
         Task<IEnumerable<ClaimsEntity>> GetClaimsFromTemplate(int organizationId, string name);
     }
 }

@@ -1,9 +1,5 @@
-﻿using AuthHub.Models.Entities.Claims;
-using AuthHub.Models.Entities.Enums;
-using AuthHub.Models.Entities.Users;
+﻿using AuthHub.Models.Entities.Enums;
 using Common.Models.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AuthHub.Models.Entities.Organizations
@@ -21,11 +17,6 @@ namespace AuthHub.Models.Entities.Organizations
         public string Issuer { get; set; }
         public string Audience { get; set; }
         public int ExpirationMinutes { get; set; } = 30;
-        public List<ClaimsKey> AvailableClaimsKeys { get; set; } = new List<ClaimsKey>();
-        public int PasswordResetTokenExpirationMinutes { get; set; } = 120;
-        public List<User> Users { get; set; } = new List<User>();
-        public string PasswordResetFormUrl { get; set; }
-        public bool RequireVerification { get; set; } = true;
         public Organization Organization { get; set; }
     }
 }

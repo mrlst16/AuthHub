@@ -1,5 +1,6 @@
 ﻿using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Models.Entities.Organizations;
+using AuthHub.Models.Requests.AuthSettings;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.AuthSetting
@@ -25,5 +26,22 @@ namespace AuthHub.DAL.EntityFramework.AuthSetting
             => await _context.AuthSettings
                 .Include(x=> x.AuthScheme)
                 .FirstOrDefaultAsync(x => x.OrganizationID == organizationId);
+
+        public async Task<bool> SaveAuthSettings(int organizationId, AuthSettingsRequest request)
+        {
+            AuthSettings entity = await GetAsync(organizationId);
+            if (entity == null) return false;
+
+            entity.Key = request.Key;
+            entity.Issuer = request.Issuer;
+            entity.Audience = request.Audience;
+            entity.ExpirationMinutes = request.ExpirationMinutes;
+            entity.HashLength = request.HashLength;
+            entity.SaltLength = request.SaltLength;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

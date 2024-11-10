@@ -32,11 +32,7 @@ namespace AuthHub.Api.Controllers
             [FromBody] SetClaimsRequest request
             )
         {
-            await _service.SetClaims(
-                request.UserId, 
-                request.Claims.ToDictionary(x => x.Key, y => y.Value)
-            );
-            
+            //TODO: This was gutted
             var response = new ApiResponse<bool>()
             {
                 Data = true,

@@ -8,8 +8,6 @@ namespace AuthHub.Interfaces.Tokens
     public interface ITokenGenerator
     {
         Task<(byte[], byte[])> NewHash(PasswordRequest passwordRequest, Organization organization);
-        Task<(byte[], byte[], IEnumerable<ClaimsKey>)> NewHash(string password, AuthSettings authSettings);
-
         /// <summary>
         /// Compares two hashes
         /// </summary>

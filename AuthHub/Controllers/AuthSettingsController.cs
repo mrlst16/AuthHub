@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AuthHub.Interfaces.AuthSetting;
+using AuthHub.Models.Requests.AuthSettings;
 
 namespace AuthHub.Api.Controllers
 {
@@ -68,6 +69,17 @@ namespace AuthHub.Api.Controllers
             return new OkObjectResult(new ApiResponse<AuthSettingsResponse>()
             {
                 Data = await _service.GetAuthSettingsAsync(User.GetOrganizationId())
+            });
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> SaveAuthSettingsAsync(
+            [FromBody] AuthSettingsRequest request
+            )
+        {
+            return new OkObjectResult(new ApiResponse<bool>()
+            {
+                Data = await _service.SaveAuthSettings(User.GetOrganizationId(), request)
             });
         }
     }

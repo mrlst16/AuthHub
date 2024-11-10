@@ -65,11 +65,5 @@ namespace AuthHub.BLL.Common.Tokens
             var salt = RandomSalt(settings.SaltLength);
             return (GenerateHash(passwordRequest.Password, salt, settings.HashLength, settings.Iterations), salt);
         }
-
-        public async Task<(byte[], byte[], IEnumerable<ClaimsKey>)> NewHash(string password, AuthSettings authSettings)
-        {
-            var salt = RandomSalt(authSettings.SaltLength);
-            return (GenerateHash(password, salt, authSettings.HashLength, authSettings.Iterations), salt, authSettings.AvailableClaimsKeys);
-        }
     }
 }

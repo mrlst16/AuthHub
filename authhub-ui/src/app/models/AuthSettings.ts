@@ -1,5 +1,4 @@
 import { AuthSchemeEnum } from "./AuthSchemeEnum";
-import { ClaimsKey } from "./ClaimsKey";
 
 export class AuthSettings {
     Id?: number; // Assuming EntityBase<int> translates to an `id` property
@@ -15,4 +14,10 @@ export class AuthSettings {
     PasswordResetTokenExpirationMinutes?: number; // Optional property with default value
     PasswordResetFormUrl?: string;
     RequireVerification?: boolean; // Optional property with default value
+
+    constructor(init?: Partial<AuthSettings>){
+        Object.assign(this, init);
+        //TODO: this is hardcoded and probably bad practice, but let's just do it for now
+        this.AuthScheme = AuthSchemeEnum.JWT;
+    }
 }

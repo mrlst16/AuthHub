@@ -19,9 +19,6 @@ namespace AuthHub.BLL.Claims
             _context = context;
         }
 
-        public async Task SetClaims(int userId, IDictionary<string, string> claims)
-            => await _context.SetClaims(userId, claims);
-
         public async Task<int?> AddClaimsTemplateAsync(
             int organizationId, 
             string name, 
