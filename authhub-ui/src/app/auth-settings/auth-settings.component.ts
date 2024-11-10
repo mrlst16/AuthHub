@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { AuthSettings } from '../models/AuthSettings';
 import { Store } from '@ngrx/store';
 import { authSettingsSelector } from '../store/auth-settings/auth-settings.selectors';
-import { getAuthSettings } from '../store/auth-settings/auth-settings.actions';
+import { getAuthSettings, saveAuthSettings } from '../store/auth-settings/auth-settings.actions';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -19,16 +19,18 @@ export class AuthSettingsComponent {
     audience: false,
     expirationMinutes: false,
     hashLength: false,
-    saltLength: false
+    saltLength: false,
+    iterations: false
   }
 
   form = this.fb.group({
-    key: ['', Validators.required],
-    issuer: ['', Validators.required],
-    audience: ['', Validators.required],
-    expirationMinutes: [0, Validators.required],
-    hashLength: [0, Validators.required],
-    saltLength: [0, Validators.required]
+    Key: ['', Validators.required],
+    Issuer: ['', Validators.required],
+    Audience: ['', Validators.required],
+    ExpirationMinutes: [0, Validators.required],
+    HashLength: [0, Validators.required],
+    SaltLength: [0, Validators.required],
+    Iterations: [0, Validators.required]
   });
 
   constructor(
@@ -44,18 +46,20 @@ export class AuthSettingsComponent {
       if(!x) return;
 
       this.form.patchValue({
-        key: x.Key,
-        issuer: x.Issuer,
-        audience: x.Audience,
-        expirationMinutes: x.ExpirationMinutes,
-        hashLength: x.HashLength,
-        saltLength: x.SaltLength
+        Key: x.Key,
+        Issuer: x.Issuer,
+        Audience: x.Audience,
+        ExpirationMinutes: x.ExpirationMinutes,
+        HashLength: x.HashLength,
+        SaltLength: x.SaltLength,
+        Iterations: x.Iterations
       })
     })
   }
 
   saveAuthSettings(){
     
+    let request: AuthSettings = new AuthSettings(this.form.value);
 
     //Trun edit mode off for every field
     this.editing.key = false;
@@ -64,5 +68,8 @@ export class AuthSettingsComponent {
     this.editing.expirationMinutes = false;
     this.editing.hashLength = false;
     this.editing.saltLength = false;
+    this.editing.iterations = false;
+
+    this.store.dispatch(saveAuthSettings({request: request}))
   }
 }

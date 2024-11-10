@@ -9,7 +9,7 @@
                     {{settings.Key}}
                 </td>
                 <td *ngIf="editing.key">
-                    <input type="text" value="{{settings.Key}}" formControlName="key"/></td>
+                    <input type="text" value="{{settings.Key}}" formControlName="Key"/></td>
                 <td *ngIf="!editing.key">
                     <a (click)="editing.key = true">Edit</a>
                 </td>
@@ -26,7 +26,7 @@
                     {{settings.Issuer}}
                 </td>
                 <td *ngIf="editing.issuer">
-                    <input type="text" value="{{settings.Issuer}}" formControlName="issuer"/></td>
+                    <input type="text" value="{{settings.Issuer}}" formControlName="Issuer"/></td>
                 <td *ngIf="!editing.issuer">
                     <a (click)="editing.issuer = true">Edit</a>
                 </td>
@@ -43,7 +43,7 @@
                     {{settings.Audience}}
                 </td>
                 <td *ngIf="editing.audience">
-                    <input type="text" value="{{settings.Audience}}" formControlName="audience"/></td>
+                    <input type="text" value="{{settings.Audience}}" formControlName="Audience"/></td>
                 <td *ngIf="!editing.audience">
                     <a (click)="editing.audience = true">Edit</a>
                 </td>
@@ -60,7 +60,7 @@
                     {{settings.ExpirationMinutes}}
                 </td>
                 <td *ngIf="editing.expirationMinutes">
-                    <input type="text" value="{{settings.ExpirationMinutes}}" formControlName="expirationMinutes"/></td>
+                    <input type="text" value="{{settings.ExpirationMinutes}}" formControlName="ExpirationMinutes"/></td>
                 <td *ngIf="!editing.expirationMinutes">
                     <a (click)="editing.expirationMinutes = true">Edit</a>
                 </td>
@@ -77,7 +77,7 @@
                     {{settings.HashLength}}
                 </td>
                 <td *ngIf="editing.hashLength">
-                    <input type="text" value="{{settings.HashLength}}" formControlName="hashLength"/></td>
+                    <input type="text" value="{{settings.HashLength}}" formControlName="HashLength"/></td>
                 <td *ngIf="!editing.hashLength">
                     <a (click)="editing.hashLength = true">Edit</a>
                 </td>
@@ -94,7 +94,7 @@
                     {{settings.SaltLength}}
                 </td>
                 <td *ngIf="editing.saltLength">
-                    <input type="text" value="{{settings.SaltLength}}" formControlName="saltLength"/></td>
+                    <input type="text" value="{{settings.SaltLength}}" formControlName="SaltLength"/></td>
                 <td *ngIf="!editing.saltLength">
                     <a (click)="editing.saltLength = true">Edit</a>
                 </td>
@@ -103,6 +103,23 @@
                 </td>
                 <td *ngIf="editing.saltLength">
                     <a (click)="editing.saltLength = false">Cancel</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Iterations</td>
+                <td *ngIf="!editing.iterations">
+                    {{settings.Iterations}}
+                </td>
+                <td *ngIf="editing.iterations">
+                    <input type="text" value="{{settings.Iterations}}" formControlName="Iterations"/></td>
+                <td *ngIf="!editing.iterations">
+                    <a (click)="editing.iterations = true">Edit</a>
+                </td>
+                <td *ngIf="editing.iterations">
+                    <a (click)="saveAuthSettings()">Save</a>
+                </td>
+                <td *ngIf="editing.iterations">
+                    <a (click)="editing.iterations = false">Cancel</a>
                 </td>
             </tr>
         </table>

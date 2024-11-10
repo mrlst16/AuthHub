@@ -29,7 +29,7 @@ namespace AuthHub.DAL.EntityFramework.AuthSetting
 
         public async Task<bool> SaveAuthSettings(int organizationId, AuthSettingsRequest request)
         {
-            AuthSettings entity = await GetAsync(organizationId);
+            AuthSettings entity = await GetAuthSettingsAsync(organizationId);
             if (entity == null) return false;
 
             entity.Key = request.Key;
@@ -38,6 +38,7 @@ namespace AuthHub.DAL.EntityFramework.AuthSetting
             entity.ExpirationMinutes = request.ExpirationMinutes;
             entity.HashLength = request.HashLength;
             entity.SaltLength = request.SaltLength;
+            entity.Iterations = request.Iterations;
 
             await _context.SaveChangesAsync();
 
