@@ -51,6 +51,11 @@ namespace AuthHub.DAL.EntityFramework
             modelBuilder.Entity<Organization>()
                 .HasKey(x => x.Id);
             modelBuilder.Entity<Organization>()
+                .HasMany(x => x.Users)
+                .WithOne(x => x.Organization)
+                .HasForeignKey(x => x.OrganizationId);
+
+            modelBuilder.Entity<Organization>()
                 .HasOne<AuthSettingsModel>(x => x.Settings)
                 .WithOne(x=> x.Organization);
             modelBuilder.Entity<Organization>()
@@ -118,7 +123,13 @@ namespace AuthHub.DAL.EntityFramework
                 .HasMany(x => x.PasswordResetTokens)
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserId);
-
+            modelBuilder.Entity<User>()
+                .HasIndex(x => new
+                {
+                    x.OrganizationId,
+                    x.UserName
+                })
+                .IsUnique();
             //Passwords Setup
             modelBuilder.Entity<Password>()
                 .HasKey(x => x.Id);
@@ -194,6 +205,12 @@ namespace AuthHub.DAL.EntityFramework
 
             modelBuilder.Entity<APIKeyAndSecretHash>()
                 .HasKey(x => x.Id);
+
+            //Tokens
+            modelBuilder.Entity<Token>()
+                .HasKey(x => x.Id);
+
+
 
             #endregion
 

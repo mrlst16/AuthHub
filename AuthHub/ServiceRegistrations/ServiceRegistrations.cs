@@ -50,12 +50,14 @@ namespace AuthHub.Api.ServiceRegistrations
                         {
                             AuthSchemeEnum.JWT => new JWTTokenService(
                                 services.GetService<IUserLoader>(),
+                                services.GetService<IUserContext>(),
                                 services.GetService<IConfiguration>(),
                                 services.GetService<IApplicationConsistency>(),
                                 services.GetService<IDateProvider>(),
                                 services.GetService<IMapper<ClaimsEntity, Claim>>(),
-                                services.GetService<ITokenLoader>(),
-                                services.GetService<IVerificationCodeLoader>()
+                                services.GetService<ITokenContext>(),
+                                services.GetService<IVerificationCodeLoader>(),
+                                services.GetService<IAuthSettingsContext>()
                                 ),
                             _ => null
                         };

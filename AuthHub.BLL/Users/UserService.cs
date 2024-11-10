@@ -13,9 +13,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthHub.Interfaces.Claims;
+using AuthHub.Interfaces.Hashing;
 using Common.Interfaces.Utilities;
 using AuthHub.Models.Responses.User;
 using AuthHub.Models.Entities.Claims;
+using AuthHub.Models.Entities.Organizations;
 
 namespace AuthHub.BLL.Users
 {
@@ -29,6 +31,8 @@ namespace AuthHub.BLL.Users
         private readonly IMapper<User, UserResponse> _userMapper;
         private readonly IUserContext _userContext;
         private readonly IClaimsLoader _claimsLoader;
+        private readonly IAuthSettingsContext _authSettingsContext;
+        private readonly IHasher _hasher;
 
         public UserService(
             IUserLoader loader,
@@ -38,7 +42,9 @@ namespace AuthHub.BLL.Users
             IVerificationCodeService verificationCodeService,
             IMapper<User, UserResponse> userMapper,
             IUserContext userContext,
-            IClaimsLoader claimsLoader
+            IClaimsLoader claimsLoader,
+            IAuthSettingsContext authSettingsContext,
+            IHasher hasher
             )
         {
             _loader = loader;
@@ -49,31 +55,36 @@ namespace AuthHub.BLL.Users
             _userMapper = userMapper;
             _userContext = userContext;
             _claimsLoader = claimsLoader;
+            _authSettingsContext = authSettingsContext;
+            _hasher = hasher;
         }
 
         public async Task<User> CreateAsync(int organizationId, CreateUserRequest item)
         {
-            var authSettings = await _authSettingsLoader.ReadAsync(item.AuthSettingsId);
-            var tokenGenerator = _tokenGeneratorFactory(authSettings.AuthScheme);
+            AuthSettings settings = await _authSettingsContext.GetAuthSettingsAsync(organizationId);
 
-            //(byte[] passwordHash, byte[] salt, IEnumerable<ClaimsKey> claimsKeys)
-            //    = await tokenGenerator.NewHash(item.Password, authSettings);
+            (var passwordHash, var salt) = _hasher.HashPasswordWithSalt(
+                item.Password, 
+                settings.HashLength, 
+                settings.SaltLength, 
+                settings.Iterations
+                );
 
-            //User user = new()
-            //{
-            //    AuthSettings = authSettings,
-            //    AuthSettingsId = item.AuthSettingsId,
-            //    Email = item.Email,
-            //    UserName = item.UserName,
-            //    PhoneNumber = item.PhoneNumber,
-            //    Password = new()
-            //    {
-            //        PasswordHash = passwordHash,
-            //        Salt = salt
-            //    },
-            //    Claims = (await _claimsLoader.GetClaimsFromTemplate(organizationId, item.ClaimsTemplateName)).ToList()
-            //};
+            User user = new()
+            {
+                OrganizationId = organizationId,
+                Email = item.Email,
+                UserName = item.UserName,
+                PhoneNumber = item.PhoneNumber,
+                Password = new()
+                {
+                    PasswordHash = passwordHash,
+                    Salt = salt
+                },
+                Claims = (await _claimsLoader.GetClaimsFromTemplate(organizationId, item.ClaimsTemplateName)).ToList()
+            };
 
+            await _userContext.SaveAsync(user);
             //user.Id = await _loader.SaveAsync(user);
             //try
             //{
@@ -85,7 +96,7 @@ namespace AuthHub.BLL.Users
             //    //Swallow this exception for now
             //}
 
-            return null;
+            return user;
         }
 
         public async Task SendEmailVerificationEmail(int userid)

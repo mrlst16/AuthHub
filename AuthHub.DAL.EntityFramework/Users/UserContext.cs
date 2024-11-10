@@ -27,8 +27,6 @@ namespace AuthHub.DAL.EntityFramework.Users
         public async Task<User> GetAsync(int id)
             => (await _context
                 .Users
-                .Include(x => x.AuthSettings)
-                .ThenInclude(x => x.AuthScheme)
                 .Include(x => x.PasswordArchives)
                 .Include(x => x.Password)
                 .Include(x => x.Claims.Where(x => x.DeletedUTC == null))
@@ -85,7 +83,7 @@ namespace AuthHub.DAL.EntityFramework.Users
                     .Include(x => x.Tokens)
                     .SingleOrDefaultAsync(x => x.Id == user.Id);
             if (existingItem == null) return;
-            _context.Tokens.Add(token);
+            //_context.Tokens.Add(token);
             _context.Users.Update(existingItem);
             await _context.SaveChangesAsync();
         }
@@ -121,8 +119,14 @@ namespace AuthHub.DAL.EntityFramework.Users
         public async Task<User> GetByPhoneNumberAsync(string phoneNumber)
         {
             return _context.Users
-                .Include(x=> x.AuthSettings)
                 .FirstOrDefault(x=> x.PhoneNumber == phoneNumber);
         }
+
+        public async Task<User> GetAsync(int organizationId, string userName)
+            => await _context.Users
+                .Include(x=> x.Claims)
+                .FirstOrDefaultAsync(
+                    x => x.OrganizationId == organizationId
+                    && x.UserName == userName);
     }
 }

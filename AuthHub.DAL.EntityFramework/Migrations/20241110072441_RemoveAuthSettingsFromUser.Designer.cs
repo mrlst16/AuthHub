@@ -4,6 +4,7 @@ using AuthHub.DAL.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthHub.DAL.EntityFramework.Migrations
 {
     [DbContext(typeof(AuthHubContext))]
-    partial class AuthHubContextModelSnapshot : ModelSnapshot
+    [Migration("20241110072441_RemoveAuthSettingsFromUser")]
+    partial class RemoveAuthSettingsFromUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,8 +160,8 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(141),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(142),
+                            CreateDate = new DateTime(2024, 11, 10, 7, 24, 40, 504, DateTimeKind.Utc).AddTicks(4141),
+                            LastUpdated = new DateTime(2024, 11, 10, 7, 24, 40, 504, DateTimeKind.Utc).AddTicks(4142),
                             Name = "JWT",
                             Value = 1
                         });
@@ -195,24 +198,24 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(426),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(426),
+                            CreateDate = new DateTime(2024, 11, 10, 7, 24, 40, 504, DateTimeKind.Utc).AddTicks(4445),
+                            LastUpdated = new DateTime(2024, 11, 10, 7, 24, 40, 504, DateTimeKind.Utc).AddTicks(4446),
                             Name = "UserEmail",
                             Value = 0
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(428),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(429),
+                            CreateDate = new DateTime(2024, 11, 10, 7, 24, 40, 504, DateTimeKind.Utc).AddTicks(4451),
+                            LastUpdated = new DateTime(2024, 11, 10, 7, 24, 40, 504, DateTimeKind.Utc).AddTicks(4451),
                             Name = "PasswordReset",
                             Value = 1
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(430),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(430),
+                            CreateDate = new DateTime(2024, 11, 10, 7, 24, 40, 504, DateTimeKind.Utc).AddTicks(4489),
+                            LastUpdated = new DateTime(2024, 11, 10, 7, 24, 40, 504, DateTimeKind.Utc).AddTicks(4489),
                             Name = "PhoneLogin",
                             Value = 2
                         });
@@ -564,20 +567,14 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.Property<DateTime?>("LastUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrganizationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrganizationId", "UserName")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -739,17 +736,6 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AuthHub.Models.Entities.Users.User", b =>
-                {
-                    b.HasOne("AuthHub.Models.Entities.Organizations.Organization", "Organization")
-                        .WithMany("Users")
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Organization");
-                });
-
             modelBuilder.Entity("AuthHub.Models.Entities.Verification.VerificationCode", b =>
                 {
                     b.HasOne("AuthHub.Models.Entities.Enums.VerificationType", "Type")
@@ -779,8 +765,6 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Token");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Users.User", b =>

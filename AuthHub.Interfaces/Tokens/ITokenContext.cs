@@ -4,6 +4,6 @@ namespace AuthHub.Interfaces.Tokens
 {
     public interface ITokenContext
     {
-        Task Create(Token token);
+        Task AddAsync(Token token);
     }
 }

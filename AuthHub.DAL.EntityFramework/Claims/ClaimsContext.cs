@@ -90,7 +90,7 @@ namespace AuthHub.DAL.EntityFramework.Claims
 
             IEnumerable<ClaimsKey> keys = keysAndDefaultValues.Select((kvp) => new ClaimsKey()
             {
-                Name = kvp.Value,
+                Name = kvp.Key,
                 DefaultValue = kvp.Value
             });
 

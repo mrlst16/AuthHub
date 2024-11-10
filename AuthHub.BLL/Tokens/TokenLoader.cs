@@ -16,6 +16,6 @@ namespace AuthHub.BLL.Tokens
         }
 
         public async Task Create(Token token)
-            => await _context.Create(token);
+            => await _context.AddAsync(token);
     }
 }

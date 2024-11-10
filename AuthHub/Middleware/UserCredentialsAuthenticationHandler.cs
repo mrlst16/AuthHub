@@ -39,24 +39,24 @@ namespace AuthHub.Api.Middleware
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (
-                !Request.Headers.TryGetValue(AuthHubHeaders.AuthSettingsID,
-                    out StringValues authSettingsIDStringValue))
-                return AuthenticateResult.Fail("AuthSettingsId is required");
+                !Request.Headers.TryGetValue(AuthHubHeaders.OrganizationID,
+                    out StringValues organizationIdString))
+                return AuthenticateResult.Fail($"{AuthHubHeaders.OrganizationID} is required");
 
-            if (!int.TryParse(authSettingsIDStringValue, out int authSettingsId))
-                return AuthenticateResult.Fail("AuthSettingsId must be a valid int value");
+            if(!int.TryParse(organizationIdString, out int organizationId))
+                return AuthenticateResult.Fail($"{AuthHubHeaders.OrganizationID} must be an integer");
 
             if (
                 !Request.Headers.TryGetValue(AuthHubHeaders.Username,
                     out StringValues username))
-                return AuthenticateResult.Fail("UserName is required");
+                return AuthenticateResult.Fail($"{AuthHubHeaders.Username} is required");
 
             if (
                 !Request.Headers.TryGetValue(AuthHubHeaders.Password,
                     out StringValues password))
-                return AuthenticateResult.Fail("Password is required");
+                return AuthenticateResult.Fail($"{AuthHubHeaders.Username} is required");
 
-            var (authenticationResult, userid) = await _evaluator.EvaluateUsernameAndPassword(authSettingsId, username, password);
+            var (authenticationResult, userid) = await _evaluator.EvaluateUsernameAndPassword(organizationId, username, password);
 
             if (!authenticationResult)
             {
@@ -69,9 +69,9 @@ namespace AuthHub.Api.Middleware
             //Set up the principal
             Claim[] claims = new Claim[]
             {
-                new Claim("AuthSettingsId", authSettingsIDStringValue),
                 new Claim("Username", username),
-                new Claim("UserId", userid.ToString())
+                new Claim("UserId", userid.ToString()),
+                new Claim("OrganizationId", organizationIdString)
             };
             var identity = new ClaimsIdentity(claims, nameof(UserCredentialsAuthenticationHandler));
 

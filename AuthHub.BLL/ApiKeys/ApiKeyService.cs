@@ -43,5 +43,8 @@ namespace AuthHub.BLL.ApiKeys
                 Secret = secret
             };
         }
+
+        public (byte[], byte[]) GenerateApiKeyAndSecretHash(string key, string secret)
+            => _hasher.HashPasswordWithSalt($"{key}:{secret}".GetBytes(), 128, 10, 100);
     }
 }

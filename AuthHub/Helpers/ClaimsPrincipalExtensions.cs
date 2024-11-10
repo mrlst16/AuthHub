@@ -13,6 +13,13 @@ namespace AuthHub.Api.Helpers
             return int.TryParse(claim.Value, out int res) ? res : -1;
         }
 
+        public static string GetUserName(this ClaimsPrincipal User)
+        {
+            var claims = User.Identities.First().Claims;
+            var claim = claims.FirstOrDefault(x => x.Type == "Username");
+            return claim?.Value;
+        }
+
         public static int GetOrganizationId(this ClaimsPrincipal User)
         {
             var claims = User.Identities.First().Claims;

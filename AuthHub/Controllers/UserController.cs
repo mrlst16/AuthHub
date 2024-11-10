@@ -33,7 +33,7 @@ namespace AuthHub.Api.Controllers
             _userResponseMapper = userResponseMapper;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
             await _validator.ValidateAndThrowAsync(request);

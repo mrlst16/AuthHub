@@ -4,58 +4,73 @@ using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Exceptions;
-using Common.Helpers;
 using Common.Interfaces.Helpers;
 using Common.Interfaces.Providers;
 using Common.Interfaces.Utilities;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AuthHub.Interfaces.AuthSetting;
 using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Entities.Claims;
+using Common.Helpers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AuthHub.BLL.Tokens
 {
     public class JWTTokenService : ITokenService
     {
         private readonly IUserLoader _userLoader;
+        private readonly IUserContext _context;
         private readonly IConfiguration _configuration;
         private readonly IApplicationConsistency _applicationConsistency;
         private readonly IDateProvider _dateProvider;
         private readonly IMapper<ClaimsEntity, Claim> _claimsMapper;
-        private readonly ITokenLoader _tokenLoader;
+        private readonly ITokenContext _tokenContext;
         private readonly IVerificationCodeLoader _verificationCodeLoader;
+        private readonly IAuthSettingsContext _authSettingsContext;
 
         public JWTTokenService(
             IUserLoader userLoader,
+            IUserContext context,
             IConfiguration configuration,
             IApplicationConsistency applicationConsistency,
             IDateProvider dateProvider,
             IMapper<ClaimsEntity, Claim> claimsMapper,
-            ITokenLoader tokenLoader,
-            IVerificationCodeLoader verificationCodeLoader
+            ITokenContext tokenContext,
+            IVerificationCodeLoader verificationCodeLoader,
+            IAuthSettingsContext authSettingsContext
             )
         {
             _userLoader = userLoader;
+            _context = context;
             _configuration = configuration;
             _applicationConsistency = applicationConsistency;
             _dateProvider = dateProvider;
             _claimsMapper = claimsMapper;
-            _tokenLoader = tokenLoader;
+            _tokenContext = tokenContext;
             _verificationCodeLoader = verificationCodeLoader;
+            _authSettingsContext = authSettingsContext;
         }
 
         public async Task<Token> GetAsync(int userId)
         {
             var user = await _userLoader.GetAsync(userId);
             var result = await CreateAndSaveToken(user);
+            result.User = null;
+            return result;
+        }
+
+        public async Task<Token> GetAsync(int organizationId, string userName)
+        {
+            var user = await _context.GetAsync(organizationId, userName);
+            var result = await CreateAndSaveToken(organizationId, user);
             result.User = null;
             return result;
         }
@@ -89,6 +104,11 @@ namespace AuthHub.BLL.Tokens
 
         private async Task<Token> CreateAndSaveToken(User user)
         {
+            throw new NotImplementedException();
+        }
+
+        private async Task<Token> CreateAndSaveToken(int organizationId, User user)
+        {
             var userClaims = user.Claims;
 
             if (
@@ -104,12 +124,14 @@ namespace AuthHub.BLL.Tokens
             );
             userClaims = userClaims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
 
-            var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(user.AuthSettings.Key));
+            var authSettings = await _authSettingsContext.GetAuthSettingsAsync(organizationId);
+
+            var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(authSettings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var expirationDate = _dateProvider.UTCNow.AddMinutes(user.AuthSettings.ExpirationMinutes);
+            var expirationDate = _dateProvider.UTCNow.AddMinutes(authSettings.ExpirationMinutes);
             var token = new JwtSecurityToken(
-                issuer: user.AuthSettings.Issuer,
-                audience: user.AuthSettings.Audience,
+                issuer: authSettings.Issuer,
+                audience: authSettings.Audience,
                 claims: userClaims.Select(_claimsMapper.Map) ?? new List<Claim>(),
                 expires: expirationDate,
                 signingCredentials: credentials
@@ -123,7 +145,7 @@ namespace AuthHub.BLL.Tokens
                 UserId = user.Id
             };
 
-            await _userLoader.AddToken(user, result);
+            await _tokenContext.AddAsync(result);
             return result;
         }
     }

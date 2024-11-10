@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AuthHub.Models.Entities.Claims;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
+using AuthHub.Models.Entities.Users;
 
 namespace AuthHub.Models.Entities.Organizations
 {
@@ -17,5 +18,6 @@ namespace AuthHub.Models.Entities.Organizations
         public AuthSettings Settings { get; set; }
         public List<APIKeyAndSecretHash> APIKeyAndSecretHash { get; set; }
         public OrganizationToken Token { get; set; }
+        public List<User> Users { get; set; }
     }
 }

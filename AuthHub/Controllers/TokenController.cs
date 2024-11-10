@@ -22,16 +22,14 @@ namespace AuthHub.Api.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpGet("JWTUserToken")]
+        [HttpGet]
         [APICredentials]
         [UserCredentials]
         public async Task<IActionResult> GetJWTUserToken()
-        {
-            var userId = User.GetUserId();
-
+         {
             return new OkObjectResult(new ApiResponse<Token>()
             {
-                Data = await _tokenService(AuthSchemeEnum.JWT).GetAsync(userId),
+                Data = await _tokenService(AuthSchemeEnum.JWT).GetAsync(User.GetOrganizationId(), User.GetUserName()),
                 Success = true,
                 SuccessMessage = "Successfully verified user email"
             });

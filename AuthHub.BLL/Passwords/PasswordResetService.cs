@@ -3,7 +3,6 @@ using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Passwords;
 using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
-using AuthHub.Models.Entities.Claims;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Users;
 using AuthHub.Models.Enums;
@@ -11,7 +10,6 @@ using AuthHub.Models.Requests;
 using Common.Helpers;
 using Common.Interfaces.Providers;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AuthHub.BLL.Passwords
@@ -68,7 +66,6 @@ namespace AuthHub.BLL.Passwords
         public async Task ResetUserPassword(ResetPasswordRequest request)
         {
             User user = await _userLoader.GetAsync(request.UserId);
-            ITokenGenerator tokenGenerator = _tokenGeneratorFactory(user.AuthSettings.AuthScheme);
 
             //TODO: this was gutted
         }

@@ -41,6 +41,8 @@ namespace AuthHub.DAL.EntityFramework.ApiKeys
         }
 
         public async Task<APIKeyAndSecretHash> GetOrganizationsCurrentApiKeyAndSecretHashAsync(int organizationId)
-            => await _context.ApiKeyAndSecrets.FirstOrDefaultAsync(x => x.OrganizationId == organizationId);
+            => await _context.ApiKeyAndSecrets
+                .OrderByDescending(x=> x.CreateDate)
+                .FirstOrDefaultAsync(x => x.OrganizationId == organizationId);
     }
 }

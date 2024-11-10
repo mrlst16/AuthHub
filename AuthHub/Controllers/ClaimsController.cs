@@ -77,7 +77,7 @@ namespace AuthHub.Api.Controllers
 
         #region Claims Keys
         [HttpPost("keys")]
-        public async Task<IActionResult> AddClaimsKeyAsync(
+        public async Task<IActionResult> AddClaimsKeysAsync(
             [FromBody] AddClaimsKeysRequest request
             )
         {

@@ -4,6 +4,7 @@ using AuthHub.DAL.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthHub.DAL.EntityFramework.Migrations
 {
     [DbContext(typeof(AuthHubContext))]
-    partial class AuthHubContextModelSnapshot : ModelSnapshot
+    [Migration("20241110211215_AssociateUsersWithOrganizations")]
+    partial class AssociateUsersWithOrganizations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,8 +160,8 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(141),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(142),
+                            CreateDate = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4114),
+                            LastUpdated = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4115),
                             Name = "JWT",
                             Value = 1
                         });
@@ -195,24 +198,24 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(426),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(426),
+                            CreateDate = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4370),
+                            LastUpdated = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4370),
                             Name = "UserEmail",
                             Value = 0
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(428),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(429),
+                            CreateDate = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4373),
+                            LastUpdated = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4373),
                             Name = "PasswordReset",
                             Value = 1
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(430),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(430),
+                            CreateDate = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4374),
+                            LastUpdated = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4375),
                             Name = "PhoneLogin",
                             Value = 2
                         });

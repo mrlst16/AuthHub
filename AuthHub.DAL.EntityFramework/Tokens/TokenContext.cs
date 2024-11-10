@@ -1,5 +1,7 @@
 ﻿using AuthHub.Interfaces.Tokens;
 using AuthHub.Models.Entities.Tokens;
+using AuthHub.Models.Entities.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Tokens
 {
@@ -14,10 +16,12 @@ namespace AuthHub.DAL.EntityFramework.Tokens
             _context = context;
         }
 
-        public async Task Create(Token token)
+        public async Task AddAsync(Token token)
         {
+            // token.Id = _context.Tokens.Count() + 1;
+            _context.Entry(token).State = EntityState.Added;
             _context.Tokens.Add(token);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
     }
 }
