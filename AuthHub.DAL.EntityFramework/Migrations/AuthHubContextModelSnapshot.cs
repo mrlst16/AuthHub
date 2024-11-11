@@ -56,7 +56,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Claims");
+                    b.ToTable("Claims", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Claims.ClaimsKey", b =>
@@ -90,7 +90,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasIndex("ClaimsTemplateId");
 
-                    b.ToTable("ClaimsKeys");
+                    b.ToTable("ClaimsKeys", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Claims.ClaimsTemplate", b =>
@@ -123,7 +123,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("ClaimsTemplates");
+                    b.ToTable("ClaimsTemplates", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Enums.AuthScheme", b =>
@@ -151,14 +151,14 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuthSchemes");
+                    b.ToTable("AuthSchemes", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(141),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(142),
+                            CreateDate = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4114),
+                            LastUpdated = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4115),
                             Name = "JWT",
                             Value = 1
                         });
@@ -189,30 +189,30 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VerificationTypes");
+                    b.ToTable("VerificationTypes", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(426),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(426),
+                            CreateDate = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4370),
+                            LastUpdated = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4370),
                             Name = "UserEmail",
                             Value = 0
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(428),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(429),
+                            CreateDate = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4373),
+                            LastUpdated = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4373),
                             Name = "PasswordReset",
                             Value = 1
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(430),
-                            LastUpdated = new DateTime(2024, 11, 10, 22, 56, 32, 369, DateTimeKind.Utc).AddTicks(430),
+                            CreateDate = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4374),
+                            LastUpdated = new DateTime(2024, 11, 10, 21, 12, 14, 948, DateTimeKind.Utc).AddTicks(4375),
                             Name = "PhoneLogin",
                             Value = 2
                         });
@@ -254,7 +254,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("ApiKeyAndSecrets");
+                    b.ToTable("ApiKeyAndSecrets", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Organizations.AuthSettings", b =>
@@ -316,7 +316,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.HasIndex("OrganizationID")
                         .IsUnique();
 
-                    b.ToTable("AuthSettings");
+                    b.ToTable("AuthSettings", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Organizations.Organization", b =>
@@ -352,7 +352,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organizations");
+                    b.ToTable("Organizations", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Passwords.Password", b =>
@@ -393,7 +393,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Passwords");
+                    b.ToTable("Passwords", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Passwords.PasswordArchive", b =>
@@ -426,7 +426,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PasswordArchives");
+                    b.ToTable("PasswordArchives", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Passwords.PasswordResetToken", b =>
@@ -464,7 +464,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PasswordResetToken");
+                    b.ToTable("PasswordResetToken", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Tokens.OrganizationToken", b =>
@@ -501,7 +501,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.HasIndex("OrganizationId")
                         .IsUnique();
 
-                    b.ToTable("OrganizationTokens");
+                    b.ToTable("OrganizationTokens", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Tokens.Token", b =>
@@ -537,7 +537,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Tokens");
+                    b.ToTable("Tokens", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Users.User", b =>
@@ -579,7 +579,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.HasIndex("OrganizationId", "UserName")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Verification.VerificationCode", b =>
@@ -620,7 +620,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("VerificationCodes");
+                    b.ToTable("VerificationCodes", (string)null);
                 });
 
             modelBuilder.Entity("AuthHub.Models.Entities.Claims.ClaimsEntity", b =>

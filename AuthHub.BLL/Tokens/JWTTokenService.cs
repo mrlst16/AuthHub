@@ -109,30 +109,18 @@ namespace AuthHub.BLL.Tokens
 
         private async Task<Token> CreateAndSaveToken(int organizationId, User user)
         {
-            var userClaims = user.Claims;
-
-            if (
-                userClaims
-                    .FirstOrDefault(x => string.Equals(x.Key, ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase)
-                    ) == null)
-                userClaims.Add(_configuration.CreateClaimsEntity(ClaimTypes.Name, user.UserName));
-            userClaims.Add(new ClaimsEntity()
-                {
-                    Key = "Id",
-                    Value = user.Id.ToString()
-                }
-            );
-            userClaims = userClaims?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
-
             var authSettings = await _authSettingsContext.GetAuthSettingsAsync(organizationId);
 
             var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(authSettings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var expirationDate = _dateProvider.UTCNow.AddMinutes(authSettings.ExpirationMinutes);
+
+            List<Claim> claims = user.Claims?.Select(_claimsMapper.Map).ToList() ?? new List<Claim>();
+
             var token = new JwtSecurityToken(
                 issuer: authSettings.Issuer,
                 audience: authSettings.Audience,
-                claims: userClaims.Select(_claimsMapper.Map) ?? new List<Claim>(),
+                claims: claims,
                 expires: expirationDate,
                 signingCredentials: credentials
             );

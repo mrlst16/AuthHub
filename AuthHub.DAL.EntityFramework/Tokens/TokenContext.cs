@@ -18,8 +18,6 @@ namespace AuthHub.DAL.EntityFramework.Tokens
 
         public async Task AddAsync(Token token)
         {
-            // token.Id = _context.Tokens.Count() + 1;
-            _context.Entry(token).State = EntityState.Added;
             _context.Tokens.Add(token);
             _context.SaveChanges();
         }

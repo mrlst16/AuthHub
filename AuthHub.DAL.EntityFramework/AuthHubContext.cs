@@ -28,7 +28,6 @@ namespace AuthHub.DAL.EntityFramework
         public DbSet<VerificationType> VerificationTypes { get; set; }
         public DbSet<VerificationCode> VerificationCodes { get; set; }
         public DbSet<APIKeyAndSecretHash> ApiKeyAndSecrets { get; set; }
-
         public DbSet<Token> Tokens { get; set; }
 
         public AuthHubContext()
@@ -130,6 +129,7 @@ namespace AuthHub.DAL.EntityFramework
                     x.UserName
                 })
                 .IsUnique();
+
             //Passwords Setup
             modelBuilder.Entity<Password>()
                 .HasKey(x => x.Id);
@@ -209,9 +209,6 @@ namespace AuthHub.DAL.EntityFramework
             //Tokens
             modelBuilder.Entity<Token>()
                 .HasKey(x => x.Id);
-
-
-
             #endregion
 
             #region Load Data
