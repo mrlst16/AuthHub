@@ -23,10 +23,9 @@ namespace AuthHub.Api.Controllers
         }
 
         [HttpGet]
-        [APICredentials]
-        [UserCredentials]
+        [APIAndUserCredentials]
         public async Task<IActionResult> GetJWTUserToken()
-         {
+        {
             return new OkObjectResult(new ApiResponse<Token>()
             {
                 Data = await _tokenService(AuthSchemeEnum.JWT).GetAsync(User.GetOrganizationId(), User.GetUserName()),

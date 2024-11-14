@@ -8,11 +8,11 @@ using AuthHub.Models.Requests;
 using AuthHub.SDK.Interfaces;
 using Microsoft.Extensions.Configuration;
 
-namespace AuthHub.SDK
+namespace AuthHub.SDK.Connectors
 {
     public class ClaimsConnector : ConnectorBase, IClaimsConnector
     {
-        public ClaimsConnector(string baseUrl, int authSettingsId, string apiKey, string apiSecret, int organizationId) 
+        public ClaimsConnector(string baseUrl, int authSettingsId, string apiKey, string apiSecret, int organizationId)
             : base(baseUrl, authSettingsId, apiKey, apiSecret, organizationId)
         {
         }

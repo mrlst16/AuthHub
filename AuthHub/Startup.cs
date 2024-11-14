@@ -73,7 +73,10 @@ namespace AuthHub.Api
                 options => { })
             .AddScheme<UserCredentialsOptions, UserCredentialsAuthenticationHandler>(
                 UserCredentialsAuthenticationHandler.Scheme,
-            options => { });
+                options => { })
+            .AddScheme<APIAndUserCredentialsOptions, APIAndUserCredentialsAuthenticationHandler>(
+                APIAndUserCredentialsAuthenticationHandler.Scheme,
+                options => { });
 
             services.AddAuthentication(options =>
             {

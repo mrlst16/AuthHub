@@ -1,0 +1,23 @@
+<div class="authhub-login-component">
+    <div *ngIf="loggedIn">
+        <a (click)="logout()">Log out</a>
+    </div>
+    <div *ngIf="!loggedIn">
+        <button class="authhub-login-button" *ngIf="!showForm" (click)="showForm=true">Login</button>
+
+        <div class="authhub-login-form-container" *ngIf="showForm">
+            <form [formGroup]="form" (ngSubmit)="login()">
+                <label for="username">Username</label>
+                <input id="username" type="text" formControlName="Username"/>
+                <br />
+
+                <label for="password">Password</label>
+                <input id="password" type="password" formControlName="Password"/>
+                <br />
+
+                <button type="submit" [disabled]="!form.valid">Log In</button>
+                <button type="button" (click)="showForm=false">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

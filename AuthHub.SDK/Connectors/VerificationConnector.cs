@@ -4,7 +4,7 @@ using AuthHub.SDK.Interfaces;
 using Common.Models.Responses;
 using Microsoft.Extensions.Configuration;
 
-namespace AuthHub.SDK
+namespace AuthHub.SDK.Connectors
 {
     public class VerificationConnector : ConnectorBase, IVerificationConnector
     {

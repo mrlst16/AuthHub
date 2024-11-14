@@ -6,7 +6,7 @@ using System.Text.Json;
 using Common.Models.Responses;
 using AuthHub.Models.Entities.Users;
 
-namespace AuthHub.SDK
+namespace AuthHub.SDK.Connectors
 {
     public class TokenConnector : ConnectorBase, ITokenConnector
     {
@@ -25,12 +25,12 @@ namespace AuthHub.SDK
             HttpClient client = Client;
             client.DefaultRequestHeaders.Add(AuthHubHeaders.Username, username);
             client.DefaultRequestHeaders.Add(AuthHubHeaders.Password, password);
-            var headers =  client.DefaultRequestHeaders.Select(x => new
+            var headers = client.DefaultRequestHeaders.Select(x => new
             {
-                Key = x.Key,
+                x.Key,
                 Value = x.Value.First()
             });
-            HttpResponseMessage response = await client.GetAsync("api/token/JWTUserToken");
+            HttpResponseMessage response = await client.GetAsync("api/token");
             string responseString = await response.Content.ReadAsStringAsync();
 
             return await Deserialize<Token>(response);

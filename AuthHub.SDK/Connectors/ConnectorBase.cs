@@ -4,7 +4,7 @@ using Common.Models.Responses;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 
-namespace AuthHub.SDK
+namespace AuthHub.SDK.Connectors
 {
     public abstract class ConnectorBase
     {

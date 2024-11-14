@@ -7,14 +7,14 @@ using System.Text.Json;
 using Common.Models.Responses;
 using AuthHub.Models.Responses.User;
 
-namespace AuthHub.SDK
+namespace AuthHub.SDK.Connectors
 {
     public class UserConnector : ConnectorBase, IUserConnector
     {
         public UserConnector(
-            string baseUrl, 
+            string baseUrl,
             int authSettingsId,
-            string apiKey, 
+            string apiKey,
             string apiSecret,
             int organizationId
             ) : base(baseUrl, authSettingsId, apiKey, apiSecret, organizationId)
@@ -23,7 +23,7 @@ namespace AuthHub.SDK
 
         public UserConnector(IConfiguration configuration) : base(configuration)
         {
-        } 
+        }
 
         public async Task<ApiResponse<UserIdResponse>> SignUpAsync(string email, string username, string password, string firstName, string lastName)
         {
@@ -37,7 +37,7 @@ namespace AuthHub.SDK
             string json = JsonSerializer.Serialize(createUserRequest);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await Client.PostAsync("api/user/create", content);
+            HttpResponseMessage response = await Client.PostAsync("api/user", content);
             return await Deserialize<UserIdResponse>(response);
         }
 
