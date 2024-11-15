@@ -5,7 +5,13 @@
     [mode]="mode"
     [organization-id]="organizationId" 
     [api-key]="apiKey" 
-    [api-secret]="apiSecret">
+    [api-secret]="apiSecret"
+    (onLogin)="onLogin()"
+    (onLogout)="onLogout()"
+    >
   </app-authhub-login>
 </div> 
+
+<h2 *ngIf="showStuff">{{stuffMessage}}</h2>
+
 <router-outlet />

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthHubService } from '../services/AuthHubService';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -20,7 +20,8 @@ export class AuthhubLoginComponent {
 
   @Input("storage") storage: "local" | "none" = "local";
 
-  @Output("logout") onLogoout: EventEmitter<any> = new EventEmitter<any>();
+  @Output("onLogin") onLogin: EventEmitter<any> = new EventEmitter<any>();
+  @Output("onLogout") onLogoout: EventEmitter<any> = new EventEmitter<any>();
 
   service?: AuthHubService;
 
@@ -34,20 +35,11 @@ export class AuthhubLoginComponent {
   
   constructor(
     private readonly http: HttpClient,
-    private readonly fb: FormBuilder,
-    private readonly cd: ChangeDetectorRef
+    private readonly fb: FormBuilder
   ){}
 
   ngOnInit(){
     this.service = new AuthHubService(this.http, this.mode, this.organizationId as number, this.apiKey as string, this.apiSecret as string)
-    this.loggedIn = this.service.IsLoggedIn()
-  }
-
-  ngOnChanges(){
-    console.log("ngOnChanges")
-    if(this.service == null)
-      this.service = new AuthHubService(this.http, this.mode, this.organizationId as number, this.apiKey as string, this.apiSecret as string)
-    
     this.loggedIn = this.service.IsLoggedIn()
   }
 
@@ -57,11 +49,9 @@ export class AuthhubLoginComponent {
       this.form.value.Password as string
     )
     .subscribe(x=> {
-      console.log("login subscribe")
       this.service?.SetToken(x);
-      this.showForm = false;
-      this.loggedIn = false;
-      this.cd.detectChanges();
+      this.loggedIn = true;
+      this.onLogin.emit();
     });
   }
 

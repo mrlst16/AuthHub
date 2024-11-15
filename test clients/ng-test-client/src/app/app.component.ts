@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthhubLoginComponent } from './authhub-login/authhub-login.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   standalone: true,
-  imports: [RouterOutlet, AuthhubLoginComponent],
+  imports: [CommonModule, RouterOutlet, AuthhubLoginComponent],
 })
 export class AppComponent {
   title = 'ng-test-client';
@@ -15,4 +16,27 @@ export class AppComponent {
   organizationId: number = 2
   apiKey: string = "i6hmvzj54lwzom4e5d8nwlwtfr7bk77v9fjzb3iqhmrq5ug055jto4tyh5uqn41e"
   apiSecret: string = "yz8xey6qxo5o0wgmv5bg48oxhqlmmiy698homh2fx8n2ha4ry5chsjdol0dot2xw"
+
+  showStuff: boolean = false;
+  stuffMessage?: string;
+
+  onLogin(){
+    this.showStuff = true;
+    this.stuffMessage = "onLogin";
+
+    let self = this;
+    setTimeout(function(){
+      self.showStuff = false
+    }, 2000)
+  }
+
+  onLogout(){
+    this.showStuff = true;
+    this.stuffMessage = "onLogout";
+
+    let self = this;
+    setTimeout(function(){
+      self.showStuff = false
+    }, 2000)
+  }
 }
