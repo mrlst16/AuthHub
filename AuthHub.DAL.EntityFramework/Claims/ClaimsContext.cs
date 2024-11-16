@@ -126,5 +126,36 @@ namespace AuthHub.DAL.EntityFramework.Claims
 
             return true;
         }
+
+        public async Task<bool> AddClaimsAsync(int userId, IDictionary<string, string> keysAndValues)
+        {
+            IEnumerable<ClaimsEntity> claims = keysAndValues
+                .Select((k) => new ClaimsEntity()
+            {
+                UserId = userId,
+                Key = k.Key,
+                Value = k.Value
+            });
+            await _context.AddRangeAsync(claims);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> RemoveClaimsAsync(int userId, IEnumerable<string> keyNames)
+        {
+            IEnumerable<ClaimsEntity> claimsToRemove = _context.Claims.Where(x => keyNames.Contains(x.Key));
+            _context.RemoveRange(claimsToRemove);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> SetClaimsAsync(int userId, IDictionary<string, string> keysAndValues)
+        {
+            IEnumerable<ClaimsEntity> claimsToRemove = _context.Claims.Where(x => x.UserId == userId);
+            _context.RemoveRange(claimsToRemove);
+            await _context.SaveChangesAsync();
+            await AddClaimsAsync(userId, keysAndValues);
+            return true;
+        }
     }
 }

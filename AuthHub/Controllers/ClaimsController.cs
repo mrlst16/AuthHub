@@ -7,6 +7,7 @@ using AuthHub.Interfaces.Claims;
 using AuthHub.Models.Requests;
 using AuthHub.Models.Requests.Claims;
 using AuthHub.Models.Responses.Claims;
+using Azure.Core;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,19 +28,43 @@ namespace AuthHub.Api.Controllers
             _service = service;
         }
 
-        [HttpPost("set")]
-        public async Task<IActionResult> AddClaims(
-            [FromBody] SetClaimsRequest request
+        [HttpPost]
+        public async Task<IActionResult> AddClaimsAsync(
+            [FromBody] AddClaimsRequest request
             )
         {
-            //TODO: This was gutted
-            var response = new ApiResponse<bool>()
+            return new OkObjectResult(new ApiResponse<bool>()
             {
                 Data = true,
-                Success = true,
-                SuccessMessage = "Successfully added claim to user"
-            };
-            return new OkObjectResult(response);
+                Success = await _service.AddClaimsAsync(request.UserId, request.Claims),
+                SuccessMessage = "Successfully added claim(s) to user"
+            });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> RemoveAsync(
+            [FromBody] RemoveClaimsRequest request
+        )
+        {
+            return new OkObjectResult(new ApiResponse<bool>()
+            {
+                Data = true,
+                Success = await _service.RemoveClaimsAsync(request.UserId, request.ClaimsKeys),
+                SuccessMessage = "Successfully removed claim(s) from user"
+            });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> SetAsync(
+            [FromBody] SetClaimsRequest request
+        )
+        {
+            return new OkObjectResult(new ApiResponse<bool>()
+            {
+                Data = true,
+                Success = await _service.SetClaimsAsync(request.UserId, request.Claims),
+                SuccessMessage = "Successfully set claim(s) for user"
+            });
         }
 
         #region Claims Templates

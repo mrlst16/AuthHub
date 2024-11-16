@@ -9,6 +9,21 @@ namespace AuthHub.Interfaces.Claims
 {
     public interface IClaimsService
     {
+        Task<bool> AddClaimsAsync(
+            int userId,
+            IDictionary<string, string> keysAndValues
+        );
+
+        Task<bool> RemoveClaimsAsync(
+            int userId,
+            IEnumerable<string> keyNames
+        );
+
+        Task<bool> SetClaimsAsync(
+            int userId,
+            IDictionary<string, string> keysAndValues
+        );
+
         Task<int?> AddClaimsTemplateAsync(
             int organizationId,
             string name,
@@ -25,6 +40,7 @@ namespace AuthHub.Interfaces.Claims
             string templateName,
             IDictionary<string, string> keysAndDefaultValues
         );
+
         Task<bool> DeleteClaimsKeysAsync(int organizationId, string templateName, IEnumerable<string> keyNames);
     }
 }
