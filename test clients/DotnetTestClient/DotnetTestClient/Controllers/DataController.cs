@@ -8,7 +8,7 @@ namespace DotnetTestClient.Controllers
     [Route("api/data")]
     public class DataController : Controller
     {
-        [AuthHubAuthentication]
+        [AuthHubAuthentication, RequireClaim(name: "Key 1", value: "DfV1"), RequireClaim(name: "Key 2", value: "DfV")]
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {

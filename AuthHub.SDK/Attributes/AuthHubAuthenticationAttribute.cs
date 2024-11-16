@@ -9,7 +9,6 @@ namespace AuthHub.SDK.Attributes
             : base()
         {
             AuthenticationSchemes = AuthHubAuthHandler.Scheme;
-            //Policy = "AuthHubJWT";
         }
     }
 }
