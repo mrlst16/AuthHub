@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AuthHubService } from '../services/AuthHubService';
+import { AuthHubService, IsLoggedIn, SetToken } from '../services/AuthHubService';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -39,7 +39,7 @@ export class AuthhubLoginComponent {
 
   ngOnInit(){
     this.service = new AuthHubService(this.http, this.mode, this.organizationId as number, this.apiKey as string, this.apiSecret as string)
-    this.loggedIn = this.service.IsLoggedIn()
+    this.loggedIn = IsLoggedIn()
   }
 
   login(){
@@ -48,7 +48,7 @@ export class AuthhubLoginComponent {
       this.form.value.Password as string
     )
     .subscribe(x=> {
-      this.service?.SetToken(x);
+      SetToken(x);
       this.loggedIn = true;
       this.onLogin.emit();
     });

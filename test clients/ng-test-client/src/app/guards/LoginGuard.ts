@@ -1,18 +1,15 @@
 import { inject } from "@angular/core";
-import { AuthHubService } from "../services/AuthHubService";
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
+import { IsLoggedIn } from "../services/AuthHubService";
 
 
 export const isLoggedInActivate: CanActivateFn = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ) => {
-    return true;
-    // let service = inject(AuthHubService);
-    // let router = inject(Router);
-    // let result: boolean = service.IsLoggedIn();
-    // if(!result)
-    //     router.navigate([""])
-    // return result;
-    //.canActivate(inject(UserToken), route.params['id']);
+    let router = inject(Router);
+    let result: boolean = IsLoggedIn();
+    if(!result)
+        router.navigate([""])
+    return result;
   };

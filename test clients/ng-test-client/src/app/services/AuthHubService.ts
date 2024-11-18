@@ -7,7 +7,7 @@ import { SetClaimsRequest } from "../models/claims/SetClaimsRequest";
 
 export class AuthHubService{
 
-    private readonly LocalStorageTokenName = "authhub-token";
+    public static readonly LocalStorageTokenName = "authhub-token";
 
     constructor(
         private readonly http: HttpClient,
@@ -50,7 +50,7 @@ export class AuthHubService{
 
     SetupRefreshTimeout(minutesBeforeExpiration: number = 5): void{
         minutesBeforeExpiration = Math.max(minutesBeforeExpiration, 5);
-        let token: Token = this.GetToken();
+        let token: Token = GetToken();
         if(token == null || token.ExpirationDate == null) 
             return;
             
@@ -64,22 +64,14 @@ export class AuthHubService{
         setTimeout(function(){
             self.RefreshToken()
                 .subscribe(x=> {
-                    self.SetToken(x)
+                    SetToken(x)
                 })
         }, delayMilliseconds);
     }
 
-    GetToken(): Token{
-        let json = localStorage.getItem(this.LocalStorageTokenName)
-        return JSON.parse(json as string);
-    }
-
-    SetToken(token: Token): void{
-        localStorage.setItem(this.LocalStorageTokenName, JSON.stringify(token))
-    }
 
     AuthorizationHeaders(): HttpHeaders{
-        let token = this.GetToken();
+        let token = GetToken();
         if(token == null)
             throw "user is not logged in";
 
@@ -101,11 +93,7 @@ export class AuthHubService{
     }
 
     Logout(): void{
-        localStorage.removeItem(this.LocalStorageTokenName);
-    }
-
-    IsLoggedIn(): boolean{
-        return this.GetToken() != null
+        localStorage.removeItem(AuthHubService.LocalStorageTokenName);
     }
 
     AddClaims(request: AddClaimsRequest): Observable<boolean>{
@@ -140,4 +128,18 @@ export class AuthHubService{
         })
         .pipe(map(x=> x.Data));
     }
+}
+
+
+export function GetToken(): Token{
+    let json = localStorage.getItem(AuthHubService.LocalStorageTokenName)
+    return JSON.parse(json as string);
+}
+
+export function SetToken(token: Token): void{
+    localStorage.setItem(AuthHubService.LocalStorageTokenName, JSON.stringify(token))
+}
+
+export function IsLoggedIn(): boolean{
+    return GetToken() != null
 }
