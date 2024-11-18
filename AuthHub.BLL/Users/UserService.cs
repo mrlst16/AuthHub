@@ -111,5 +111,8 @@ namespace AuthHub.BLL.Users
             var entity = await _loader.GetAsync(id);
             return _userMapper.Map(entity);
         }
+
+        public async Task<bool> SetDataAsync(int userId, string jsonData)
+            => await _userContext.SetDataAsync(userId, jsonData);
     }
 }

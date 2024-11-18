@@ -128,5 +128,14 @@ namespace AuthHub.DAL.EntityFramework.Users
                 .FirstOrDefaultAsync(
                     x => x.OrganizationId == organizationId
                     && x.UserName == userName);
+
+        public async Task<bool> SetDataAsync(int userId, string jsonData)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null)
+                throw new Exception("User not found");
+            user.Data = jsonData;
+            return true;
+        }
     }
 }

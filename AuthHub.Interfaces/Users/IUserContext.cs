@@ -15,5 +15,6 @@ namespace AuthHub.Interfaces.Users
         Task UpdatePassword(User user, Password password, PasswordArchive archives);
         Task Update(User user);
         Task<User> GetByPhoneNumberAsync(string phoneNumber);
+        Task<bool> SetDataAsync(int userId, string jsonData);
     }
 }

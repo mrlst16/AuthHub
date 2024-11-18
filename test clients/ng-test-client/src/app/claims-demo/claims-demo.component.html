@@ -1,4 +1,36 @@
 <h1>Managing Claims Demo</h1>
 <div>
+    <ul>
+        <li (click)="setTab('addFromClient')">Add from Client</li>
+        <li (click)="setTab('removeFromClient')">Add from Client</li>
+    </ul>
+    <div *ngIf="tab=='addFromClient'">
+        <h3>Add Claim Through Client</h3>
+        <form [formGroup]="form" (ngSubmit)="addFromClient()">
+            <label for="name">Name</label>
+            <input id="name" type="text" formControlName="name"/>
+            <br />
     
+            <label for="value">Value</label>
+            <input id="value" type="text" formControlName="value"/>
+            <br />
+    
+            <button type="submit" [disabled]="!form.valid">Add Claim Through Api</button>
+        </form>
+    </div>
+
+    <div *ngIf="tab=='removeFromClient'">
+        <h3>Add Claim Through Client</h3>
+        <form [formGroup]="form" (ngSubmit)="removeFromClient()">
+            <label for="name">Name</label>
+            <input id="name" type="text" formControlName="name"/>
+            <br />
+    
+            <label for="value">Value</label>
+            <input id="value" type="text" formControlName="value"/>
+            <br />
+    
+            <button type="submit" [disabled]="!form.valid">Remove Claim Through Api</button>
+        </form>
+    </div>
 </div>

@@ -10,5 +10,6 @@ namespace AuthHub.Interfaces.Users
         Task<User> CreateAsync(int organizationId, CreateUserRequest item);
         Task<UserResponse> ReadAsync(int id);
         Task SendEmailVerificationEmail(int userid);
+        Task<bool> SetDataAsync(int userId, string jsonData);
     }
 }

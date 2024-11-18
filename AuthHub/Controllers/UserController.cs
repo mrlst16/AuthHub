@@ -86,5 +86,17 @@ namespace AuthHub.Api.Controllers
             };
             return new OkObjectResult(response);
         }
+
+        [HttpPatch("data")]
+        [APIAndUserCredentials]
+        public async Task<IActionResult> SetDataAsync(
+            [FromBody] string jsonData
+            )
+        {
+            return new OkObjectResult(new ApiResponse<bool>()
+            {
+                Data = await _service.SetDataAsync(User.GetUserId(), jsonData)
+            });
+        }
     }
 }
