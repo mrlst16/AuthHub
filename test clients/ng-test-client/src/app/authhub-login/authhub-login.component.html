@@ -1,8 +1,10 @@
 <div class="authhub-login-component">
     <div *ngIf="loggedIn">
         <a (click)="logout()">Log out</a>
+        <ng-content></ng-content>
     </div>
     <div *ngIf="!loggedIn">
+        
         <button class="authhub-login-button" *ngIf="!showForm" (click)="showForm=true">Login</button>
 
         <div class="authhub-login-form-container" *ngIf="showForm">

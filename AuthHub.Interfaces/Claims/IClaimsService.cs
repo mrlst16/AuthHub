@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AuthHub.Models.Requests.Claims;
 
 namespace AuthHub.Interfaces.Claims
 {
@@ -11,8 +12,7 @@ namespace AuthHub.Interfaces.Claims
     {
         Task<bool> AddClaimsAsync(
             int userId,
-            IDictionary<string, string> keysAndValues
-        );
+            IEnumerable<ClaimRequest> claims);
 
         Task<bool> RemoveClaimsAsync(
             int userId,
@@ -21,7 +21,7 @@ namespace AuthHub.Interfaces.Claims
 
         Task<bool> SetClaimsAsync(
             int userId,
-            IDictionary<string, string> keysAndValues
+            IEnumerable<ClaimRequest> claims
         );
 
         Task<int?> AddClaimsTemplateAsync(

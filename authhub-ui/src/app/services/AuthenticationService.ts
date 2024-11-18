@@ -37,4 +37,8 @@ export class AuthenticationService{
             "Authorization": `Bearer ${token.Value}`
         })
     }
+
+    IsLoggeedIn(): boolean{
+        return this.GetToken() != null;
+    }
 }

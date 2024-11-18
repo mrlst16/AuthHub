@@ -20,7 +20,7 @@ namespace AuthHub.SDK.Connectors
         {
         }
 
-        public async Task<ApiResponse<Token>> GetJWTTokenAsync(string username, string password)
+        public async Task<ApiResponse<Token>> GetTokenAsync(string username, string password)
         {
             HttpClient client = Client;
             client.DefaultRequestHeaders.Add(AuthHubHeaders.Username, username);
@@ -36,14 +36,14 @@ namespace AuthHub.SDK.Connectors
             return await Deserialize<Token>(response);
         }
 
-        public async Task<ApiResponse<Token>> RefreshJWTTokenAsync(int userId, string refreshToken)
+        public async Task<ApiResponse<Token>> RefreshTokenAsync(int userId, string refreshToken)
         {
-            var path = $"api/token/RefreshJWTUserToken?userId={userId}&refreshToken={refreshToken}";
+            var path = $"api/token/refresh?refreshToken={refreshToken}";
             HttpResponseMessage response = await Client.GetAsync(path);
             return await Deserialize<Token>(response);
         }
 
-        public async Task<ApiResponse<Token>> GetJWTUserTokenPhoneLogin(string phoneNumber, string verificationCode)
+        public async Task<ApiResponse<Token>> GetUserTokenPhoneLogin(string phoneNumber, string verificationCode)
         {
             var path = $"api/token/JWTUserTokenPhoneLogin?phoneNumber={phoneNumber}&verificationCode={verificationCode}";
             HttpResponseMessage response = await Client.GetAsync(path);

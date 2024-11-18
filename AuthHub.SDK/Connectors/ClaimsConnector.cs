@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
-using AuthHub.Models.Requests;
+using AuthHub.Models.Requests.Claims;
 using AuthHub.SDK.Interfaces;
 using Microsoft.Extensions.Configuration;
 
@@ -21,9 +21,19 @@ namespace AuthHub.SDK.Connectors
         {
         }
 
-        public async Task SetClaims(SetClaimsRequest request)
+        public async Task SetClaimsAsync(SetClaimsRequest request)
         {
-            await Client.PostAsJsonAsync("api/claims/set", request);
+            await Client.PutAsJsonAsync("api/claims", request);
+        }
+
+        public async Task AddClaimsAsync(AddClaimsRequest request)
+        {
+            await Client.PostAsJsonAsync("api/claims", request);
+        }
+
+        public async Task RemoveClaimsAsync(RemoveClaimsRequest request)
+        {
+            await Client.PatchAsJsonAsync("api/claims", request);
         }
     }
 }

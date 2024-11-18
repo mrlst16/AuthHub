@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthHub.Api.Attributes;
 using AuthHub.Api.Helpers;
 using AuthHub.Interfaces.Claims;
-using AuthHub.Models.Requests;
 using AuthHub.Models.Requests.Claims;
 using AuthHub.Models.Responses.Claims;
-using Azure.Core;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +38,7 @@ namespace AuthHub.Api.Controllers
             });
         }
 
-        [HttpDelete]
+        [HttpPatch]
         public async Task<IActionResult> RemoveAsync(
             [FromBody] RemoveClaimsRequest request
         )
@@ -111,7 +108,7 @@ namespace AuthHub.Api.Controllers
                 Data = await _service.AddClaimsKeysAsync(
                     User.GetOrganizationId(),
                     request.TemplateName,
-                    request.Keys?.ToDictionary((k)=> k.Name, (v)=> v.DefaultValue)
+                    request.Keys?.ToDictionary((k)=> k.Name, (v)=> v.Value)
                     )
             });
         }

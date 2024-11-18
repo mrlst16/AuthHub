@@ -1,6 +1,9 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 import { Token } from "../models/Token";
+import { AddClaimsRequest } from "../models/claims/AddClaimsRequest";
+import { RemoveClaimsRequest } from "../models/claims/RemoveClaimsRequest";
+import { SetClaimsRequest } from "../models/claims/SetClaimsRequest";
 
 export class AuthHubService{
 
@@ -8,7 +11,7 @@ export class AuthHubService{
 
     constructor(
         private readonly http: HttpClient,
-        private readonly mode: "dev" | "prod" = "prod",
+        private readonly mode: "dev" | "prod",
         private readonly organizationId: number,
         private readonly apiKey: string,
         private readonly apiSecret: string
@@ -20,7 +23,7 @@ export class AuthHubService{
             case "dev":
                 return "https://localhost:50930";
             case "prod":
-                return "https://{SOMEURLHERE}";
+                return "https://buzzauth.com";
         }
     }
 
@@ -45,6 +48,27 @@ export class AuthHubService{
         .pipe(map(x=> x.Data));
     }
 
+    SetupRefreshTimeout(minutesBeforeExpiration: number = 5): void{
+        minutesBeforeExpiration = Math.max(minutesBeforeExpiration, 5);
+        let token: Token = this.GetToken();
+        if(token == null || token.ExpirationDate == null) 
+            return;
+            
+        let now: Date = new Date();
+        let utc: number = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDay(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds())
+        let delayMilliseconds =  token.ExpirationDate.getTime() - utc;
+        if(delayMilliseconds < 0)
+            return;
+
+        let self = this;
+        setTimeout(function(){
+            self.RefreshToken()
+                .subscribe(x=> {
+                    self.SetToken(x)
+                })
+        }, delayMilliseconds);
+    }
+
     GetToken(): Token{
         let json = localStorage.getItem(this.LocalStorageTokenName)
         return JSON.parse(json as string);
@@ -54,7 +78,7 @@ export class AuthHubService{
         localStorage.setItem(this.LocalStorageTokenName, JSON.stringify(token))
     }
 
-    AuthorizationHeader(): HttpHeaders{
+    AuthorizationHeaders(): HttpHeaders{
         let token = this.GetToken();
         if(token == null)
             throw "user is not logged in";
@@ -67,11 +91,53 @@ export class AuthHubService{
         return headers;
     }
 
+    RefreshToken() :Observable<Token>{
+        return this.http.get<{
+            Data: Token
+        }>(`${this.BaseUrl()}/api/token/refresh`, {
+            headers: this.AuthorizationHeaders()
+        })
+        .pipe(map(x=> x.Data));
+    }
+
     Logout(): void{
         localStorage.removeItem(this.LocalStorageTokenName);
     }
 
     IsLoggedIn(): boolean{
         return this.GetToken() != null
+    }
+
+    AddClaims(request: AddClaimsRequest): Observable<boolean>{
+        return this.http.post<{
+            Data: boolean
+        }>(`${this.BaseUrl()}/api/claims`,
+            request,
+        {
+            headers: this.AuthorizationHeaders()
+        })
+        .pipe(map(x=> x.Data));
+    }
+
+    RemoveClaims(request: RemoveClaimsRequest): Observable<boolean>{
+        return this.http.patch<{
+            Data: boolean
+        }>(`${this.BaseUrl()}/api/claims`,
+            request,
+        {
+            headers: this.AuthorizationHeaders()
+        })
+        .pipe(map(x=> x.Data));
+    }
+
+    SetClaims(request: SetClaimsRequest): Observable<boolean>{
+        return this.http.put<{
+            Data: boolean
+        }>(`${this.BaseUrl()}/api/claims`,
+            request,
+        {
+            headers: this.AuthorizationHeaders()
+        })
+        .pipe(map(x=> x.Data));
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AuthHub.SDK.Attributes;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetTestClient.Controllers

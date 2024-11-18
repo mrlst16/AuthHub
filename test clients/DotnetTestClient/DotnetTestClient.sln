@@ -3,24 +3,37 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetTestClient", "DotnetTestClient\DotnetTestClient.csproj", "{B5F3367C-68DD-486F-B879-A9011C710895}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetTestClient", "DotnetTestClient\DotnetTestClient.csproj", "{B5F3367C-68DD-486F-B879-A9011C710895}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.SDK", "..\..\AuthHub.SDK\AuthHub.SDK.csproj", "{C1EA778B-D006-4373-9923-48E4F3403636}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.Models", "..\..\AuthHub.Models\AuthHub.Models.csproj", "{17947D0B-9690-4005-A12F-4A5B07EEA224}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Run Web UI and APIs|Any CPU = Run Web UI and APIs|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B5F3367C-68DD-486F-B879-A9011C710895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5F3367C-68DD-486F-B879-A9011C710895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5F3367C-68DD-486F-B879-A9011C710895}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5F3367C-68DD-486F-B879-A9011C710895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5F3367C-68DD-486F-B879-A9011C710895}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
+		{B5F3367C-68DD-486F-B879-A9011C710895}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
 		{C1EA778B-D006-4373-9923-48E4F3403636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1EA778B-D006-4373-9923-48E4F3403636}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1EA778B-D006-4373-9923-48E4F3403636}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1EA778B-D006-4373-9923-48E4F3403636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1EA778B-D006-4373-9923-48E4F3403636}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
+		{C1EA778B-D006-4373-9923-48E4F3403636}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
+		{17947D0B-9690-4005-A12F-4A5B07EEA224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17947D0B-9690-4005-A12F-4A5B07EEA224}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17947D0B-9690-4005-A12F-4A5B07EEA224}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17947D0B-9690-4005-A12F-4A5B07EEA224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17947D0B-9690-4005-A12F-4A5B07EEA224}.Run Web UI and APIs|Any CPU.ActiveCfg = Run Web UI and APIs|Any CPU
+		{17947D0B-9690-4005-A12F-4A5B07EEA224}.Run Web UI and APIs|Any CPU.Build.0 = Run Web UI and APIs|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,10 +4,10 @@ namespace AuthHub.SDK.Extensions
 {
     public static class IdentityExtensions
     {
-        public static Guid UserId(this ClaimsPrincipal user)
+        public static int UserId(this ClaimsPrincipal user)
         {
            string idString = user.Claims.FirstOrDefault(x => x.Type == "Id")?.Value;
-           return Guid.TryParse(idString, out Guid res) ? res : Guid.Empty;
+           return int.TryParse(idString, out int res) ? res : -1;
         }
 
         public static bool AreClaimsValid(

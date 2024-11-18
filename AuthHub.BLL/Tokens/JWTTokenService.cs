@@ -1,5 +1,4 @@
-﻿using AuthHub.BLL.Common.Extensions;
-using AuthHub.Interfaces.Tokens;
+﻿using AuthHub.Interfaces.Tokens;
 using AuthHub.Interfaces.Users;
 using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Entities.Users;
@@ -59,7 +58,7 @@ namespace AuthHub.BLL.Tokens
             _authSettingsContext = authSettingsContext;
         }
 
-        public async Task<Token> GetAsync(int userId)
+        private async Task<Token> CreateAndSaveToken(int userId)
         {
             var user = await _userLoader.GetAsync(userId);
             var result = await CreateAndSaveToken(user);
@@ -70,12 +69,12 @@ namespace AuthHub.BLL.Tokens
         public async Task<Token> GetAsync(int organizationId, string userName)
         {
             var user = await _context.GetAsync(organizationId, userName);
-            var result = await CreateAndSaveToken(organizationId, user);
+            var result = await CreateAndSaveToken(user);
             result.User = null;
             return result;
         }
 
-        public async Task<Token> GetByPhoneVerificationCode(string phoneNumber, string verificationCode)
+        public async Task<Token> GetByPhoneVerificationCodeAsync(string phoneNumber, string verificationCode)
         {
             User user = await _userLoader.GetByPhoneNumberAsync(phoneNumber);
             if (user == null)
@@ -93,23 +92,18 @@ namespace AuthHub.BLL.Tokens
             return await CreateAndSaveToken(user);
         }
 
-        public async Task<Token> GetRefreshToken(int userId, string refreshToken)
+        public async Task<Token> GetRefreshTokenAsync(int userId, string refreshToken)
         {
-            var user = await _userLoader.GetAsync(userId);
-            if (user.Tokens.All(x => x.RefreshToken != refreshToken))
+            var oldToken = await _tokenContext.GetByUserIdAndRefreshTokenAsync(userId, refreshToken);
+            if (oldToken == null)
                 throw new UnauthorizedException();
 
-            return await GetAsync(userId);
+            return await CreateAndSaveToken(userId);
         }
 
         private async Task<Token> CreateAndSaveToken(User user)
         {
-            throw new NotImplementedException();
-        }
-
-        private async Task<Token> CreateAndSaveToken(int organizationId, User user)
-        {
-            var authSettings = await _authSettingsContext.GetAuthSettingsAsync(organizationId);
+            var authSettings = await _authSettingsContext.GetAuthSettingsAsync(user.OrganizationId);
 
             var securityKey = new SymmetricSecurityKey(_applicationConsistency.GetBytes(authSettings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

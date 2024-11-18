@@ -21,5 +21,10 @@ namespace AuthHub.DAL.EntityFramework.Tokens
             _context.Tokens.Add(token);
             _context.SaveChanges();
         }
+
+        public async Task<Token> GetByUserIdAndRefreshTokenAsync(int userId, string refreshToken)
+            => await _context.Tokens
+                .OrderByDescending(x => x.CreateDate)
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.RefreshToken == refreshToken);
     }
 }

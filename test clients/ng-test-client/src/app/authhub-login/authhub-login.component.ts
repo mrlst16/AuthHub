@@ -24,7 +24,6 @@ export class AuthhubLoginComponent {
   @Output("onLogout") onLogoout: EventEmitter<any> = new EventEmitter<any>();
 
   service?: AuthHubService;
-
   showForm: boolean = false;
   loggedIn: boolean = false;
 
@@ -35,7 +34,7 @@ export class AuthhubLoginComponent {
   
   constructor(
     private readonly http: HttpClient,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ){}
 
   ngOnInit(){

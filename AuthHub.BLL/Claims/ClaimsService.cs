@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Models.Entities.Claims;
+using AuthHub.Models.Requests.Claims;
 using AuthHub.Models.Responses.Claims;
 
 namespace AuthHub.BLL.Claims
@@ -62,15 +63,15 @@ namespace AuthHub.BLL.Claims
         ) => await _context.DeleteClaimsKeysAsync(organizationId, templateName, keyNames);
 
         public async Task<bool> AddClaimsAsync(int userId,
-            IDictionary<string, string> keysAndValues)
-            => await _context.AddClaimsAsync(userId, keysAndValues);
+            IEnumerable<ClaimRequest> claims)
+            => await _context.AddClaimsAsync(userId, claims.ToDictionary(k=> k.Name, v=> v.Value));
 
         public async Task<bool> RemoveClaimsAsync(int userId, 
             IEnumerable<string> keyNames)
             => await _context.RemoveClaimsAsync(userId, keyNames);
 
         public async Task<bool> SetClaimsAsync(int userId,
-            IDictionary<string, string> keysAndValues)
-            => await _context.SetClaimsAsync(userId, keysAndValues);
+            IEnumerable<ClaimRequest> claims)
+            => await _context.SetClaimsAsync(userId, claims.ToDictionary(k => k.Name, v => v.Value));
     }
 }

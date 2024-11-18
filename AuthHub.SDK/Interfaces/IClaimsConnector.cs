@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AuthHub.Models.Requests;
+﻿using AuthHub.Models.Requests.Claims;
 
 namespace AuthHub.SDK.Interfaces
 {
     public interface IClaimsConnector
     {
-        Task SetClaims(SetClaimsRequest request);
+        Task AddClaimsAsync(AddClaimsRequest request);
+        Task RemoveClaimsAsync(RemoveClaimsRequest request);
+        Task SetClaimsAsync(SetClaimsRequest request);
     }
 }

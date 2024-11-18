@@ -1,6 +1,5 @@
 
 <div>
-  HERRRO
   <app-authhub-login
     [mode]="mode"
     [organization-id]="organizationId" 
@@ -9,8 +8,11 @@
     (onLogin)="onLogin()"
     (onLogout)="onLogout()"
     >
+    <div>Some logout content here, like a menu</div>
   </app-authhub-login>
 </div> 
+
+<app-navigation></app-navigation>
 
 <h2 *ngIf="showStuff">{{stuffMessage}}</h2>
 

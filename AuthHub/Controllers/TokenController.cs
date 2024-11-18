@@ -34,18 +34,17 @@ namespace AuthHub.Api.Controllers
             });
         }
 
-        [HttpGet("RefreshJWTUserToken")]
-        [APICredentials]
+        [HttpGet("refresh")]
+        [APIAndUserCredentials]
         public async Task<IActionResult> RefreshJWTUserToken(
-            [FromQuery] int userId,
             [FromQuery] string refreshToken
         )
         {
             return new OkObjectResult(new ApiResponse<Token>()
             {
-                Data = await _tokenService(AuthSchemeEnum.JWT).GetRefreshToken(userId, refreshToken),
+                Data = await _tokenService(AuthSchemeEnum.JWT).GetRefreshTokenAsync(User.GetUserId(), refreshToken),
                 Success = true,
-                SuccessMessage = "Successfully verified user email"
+                SuccessMessage = "Successfully refreshed token"
             });
         }
 
@@ -57,9 +56,9 @@ namespace AuthHub.Api.Controllers
         {
             return new OkObjectResult(new ApiResponse<Token>()
             {
-                Data = await _tokenService(AuthSchemeEnum.JWT).GetByPhoneVerificationCode(phoneNumber, verificationCode),
+                Data = await _tokenService(AuthSchemeEnum.JWT).GetByPhoneVerificationCodeAsync(phoneNumber, verificationCode),
                 Success = true,
-                SuccessMessage = "Successfully verified user email"
+                SuccessMessage = "Successfully logged in via phone"
             });
         }
     }

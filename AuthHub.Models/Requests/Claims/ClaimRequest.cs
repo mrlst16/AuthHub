@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AuthHub.Models.Requests.Claims
 {
-    public class ClaimsKeyRequest
+    public class ClaimRequest
     {
         public string Name { get; set; }
-        public string DefaultValue { get; set; }
+        public string Value { get; set; }
     }
 }
