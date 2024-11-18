@@ -18,7 +18,9 @@ export class ClaimsDemoComponent {
     Value: ['', Validators.required]
   })
   
-  constructor(private readonly fb: FormBuilder){
+  constructor(
+    private readonly fb: FormBuilder
+  ){
 
   }
 
@@ -27,7 +29,7 @@ export class ClaimsDemoComponent {
   }
 
   addFromClient(){
-    
+
   }
 
   removeFromClient(){

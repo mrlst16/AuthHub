@@ -23,7 +23,7 @@ export class AuthhubLoginComponent {
   @Output("onLogin") onLogin: EventEmitter<any> = new EventEmitter<any>();
   @Output("onLogout") onLogoout: EventEmitter<any> = new EventEmitter<any>();
 
-  service?: AuthHubService;
+  // service?: AuthHubService;
   showForm: boolean = false;
   loggedIn: boolean = false;
 
@@ -35,10 +35,11 @@ export class AuthhubLoginComponent {
   constructor(
     private readonly http: HttpClient,
     private readonly fb: FormBuilder,
+    private readonly service: AuthHubService
   ){}
 
   ngOnInit(){
-    this.service = new AuthHubService(this.http, this.mode, this.organizationId as number, this.apiKey as string, this.apiSecret as string)
+    // this.service = new AuthHubService(this.http, this.mode, this.organizationId as number, this.apiKey as string, this.apiSecret as string)
     this.loggedIn = IsLoggedIn()
   }
 

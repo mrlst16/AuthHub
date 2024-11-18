@@ -4,6 +4,7 @@ import { AuthhubLoginComponent } from './authhub-login/authhub-login.component';
 import { CommonModule } from '@angular/common';
 import { NavigationComponent } from './navigation/navigation.component';
 import { environment } from '../environments/environment';
+import { provideAuthHubService } from './providers/provideAuthHubService';
 
 let loginRedirectUrlToken: InjectionToken<string> = new InjectionToken("loginUrl")
 
@@ -13,7 +14,10 @@ let loginRedirectUrlToken: InjectionToken<string> = new InjectionToken("loginUrl
   styleUrl: './app.component.scss',
   standalone: true,
   imports: [CommonModule, RouterOutlet, AuthhubLoginComponent, NavigationComponent],
-  providers: [{provide: loginRedirectUrlToken, useValue:""}]
+  providers: [
+    {provide: loginRedirectUrlToken, useValue:""},
+    provideAuthHubService("dev", 2, "i6hmvzj54lwzom4e5d8nwlwtfr7bk77v9fjzb3iqhmrq5ug055jto4tyh5uqn41e", "yz8xey6qxo5o0wgmv5bg48oxhqlmmiy698homh2fx8n2ha4ry5chsjdol0dot2xw")
+  ]
 })
 export class AppComponent {
   title = 'AuthHub Demo';
