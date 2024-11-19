@@ -2,7 +2,7 @@
 <div>
     <ul>
         <li (click)="setTab('addFromClient')">Add from Client</li>
-        <li (click)="setTab('removeFromClient')">Add from Client</li>
+        <li (click)="setTab('removeFromClient')">Remove from Client</li>
     </ul>
     <div *ngIf="tab=='addFromClient'">
         <h3>Add Claim Through Client</h3>
@@ -20,7 +20,7 @@
     </div>
 
     <div *ngIf="tab=='removeFromClient'">
-        <h3>Add Claim Through Client</h3>
+        <h3>Remove Claim Through Client</h3>
         <form [formGroup]="form" (ngSubmit)="removeFromClient()">
             <label for="name">Name</label>
             <input id="name" type="text" formControlName="name"/>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthHub.Api.Attributes;
 using AuthHub.Api.Helpers;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Models.Requests.Claims;
@@ -25,6 +26,7 @@ namespace AuthHub.Api.Controllers
             _service = service;
         }
 
+        [APIAndUserCredentials]
         [HttpPost]
         public async Task<IActionResult> AddClaimsAsync(
             [FromBody] AddClaimsRequest request
