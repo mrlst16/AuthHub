@@ -1,11 +1,11 @@
 ﻿using AuthHub.Api.Attributes;
 using AuthHub.Api.Helpers;
 using AuthHub.Interfaces.Tokens;
-using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Enums;
 using Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AuthHub.Models.Responses.Tokens;
 
 namespace AuthHub.Api.Controllers
 {
@@ -26,7 +26,7 @@ namespace AuthHub.Api.Controllers
         [APIAndUserCredentials]
         public async Task<IActionResult> GetJWTUserToken()
         {
-            return new OkObjectResult(new ApiResponse<Token>()
+            return new OkObjectResult(new ApiResponse<TokenResponse>()
             {
                 Data = await _tokenService(AuthSchemeEnum.JWT).GetAsync(User.GetOrganizationId(), User.GetUserName()),
                 Success = true,
@@ -35,12 +35,12 @@ namespace AuthHub.Api.Controllers
         }
 
         [HttpGet("refresh")]
-        [APIAndUserCredentials]
+        [ApiAndLoggedInUser]
         public async Task<IActionResult> RefreshJWTUserToken(
             [FromQuery] string refreshToken
         )
         {
-            return new OkObjectResult(new ApiResponse<Token>()
+            return new OkObjectResult(new ApiResponse<TokenResponse>()
             {
                 Data = await _tokenService(AuthSchemeEnum.JWT).GetRefreshTokenAsync(User.GetUserId(), refreshToken),
                 Success = true,
@@ -54,7 +54,7 @@ namespace AuthHub.Api.Controllers
             [FromQuery] string verificationCode
             )
         {
-            return new OkObjectResult(new ApiResponse<Token>()
+            return new OkObjectResult(new ApiResponse<TokenResponse>()
             {
                 Data = await _tokenService(AuthSchemeEnum.JWT).GetByPhoneVerificationCodeAsync(phoneNumber, verificationCode),
                 Success = true,

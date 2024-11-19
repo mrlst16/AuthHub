@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthHub.Api.Controllers
 {
-    [Authorize]
     [Route("api/claims")]
     [ApiController]
     public class ClaimsController : Controller
@@ -26,7 +25,7 @@ namespace AuthHub.Api.Controllers
             _service = service;
         }
 
-        [APIAndUserCredentials]
+        [APICredentials]
         [HttpPost]
         public async Task<IActionResult> AddClaimsAsync(
             [FromBody] AddClaimsRequest request
@@ -40,6 +39,7 @@ namespace AuthHub.Api.Controllers
             });
         }
 
+        [APICredentials]
         [HttpPatch]
         public async Task<IActionResult> RemoveAsync(
             [FromBody] RemoveClaimsRequest request
@@ -53,6 +53,7 @@ namespace AuthHub.Api.Controllers
             });
         }
 
+        [APICredentials]
         [HttpPut]
         public async Task<IActionResult> SetAsync(
             [FromBody] SetClaimsRequest request

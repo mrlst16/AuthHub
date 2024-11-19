@@ -18,6 +18,7 @@ using AuthHub.Interfaces.Verification;
 using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Entities.Claims;
+using AuthHub.Models.Responses.Tokens;
 using Common.Helpers;
 using Microsoft.IdentityModel.Tokens;
 
@@ -58,23 +59,21 @@ namespace AuthHub.BLL.Tokens
             _authSettingsContext = authSettingsContext;
         }
 
-        private async Task<Token> CreateAndSaveToken(int userId)
+        private async Task<TokenResponse> CreateAndSaveToken(int userId)
         {
             var user = await _userLoader.GetAsync(userId);
             var result = await CreateAndSaveToken(user);
-            result.User = null;
             return result;
         }
 
-        public async Task<Token> GetAsync(int organizationId, string userName)
+        public async Task<TokenResponse> GetAsync(int organizationId, string userName)
         {
             var user = await _context.GetAsync(organizationId, userName);
             var result = await CreateAndSaveToken(user);
-            result.User = null;
             return result;
         }
 
-        public async Task<Token> GetByPhoneVerificationCodeAsync(string phoneNumber, string verificationCode)
+        public async Task<TokenResponse> GetByPhoneVerificationCodeAsync(string phoneNumber, string verificationCode)
         {
             User user = await _userLoader.GetByPhoneNumberAsync(phoneNumber);
             if (user == null)
@@ -92,7 +91,7 @@ namespace AuthHub.BLL.Tokens
             return await CreateAndSaveToken(user);
         }
 
-        public async Task<Token> GetRefreshTokenAsync(int userId, string refreshToken)
+        public async Task<TokenResponse> GetRefreshTokenAsync(int userId, string refreshToken)
         {
             var oldToken = await _tokenContext.GetByUserIdAndRefreshTokenAsync(userId, refreshToken);
             if (oldToken == null)
@@ -101,7 +100,7 @@ namespace AuthHub.BLL.Tokens
             return await CreateAndSaveToken(userId);
         }
 
-        private async Task<Token> CreateAndSaveToken(User user)
+        private async Task<TokenResponse> CreateAndSaveToken(User user)
         {
             var authSettings = await _authSettingsContext.GetAuthSettingsAsync(user.OrganizationId);
 
@@ -110,6 +109,7 @@ namespace AuthHub.BLL.Tokens
             var expirationDate = _dateProvider.UTCNow.AddMinutes(authSettings.ExpirationMinutes);
 
             List<Claim> claims = user.Claims?.Select(_claimsMapper.Map).ToList() ?? new List<Claim>();
+            claims.Add(new Claim("UserId", user.Id.ToString()));
 
             var token = new JwtSecurityToken(
                 issuer: authSettings.Issuer,
@@ -119,7 +119,7 @@ namespace AuthHub.BLL.Tokens
                 signingCredentials: credentials
             );
 
-            var result = new Token()
+            var entity = new Token()
             {
                 Value = new JwtSecurityTokenHandler().WriteToken(token),
                 ExpirationDate = expirationDate,
@@ -127,8 +127,14 @@ namespace AuthHub.BLL.Tokens
                 UserId = user.Id
             };
 
-            await _tokenContext.AddAsync(result);
-            return result;
+            await _tokenContext.AddAsync(entity);
+            return new TokenResponse()
+            {
+                Value = entity.Value,
+                ExpirationDate = entity.ExpirationDate,
+                RefreshToken = entity.RefreshToken,
+                UserId = entity.UserId
+            };
         }
     }
 }

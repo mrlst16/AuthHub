@@ -16,3 +16,7 @@ export function provideAuthHubService (
         deps:[HttpClient]
       }
 }
+
+export function provideAuthHubServiceFromEnvironment(environment: any){
+    return provideAuthHubService(environment.mode, environment.organizationId, environment.apiKey, environment.apiSecret);
+}

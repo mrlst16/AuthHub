@@ -8,8 +8,8 @@ namespace AuthHub.Api.Helpers
     {
         public static int GetUserId(this ClaimsPrincipal User)
         {
-            var claims = User.Identities.Where(x => x.AuthenticationType == nameof(UserCredentialsAuthenticationHandler));
-            var claim = claims.SelectMany(x => x.Claims).FirstOrDefault(x => x.Type == "UserId");
+            var claims = User.Identities.First().Claims;
+            var claim = claims.FirstOrDefault(x => x.Type == "UserId");
             return int.TryParse(claim.Value, out int res) ? res : -1;
         }
 

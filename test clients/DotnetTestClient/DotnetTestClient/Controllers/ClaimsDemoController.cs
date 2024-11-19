@@ -1,11 +1,12 @@
-﻿using AuthHub.Models.Requests;
-using AuthHub.Models.Requests.Claims;
+﻿using AuthHub.Models.Requests.Claims;
 using AuthHub.SDK.Extensions;
 using AuthHub.SDK.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetTestClient.Controllers
 {
+    [ApiController]
+    [Route("api/claimsdemo")]
     public class ClaimsDemoController : Controller
     {
         private readonly IClaimsConnector _connector;

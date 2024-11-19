@@ -62,6 +62,7 @@ namespace AuthHub.SDK.Extensions
             )
         {
             services.AddTransient<IUserConnector>(x => new UserConnector(configuration));
+            services.AddTransient<IClaimsConnector>(x => new ClaimsConnector(configuration));
             return services;
         }
 

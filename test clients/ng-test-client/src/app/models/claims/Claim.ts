@@ -1,4 +1,4 @@
-export class ClaimsRequest{
+export class Claim{
     Name?: string;
     Value?: string;
 }

@@ -1,5 +1,16 @@
 <h1>Managing Claims Demo</h1>
 <div>
+    <div *ngIf="token != null">
+        Your user id is {{token.UserId}}
+    </div>
+    <div>
+        <h4>Claims</h4>
+        <ul>
+            <li *ngFor="let claim of claims">
+                {{claim.Name}} = {{claim.Value}}
+            </li>
+        </ul>
+    </div>
     <ul>
         <li (click)="setTab('addFromClient')">Add from Client</li>
         <li (click)="setTab('removeFromClient')">Remove from Client</li>
@@ -24,10 +35,6 @@
         <form [formGroup]="form" (ngSubmit)="removeFromClient()">
             <label for="name">Name</label>
             <input id="name" type="text" formControlName="name"/>
-            <br />
-    
-            <label for="value">Value</label>
-            <input id="value" type="text" formControlName="value"/>
             <br />
     
             <button type="submit" [disabled]="!form.valid">Remove Claim Through Api</button>

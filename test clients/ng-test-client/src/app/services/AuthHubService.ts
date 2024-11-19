@@ -75,18 +75,19 @@ export class AuthHubService{
         if(token == null)
             throw "user is not logged in";
 
-        let headers = new HttpHeaders();
-        headers.append("x-authhub-organizationid", this.organizationId.toString())
-        headers.append("x-authhub-apikey", this.apiKey)
-        headers.append("x-authhub-apisecret", this.apiSecret)
-        headers.append("Authorization", "Bearer " + token.Value);
-        return headers;
+        return new HttpHeaders()
+        .append("x-authhub-organizationid", this.organizationId.toString())
+        .append("x-authhub-apikey", this.apiKey)
+        .append("x-authhub-apisecret", this.apiSecret)
+        .append("Authorization", "Bearer " + token.Value);
     }
 
     RefreshToken() :Observable<Token>{
+        let token: Token = GetToken();
+        
         return this.http.get<{
             Data: Token
-        }>(`${this.BaseUrl()}/api/token/refresh`, {
+        }>(`${this.BaseUrl()}/api/token/refresh?refreshToken=${token.RefreshToken}`, {
             headers: this.AuthorizationHeaders()
         })
         .pipe(map(x=> x.Data));

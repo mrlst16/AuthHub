@@ -1,6 +1,6 @@
-import { ClaimsRequest } from "./ClaimsRequest";
+import { Claim } from "./Claim";
 
 export class AddClaimsRequest{
     UserId?: number;
-    Claims?: ClaimsRequest[];
+    Claims?: Claim[];
 }
