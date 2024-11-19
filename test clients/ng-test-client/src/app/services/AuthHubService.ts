@@ -4,6 +4,7 @@ import { Token } from "../models/Token";
 import { AddClaimsRequest } from "../models/claims/AddClaimsRequest";
 import { RemoveClaimsRequest } from "../models/claims/RemoveClaimsRequest";
 import { SetClaimsRequest } from "../models/claims/SetClaimsRequest";
+import { Claim } from "../models/claims/Claim";
 
 export class AuthHubService{
 
@@ -144,3 +145,27 @@ export function SetToken(token: Token): void{
 export function IsLoggedIn(): boolean{
     return GetToken() != null
 }
+
+//Based on the answer here (Green Checkmark): https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
+export function GetClaims () {
+    let result: Claim[] = [];
+    
+    let storedToken: Token = GetToken();
+    if(storedToken == null) return result;
+
+    let token: string = storedToken.Value as string;
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    let payload = JSON.parse(jsonPayload);
+    Object.keys(payload).forEach(key=> {
+        let claim: Claim = new Claim();
+        claim.Name = key;
+        claim.Value = payload[key];
+        result.push(claim);
+      });
+    return result;
+  }

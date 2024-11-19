@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NavigationComponent } from './navigation/navigation.component';
 import { provideAuthHubService, provideAuthHubServiceFromEnvironment } from './providers/authHubServiceProviders';
 import { environment } from '../environments/environment';
+import { GetToken } from './services/AuthHubService';
 
 
 let loginRedirectUrlToken: InjectionToken<string> = new InjectionToken("loginUrl")
@@ -25,6 +26,11 @@ export class AppComponent {
   mode: "dev" | "prod" = "dev"
   showStuff: boolean = false;
   stuffMessage?: string;
+
+  ngOnInit(){
+    
+    
+  }
 
   onLogin(){
     this.showStuff = true;

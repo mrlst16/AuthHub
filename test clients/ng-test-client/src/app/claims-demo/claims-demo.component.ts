@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthHubService, GetToken, SetToken } from '../services/AuthHubService';
+import { AuthHubService, GetClaims, GetToken, SetToken } from '../services/AuthHubService';
 import { Token } from '../models/Token';
 import { AddClaimsRequest } from '../models/claims/AddClaimsRequest';
 import { Claim } from '../models/claims/Claim';
@@ -37,7 +37,7 @@ export class ClaimsDemoComponent {
 
   ngOnInit(){
     this.token = GetToken();
-    this.getClaims();
+    this.claims = GetClaims();
   }
 
   setTab(tab: string){
@@ -61,7 +61,7 @@ export class ClaimsDemoComponent {
     this.service.AddClaims(request).subscribe(res=> {
       this.service.RefreshToken().subscribe(x=> {
         SetToken(x);
-        this.getClaims();
+        this.claims = GetClaims();
       });
     });
   }
@@ -73,17 +73,8 @@ export class ClaimsDemoComponent {
     this.service.RemoveClaims(request).subscribe(res=> {
       this.service.RefreshToken().subscribe(x=> {
         SetToken(x);
-        this.getClaims();
+        this.claims = GetClaims();
       });
     });
-  }
-
-  getClaims(){
-    let headers: HttpHeaders = this.service.AuthorizationHeaders();
-    console.log("headers", headers);
-    this.http.get<Claim[]>("https://localhost:7201/api/claimsdemo", 
-        {headers: headers}
-      )
-      .subscribe(x=> this.claims = x);
   }
 }
