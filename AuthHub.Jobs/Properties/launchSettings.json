@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "AuthHub.Jobs": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "remoteDebugEnabled": false
+    }
+  }
+}

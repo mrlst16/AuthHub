@@ -68,3 +68,4 @@ volumes
 /test clients/DotnetTestClient/.vs/DotnetTestClient/DesignTimeBuild
 /test clients/DotnetTestClient/.vs/DotnetTestClient/FileContentIndex
 /test clients/DotnetTestClient/.vs/DotnetTestClient/v17
+/AuthHub.Jobs/appsetting.json
