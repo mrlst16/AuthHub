@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.BLL.Common.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthHub.Tests.MockData", "AuthHub.Tests.MockData\AuthHub.Tests.MockData.csproj", "{AE95DF1B-8271-4101-8BE7-474659A85CCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthHub.Jobs", "AuthHub.Jobs\AuthHub.Jobs.csproj", "{4EEE06F8-4949-4963-8B16-D08B205117B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,12 @@ Global
 		{AE95DF1B-8271-4101-8BE7-474659A85CCA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AE95DF1B-8271-4101-8BE7-474659A85CCA}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
 		{AE95DF1B-8271-4101-8BE7-474659A85CCA}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
+		{4EEE06F8-4949-4963-8B16-D08B205117B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EEE06F8-4949-4963-8B16-D08B205117B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EEE06F8-4949-4963-8B16-D08B205117B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EEE06F8-4949-4963-8B16-D08B205117B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EEE06F8-4949-4963-8B16-D08B205117B6}.Run Web UI and APIs|Any CPU.ActiveCfg = Release|Any CPU
+		{4EEE06F8-4949-4963-8B16-D08B205117B6}.Run Web UI and APIs|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
