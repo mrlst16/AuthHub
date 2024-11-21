@@ -31,4 +31,8 @@
     <ProjectReference Include="..\AuthHub.Tests.MockData\AuthHub.Tests.MockData.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Email\" />
+  </ItemGroup>
+
 </Project>

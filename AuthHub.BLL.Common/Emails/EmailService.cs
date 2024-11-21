@@ -22,7 +22,7 @@ namespace AuthHub.BLL.Common.Emails
             using SmtpClient client = new(_options.ServerAddress, _options.Port)
             {
                 EnableSsl = true,
-                Credentials = new NetworkCredential(_options.FromEmail, _options.Password)
+                Credentials = new NetworkCredential(_options.Username, _options.Password)
             };
 
             var message = new MailMessage(_options.FromEmail, to, subject, body);
