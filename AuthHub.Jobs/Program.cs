@@ -24,10 +24,16 @@ namespace AuthHub.Jobs
                     .UseRecommendedSerializerSettings()
                     .UseSqlServerStorage(app.Configuration.GetConnectionString("hangfire"));
 
-                //RecurringJob
-                //    .AddOrUpdate(() => BillingJob.Run(),
-                //        "*/1 * * * * *"
-                //        );
+                RecurringJobOptions options = new RecurringJobOptions()
+                {
+                    MisfireHandling = MisfireHandlingMode.Relaxed,
+                };
+
+                RecurringJob
+                    .AddOrUpdate("billing", () => TestJob.Run(),
+                        "*/1 * * * * *"
+                        );
+
                 using (var server = new BackgroundJobServer())
                 {
                     Console.ReadKey();

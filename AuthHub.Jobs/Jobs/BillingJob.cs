@@ -11,12 +11,6 @@ namespace AuthHub.Jobs.Jobs
     {
         public static void Run()
         {
-            BackgroundJob.Enqueue(() => Console.WriteLine($"The current date in UTC is {DateTime.UtcNow}"));
-        }
-
-        public void RunThis(string jobName)
-        {
-
         }
     }
 }

@@ -48,13 +48,12 @@ namespace AuthHub.Api.Controllers
             return new OkObjectResult(response);
         }
 
-        [HttpGet("request_email_verification_code")]
+        [HttpPost("request_email_verification_code")]
         public async Task<IActionResult> RequestEmailVerificationCodeAsync(
-            [FromBody] CreateUserRequest request
+            [FromQuery] int userId
             )
         {
-            var userid = User.GetUserId();
-            await _service.SendEmailVerificationEmail(userid);
+            await _service.SendEmailVerificationEmail(userId);
 
             var response = new ApiResponse<bool>()
             {
