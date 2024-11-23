@@ -44,25 +44,23 @@ namespace AuthHub.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AuthHubContext>(o =>
-            {
-                var connectionString = Configuration.GetConnectionString("authhub");
-                o.UseSqlServer(connectionString);
-            })
-            .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
-            .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
-            .AddTransient<ICredentialsEvaluator, CredentialsEvaluator>()
-            .AddTransient<IPasswordEvaluator, PasswordEvaluator>()
-            .AddTransient<IHasher, Hasher>()
-            .AddAuthHubServices()
-            .AddAuthHubLoaders()
-            .AddAuthHubValidators()
-            .AddAuthHubContexts()
-            .AddAuthHubOthers()
-            .AddFormatMappers()
-            .AddTransient<IDateProvider, DateProvider>()
-            .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"))
-            .Configure<OrganizationsAuthOptions>(Configuration.GetSection("AppSettings:OrganizationAuth"))
-            .Configure<VonagePhoneServiceOptions>(Configuration.GetSection("AppSettings:VonagePhoneService"));
+                {
+                    var connectionString = Configuration.GetConnectionString("authhub");
+                    o.UseSqlServer(connectionString);
+                })
+                .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
+                .AddTransient<JWTTokenGenerator, JWTTokenGenerator>()
+                .AddTransient<ICredentialsEvaluator, CredentialsEvaluator>()
+                .AddTransient<IPasswordEvaluator, PasswordEvaluator>()
+                .AddTransient<IHasher, Hasher>()
+                .AddAuthHubServices()
+                .AddAuthHubLoaders()
+                .AddAuthHubValidators()
+                .AddAuthHubContexts()
+                .AddAuthHubOthers()
+                .AddFormatMappers()
+                .AddTransient<IDateProvider, DateProvider>()
+                .Configure<EmailServiceOptions>(Configuration.GetSection("AppSettings:Email"));
 
             services.AddAuthentication(options =>
             {
@@ -86,19 +84,6 @@ namespace AuthHub.Api
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = Configuration.GetValue<string>("AppSettings:OrganizationAuth:Issuer"),
-                    ValidAudience = Configuration.GetValue<string>("AppSettings:OrganizationAuth:Audience"),
-                    IssuerSigningKey = new SymmetricSecurityKey
-                        (Encoding.UTF8.GetBytes(Configuration.GetValue<string>("AppSettings:OrganizationAuth:Key"))),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = false,
-                    ValidateIssuerSigningKey = true
-                };
             });
 
             services.AddControllers().AddJsonOptions(x =>

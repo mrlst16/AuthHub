@@ -58,7 +58,7 @@ namespace AuthHub.Api.Controllers
             var response = new ApiResponse<bool>()
             {
                 Data = true,
-                SuccessMessage = "Successfully created user",
+                SuccessMessage = "Successfully requested email verification",
                 Success = true
             };
             return new OkObjectResult(response);
