@@ -1,4 +1,3 @@
-using System.Text;
 using AuthHub.Api.Middleware;
 using AuthHub.Api.ServiceRegistrations;
 using AuthHub.BLL.Common.Hashing;
@@ -20,8 +19,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using AuthHub.Api.Helpers;
-using AuthHub.BLL;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AuthHub.Api
