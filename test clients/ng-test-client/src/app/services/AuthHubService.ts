@@ -5,17 +5,19 @@ import { AddClaimsRequest } from "../models/claims/AddClaimsRequest";
 import { RemoveClaimsRequest } from "../models/claims/RemoveClaimsRequest";
 import { SetClaimsRequest } from "../models/claims/SetClaimsRequest";
 import { Claim } from "../models/claims/Claim";
+import { GetToken, SetToken } from "./TokenStorage";
 
 export class AuthHubService{
 
-    public static readonly LocalStorageTokenName = "authhub-token";
+    public static readonly StorageTokenName = "authhub-token";
 
     constructor(
         private readonly http: HttpClient,
         private readonly mode: "dev" | "prod",
         private readonly organizationId: number,
         private readonly apiKey: string,
-        private readonly apiSecret: string
+        private readonly apiSecret: string,
+        private readonly tokenStorageMode: "local" | "session" = "local"
     ){
     }
 
@@ -95,7 +97,7 @@ export class AuthHubService{
     }
 
     Logout(): void{
-        localStorage.removeItem(AuthHubService.LocalStorageTokenName);
+        localStorage.removeItem(AuthHubService.StorageTokenName);
     }
 
     AddClaims(request: AddClaimsRequest): Observable<boolean>{
@@ -131,41 +133,3 @@ export class AuthHubService{
         .pipe(map(x=> x.Data));
     }
 }
-
-
-export function GetToken(): Token{
-    let json = localStorage.getItem(AuthHubService.LocalStorageTokenName)
-    return JSON.parse(json as string);
-}
-
-export function SetToken(token: Token): void{
-    localStorage.setItem(AuthHubService.LocalStorageTokenName, JSON.stringify(token))
-}
-
-export function IsLoggedIn(): boolean{
-    return GetToken() != null
-}
-
-//Based on the answer here (Green Checkmark): https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
-export function GetClaims () {
-    let result: Claim[] = [];
-    
-    let storedToken: Token = GetToken();
-    if(storedToken == null) return result;
-
-    let token: string = storedToken.Value as string;
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    let payload = JSON.parse(jsonPayload);
-    Object.keys(payload).forEach(key=> {
-        let claim: Claim = new Claim();
-        claim.Name = key;
-        claim.Value = payload[key];
-        result.push(claim);
-      });
-    return result;
-  }

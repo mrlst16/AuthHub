@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthHubService, GetClaims, GetToken, SetToken } from '../services/AuthHubService';
+import { AuthHubService } from '../services/AuthHubService';
 import { Token } from '../models/Token';
 import { AddClaimsRequest } from '../models/claims/AddClaimsRequest';
 import { Claim } from '../models/claims/Claim';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { RemoveClaimsRequest } from '../models/claims/RemoveClaimsRequest';
+import { GetClaims, GetToken, SetToken } from '../services/TokenStorage';
 
 @Component({
   selector: 'app-claims-demo',

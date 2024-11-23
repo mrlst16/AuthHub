@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AuthHubService, IsLoggedIn, SetToken } from '../services/AuthHubService';
+import { AuthHubService } from '../services/AuthHubService';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { IsLoggedIn, SetToken } from '../services/TokenStorage';
 
 @Component({
   selector: 'app-authhub-login',

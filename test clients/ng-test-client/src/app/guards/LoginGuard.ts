@@ -1,6 +1,6 @@
 import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
-import { IsLoggedIn } from "../services/AuthHubService";
+import { IsLoggedIn } from "../services/TokenStorage";
 
 
 export const isLoggedInActivate: CanActivateFn = (
