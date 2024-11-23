@@ -91,7 +91,9 @@ namespace AuthHub.Api
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 x.JsonSerializerOptions.PropertyNamingPolicy = new CapitalizedNamingPolicy();
             });
-            services.AddSwaggerGen(c =>
+            services
+                .AddEndpointsApiExplorer()
+                .AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthHub", Version = "v1" });
             });
