@@ -8,15 +8,12 @@ using AuthHub.Models.Entities.Verification;
 using AuthHub.Models.Enums;
 using AuthHub.Models.Requests;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Interfaces.Hashing;
 using Common.Interfaces.Utilities;
 using AuthHub.Models.Responses.User;
-using AuthHub.Models.Entities.Claims;
 using AuthHub.Models.Entities.Organizations;
 
 namespace AuthHub.BLL.Users
@@ -85,16 +82,15 @@ namespace AuthHub.BLL.Users
             };
 
             await _userContext.SaveAsync(user);
-            //user.Id = await _loader.SaveAsync(user);
-            //try
-            //{
-            //    VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
-            //    await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
-            //}
-            //catch (Exception e)
-            //{
-            //    //Swallow this exception for now
-            //}
+            try
+            {
+                VerificationCode code = await _verificationCodeService.GenerateAndSaveUserVerificationCode(user.Id);
+                await _emailService.SendUserVerificationEmail(user.Email, user.Id, code);
+            }
+            catch (Exception e)
+            {
+                //Swallow this exception for now
+            }
 
             return user;
         }

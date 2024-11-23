@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthHub.DAL.EntityFramework\AuthHub.DAL.EntityFramework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
