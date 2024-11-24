@@ -5,7 +5,6 @@ namespace AuthHub.Interfaces.Passwords
 {
     public interface IPasswordContext
     {
-        Task<(bool, Password)> Set(int organizationId, string authSettingsname, Password request);
-        Task<Password> Get(int organizationId, string authSettingsname, string username);
+        Task SaveAsync(int userId, byte[] passwordHash, byte[] salt);
     }
 }

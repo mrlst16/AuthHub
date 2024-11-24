@@ -30,7 +30,7 @@ namespace AuthHub.Api.Controllers
             _requestPasswordResetTokenResponseMapper = requestPasswordResetTokenResponseMapper;
         }
 
-        [HttpPost("reset_password")]
+        [HttpPost()]
         public async Task<IActionResult> ResetPassword(
             [FromBody] ResetPasswordRequest request
         )
@@ -52,7 +52,7 @@ namespace AuthHub.Api.Controllers
             [FromBody] RequestPasswordResetRequest request
         )
         {
-            var result = await _service.RequestPasswordResetForUser(request.UserId);
+            var result = await _service.RequestPasswordResetForUser(request.Username);
             var response = new ApiResponse<RequestPasswordResetTokenResponse>()
             {
                 Data = _requestPasswordResetTokenResponseMapper.Map(result),

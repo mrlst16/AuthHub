@@ -32,7 +32,7 @@ namespace AuthHub.BLL.Users
         }
 
         public async Task<User> GetAsync(string username)
-            => await _userContext.Get(username);
+            => await _userContext.GetAsync(username);
 
         public async Task<int> SaveAsync(User item)
             => await _userContext.SaveAsync(item);

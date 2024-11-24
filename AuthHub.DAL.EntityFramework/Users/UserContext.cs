@@ -59,7 +59,7 @@ namespace AuthHub.DAL.EntityFramework.Users
             return result;
         }
 
-        public async Task<User?> Get(string userName)
+        public async Task<User?> GetAsync(string userName)
         {
             try
             {

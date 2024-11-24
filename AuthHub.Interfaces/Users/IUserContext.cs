@@ -9,8 +9,8 @@ namespace AuthHub.Interfaces.Users
         Task<User> Create(User user);
         Task<User> GetAsync(int id);
         Task<User> GetAsync(int organizationId, string userName);
+        Task<User> GetAsync(string userName);
         Task<int> SaveAsync(User item);
-        Task<User> Get(string userName);
         Task AddToken(User user, Token token);
         Task UpdatePassword(User user, Password password, PasswordArchive archives);
         Task Update(User user);

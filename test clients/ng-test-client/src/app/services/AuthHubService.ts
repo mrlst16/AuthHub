@@ -132,4 +132,18 @@ export class AuthHubService{
         })
         .pipe(map(x=> x.Data));
     }
+    
+    RequestPasswordReset(username: string) :Observable<boolean>{
+        return this.http.post<{
+            Data: {},
+            Success: boolean
+        }>(`${this.BaseUrl()}/api/password_reset/request_user_password_reset`,
+            {
+                Username: username
+            },
+        {
+            headers: this.AuthorizationHeaders()
+        })
+        .pipe(map(x=> x.Success));
+    }
 }

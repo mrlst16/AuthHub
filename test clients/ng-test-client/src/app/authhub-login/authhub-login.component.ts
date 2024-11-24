@@ -20,6 +20,8 @@ export class AuthhubLoginComponent {
   showForm: boolean = false;
   loggedIn: boolean = false;
 
+  message: string | null = null;
+
   form = this.fb.group({
     Username: ['', Validators.required],
     Password: ['', Validators.required]
@@ -51,5 +53,20 @@ export class AuthhubLoginComponent {
     this.service?.Logout();
     this.loggedIn = false;
     this.onLogoout.emit();
+  }
+
+  requestPasswordReset(){
+    this.service.RequestPasswordReset(this.form.value.Username as string)
+      .subscribe(x=> {
+        if(x == true)
+          this.message = "Check your email for a password reset link"
+        else 
+          this.message = "Unable to reset password.  Verify that you entered the correct username"
+
+        let self = this;
+        setTimeout(function(){
+          self.message = null;
+        }, 5000)
+      });
   }
 }

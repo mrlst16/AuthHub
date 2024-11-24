@@ -26,6 +26,8 @@ import * as organizationEffects from './store/organization/organization.effects'
 import * as apiKeyEffects from './store/apikey/apikeys.effects'
 import * as claimsEffects from './store/claims/claims.effects'
 import * as authSettingsEffects from './store/auth-settings/auth-settings.effects'
+import * as userEffects from './store/user/user.effects'
+import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import * as authSettingsEffects from './store/auth-settings/auth-settings.effect
     ApiKeysComponent,
     ClaimsTemplateListComponent,
     ClaimsTemplateComponent,
-    AuthSettingsComponent
+    AuthSettingsComponent,
+    ResetUserPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,7 @@ import * as authSettingsEffects from './store/auth-settings/auth-settings.effect
         authSettings: authSettingsReducer
       },
     ),
-    EffectsModule.forRoot(organizationEffects, apiKeyEffects, claimsEffects, authSettingsEffects)
+    EffectsModule.forRoot(organizationEffects, apiKeyEffects, claimsEffects, authSettingsEffects, userEffects)
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

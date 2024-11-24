@@ -17,6 +17,7 @@ namespace AuthHub.Models.Entities.Organizations
         public string Issuer { get; set; }
         public string Audience { get; set; }
         public int ExpirationMinutes { get; set; } = 30;
+        public string PasswordResetUrl { get; set; }
         public Organization Organization { get; set; }
     }
 }

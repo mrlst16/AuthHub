@@ -19,7 +19,19 @@
 
                 <button type="submit" [disabled]="!form.valid">Log In</button>
                 <button type="button" (click)="showForm=false">Cancel</button>
+                <div>
+                    <ul>
+                        <li>
+                            <a (click)="requestPasswordReset()">Reset Password</a>
+                        </li>
+                    </ul>
+                </div>
             </form>
+
+            <div *ngIf="message != null" class="authhub_login_message">
+                {{message}}
+            </div>
         </div>
     </div>
+
 </div>

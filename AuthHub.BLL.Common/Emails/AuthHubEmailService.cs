@@ -21,11 +21,10 @@ namespace AuthHub.BLL.Common.Emails
         {
             var url = $"{resetPasswordFormUrl}" +
             $"?userid={userid}" +
-                      $"&email={email}" +
-                      $"&token={verificationCode}";
+                      $"&verificationCode={verificationCode}";
             var link = $"<a href=\"{url}\">Reset Password</a>";
 
-            await _emailService.SendEmail(email, "AuthHub Reset Email", link);
+            await _emailService.SendEmail(email, "Buzzauth Reset Email", link);
         }
 
         public async Task SendUserVerificationEmail(string email, int userid, string verificationCode)

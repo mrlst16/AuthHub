@@ -1,27 +1,33 @@
 ﻿using AuthHub.Interfaces.Passwords;
 using AuthHub.Models.Entities.Passwords;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthHub.DAL.EntityFramework.Passwords
 {
     public class PasswordsContext : IPasswordContext
     {
-        private readonly AuthHubContext _authHubContext;
+        private readonly AuthHubContext _context;
 
         public PasswordsContext(
-            AuthHubContext authHubContext
+            AuthHubContext context
             )
         {
-            _authHubContext = authHubContext;
+            _context = context;
         }
 
-        public Task<(bool, Password)> Set(int organizationId, string authSettingsname, Password request)
+        public async Task SaveAsync(int userId, byte[] passwordHash, byte[] salt)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Password> Get(int organizationId, string authSettingsname, string username)
-        {
-            throw new NotImplementedException();
+            var entity = await _context.Passwords.FirstOrDefaultAsync(x => x.UserId == userId);
+            _context.PasswordArchives.AddAsync(new PasswordArchive()
+            {
+                PasswordHash = entity.PasswordHash,
+                Salt = entity.Salt,
+                UserId = entity.UserId
+            });
+            entity.PasswordHash = passwordHash;
+            entity.Salt = salt;
+            entity.LastUpdated = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
         }
     }
 }

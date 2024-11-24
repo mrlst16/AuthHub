@@ -7,14 +7,16 @@ import { ClaimsTemplateListComponent } from './claims-template-list/claims-templ
 import { ClaimsTemplateComponent } from './claims-template/claims-template.component';
 import { AuthSettingsComponent } from './auth-settings/auth-settings.component';
 import { LoginActivate } from './misc/LoginActivate';
+import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component';
 
 const routes: Routes = [
   { path: "register", component: RegistrationComponent},
   { path: "login", component: LoginComponent},
   { path: "api-keys", component: ApiKeysComponent, canActivate: [LoginActivate]},
-  { path: "claims-templates", component: ClaimsTemplateListComponent},
-  { path: "claims-template/:name", component: ClaimsTemplateComponent},
-  { path: "auth-settings", component: AuthSettingsComponent}
+  { path: "claims-templates", component: ClaimsTemplateListComponent, canActivate: [LoginActivate]},
+  { path: "claims-template/:name", component: ClaimsTemplateComponent, canActivate: [LoginActivate]},
+  { path: "auth-settings", component: AuthSettingsComponent, canActivate: [LoginActivate]},
+  { path: "reset-user-password", component: ResetUserPasswordComponent}
 ];
 
 @NgModule({
