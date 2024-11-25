@@ -1,48 +1,41 @@
 ﻿using AuthHub.Jobs.Jobs;
-using Hangfire;
-using Microsoft.AspNetCore.Builder;
+using AuthHub.Jobs.Jobs.Billing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-namespace AuthHub.Jobs
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+HostApplicationBuilder app = new HostApplicationBuilder();
+app.Configuration
+    .AddJsonFile("appsettings.json", false)
+    .AddJsonFile($"appsettings.{env}.json", true);
+            
+Console.WriteLine("Starting...");
+
+try
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            HostApplicationBuilder app = new HostApplicationBuilder();
-            app.Configuration.AddJsonFile("appsettings.json", false)
-                .AddJsonFile($"appsettings.{env}.json", true);
 
-            Console.WriteLine("Starting...");
-            try
-            {
-                GlobalConfiguration.Configuration
-                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
-                    .UseSimpleAssemblyNameTypeSerializer()
-                    .UseRecommendedSerializerSettings()
-                    .UseSqlServerStorage(app.Configuration.GetConnectionString("hangfire"));
+    HttpClient http = new HttpClient();
+    http.BaseAddress = new Uri("https://www.google.com");
+    var response = await http.GetAsync("");
 
-                RecurringJobOptions options = new RecurringJobOptions()
-                {
-                    MisfireHandling = MisfireHandlingMode.Relaxed,
-                };
-
-                RecurringJob
-                    .AddOrUpdate("billing", () => TestJob.Run(),
-                        "*/1 * * * * *"
-                        );
-
-                using (var server = new BackgroundJobServer())
-                {
-                    Console.ReadKey();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-    }
+    PaypalClient client = new PaypalClient(app.Configuration);
+    client.GetAuthToken();
 }
+catch (Exception e)
+{
+                
+
+}
+//try
+//{
+//    while (true)
+//    {
+//        //BillingJob billingJob = new BillingJob(
+//        //)
+//        Thread.Sleep(TimeSpan.FromDays(1));
+//    }
+//}
+//catch (Exception e)
+//{
+//    Console.WriteLine(e);
+//}
