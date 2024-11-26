@@ -79,10 +79,11 @@ namespace AuthHub.Jobs.Jobs.Billing
             return JsonConvert.DeserializeObject<PaypalAuthorizationResponse>(json, SerializerSettings);
         }
 
-        public async Task<CreateDraftResponse> CreateDraftInvoiceAsync(Invoice invoice)
+        public async Task<CreateDraftResponse> CreateDraftInvoiceAsync(PaypalInvoice paypalInvoice)
         {
             await EnsureAuthorizationAsync();
-            var response = await AuthorizedClient.PostAsJsonAsync("v2/invoicing/invoices", invoice);
+            var response = await AuthorizedClient.PostAsJsonAsync("v2/invoicing/invoices", paypalInvoice);
+            response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<CreateDraftResponse>(json);
         }

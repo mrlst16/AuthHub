@@ -4,6 +4,7 @@ using AuthHub.DAL.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthHub.DAL.EntityFramework.Migrations
 {
     [DbContext(typeof(AuthHubContext))]
-    partial class AuthHubContextModelSnapshot : ModelSnapshot
+    [Migration("20241126050517_AddInvoiceTable")]
+    partial class AddInvoiceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +45,7 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                     b.Property<string>("ExternalInvoiceId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ExternalInvoiceLink")
+                    b.Property<string>("ExternalInvoiceLing")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("InvoiceDateUTC")
@@ -199,8 +202,8 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 11, 26, 5, 12, 54, 650, DateTimeKind.Utc).AddTicks(8063),
-                            LastUpdated = new DateTime(2024, 11, 26, 5, 12, 54, 650, DateTimeKind.Utc).AddTicks(8064),
+                            CreateDate = new DateTime(2024, 11, 26, 5, 5, 17, 9, DateTimeKind.Utc).AddTicks(2148),
+                            LastUpdated = new DateTime(2024, 11, 26, 5, 5, 17, 9, DateTimeKind.Utc).AddTicks(2148),
                             Name = "JWT",
                             Value = 1
                         });
@@ -237,24 +240,24 @@ namespace AuthHub.DAL.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 11, 26, 5, 12, 54, 650, DateTimeKind.Utc).AddTicks(8298),
-                            LastUpdated = new DateTime(2024, 11, 26, 5, 12, 54, 650, DateTimeKind.Utc).AddTicks(8298),
+                            CreateDate = new DateTime(2024, 11, 26, 5, 5, 17, 9, DateTimeKind.Utc).AddTicks(2329),
+                            LastUpdated = new DateTime(2024, 11, 26, 5, 5, 17, 9, DateTimeKind.Utc).AddTicks(2329),
                             Name = "UserEmail",
                             Value = 0
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2024, 11, 26, 5, 12, 54, 650, DateTimeKind.Utc).AddTicks(8301),
-                            LastUpdated = new DateTime(2024, 11, 26, 5, 12, 54, 650, DateTimeKind.Utc).AddTicks(8301),
+                            CreateDate = new DateTime(2024, 11, 26, 5, 5, 17, 9, DateTimeKind.Utc).AddTicks(2334),
+                            LastUpdated = new DateTime(2024, 11, 26, 5, 5, 17, 9, DateTimeKind.Utc).AddTicks(2334),
                             Name = "PasswordReset",
                             Value = 1
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2024, 11, 26, 5, 12, 54, 650, DateTimeKind.Utc).AddTicks(8302),
-                            LastUpdated = new DateTime(2024, 11, 26, 5, 12, 54, 650, DateTimeKind.Utc).AddTicks(8303),
+                            CreateDate = new DateTime(2024, 11, 26, 5, 5, 17, 9, DateTimeKind.Utc).AddTicks(2335),
+                            LastUpdated = new DateTime(2024, 11, 26, 5, 5, 17, 9, DateTimeKind.Utc).AddTicks(2335),
                             Name = "PhoneLogin",
                             Value = 2
                         });

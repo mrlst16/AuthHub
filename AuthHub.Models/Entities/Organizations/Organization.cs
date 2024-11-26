@@ -5,6 +5,7 @@ using AuthHub.Models.Entities.Claims;
 using AuthHub.Models.Entities.Passwords;
 using AuthHub.Models.Entities.Tokens;
 using AuthHub.Models.Entities.Users;
+using AuthHub.Models.Entities.Billing;
 
 namespace AuthHub.Models.Entities.Organizations
 {
@@ -14,10 +15,12 @@ namespace AuthHub.Models.Entities.Organizations
         public string Email { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+
         public List<ClaimsTemplate> ClaimsTemplates { get; set; }
         public AuthSettings Settings { get; set; }
         public List<APIKeyAndSecretHash> APIKeyAndSecretHash { get; set; }
         public OrganizationToken Token { get; set; }
         public List<User> Users { get; set; }
+        public List<Invoice> Invoices { get; set; }
     }
 }

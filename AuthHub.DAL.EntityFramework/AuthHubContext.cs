@@ -1,4 +1,5 @@
-﻿using AuthHub.Models.Entities.Claims;
+﻿using AuthHub.Models.Entities.Billing;
+using AuthHub.Models.Entities.Claims;
 using AuthHub.Models.Entities.Enums;
 using AuthHub.Models.Entities.Organizations;
 using AuthHub.Models.Entities.Passwords;
@@ -29,6 +30,7 @@ namespace AuthHub.DAL.EntityFramework
         public DbSet<VerificationCode> VerificationCodes { get; set; }
         public DbSet<APIKeyAndSecretHash> ApiKeyAndSecrets { get; set; }
         public DbSet<Token> Tokens { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
 
         public AuthHubContext()
         {
@@ -65,6 +67,9 @@ namespace AuthHub.DAL.EntityFramework
                 .IsRequired();
             modelBuilder.Entity<Organization>()
                 .HasMany<APIKeyAndSecretHash>(x => x.APIKeyAndSecretHash);
+            modelBuilder.Entity<Organization>()
+                .HasMany(x=> x.Invoices)
+                .WithOne(x => x.Organization);
 
             modelBuilder.Entity<OrganizationToken>()
                 .HasKey(x=> x.Id);
@@ -208,6 +213,10 @@ namespace AuthHub.DAL.EntityFramework
 
             //Tokens
             modelBuilder.Entity<Token>()
+                .HasKey(x => x.Id);
+
+            //Invoices
+            modelBuilder.Entity<Invoice>()
                 .HasKey(x => x.Id);
             #endregion
 

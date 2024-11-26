@@ -1,4 +1,4 @@
-﻿public class Invoice
+﻿public class PaypalInvoice
 {
     public InvoiceDetail Detail { get; set; }
     public Invoicer Invoicer { get; set; }
@@ -85,7 +85,7 @@ public class Item
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public string Quantity { get; set; }
+    public int Quantity { get; set; }
     public UnitAmount UnitAmount { get; set; }
     public Tax Tax { get; set; }
     public Discount Discount { get; set; }
@@ -95,7 +95,7 @@ public class Item
 public class UnitAmount
 {
     public string CurrencyCode { get; set; }
-    public string Value { get; set; }
+    public double Value { get; set; }
 }
 
 public class Tax
