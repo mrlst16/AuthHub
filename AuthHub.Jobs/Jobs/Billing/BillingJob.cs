@@ -1,6 +1,5 @@
 ﻿using AuthHub.DAL.EntityFramework;
 using AuthHub.Interfaces.Emails;
-using AuthHub.Interfaces.Jobs;
 using AuthHub.Jobs.Models.Billing.Paypal;
 using AuthHub.Models.Entities.Billing;
 using AuthHub.Models.Entities.Organizations;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AuthHub.Jobs.Jobs.Billing
 {
-    public class BillingJob : IJob
+    public class BillingJob
     {
         private readonly AuthHubContext _context;
         private readonly IConfiguration _configuration;
@@ -19,7 +18,9 @@ namespace AuthHub.Jobs.Jobs.Billing
         private readonly IBillingEmailService _billingEmailService;
 
         private int DayOfTheMonth;
-        private int LastDailyInvoiceNumber;
+        private readonly int Month;
+        private readonly int Year;
+        
         private double PricePerUser;
 
         public BillingJob(
@@ -37,6 +38,9 @@ namespace AuthHub.Jobs.Jobs.Billing
             _billingEmailService = billingEmailService;
 
             DayOfTheMonth = _dateProvider.UTCNow.Day;
+            Year = _dateProvider.UTCNow.Year;
+            Month = _dateProvider.UTCNow.Month;
+
             PricePerUser = _configuration.GetValue<double>("AppSettings:PricePerUser");
         }
 
@@ -51,6 +55,7 @@ namespace AuthHub.Jobs.Jobs.Billing
                         x.CreateDate.Value.Day == DayOfTheMonth
                         && x.DeletedUTC == null
                         && x.Users.Any()
+                        && !x.Invoices.Any(x=> x.InvoiceDateUTC.Year == Year && x.InvoiceDateUTC.Month == Month)
                         )
                     .ToList();
 
@@ -77,9 +82,6 @@ namespace AuthHub.Jobs.Jobs.Billing
 
                 //Send an email to the client with a link to the invoice to verify that they are aware of it
                 await _billingEmailService.SendPaymentReadyEmail(organization.Email, sendInvoiceResponse.Href);
-                
-                //Increment the invoice number
-                LastDailyInvoiceNumber++;
             }
         }
 
@@ -141,42 +143,33 @@ namespace AuthHub.Jobs.Jobs.Billing
             return paypalInvoice;
         }
 
-        private void GetLatestDailyInvoiceNumber()
+        private int GetLatestDailyInvoiceNumber()
         {
             var invoicesThisDay = _context.Invoices
                 .Where(x => x.InvoiceDateUTC == DateOnly.FromDateTime(_dateProvider.UTCNow))
                 .ToList();
             if (!invoicesThisDay.Any())
             {
-                LastDailyInvoiceNumber = 0;
-                return;
+                return 0;
             }
-            LastDailyInvoiceNumber =
+            return 
                 invoicesThisDay
                     .Select(x=> x.InvoiceNumber)
                     .Select(x => int.Parse(x.Substring(x.Length - 4)))
                     .OrderByDescending(x => x)
                     .First();
-
         }
 
         private string GenerateInvoiceNumber()
         {
-            string randomPart = "";
-            for (int i = 0; i < 5; i++)
-            {
-                Random random = new Random(Guid.NewGuid().GetHashCode());
-                int randomNumber = random.Next(0, 9);
-                randomPart += randomNumber.ToString();
-            }
-            var result = $"buzzauth{_dateProvider.UTCNow.ToString("MMddyyy")}{randomPart}";
-
+            var latestDailyInvoiceNumber = GetLatestDailyInvoiceNumber();
+            var dailyInvoiceNumber = latestDailyInvoiceNumber + 1;
+            var dailyInvoiceNumberPart = PadWithZerosInFront(dailyInvoiceNumber, 4);
+            var result = $"buzzauth{_dateProvider.UTCNow.ToString("MMddyyy")}{dailyInvoiceNumberPart}";
             return result;
         }
-        //private string GenerateInvoiceNumber()
-        //    => $"buzzauth{_dateProvider.UTCNow.ToString("MMddyyy")}{PadWithZerosInFront(LastDailyInvoiceNumber + 1, 5)}";
 
-        static string PadWithZerosInFront(int number, int totalSpaces)
+        private string PadWithZerosInFront(int number, int totalSpaces)
         {
             string result = number.ToString();
             int padCount = totalSpaces - result.Length;

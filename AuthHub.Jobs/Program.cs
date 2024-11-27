@@ -2,7 +2,6 @@
 using AuthHub.BLL.Common.Providers;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.Interfaces.Emails;
-using AuthHub.Interfaces.Jobs;
 using AuthHub.Jobs.Jobs.Billing;
 using AuthHub.Models.Options;
 using Common.Interfaces.Providers;
@@ -25,7 +24,7 @@ app.Services.AddDbContext<AuthHubContext>(o =>
     .AddTransient<IPaypalClient, PaypalClient>()
     .AddTransient<IEmailService, EmailService>()
     .AddTransient<IBillingEmailService, BillingEmailService>()
-    .AddTransient<IJob, BillingJob>()
+    .AddTransient<BillingJob>()
     .Configure<EmailServiceOptions>(app.Configuration.GetSection("AppSettings:Email"));
 
 //If in debug mode, use the mock capabilities of the date provider
@@ -41,7 +40,7 @@ Console.WriteLine("Starting...");
 try
 {
     var host = app.Build();
-    var job = (IJob)host.Services.GetService(typeof(IJob));
+    var job = (BillingJob)host.Services.GetService(typeof(BillingJob));
     await job.RunAsync();
 }
 catch (Exception e)
