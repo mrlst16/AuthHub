@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
 using AuthHub.Jobs.Models.Billing.Paypal;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -20,6 +21,11 @@ namespace AuthHub.Jobs.Jobs.Billing
             {
                 NamingStrategy = new SnakeCaseNamingStrategy()
             }
+        };
+
+        private readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
         };
 
         private PaypalAuthorizationResponse Authorization;
@@ -82,10 +88,15 @@ namespace AuthHub.Jobs.Jobs.Billing
         public async Task<CreateDraftResponse> CreateDraftInvoiceAsync(PaypalInvoice paypalInvoice)
         {
             await EnsureAuthorizationAsync();
-            var response = await AuthorizedClient.PostAsJsonAsync("v2/invoicing/invoices", paypalInvoice);
-            response.EnsureSuccessStatusCode();
+            string invoiceJson = JsonConvert.SerializeObject(paypalInvoice, SerializerSettings);
+            HttpContent content = new StringContent(invoiceJson);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            content.Headers.Add("Prefer", "return=representation");
+            var response = await AuthorizedClient.PostAsync("v2/invoicing/invoices", content);
             var json = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<CreateDraftResponse>(json);
+            //I'm putting the ensure call after the reading to debug
+            response.EnsureSuccessStatusCode();
+            return JsonConvert.DeserializeObject<CreateDraftResponse>(json, SerializerSettings);
         }
 
         public async Task<SendInvoiceResponse> SendInvoiceAsync(string invoiceId)
@@ -95,8 +106,10 @@ namespace AuthHub.Jobs.Jobs.Billing
                 new
                 {
                     send_to_invoicer = true
-                }
+                },
+                SerializerOptions
             );
+            response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<SendInvoiceResponse>(json);
         }

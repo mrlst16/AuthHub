@@ -17,7 +17,7 @@ namespace AuthHub.BLL.Common.Emails
             _options = options.Value;
         }
 
-        public async Task SendEmail(string to, string subject, string body)
+        public async Task SendEmailAsync(string to, string subject, string body)
         {
             using SmtpClient client = new(_options.Server, _options.Port)
             {

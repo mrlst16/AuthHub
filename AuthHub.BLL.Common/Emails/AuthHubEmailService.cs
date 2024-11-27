@@ -24,7 +24,7 @@ namespace AuthHub.BLL.Common.Emails
                       $"&verificationCode={verificationCode}";
             var link = $"<a href=\"{url}\">Reset Password</a>";
 
-            await _emailService.SendEmail(email, "Buzzauth Reset Email", link);
+            await _emailService.SendEmailAsync(email, "Buzzauth Reset Email", link);
         }
 
         public async Task SendUserVerificationEmail(string email, int userid, string verificationCode)
@@ -33,7 +33,7 @@ namespace AuthHub.BLL.Common.Emails
                       $"?userId={userid}" +
                       $"&code={verificationCode}";
             var link = $"<a href=\"{url}\">Verify Email</a>";
-            await _emailService.SendEmail(email, "AuthHub Verify Email", link);
+            await _emailService.SendEmailAsync(email, "AuthHub Verify Email", link);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AuthHub.DAL.EntityFramework;
+using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Jobs;
 using AuthHub.Jobs.Models.Billing.Paypal;
 using AuthHub.Models.Entities.Billing;
@@ -15,6 +16,7 @@ namespace AuthHub.Jobs.Jobs.Billing
         private readonly IConfiguration _configuration;
         private readonly IDateProvider _dateProvider;
         private readonly IPaypalClient _paypalClient;
+        private readonly IBillingEmailService _billingEmailService;
 
         private int DayOfTheMonth;
         private int LastDailyInvoiceNumber;
@@ -24,17 +26,18 @@ namespace AuthHub.Jobs.Jobs.Billing
             AuthHubContext context,
             IConfiguration configuration,
             IDateProvider dateProvider,
-            IPaypalClient paypalClient
+            IPaypalClient paypalClient,
+            IBillingEmailService billingEmailService
             )
         {
             _context = context;
             _configuration = configuration;
             _dateProvider = dateProvider;
             _paypalClient = paypalClient;
+            _billingEmailService = billingEmailService;
 
             DayOfTheMonth = _dateProvider.UTCNow.Day;
             PricePerUser = _configuration.GetValue<double>("AppSettings:PricePerUser");
-
         }
 
         public async Task RunAsync()
@@ -53,12 +56,13 @@ namespace AuthHub.Jobs.Jobs.Billing
 
             foreach (var organization in organizations)
             {
-
                 //Create a draft invoice
                 var paypalInvoice = CreateInvoiceAsync(organization);
                 CreateDraftResponse createDraftResponse = await _paypalClient.CreateDraftInvoiceAsync(paypalInvoice);
+                
                 //Send the invoice
                 SendInvoiceResponse sendInvoiceResponse = await _paypalClient.SendInvoiceAsync(createDraftResponse.Id);
+                
                 //Record the invoice in our database
                 Invoice invoiceEntity = new Invoice()
                 {
@@ -70,8 +74,10 @@ namespace AuthHub.Jobs.Jobs.Billing
                 };
                 _context.Invoices.Add(invoiceEntity);
                 await _context.SaveChangesAsync();
-                //Send an email to the client with a link to the invoice to verify that they are aware of it
 
+                //Send an email to the client with a link to the invoice to verify that they are aware of it
+                await _billingEmailService.SendPaymentReadyEmail(organization.Email, sendInvoiceResponse.Href);
+                
                 //Increment the invoice number
                 LastDailyInvoiceNumber++;
             }
@@ -151,10 +157,24 @@ namespace AuthHub.Jobs.Jobs.Billing
                     .Select(x => int.Parse(x.Substring(x.Length - 4)))
                     .OrderByDescending(x => x)
                     .First();
+
         }
 
         private string GenerateInvoiceNumber()
-            => $"buzzauth{_dateProvider.UTCNow.ToString("MMddyyy")}{PadWithZerosInFront(LastDailyInvoiceNumber+1, 5)}";
+        {
+            string randomPart = "";
+            for (int i = 0; i < 5; i++)
+            {
+                Random random = new Random(Guid.NewGuid().GetHashCode());
+                int randomNumber = random.Next(0, 9);
+                randomPart += randomNumber.ToString();
+            }
+            var result = $"buzzauth{_dateProvider.UTCNow.ToString("MMddyyy")}{randomPart}";
+
+            return result;
+        }
+        //private string GenerateInvoiceNumber()
+        //    => $"buzzauth{_dateProvider.UTCNow.ToString("MMddyyy")}{PadWithZerosInFront(LastDailyInvoiceNumber + 1, 5)}";
 
         static string PadWithZerosInFront(int number, int totalSpaces)
         {

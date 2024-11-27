@@ -1,8 +1,10 @@
-﻿using AuthHub.BLL.Common.Providers;
+﻿using AuthHub.BLL.Common.Emails;
+using AuthHub.BLL.Common.Providers;
 using AuthHub.DAL.EntityFramework;
+using AuthHub.Interfaces.Emails;
 using AuthHub.Interfaces.Jobs;
-using AuthHub.Jobs.Jobs;
 using AuthHub.Jobs.Jobs.Billing;
+using AuthHub.Models.Options;
 using Common.Interfaces.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,11 +23,14 @@ app.Services.AddDbContext<AuthHubContext>(o =>
         o.UseSqlServer(connectionString);
     })
     .AddTransient<IPaypalClient, PaypalClient>()
-    .AddTransient<IJob, BillingJob>();
+    .AddTransient<IEmailService, EmailService>()
+    .AddTransient<IBillingEmailService, BillingEmailService>()
+    .AddTransient<IJob, BillingJob>()
+    .Configure<EmailServiceOptions>(app.Configuration.GetSection("AppSettings:Email"));
 
 //If in debug mode, use the mock capabilities of the date provider
 #if DEBUG
-app.Services.AddTransient<IDateProvider>(provider => new DateProvider(DateTime.Parse("11/25/2024"), DateTime.Now));
+app.Services.AddTransient<IDateProvider>(provider => new DateProvider(DateTime.Parse("11/04/2024"), DateTime.Now));
 #else
 app.Services.AddTransient<IDateProvider, DateProvider>();
 #endif
@@ -41,7 +46,6 @@ try
 }
 catch (Exception e)
 {
-
 
 }
 //try
