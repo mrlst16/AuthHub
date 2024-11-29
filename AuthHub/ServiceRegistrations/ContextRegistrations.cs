@@ -1,5 +1,6 @@
 ﻿using AuthHub.DAL.EntityFramework.ApiKeys;
 using AuthHub.DAL.EntityFramework.AuthSetting;
+using AuthHub.DAL.EntityFramework.Billing;
 using AuthHub.DAL.EntityFramework.Claims;
 using AuthHub.DAL.EntityFramework.Organizations;
 using AuthHub.DAL.EntityFramework.Passwords;
@@ -8,6 +9,7 @@ using AuthHub.DAL.EntityFramework.Users;
 using AuthHub.DAL.EntityFramework.Verification;
 using AuthHub.Interfaces.APIKeys;
 using AuthHub.Interfaces.AuthSetting;
+using AuthHub.Interfaces.Billing;
 using AuthHub.Interfaces.Claims;
 using AuthHub.Interfaces.Organizations;
 using AuthHub.Interfaces.Passwords;
@@ -30,7 +32,8 @@ namespace AuthHub.Api.ServiceRegistrations
                 .AddTransient<ITokenContext, TokenContext>()
                 .AddTransient<IClaimsContext, ClaimsContext>()
                 .AddTransient<IApiKeyContext, ApiKeyContext>()
-                .AddTransient<IVerificationCodeContext, VerificationCodeContext>();
+                .AddTransient<IVerificationCodeContext, VerificationCodeContext>()
+                .AddTransient<IBillingContext, BillingContext>();
 
             return services;
         }

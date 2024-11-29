@@ -83,11 +83,13 @@ namespace AuthHub.Api
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             });
 
-            services.AddControllers().AddJsonOptions(x =>
-            {
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-                x.JsonSerializerOptions.PropertyNamingPolicy = new CapitalizedNamingPolicy();
-            });
+            services.AddControllers()
+                .AddJsonOptions(x =>
+                {
+                    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    x.JsonSerializerOptions.PropertyNamingPolicy = new CapitalizedNamingPolicy();
+                });
+
             services
                 .AddEndpointsApiExplorer()
                 .AddSwaggerGen(c =>

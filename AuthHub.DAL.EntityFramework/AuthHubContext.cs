@@ -31,6 +31,7 @@ namespace AuthHub.DAL.EntityFramework
         public DbSet<APIKeyAndSecretHash> ApiKeyAndSecrets { get; set; }
         public DbSet<Token> Tokens { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoicePayment> Payments { get; set; }
 
         public AuthHubContext()
         {
@@ -217,6 +218,14 @@ namespace AuthHub.DAL.EntityFramework
 
             //Invoices
             modelBuilder.Entity<Invoice>()
+                .HasKey(x => x.Id);
+            modelBuilder.Entity<Invoice>()
+                .HasMany(x => x.Payments)
+                .WithOne(x => x.Invoice)
+                .IsRequired(false);
+
+            //Invoice Payments
+            modelBuilder.Entity<InvoicePayment>()
                 .HasKey(x => x.Id);
             #endregion
 
