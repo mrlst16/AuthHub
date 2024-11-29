@@ -17,7 +17,7 @@ namespace AuthHub.BLL.Billing
 
         public async Task RecordInvoicePaymentAsync(PaypalWebhookEvent request)
         {
-            var amount = double.Parse(request.Resource.Amount.Total);
+            var amount = double.Parse(request.Resource.TotalAmount.Value);
 
             await _billingContext.RecordInvoicePayment(request.Resource.Id, amount);
         }

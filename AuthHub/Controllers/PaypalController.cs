@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Intrinsics.Arm;
 using System.Threading.Tasks;
+using AuthHub.Api.Attributes;
 using AuthHub.Interfaces.Billing;
 using AuthHub.Models.Entities.Billing;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,7 @@ namespace AuthHub.Api.Controllers
             _webhookId = _configuration.GetValue<string>("");
         }
 
+        
         [HttpPost("invoice")]
         public async Task<IActionResult> RecordInvoicePaymentAsync(
             [FromBody] PaypalWebhookEvent request
@@ -38,8 +40,6 @@ namespace AuthHub.Api.Controllers
             var transactionTime = Request.Headers["paypal-transmission-time"];
 
             await _service.RecordInvoicePaymentAsync(request);
-
-
 
             return Ok();
         }

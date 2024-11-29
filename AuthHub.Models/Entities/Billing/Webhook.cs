@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace AuthHub.Models.Entities.Billing
 {
     public class Amount
     {
-        public string Total { get; set; }
+        public string Value { get; set; }
         public string Currency { get; set; }
         public AmountDetails Details { get; set; }
     }
@@ -27,6 +28,7 @@ namespace AuthHub.Models.Entities.Billing
         public string CreateTime { get; set; }
         public string UpdateTime { get; set; }
         public string State { get; set; }
+        [JsonPropertyName("total_amount")]
         public Amount TotalAmount { get; set; }
         public string ParentPayment { get; set; }
         public string ValidUntil { get; set; }
