@@ -2,6 +2,7 @@
 using AuthHub.BLL.Common.Providers;
 using AuthHub.DAL.EntityFramework;
 using AuthHub.Interfaces.Emails;
+using AuthHub.Jobs;
 using AuthHub.Jobs.Jobs.Billing;
 using AuthHub.Models.Options;
 using Common.Interfaces.Providers;
@@ -9,6 +10,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Logging;
+using Quartz.Simpl;
+using Quartz.Spi;
+using BillingJob = AuthHub.Jobs.Jobs.Billing.BillingJob;
 
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 HostApplicationBuilder app = new HostApplicationBuilder();
@@ -25,7 +33,24 @@ app.Services.AddDbContext<AuthHubContext>(o =>
     .AddTransient<IEmailService, EmailService>()
     .AddTransient<IBillingEmailService, BillingEmailService>()
     .AddTransient<BillingJob>()
-    .Configure<EmailServiceOptions>(app.Configuration.GetSection("AppSettings:Email"));
+    .Configure<EmailServiceOptions>(app.Configuration.GetSection("AppSettings:Email"))
+    .AddQuartz(quartz =>
+    {
+        //quartz.ScheduleJob<ConsoleJob>(trigger =>
+        //{
+        //    trigger.WithSimpleSchedule(s =>
+        //    {
+        //        s.WithIntervalInSeconds(5);
+        //    })
+        //    .StartNow();
+        //}, job =>
+        //{
+        //});
+    })
+    .AddQuartzHostedService(q =>
+    {
+        q.WaitForJobsToComplete = true;
+    });
 
 //If in debug mode, use the mock capabilities of the date provider
 #if DEBUG
@@ -34,29 +59,53 @@ app.Services.AddTransient<IDateProvider>(provider => new DateProvider(DateTime.P
 app.Services.AddTransient<IDateProvider, DateProvider>();
 #endif
 
-
-Console.WriteLine("Starting...");
+IHost host = app.Build();
 
 try
 {
-    var host = app.Build();
-    var job = (BillingJob)host.Services.GetService(typeof(BillingJob));
-    await job.RunAsync();
+    Console.WriteLine("Starting...");
+    LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
+    IScheduler scheduler = await SchedulerBuilder.Create()
+        .BuildScheduler();
+    scheduler.JobFactory = new ServiceProviderJobFactory(host.Services);
+
+    //IScheduler scheduler = await factory.GetScheduler();
+    await scheduler.Start();
+
+    IJobDetail bjDetail = JobBuilder.Create<BillingJob>().Build();
+    ITrigger bjTrigger = TriggerBuilder.Create()
+        .WithSimpleSchedule(s =>
+        {
+            s.WithInterval(TimeSpan.FromDays(1))
+                .RepeatForever();
+        })
+        .StartNow()
+        .Build();
+
+    await scheduler.ScheduleJob(bjDetail, bjTrigger);
+
+    while (true)
+    {
+        await Task.Delay(TimeSpan.FromDays(1));
+    }
 }
 catch (Exception e)
 {
-
+    
 }
-//try
-//{
-//    while (true)
-//    {
-//        //BillingJob billingJob = new BillingJob(
-//        //)
-//        Thread.Sleep(TimeSpan.FromDays(1));
-//    }
-//}
-//catch (Exception e)
-//{
-//    Console.WriteLine(e);
-//}
+
+public class ServiceProviderJobFactory:SimpleJobFactory
+{
+    private readonly IServiceProvider _serviceProvider;
+    public ServiceProviderJobFactory(
+        IServiceProvider serviceProvider
+        )
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    public override IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
+    {
+        return (IJob) _serviceProvider.GetService(bundle.JobDetail.JobType);
+    }
+}

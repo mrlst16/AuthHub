@@ -1,11 +1,8 @@
-﻿using System.Runtime.Intrinsics.Arm;
-using System.Threading.Tasks;
-using AuthHub.Api.Attributes;
+﻿using System.Threading.Tasks;
 using AuthHub.Interfaces.Billing;
 using AuthHub.Models.Entities.Billing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 
 namespace AuthHub.Api.Controllers
 {

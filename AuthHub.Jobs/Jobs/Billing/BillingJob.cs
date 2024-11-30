@@ -6,10 +6,11 @@ using AuthHub.Models.Entities.Organizations;
 using Common.Interfaces.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Quartz;
 
 namespace AuthHub.Jobs.Jobs.Billing
 {
-    public class BillingJob
+    public class BillingJob: IJob
     {
         private readonly AuthHubContext _context;
         private readonly IConfiguration _configuration;
@@ -44,15 +45,14 @@ namespace AuthHub.Jobs.Jobs.Billing
             PricePerUser = _configuration.GetValue<double>("AppSettings:PricePerUser");
         }
 
-        public async Task RunAsync()
+        public async Task Execute(IJobExecutionContext context)
         {
-            GetLatestDailyInvoiceNumber();
-            //Get the organizations whose bills are due on this day of the month
+            //Get the organizations whose bills are due up to this day of the month
             var organizations
                 = _context.Organizations
                     .Include(x=> x.Users)
                     .Where(x => 
-                        x.CreateDate.Value.Day == DayOfTheMonth
+                        x.CreateDate.Value.Day <= DayOfTheMonth
                         && x.DeletedUTC == null
                         && x.Users.Any()
                         && !x.Invoices.Any(x=> x.InvoiceDateUTC.Year == Year && x.InvoiceDateUTC.Month == Month)
